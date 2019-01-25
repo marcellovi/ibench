@@ -1,1 +1,3 @@
-Informações Basicas sobre o Ibench.
+﻿Informações Basicas sobre o Ibench.
+
+Ambiente de Teste FTP:

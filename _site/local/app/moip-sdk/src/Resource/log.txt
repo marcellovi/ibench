@@ -1,0 +1,220 @@
+stdClass Object
+(
+    [id] => MPY-FNOK75D58225
+    [status] => WAITING
+    [amount] => stdClass Object
+        (
+            [total] => 300
+            [currency] => BRL
+        )
+
+    [installmentCount] => 1
+    [fundingInstrument] => stdClass Object
+        (
+            [boleto] => stdClass Object
+                (
+                    [expirationDate] => 2019-02-01
+                    [lineCode] => 23793.39126 60000.967921 72001.747905 9 77870000000300
+                    [logoUri] => http://ibench.com.br/_site/local/images/media/1536793866.jpg
+                    [instructionLines] => stdClass Object
+                        (
+                            [first] => Atencao,
+                            [second] => fique atento a data de vencimento do boleto.
+                            [third] => Pague em qualquer casa loterica.
+                        )
+
+                )
+
+            [method] => BOLETO
+        )
+
+    [payments] => Array
+        (
+            [0] => stdClass Object
+                (
+                    [id] => PAY-7Z4FUIIDNGUY
+                    [status] => WAITING
+                    [delayCapture] => 
+                    [amount] => stdClass Object
+                        (
+                            [total] => 300
+                            [gross] => 300
+                            [fees] => 0
+                            [refunds] => 0
+                            [liquid] => 300
+                            [currency] => BRL
+                        )
+
+                    [installmentCount] => 1
+                    [fundingInstrument] => stdClass Object
+                        (
+                            [boleto] => stdClass Object
+                                (
+                                    [expirationDate] => 2019-02-01
+                                    [lineCode] => 23793.39126 60000.967921 72001.747905 9 77870000000300
+                                    [logoUri] => http://ibench.com.br/_site/local/images/media/1536793866.jpg
+                                    [instructionLines] => stdClass Object
+                                        (
+                                            [first] => Atencao,
+                                            [second] => fique atento a data de vencimento do boleto.
+                                            [third] => Pague em qualquer casa loterica.
+                                        )
+
+                                )
+
+                            [method] => BOLETO
+                        )
+
+                    [fees] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [type] => TRANSACTION
+                                    [amount] => 0
+                                )
+
+                        )
+
+                    [escrows] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [id] => ECW-A1HKXI2YQPNA
+                                    [status] => HOLD_PENDING
+                                    [description] => iBench
+                                    [amount] => 300
+                                    [createdAt] => 2019-01-25T17:29:25.000-02
+                                    [updatedAt] => 2019-01-25T17:29:25.000-02
+                                    [_links] => stdClass Object
+                                        (
+                                            [self] => stdClass Object
+                                                (
+                                                    [href] => https://api.moip.com.br/v2/escrows/ECW-A1HKXI2YQPNA
+                                                )
+
+                                            [order] => stdClass Object
+                                                (
+                                                    [href] => https://api.moip.com.br/v2/orders/ORD-Q2CBO6VY9XAQ
+                                                    [title] => ORD-Q2CBO6VY9XAQ
+                                                )
+
+                                            [payment] => stdClass Object
+                                                (
+                                                    [href] => https://api.moip.com.br/v2/payments/PAY-7Z4FUIIDNGUY
+                                                    [title] => PAY-7Z4FUIIDNGUY
+                                                )
+
+                                        )
+
+                                )
+
+                        )
+
+                    [events] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [type] => PAYMENT.CREATED
+                                    [createdAt] => 2019-01-25T17:29:25.000-02
+                                )
+
+                            [1] => stdClass Object
+                                (
+                                    [type] => PAYMENT.WAITING
+                                    [createdAt] => 2019-01-25T17:29:25.000-02
+                                )
+
+                        )
+
+                    [receivers] => Array
+                        (
+                            [0] => stdClass Object
+                                (
+                                    [moipAccount] => stdClass Object
+                                        (
+                                            [id] => MPA-0E2DA22CF6AA
+                                            [login] => ibench@ibench.com.br
+                                            [fullname] => SUM TECNOLOGIA DA INFORMACAO LTDA
+                                        )
+
+                                    [type] => PRIMARY
+                                    [amount] => stdClass Object
+                                        (
+                                            [total] => 24
+                                            [currency] => BRL
+                                            [fees] => 0
+                                            [refunds] => 0
+                                        )
+
+                                    [feePayor] => 1
+                                )
+
+                            [1] => stdClass Object
+                                (
+                                    [moipAccount] => stdClass Object
+                                        (
+                                            [id] => MPA-7D5D0212B3B3
+                                            [login] => hydrocasaibench@gmail.com
+                                            [fullname] => POLI MORETTI COM DE APARELHOS TERAPÊUTICOS LTDA
+                                        )
+
+                                    [type] => SECONDARY
+                                    [amount] => stdClass Object
+                                        (
+                                            [total] => 276
+                                            [currency] => BRL
+                                            [fees] => 0
+                                            [refunds] => 0
+                                        )
+
+                                    [feePayor] => 
+                                )
+
+                        )
+
+                    [_links] => stdClass Object
+                        (
+                            [self] => stdClass Object
+                                (
+                                    [href] => https://api.moip.com.br/v2/payments/PAY-7Z4FUIIDNGUY
+                                )
+
+                            [order] => stdClass Object
+                                (
+                                    [href] => https://api.moip.com.br/v2/orders/ORD-Q2CBO6VY9XAQ
+                                    [title] => ORD-Q2CBO6VY9XAQ
+                                )
+
+                        )
+
+                    [createdAt] => 2019-01-25T17:29:25.000-02
+                    [updatedAt] => 2019-01-25T17:29:25.000-02
+                )
+
+        )
+
+    [_links] => stdClass Object
+        (
+            [self] => stdClass Object
+                (
+                    [href] => https://api.moip.com.br/v2/multipayments/MPY-FNOK75D58225
+                )
+
+            [multiorder] => stdClass Object
+                (
+                    [href] => https://api.moip.com.br/v2/multiorders/MOR-3V6K2DC43XFQ
+                )
+
+            [checkout] => stdClass Object
+                (
+                    [payBoleto] => stdClass Object
+                        (
+                            [printHref] => https://api.moip.com.br/v2/boleto/BOL-L6L72398C4NF/print
+                            [redirectHref] => https://api.moip.com.br/v2/boleto/BOL-L6L72398C4NF
+                        )
+
+                )
+
+        )
+
+)

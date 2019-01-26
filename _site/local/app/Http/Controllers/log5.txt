@@ -1,0 +1,17 @@
+Array
+(
+    [headers] => Array
+        (
+            [0] => Authorization: Basic OFNITE5JVEoySVJLRDU2R1hRTkRFSVNCQ1JJVDRGUEI6MTVBRDlBOFMxUkhKU0cyWlVMVkYzNDNNTEJFRVU0VDdOUVFOV0RaMw==
+            [1] => Content-Type: application/json
+        )
+
+    [data] => {"name":"iBench","description":"","site":"http:\/\/ibench.com.br\/_site","redirectUri":"http:\/\/ibench.com.br\/_site\/wirecard-callback"}
+    [url] => https://api.moip.com.br/v2/channels/
+)
+
+
+{"id":"APP-4X2YSPD8M6I3","website":"http://ibench.com.br/_site","accessToken":"b61621dfe71f4ceb8886c0026278bf35_v2","description":"","name":"iBench","secret":"2cd2d89234af499b957c94e7b81780a4","redirectUri":"http://ibench.com.br/_site/wirecard-callback","createdAt":"2019-01-21T20:44:45.874Z","updatedAt":"2019-01-21T20:44:45.874Z"}
+
+{"name":"iBench","description":"","site":"http:\/\/ibench.com.br\/_site","redirectUri":"http:\/\/ibench.com.br\/_site\/wirecard-callback"}
+

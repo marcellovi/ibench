@@ -1,0 +1,30 @@
+Array
+(
+    [id] => ECW-CJ496E5HNXU0
+    [status] => RELEASED
+    [description] => iBench
+    [amount] => 300
+    [createdAt] => 2019-01-24T20:55:59.000-02
+    [updatedAt] => 2019-01-24T20:55:59.000-02
+    [_links] => Array
+        (
+            [self] => Array
+                (
+                    [href] => https://api.moip.com.br/v2/escrows/ECW-CJ496E5HNXU0
+                )
+
+            [order] => Array
+                (
+                    [href] => https://api.moip.com.br/v2/orders/ORD-Q1UARXV030GX
+                    [title] => ORD-Q1UARXV030GX
+                )
+
+            [payment] => Array
+                (
+                    [href] => https://api.moip.com.br/v2/payments/PAY-9L5LAB3NIT0P
+                    [title] => PAY-9L5LAB3NIT0P
+                )
+
+        )
+
+)

@@ -15,7 +15,7 @@ class Adduser extends Model
 	public $table = 'users';
 
 
-	public $fillable = ['name','post_slug','email','password','phone','created_at'];
+	public $fillable = ['name','full_name','post_slug','email','password','phone','created_at'];
 
 
 }

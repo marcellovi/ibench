@@ -130,9 +130,9 @@ class ForgotpasswordController extends Controller
 		
 		Mail::send('forgotemail', $datas , function ($message) use ($admin_email,$email)
         {
-            $message->subject('Forgot Password');
+            $message->subject('Esqueceu Senha iBench');
 			
-            $message->from($admin_email, 'Admin');
+            $message->from($admin_email, 'iBench');
 
             $message->to($email);
 

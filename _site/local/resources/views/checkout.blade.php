@@ -112,11 +112,11 @@ $setid=1;
 	<div class="col-md-6">
 
 			<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">@lang('languages.last_name') <span>(opcional)</span></label>
+		    <label class="info-title" for="exampleInputEmail1">@lang('languages.last_name') <span>*</span></label>
 
 
 
-            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control" value=""> <!-- Marcello {{@$nameFull[1]}} -->
+            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value=""> <!-- Marcello {{@$nameFull[1]}} -->
 		  </div>
 
 	</div>
@@ -200,7 +200,7 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.town_city') <span>*</span></label>
 
-            <input type="text" name="bill_city" autocomplete="nope" id="bill_city" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->name_place}}">
+                    <input type="text" name="bill_city" autocomplete="nope" id="bill_city" class="form-control unicase-form-control validate[required]" value="Rio de Janeiro" readonly>
 
 		  </div>
 
@@ -216,7 +216,7 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.state') <span>*</span></label>
 
-             <input type="text" placeholder="@lang('languages.state')" name="bill_state" autocomplete="nope" class="form-control unicase-form-control validate[required]" value="">
+                    <input type="text" placeholder="@lang('languages.state')" name="bill_state" autocomplete="nope" class="form-control unicase-form-control validate[required]" value="Rio de Janeiro" readonly>
 
 		  </div>
 
@@ -493,7 +493,10 @@ $setid=1;
 
                                             <div class="order-data ashbg text-left pad15">
                                                 <div class="row">
-                                                    <span class="col-md-9 col-sm-9 col-xs-6 fontsize17 text-left">@lang('languages.shipping_charge')</span> <span class="col-md-3 col-sm-3 col-xs-6 newfonts text-right black"><?php echo $setts[0]->site_currency.' '.number_format($ship_price,2,",",".").' ';?></span>
+                                                    <span class="col-md-9 col-sm-9 col-xs-6 fontsize17 text-left">@lang('languages.shipping_charge')</span> <span class="col-md-3 col-sm-3 col-xs-6 newfonts text-right black">
+                                                        <?php 
+                                                        // Marcello : Quatrog //
+                                                        if($quatroG == 1){ echo "BRL 275,00"; }else{ echo $setts[0]->site_currency.' '.number_format($ship_price,2,",",".").' '; }?></span>
                                                     <div class="clear"></div>
                                                 </div>
                                             </div>
@@ -507,9 +510,20 @@ $setid=1;
                                                     <div class="clear"></div>
                                                 </div>
                                             </div>
-                                            -->
+                                
+                                             -->
+                                             <!--
                                             <?php $total = $cart_total + $ship_price + $processing_fee; ?>
-
+                                          -->
+                                          <!-- Marcello : Addicao do QuartroG -->                                          
+                                          <?php 
+                                            if($quatroG==1)
+                                            { $total = $cart_total + 275 + $processing_fee; }
+                                            else{
+                                                $total = $cart_total + $ship_price + $processing_fee;
+                                            }
+?>
+                                          
                                             <div class="clearfix height10"></div>
                                             <div class="order-data ashbg text-left pad15">
                                                 <div class="row">

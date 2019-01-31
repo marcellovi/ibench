@@ -374,11 +374,14 @@ class CheckoutController extends Controller
 		$cart_total = $data['cart_total'];
 		$processing_fee = $data['processing_fee'];
 		$order_ids = $data['order_ids'];
+                
+                /** Marcello :: QuatroG - Variavel com frete unico **/
+                $quatroG = $data['quatroG'];               
 		
 		$product_names = $data['product_names'];
 		
-		
-		   $data = array('ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names, 'check_qty_ord' => $check_qty);
+		/* Marcello - Add QuatroG */
+		   $data = array('quatroG' => $quatroG, 'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
 	   
 	   return view('checkout')->with($data);
 	   

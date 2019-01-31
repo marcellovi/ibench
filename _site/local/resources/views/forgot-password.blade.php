@@ -108,7 +108,7 @@ $setid=1;
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    @lang('languages.send_password')
+                                    @lang('languages.send')
                                 </button>
                             </div>
                         </div>

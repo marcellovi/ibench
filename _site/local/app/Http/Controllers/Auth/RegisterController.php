@@ -61,6 +61,7 @@ class RegisterController extends Controller
          */
         $validator = Validator::make($data, [
             'name' => 'required|regex:/^[\w-]*$/|unique:users|max:255',
+            'full_name' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
 	    'phone' => 'string|min:9|max:100',
             'password' => 'required|string|min:6|confirmed',
@@ -493,6 +494,7 @@ class RegisterController extends Controller
             $data = $request->all();
 			
 			$name = $data['name'];
+                        $full_name = $data['full_name']; // Add fullname
 			$post_slug = $post_slugs;
 			$email = $data['email'];
 			$keyval = uniqid();
@@ -514,7 +516,7 @@ class RegisterController extends Controller
 			$confirmation = 0;
 			
 			// Marcello ( gender ) DB::insert('insert into users (name,post_slug,email,password,confirm_key,confirmation,gender,phone,admin,country) values (?, ?, ?, ?, ?, ?,?, ?,?,?)', [$name,$post_slug,$email,$pass,$keyval,$confirmation,$gender,$phoneno,$usertype,$country]);
-			DB::insert('insert into users (name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj) values (?, ?, ?, ?, ?,?, ?,?,?,?)', [$name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj]);
+			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj) values (?, ?, ?, ?, ?,?, ?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj]);
 			
 			
 				
@@ -593,6 +595,7 @@ class RegisterController extends Controller
 		
 		
 		$name = $data['name'];
+                $full_name = $data['full_name'];
 		$email = $data['email'];
 		$keyval = uniqid();
 		$pass = bcrypt($data['password']);
@@ -605,7 +608,8 @@ class RegisterController extends Controller
 		
         return User::create([
             'name' => $data['name'],
-			'post_slug' => $this->clean($data['name']),
+            'full_name' => data['full_name'],
+	    'post_slug' => $this->clean($data['name']),
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
 			'cpf_cnpj' => $data['cpf_cnpj'],

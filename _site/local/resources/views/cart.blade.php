@@ -121,8 +121,21 @@ $setid=1;
 								$price_val=0;
 								$ord_id = ""; 
 								$prod_name = "";
+                                                                
+                                                                /* Marcello - Verifica se o produto e' da QuartoG */
+                                                                $quatroG = false;                                                                
+                                                              
 								foreach($cart_views as $product){
 								
+                                                                  
+                                                                 // Marcello - Variavel que recebe o prod_user_id do produto
+                                                                 $my_user_id = $product->prod_user_id;
+                                                                 
+                                                                 
+                                                                 // Marcello - Verifica se e' a QuartoG ( id : 128 )
+                                                                 if($my_user_id == 128){ $quatroG = true; }
+                                                                     
+                                                                         
 								 $prod_id = $product->prod_token; 
 								 $product_img_count = DB::table('product_images')
 													->where('prod_token','=',$prod_id)
@@ -328,6 +341,15 @@ $setid=1;
 					<div class="cart-sub-total">
 						<label>@lang('languages.cart_total')</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span>
 					</div>
+                                    <!-- Marcello : Checando se e' a QuartoG -->
+                                    <?php 
+                                        if($quatroG){
+                                            
+                                     ?>
+                                        <div class="cart-sub-total">
+						<label>Frete QuatroG</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format(275,2,",",".").' ';?></span>
+					</div>                 
+                                    <?php  } ?>
                                     
                     <!-- Marcello Processing Fee 
                     <div class="height20 clearfix"></div>
@@ -339,16 +361,16 @@ $setid=1;
                     -->
                     <div class="height20 clearfix"></div>
                     <div class="cart-grand-total">
-						<label>@lang('languages.shipping_charge')</label><span class="inner-left-md"> <select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
+						<label>Frete outros Fornecedores<!-- @lang('languages.shipping_charge') --></label><span class="inner-left-md"> <select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
                                                 <!-- <option value="">Formas de Envio</option> -->
                                                 <option value="local_shipping">Envio Gratuito</option>
                                                <!-- <option value="world_shipping">Envio Personalizado</option> Marcello :: -->
                                                 <!-- Marcello Envio Original
                                             	<option value="local_shipping">Local shipping (<?php //echo $admin_details[0]->country;?>)</option>
-                                              -->  
+                                               
                                                 
                                                 <option value="world_shipping">Frete da Empresa</option>
-                                            
+                                            --> 
                                                 </select></span>
 					</div>
 				</th>
@@ -356,6 +378,7 @@ $setid=1;
             
              <input type="hidden" name="cart_total" value="<?php echo $price_val;?>">
                                         <input type="hidden" name="processing_fee" value="<?php echo $setts[0]->processing_fee;?>">
+                                         <input type="hidden" name="quatroG" value="<?php echo $quatroG;?>">
 		</thead><!-- /thead -->
 		<tbody>
 				<tr>

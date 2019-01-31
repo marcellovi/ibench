@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * Fiverr Handle: poshjosh4u
+ * User: POSHJOSH
+ * Date: 11/4/2018
+ * Time: 3:30 PM
+ */
 
 namespace Responsive\Http\Controllers;
 
@@ -320,19 +327,55 @@ class WirecardController extends Controller
 
             $ordersList = explode(',', $_POST['order_id']);
             $shipFeeList = explode(',', $_POST['shipping_fee_separate']);
+            
+            // Verificador QuatroG Variavel 
+            // Quando for true e' por que ja inseriu o shipping entao nao precisa fazer novamente para nao incrementar
+            $quatroG = false;
+            $quatroGShipping = 27500; // Valor de 275 reais
+            
             foreach ($ordersList as $key => $item) {
                 $order_details = (array)$this->order($item);
                 $product_details = (array)$this->product($order_details['prod_id']);
                 $user_details = (array)$this->user($order_details['prod_user_id']);
                 if ($user_details['wirecard_app_data'] != null) {
-                    $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                    /** QuartoG - Marcello Frete Customizado **/
+                    if($order_details['prod_user_id']==128){
+                        
+                        // Se true ja foi incluido o frete
+                        if(!$quatroG){
+                            $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                    $order = $moipMerchant->orders()->setOwnId(uniqid())
+                        ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
+                        ->setShippingAmount(3000)
+                        ->setCustomer($customer)
+                        ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
+                        ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
+                    $multiorder->addOrder($order); 
+                        $quatroG = true;
+                        }else{
+                            $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                    $order = $moipMerchant->orders()->setOwnId(uniqid())
+                        ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
+                        ->setShippingAmount(0)
+                        ->setCustomer($customer)
+                        ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
+                        ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
+                    $multiorder->addOrder($order); 
+                        }
+                        
+                    } /** Fim -- Abaixo Original -- **/
+                    else{
+                       $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
                     $order = $moipMerchant->orders()->setOwnId(uniqid())
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
                         ->setShippingAmount((int) @$shipFeeList[$key] * 100)
                         ->setCustomer($customer)
                         ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
                         ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
-                    $multiorder->addOrder($order);
+                    $multiorder->addOrder($order); 
+                    }
+                    
+                    
                 }
             }
             $create_order = $multiorder->create();

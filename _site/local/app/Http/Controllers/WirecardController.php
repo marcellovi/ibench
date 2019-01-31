@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * Fiverr Handle: poshjosh4u
- * User: POSHJOSH
- * Date: 11/4/2018
- * Time: 3:30 PM
- */
-
 namespace Responsive\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -232,7 +224,7 @@ class WirecardController extends Controller
                 $stock_value = $stocker->quantity;
                 $count_qty = $checker_get[0]->prod_available_qty - $stock_value;
                 DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and prod_id = ?', [$stocker->prod_id]);
-//                        DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and parent = ?', [$stocker->prod_id]);
+//             DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and parent = ?', [$stocker->prod_id]);
 
             }
         }

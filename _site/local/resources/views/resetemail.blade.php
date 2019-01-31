@@ -69,18 +69,13 @@
 			<div style="font-size:16px;"><p> @lang('languages.your_profile_password')
 
 </p>
-			<br/><br/><p align="center">@lang('languages.to_sign') <a href='<?php echo $url;?>/login'><?php echo $url;?>/login</a> @lang('languages.enter_the_following')
-				</p><br/>
-	
-	<p><strong>@lang('languages.username_email'): </strong> <?php echo $email;?></p>
-    <p><strong>@lang('languages.password'): </strong> <?php echo $new_pass;?></p>
-    <p>
+   <p>
         N&atilde;o reconhece essa atividade? Entre em contato atrav&eacute;s do e-mail ibench@ibench.com.br 
     </p>
     
     <br/><br/>
-    Abra&ccedil;o,
-    <p>@lang('languages.regards'),<br/><br/>@lang('languages.admin')</p>
+
+    <p>@lang('languages.regards')<br/><br/>@lang('languages.admin')</p>
     
     </div>
     

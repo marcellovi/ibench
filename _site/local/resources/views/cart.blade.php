@@ -132,8 +132,8 @@ $setid=1;
                                                                  $my_user_id = $product->prod_user_id;
                                                                  
                                                                  
-                                                                 // Marcello - Verifica se e' a QuartoG ( id : 128 )
-                                                                 if($my_user_id == 128){ $quatroG = true; }
+                                                                 // Marcello - Verifica se e' a QuartoG ( id : 113 )
+                                                                 if($my_user_id == 113){ $quatroG = true; }
                                                                      
                                                                          
 								 $prod_id = $product->prod_token; 

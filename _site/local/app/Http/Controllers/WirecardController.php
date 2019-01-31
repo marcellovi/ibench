@@ -224,7 +224,7 @@ class WirecardController extends Controller
                 $stock_value = $stocker->quantity;
                 $count_qty = $checker_get[0]->prod_available_qty - $stock_value;
                 DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and prod_id = ?', [$stocker->prod_id]);
-//             DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and parent = ?', [$stocker->prod_id]);
+//                        DB::update('update product set prod_available_qty="' . $count_qty . '" where prod_status="1" and parent = ?', [$stocker->prod_id]);
 
             }
         }
@@ -331,14 +331,14 @@ class WirecardController extends Controller
                 $user_details = (array)$this->user($order_details['prod_user_id']);
                 if ($user_details['wirecard_app_data'] != null) {
                     /** QuartoG - Marcello Frete Customizado **/
-                    if($order_details['prod_user_id']==128){
+                    if($order_details['prod_user_id']==113){
                         
                         // Se true ja foi incluido o frete
                         if(!$quatroG){
                             $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
                     $order = $moipMerchant->orders()->setOwnId(uniqid())
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
-                        ->setShippingAmount(3000)
+                        ->setShippingAmount($quatroGShipping)
                         ->setCustomer($customer)
                         ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
                         ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));

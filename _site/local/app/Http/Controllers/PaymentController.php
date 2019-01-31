@@ -359,6 +359,22 @@ class PaymentController extends Controller
 
         /* Razorpay */
 
+        $prod_ords = DB::table('product_orders')
+                       ->whereIn('ord_id', explode(",",$order_id))
+                       ->get();
+
+        $check_qty = 0;
+        foreach($prod_ords as $prod_ord){
+            $prod = DB::table('product')
+                         ->where('prod_id', '=', $prod_ord->prod_id)
+                         ->get();
+
+           if($prod[0]->prod_available_qty < $prod_ord->quantity){
+                $check_qty = 1;
+           }
+
+        }
+
 
         $ddata = array(
             'amount' => $amount,
@@ -370,7 +386,8 @@ class PaymentController extends Controller
             'payment_type' => $payment_type,
             'product_names' => $product_names,
             'json_value' => $json_value,
-            'raw_data' => serialize($data)
+            'raw_data' => serialize($data),
+            'check_qty_ord' => $check_qty
             );
         return view('payment-details')->with($ddata);
 

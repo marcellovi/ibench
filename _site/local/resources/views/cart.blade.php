@@ -93,13 +93,12 @@ $setid=1;
 			<thead>
 				<tr>
 					<th class="cart-romove item">@lang('languages.remove')</th>
-                    <th class="cart-edit item">@lang('languages.edit')</th>
+          <th class="cart-edit item">@lang('languages.edit')</th>
 					<th class="cart-description item">@lang('languages.image')</th>
 					<th class="cart-product-name item">@lang('languages.product_name')</th>
-					
 					<th class="cart-qty item">@lang('languages.quantity')</th>
+					<th class="cart-sub-total item">@lang('languages.unitary_value')</th>
 					<th class="cart-sub-total item">@lang('languages.subtotal')</th>
-					
 				</tr>
 			</thead><!-- /thead -->
 			<tfoot>
@@ -303,7 +302,8 @@ $setid=1;
 											$price_val += $product->price * $product->quantity;
 											 ?>
                     
-                    
+          <td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".").' ';?></span></td>
+          
 					<td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($price_total,2,",",".").' ';?></span></td>
 					
 				</tr>

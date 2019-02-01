@@ -140,6 +140,7 @@ return [
 	"image" => "Imagem",
 	"product_name" => "Nome Produto",
 	"quantity" => "Quantidade",
+	"unitary_value" => "Valor Unitário",
 	"subtotal" => "Sub Total",
 	"total" => "Total",
 	"continue_shopping" => "Continue Comprando",

@@ -31,7 +31,7 @@ $setid=1;
     <div class="breadcrumb-inner">
       <ul class="list-inline list-unstyled">
         <li> <a href="<?php echo $url;?>">@lang('languages.home')</a></li>
-        <li class='active'>@lang('languages.shop')</li>
+        <li class='active'>@lang('languages.shop') + 1</li>
       </ul>
     </div>
     
@@ -567,7 +567,7 @@ $setid=1;
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.str_replace('.', ',',number_format($product->prod_price,2)).' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.str_replace('.', ',',number_format($product->prod_offer_price,2));?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.str_replace('.', ',',number_format($product->prod_price,2));?></span> <?php } ?></p>
+                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
                           
                           
                         </div>
@@ -865,7 +865,7 @@ $setid=1;
                             <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
                             <div class="rating rateit-small"></div>
                              <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2).' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2);?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2);?></span> <?php } ?></p>
+                             <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '. number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '. number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '. number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
                             <!-- /.product-price -->
                             <div class="description m-t-10"><?php echo substr($product->prod_desc,0,200);?></div>
                             <div class="cart clearfix animate-effect">

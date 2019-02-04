@@ -570,8 +570,16 @@ $setid=1;
                                          <?php if(config('global.demosite')=="yes"){?><button type="submit" class="btn-upper btn btn-primary">@lang('languages.place_order')</button>
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
 
-                            <button id="send" type="submit" class="btn-upper btn btn-primary">@lang('languages.place_order')</button>
-								<?php } ?>
+                            <?php if($check_qty_ord == 1){ ?> 
+															<a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Voltar ao Carrinho</a>
+                        		<?php }else{ ?>
+															<button id="send" type="submit" class="btn-upper btn btn-primary">@lang('languages.place_order')</button>
+															<?php } ?>
+                    				<?php } ?>
+                            
+
+
+							
 
 
                                         </div>

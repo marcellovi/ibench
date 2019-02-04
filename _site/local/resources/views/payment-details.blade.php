@@ -117,8 +117,12 @@ $setid=1;
                    <input type="hidden" name="address" value="<?php echo $user_details[0]->address;?>">
                      <input type="hidden" name="order_id" value="<?php echo $order_no;?>"/>   
                     
-                           
-    <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+        <?php if($check_qty_ord == 1){ ?> 
+            <p style="color:red;">*There are products without enough stock in your cart!</p>
+            <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+        <?php }else{ ?>         
+            <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+        <?php } ?>
     </form>
     <?php } else {?>
     <span class="red">( Paytm Indian Rupees Only Supported )</span>
@@ -130,8 +134,19 @@ $setid=1;
     <?php if($payment_type=="razorpay"){?>
     
     
-    <?php if($currency=="INR"){?><input type="button" name="submit" value="Pay Now" id="rzp-button1" class="btn-upper btn btn-primary"><?php }
-		else { ?><span class="red">( Razorpay Indian Rupees Only Supported )</span> <?php } ?>
+    <?php if($currency=="INR"){?>
+      
+        <?php if($check_qty_ord == 1){ ?> 
+          <p style="color:red;">*There are products without enough stock in your cart!</p>
+          <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+        <?php }else{ ?>
+          <input type="button" name="submit" value="Pay Now" id="rzp-button1" class="btn-upper btn btn-primary">
+        <?php } ?>
+      
+    <?php }else{ ?>
+      <span class="red">( Razorpay Indian Rupees Only Supported )</span> 
+    <?php } ?>
+
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     
     <form class="register-form" name='razorpayform' role="form" method="POST" action="{{ route('razorpay_verify') }}" id="formID" enctype="multipart/form-data">
@@ -222,8 +237,13 @@ $setid=1;
                <input type="hidden" name="billing_email" value="<?php echo $email;?>"/>
                <input type="hidden" name="integration_type" value="iframe_normal"/>
                
-        
-		<input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+        <?php if($check_qty_ord == 1){ ?> 
+          <p style="color:red;">*There are products without enough stock in your cart!</p>
+          <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+        <?php }else{ ?>
+          <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+        <?php } ?>
+		
     <?php } ?>
     
     
@@ -263,8 +283,13 @@ $setid=1;
     <input type="hidden" name="country" value="<?php echo Auth::user()->country;?>"> 
     
     
-    
-    <input type="submit" value="Buy Now" class="btn-upper btn btn-primary">   
+    <?php if($check_qty_ord == 1){ ?> 
+        <p style="color:red;">*There are products without enough stock in your cart!</p>
+        <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+    <?php }else{ ?>
+        <input type="submit" value="Buy Now" class="btn-upper btn btn-primary"> 
+    <?php } ?>
+      
     </form> 
     
     
@@ -415,8 +440,13 @@ $setid=1;
         <!-- Specify URLs -->
         <input type='hidden' name='cancel_return' value='<?php echo $url;?>/cancel'>
 		<input type='hidden' name='return' value='<?php echo $url;?>/shop_success/<?php echo $order_no;?>'>
-		<input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
-     
+
+    <?php if($check_qty_ord == 1){ ?> 
+        <p style="color:red;">*There are products without enough stock in your cart!</p>
+        <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+    <?php }else{ ?>
+		  <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+    <?php } ?> 
     
     </form>
 	<?php } if($payment_type=="stripe"){
@@ -453,7 +483,12 @@ $setid=1;
     
     <input type="hidden" name="cid" value="<?php echo $order_no;?>">
     <!-- Marcello Botao Pagamento -->
-    <input type="submit" name="submit" value="@lang('languages.btn_pay_now')" class="btn-upper btn btn-primary">
+    <?php if($check_qty_ord == 1){ ?> 
+        <p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
+        <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Voltar ao Carrinho</a>
+    <?php }else{ ?>
+        <input type="submit" name="submit" value="@lang('languages.btn_pay_now')" class="btn-upper btn btn-primary">
+    <?php } ?>
 
   </form>
 
@@ -464,7 +499,12 @@ $setid=1;
     {{ csrf_field() }}
     <input type="hidden" name="amount" value="<?php echo $amount; ?>"/>
     <input type="hidden" name="cid" value="<?php echo $order_no;?>">
-    <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+    <?php if($check_qty_ord == 1){ ?> 
+        <p style="color:red;">*There are products without enough stock in your cart!</p>
+        <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
+    <?php }else{ ?>
+      <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+    <?php } ?>
     
     </form>
     

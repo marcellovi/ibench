@@ -93,13 +93,12 @@ $setid=1;
 			<thead>
 				<tr>
 					<th class="cart-romove item">@lang('languages.remove')</th>
-                    <th class="cart-edit item">@lang('languages.edit')</th>
+          <th class="cart-edit item">@lang('languages.edit')</th>
 					<th class="cart-description item">@lang('languages.image')</th>
 					<th class="cart-product-name item">@lang('languages.product_name')</th>
-					
 					<th class="cart-qty item">@lang('languages.quantity')</th>
+					<th class="cart-sub-total item">@lang('languages.unitary_value')</th>
 					<th class="cart-sub-total item">@lang('languages.subtotal')</th>
-					
 				</tr>
 			</thead><!-- /thead -->
 			<tfoot>
@@ -115,6 +114,9 @@ $setid=1;
 				</tr>
 			</tfoot>
 			<tbody>
+				<!-- Adicionar em um Array ID dos produtos que estão fora do Estoque para verificação  -->
+				<?php $check_prod_available_qty = array(); ?>
+
             <?php if(!empty($cart_views_count)){?>
                                 <?php 
 								
@@ -181,6 +183,14 @@ $setid=1;
                          
 					</td>
 					<td class="cart-product-name-info">
+						<?php $check_qty = DB::table('product')->where('prod_id', '=', $product->prod_id)->get(); ?>
+						
+						<?php if($check_qty[0]->prod_available_qty < $product->quantity) { ?>
+							<?php $check_prod_available_qty = $product->prod_id; ?>
+							<p style="color:red;">* Produto Sem Estoque suficiente</p>
+						<?php }; ?>
+					
+						
 						<h4 class='cart-product-description'>
                         
                         <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($view_product[0]->prod_slug);?>"><?php echo utf8_decode($view_product[0]->prod_name);?></a>
@@ -292,7 +302,8 @@ $setid=1;
 											$price_val += $product->price * $product->quantity;
 											 ?>
                     
-                    
+          <td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".").' ';?></span></td>
+          
 					<td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($price_total,2,",",".").' ';?></span></td>
 					
 				</tr>
@@ -384,8 +395,13 @@ $setid=1;
 				<tr>
 					<td>
 						<div class="cart-checkout-btn pull-right">
-							
-                            <input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">
+							<?php if(count($check_prod_available_qty) > 0 ){ ?>
+								<p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
+								<input type="submit" class="btn btn-primary checkout-btn" name="checkout" disabled value="@lang('languages.proceed_to_checkout')" style="background: #fdd922;">
+								
+							<?php }else{ ?>
+								<input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">
+							<?php }; ?>                           
 							
 						</div>
 					</td>

@@ -350,8 +350,26 @@ class CheckoutController extends Controller
 		               ->where('user_id', '=', $log_id)
                        ->get();
 		
-		
-		
+
+		//$prod_ids = DB::table('product_orders')
+		//               ->whereIn('ord_id', explode(",",$data['order_ids']))
+        //               ->pluck('prod_id');
+
+        $prod_ords = DB::table('product_orders')
+		               ->whereIn('ord_id', explode(",",$data['order_ids']))
+                       ->get();
+
+		$check_qty = 0;
+		foreach($prod_ords as $prod_ord){
+			$prod = DB::table('product')
+                         ->where('prod_id', '=', $prod_ord->prod_id)
+						 ->get();
+
+           if($prod[0]->prod_available_qty < $prod_ord->quantity){
+			$check_qty = 1;
+           }
+
+		}
 		
 		$cart_total = $data['cart_total'];
 		$processing_fee = $data['processing_fee'];
@@ -363,7 +381,7 @@ class CheckoutController extends Controller
 		$product_names = $data['product_names'];
 		
 		/* Marcello - Add QuatroG */
-		   $data = array('quatroG' => $quatroG, 'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names);
+		   $data = array('quatroG' => $quatroG, 'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
 	   
 	   return view('checkout')->with($data);
 	   

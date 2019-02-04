@@ -31,7 +31,7 @@ $setid=1;
     <div class="breadcrumb-inner">
       <ul class="list-inline list-unstyled">
         <li> <a href="<?php echo $url;?>">@lang('languages.home')</a></li>
-        <li class='active'>@lang('languages.shop') + 1</li>
+        <li class='active'>@lang('languages.shop')</li>
       </ul>
     </div>
     

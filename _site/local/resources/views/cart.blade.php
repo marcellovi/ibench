@@ -215,7 +215,7 @@ $setid=1;
                         
 						<div class="row">
 							<div class="col-sm-12">
-								<p><b class="fontsize13">@lang('languages.sold_by'):</b> <a href="<?php echo $url;?>/profile/<?php echo $check_user[0]->id;?>/<?php echo $slug;?>" class="fontsize14 red"><?php echo $check_user[0]->name;?></a></p> 
+								<p><b class="fontsize13">@lang('languages.sold_by'):</b> <a href="<?php echo $url;?>/profile/<?php echo $check_user[0]->id;?>/<?php echo $slug;?>" class="fontsize14 red"><?php echo $check_user[0]->name_business;?></a></p> 
 							</div>
 							
 						</div><!-- /.row -->
@@ -361,9 +361,9 @@ $setid=1;
                     -->
                     <div class="height20 clearfix"></div>
                     <div class="cart-grand-total">
-						<label>Frete outros Fornecedores<!-- @lang('languages.shipping_charge') --></label><span class="inner-left-md"> <select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
+						<label>Demais Fornecedores<!-- @lang('languages.shipping_charge') --></label><span class="inner-left-md"> <select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
                                                 <!-- <option value="">Formas de Envio</option> -->
-                                                <option value="local_shipping">Envio Gratuito</option>
+                                                <option value="local_shipping">RJ - Gratuito</option>
                                                <!-- <option value="world_shipping">Envio Personalizado</option> Marcello :: -->
                                                 <!-- Marcello Envio Original
                                             	<option value="local_shipping">Local shipping (<?php //echo $admin_details[0]->country;?>)</option>

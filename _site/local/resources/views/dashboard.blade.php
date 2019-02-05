@@ -18,12 +18,11 @@ $setid=1;
    @include('style')
    
 
+</head>
+
 <!-- Marcello Tiny Textarea -->
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cae5v8ohqq2y45yurx2yqba3ng4rqukel679jhibsfg3gk4r"></script>
 <script> tinymce.init({ selector:'textarea' });</script>
-
-</head>
-
 
 
 <body class="cnt-home">
@@ -366,7 +365,7 @@ $setid=1;
                               <label class="info-title" for="exampleInputName">@lang('languages.about') </label>
                         
                             
-                            <textarea placeholder="@lang('languages.about')" name="about" class="form-control unicase-form-control txteditor" style="min-height:150px;"><?php if(!empty($editprofile[0])){ echo utf8_decode($editprofile[0]->about); } ?></textarea>
+                            <textarea placeholder="@lang('languages.about')" name="about" class="form-control unicase-form-control" style="min-height:150px;"><?php if(!empty($editprofile[0])){ echo utf8_decode($editprofile[0]->about); } ?></textarea>
                             </div>
                             </div>
                           

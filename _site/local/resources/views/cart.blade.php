@@ -115,7 +115,8 @@ $setid=1;
 			</tfoot>
 			<tbody>
 				<!-- Adicionar em um Array ID dos produtos que estão fora do Estoque para verificação  -->
-				<?php $check_prod_available_qty = array(); ?>
+				<!-- <?php $check_prod_available_qty = array(); ?> -->
+				<?php $check_prod_available_qty = 0; ?>
 
             <?php if(!empty($cart_views_count)){?>
                                 <?php 
@@ -186,7 +187,8 @@ $setid=1;
 						<?php $check_qty = DB::table('product')->where('prod_id', '=', $product->prod_id)->get(); ?>
 						
 						<?php if($check_qty[0]->prod_available_qty < $product->quantity) { ?>
-							<?php $check_prod_available_qty = $product->prod_id; ?>
+							<!-- <?php $check_prod_available_qty = $product->prod_id; ?> -->
+							<?php $check_prod_available_qty = 1; ?>
 							<p style="color:red;">* Produto Sem Estoque suficiente</p>
 						<?php }; ?>
 					
@@ -395,7 +397,8 @@ $setid=1;
 				<tr>
 					<td>
 						<div class="cart-checkout-btn pull-right">
-							<?php if(count($check_prod_available_qty) > 0 ){ ?>
+							<!--<?php $pkCount = (is_array($check_prod_available_qty) ? count($check_prod_available_qty) : 0); ?>-->
+							<?php if($check_prod_available_qty == 1){ ?>
 								<p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
 								<input type="submit" class="btn btn-primary checkout-btn" name="checkout" disabled value="@lang('languages.proceed_to_checkout')" style="background: #fdd922;">
 								

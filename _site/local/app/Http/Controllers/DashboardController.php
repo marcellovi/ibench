@@ -821,7 +821,7 @@ class DashboardController extends Controller
                         '",email="'.$email.'",password="'.$passtxt.
                         '",phone="'.$phone.'",gender="'.$gender.
                         '",country="'.$country.'",photo="'.$savefname.'",profile_banner="'.$save_banners.
-                        '",about="'.$about_txt.'",address="'.$address.'",local_shipping_price="'.$local_shipping_price.
+                        '",about="'.addslashes($about_txt).'",address="'.$address.'",local_shipping_price="'.$local_shipping_price.
                         '",name_business="'.$name_business.'",name_place="'.$name_place.
                         '",world_shipping_price="'.$world_shipping_price.'" where id = ?', [$id]);
 		

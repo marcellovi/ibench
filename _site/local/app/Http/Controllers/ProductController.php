@@ -708,7 +708,10 @@ class ProductController extends Controller
 				$files = $request->file('image');
 				foreach($files as $file){
 					
-					$filename = $file->getClientOriginalName();
+                                        // Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao)
+                                        $newName = $this->normalizeString($file->getClientOriginalName());
+                                        
+					$filename = $newName;
 					$extension = $file->getClientOriginalExtension();
 					$picture = time().$filename;
 					$destinationPath = base_path('images/media/');
@@ -747,8 +750,15 @@ class ProductController extends Controller
 	
 	
 	
-	
-	
+	/** Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao) **/
+	public function normalizeString($normalizeTxt){
+                $newTxt = str_replace(' ', '',mb_strtolower($normalizeTxt));
+                                    
+                $search = explode(",","ç,æ,œ,á,ã,é,í,ó,õ,ú,à,è,ì,ò,ù,â,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
+                $replace = explode(",","c,ae,oe,a,a,e,i,o,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
+  
+                return str_replace($search, $replace, $newTxt);
+        }
 	
 	
 	
@@ -966,7 +976,10 @@ class ProductController extends Controller
 				$files = $request->file('image');
 				foreach($files as $file){
 					
-					$filename = $file->getClientOriginalName();
+                                        // Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao)
+                                        $newName = $this->normalizeString($file->getClientOriginalName());
+					$filename = $newName;  
+                                        
 					$extension = $file->getClientOriginalExtension();
 					$picture = time().$filename;
 					$destinationPath = base_path('images/media/');

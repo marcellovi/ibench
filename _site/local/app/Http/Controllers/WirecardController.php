@@ -358,7 +358,8 @@ class WirecardController extends Controller
                     } /** Fim -- Abaixo Original -- **/
                     else{
                        $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    $order = $moipMerchant->orders()->setOwnId(uniqid())
+                       // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
+                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
                         ->setShippingAmount((int) @$shipFeeList[$key] * 100)
                         ->setCustomer($customer)

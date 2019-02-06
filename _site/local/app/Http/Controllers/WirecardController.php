@@ -550,7 +550,7 @@ class WirecardController extends Controller
             $success = false;
             if ($this->is_completed($purchase_token) === true){
                 return view('wirecard-shop-success')->with(array_merge(
-                    @$_POST,
+                        @$_POST,
                     array(
                         'wirecard_payment_token' => $this->get_payment_id($purchase_token),
                         'wirecard_boleto_href' => $this->get_payment_id($purchase_token,'wirecard_boleto_href'),

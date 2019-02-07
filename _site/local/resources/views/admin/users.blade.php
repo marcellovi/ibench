@@ -82,6 +82,7 @@
 						  <th>Imagem</th>
                           <th>Usuario</th>
                           <th>Email</th>
+                          <th>CPF</th>
 						  <th>Telefone</th>
                           <!--<th>Earning Balance</th>-->
                           <th>Status</th>
@@ -110,6 +111,7 @@
 						 <?php } ?>
                           <td><?php echo $user->name;?></td>
                           <td><?php echo $user->email;?></td>
+                          <td><?php echo $user->cpf_cnpj;?></td>
 						  <td><?php echo $user->phone;?></td>
                           
                           

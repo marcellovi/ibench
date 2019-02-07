@@ -193,7 +193,7 @@ protected function login(Request $request)
 		else
 		{
 			   
-			   return back()->with('error', 'Invalid Login Details');
+			   return back()->with('error', 'Detalhes de login inv&aacute;lidos');
 		}
 		
 		   
@@ -201,7 +201,7 @@ protected function login(Request $request)
 		}
 		else
 		{
-			return back()->with('error', 'Invalid Login Details');
+			return back()->with('error', 'Detalhes de login inv&aacute;lidos');
 		}
 		
 		
@@ -233,7 +233,7 @@ protected function login(Request $request)
         /*return redirect()->back()
             ->withInput($request->only($this->username(), 'remember'))
             ->withErrors($errors);*/
-			return back()->with('error', 'Invalid login details');
+			return back()->with('error', 'Detalhes de login inv&aacute;lidos');
     }
 
 

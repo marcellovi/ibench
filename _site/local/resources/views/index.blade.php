@@ -1289,246 +1289,37 @@ $setid=1;
        
        
        <div class="sidebar-widget hot-deals wow fadeInUp outer-top-vs">
-	<h3 class="section-title">@lang('languages.latest_products')</h3>
+	<h3 class="section-title">iBench Banners</h3>
 	<div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-xs">
 		
-        <?php if(!empty($latestcount)){?>
+ 
         <?php 
-		$ii=1;
-		foreach($latest_product as $product){
+		//$ii=1;
+		//foreach($latest_product as $product){
 											
-											$prod_id = $product->prod_token; 
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
 											?>
-					<div class="item">
-					<div class="products">
-						<div class="hot-deal-wrapper">
-							<div class="image">
-                             <?php
-                            $prod_id = $product->prod_token; 
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
-													?>
-								<a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
-                                 <?php 
-                                        if(!empty($product_img_count)){					
-														$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
-																			
-																			->orderBy('prod_img_id','asc')
-																			->get();
-																			
-										if(!empty($product_img[0]->image))
-										{								
-										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""/>
-                                        <?php } else { ?>
-                                        <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
-                                        <?php } } ?>
+			<div class="item">
+                            <div class="products">
+				<div class="hot-deal-wrapper">
+                                    <div class="image">
+                                        <a href="#">
+                                            <img src="<?php echo $url;?>/local/images/noimage_300x400_box.jpg" alt=""/>
                                         </a>
-							</div>
-							<!--<div class="sale-offer-tag"><span>35%<br>off</span>sara</div>-->
-                            
-                            <?php
-							
-							
-					
-		
-							
-								
-          $review_count_03 = DB::table('product_rating')
-				->where('prod_id', '=', $product->prod_id)
-				->count();
-				
-				if(!empty($review_count_03))
-				{
-				$review_value_03 = DB::table('product_rating')
-				               ->where('prod_id', '=', $product->prod_id)
-				               ->get();
-				
-				
-				$over_03 = 0;
-		        $fine_value_03 = 0;
-				foreach($review_value_03 as $review){
-				if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
-		if($review->rating==2){$value2 = $review->rating*2;} else { $value2 = 0; }
-		if($review->rating==3){$value3 = $review->rating*3;} else { $value3 = 0; }
-		if($review->rating==4){$value4 = $review->rating*4;} else { $value4 = 0; }
-		if($review->rating==5){$value5 = $review->rating*5;} else { $value5 = 0; }
-		
-		$fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
-		
-
-      $over_03 +=$review->rating;
-	  
-	  
-	  
-				}
-				if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
-		  $roundeding_03 = 0; }	
-				
-				
-				}
-				
-				
-				
-				
-				
-				if(!empty($review_count_03))
-				                               {
-	                                           if(!empty($roundeding_03)){
-	
-	                                           if($roundeding_03==1){ $rateus_new_03 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    
-                                                    </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												if($roundeding_03==2){ $rateus_new_03 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-													
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												
-												if($roundeding_03==3){ $rateus_new_03 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-													
-                                                    
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												
-												if($roundeding_03==4){ $rateus_new_03 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-											                                                
-                                                    
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												
-												if($roundeding_03==5){ $rateus_new_03 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-											    </p>';
-												}
-												
-												
-												}
-											    else if(empty($roundeding_03)){  $rateus_new_03 = '
-												<p class="review-icon">
-                                                    <span>
-                                                    
-                                                    </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
-											    </p>';
-												}
-												
-												}
-												
-												
-												
-												$rateus_empty_03 = '
-												<p class="review-icon">
-                                                    <span>
-                                                    
-                                                    </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
-											    </p>';
-												
-				
-				?>       
-                            
-                            
-                            
-							
-						</div>
+				    </div>
+				</div>
                                             
-                                            <!-- Marcello :: Foi adicionado no number_format os ,",","." para trocar ponto por virgula em toda pagina -->
-						<div class="product-info text-left m-t-20">
-							<h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
-							<div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-
-							<p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
-							
-						</div>
-                        
-                        
-                        
-                        <div class="cart clearfix animate-effect">
-							<div class="action">
-								
-								<div class="add-cart-button btn-group">
-                                                                    <!-- Marcello Real Botao Cart Right Side 
-									<button class="btn btn-primary icon" data-toggle="dropdown" type="button" onClick="window.location.href='<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>'">
-										<i class="fa fa-shopping-cart"></i>													
-									</button>
-									<button class="btn btn-primary cart-btn" type="button" onClick="window.location.href='<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>'">@lang('languages.add_to_cart')</button>
-									-->
-                                    
-                                    
-                                    
-                                    						
-								</div>
-								
-							</div><!-- /.action -->
-						</div>
-                        
-                        
-                        
-
-						
-                        
-                        
-                        
-                        
-                        
-					</div>	
-					</div>		        
+                                <!-- Marcello :: Foi adicionado no number_format os ,",","." para trocar ponto por virgula em toda pagina -->
+				<div class="product-info text-left m-t-20">
+					<h3 class="name"><a href="#">&Aacute;rea de Marketing! </a></h3>
+                                           <div class="product-price"> 
+                                               Texto Adicional de Marketing!
+                                            </div> 
+                                </div>
+                            </div>	
+                        </div>		        
 															        
-			 <?php  $ii++;} ?>
-                        <?php } ?>												        
+			 <?php  //$ii++;} ?>
+                      												        
 						
 	    
     </div>

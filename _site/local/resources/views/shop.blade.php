@@ -560,11 +560,82 @@ $setid=1;
           
                         
                         
-                        
+                          <?php
+                            // Consulta as Marcas dos produtos 
+                            // e implode seprando os valores com virgula 
+                            $newer_count = DB::table('product_attribute_type')
+                                  ->where('delete_status','=','')
+                                  ->where('status','=',1)
+                                  ->whereIn('user_id',[1,$product->user_id])
+                                  ->orderBy('attr_name', 'asc')->count();
+                            
+                            if(!empty($newer_count)){
+
+                              $newer = DB::table('product_attribute_type')
+                                ->where('delete_status','=','')
+                                ->where('status','=',1)
+                                ->whereIn('user_id',[1,$product->user_id])
+                                ->orderBy('attr_name', 'asc')->get();
+
+                              $brand_product = array();
+
+                              foreach($newer as $type){
+                          
+                                $value_cnt = DB::table('product_attribute_value')
+                                  ->where('delete_status','=','')
+                                  ->where('status','=',1)
+                                  ->whereRaw('FIND_IN_SET(value_id,"'.$product->prod_attribute.'")')
+                                  ->where('attr_id','=',$type->attr_id)
+                                  ->orderBy('attr_value', 'asc')->count();
+                               
+                                $value = DB::table('product_attribute_value')
+                                  ->where('delete_status','=','')
+                                  ->where('status','=',1)
+                                  ->whereRaw('FIND_IN_SET(value_id,"'.$product->prod_attribute.'")')
+                                  ->where('attr_id','=',$type->attr_id)
+                                  ->orderBy('attr_value', 'asc')->get();
+
+                                
+                                if(!empty($value_cnt)){
+                                  foreach($value as $values){
+                                    $brand_product[] = $values->attr_value;
+                                  }
+                                
+                                }else{
+                                    $brand_product[] = "N/A";
+                                } 
+
+                              }
+
+
+                            }else{
+                              $brand_product[] = "N/A";
+                            }
+                            // -> Fim
+                            
+                            // Obter O Nome do Fornecedor  
+                            $sold_id = $product->user_id;
+                            $sold = DB::table('users')
+                                        ->where('id', '=', $sold_id)
+                                        ->count();
+
+                            if(!empty($sold)){
+                              $view_sold = DB::table('users')
+                                        ->where('id', '=', $sold_id)
+                                        ->get();
+                                                                                  
+                              $view_store_name = $view_sold[0]->name_business;
+                            }else{
+                              $view_store_name = "N/A";
+                            }    
+                            // -> fim               
+                          ?>
                         
                         
                          <div class="product-info text-center product_names">
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
+                          <p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
+                          <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
                           <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>

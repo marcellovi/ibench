@@ -1185,6 +1185,7 @@ $setid=1;
 					<div class="cart clearfix animate-effect">
                           <div class="action">
                             <ul class="list-unstyled">
+                                
                               <li class="add-cart-button btn-group">
                                 <a data-toggle="tooltip" class="btn btn-primary icon"  title="Add Cart" href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"> <i class="fa fa-shopping-cart"></i> </a>
                                 
@@ -1471,19 +1472,19 @@ $setid=1;
                         
                         <div class="cart clearfix animate-effect">
 							<div class="action">
-								
+                                                            
+								<!-- Marcello : hide add cart button 
 								<div class="add-cart-button btn-group">
 									<button class="btn btn-primary icon" data-toggle="dropdown" type="button" onClick="window.location.href='<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>'">
 										<i class="fa fa-shopping-cart"></i>													
 									</button>
+                                                                    
 									<button class="btn btn-primary cart-btn" type="button" onClick="window.location.href='<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>'">@lang('languages.add_to_cart')</button>
-									
-                                    
-                                    
-                                    
-                                    						
+									                                   	
 								</div>
-								
+								--> 
+                                                                
+                                                                
 							</div><!-- /.action -->
 						</div>
                         

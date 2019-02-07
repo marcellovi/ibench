@@ -336,7 +336,7 @@ class WirecardController extends Controller
                         // Se true ja foi incluido o frete
                         if(!$quatroG){
                             $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    $order = $moipMerchant->orders()->setOwnId(uniqid())
+                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
                         ->setShippingAmount($quatroGShipping)
                         ->setCustomer($customer)
@@ -346,7 +346,7 @@ class WirecardController extends Controller
                         $quatroG = true;
                         }else{
                             $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    $order = $moipMerchant->orders()->setOwnId(uniqid())
+                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
                         ->setShippingAmount(0)
                         ->setCustomer($customer)

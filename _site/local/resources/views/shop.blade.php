@@ -166,7 +166,7 @@ $setid=1;
             <!-- ============================================== MANUFACTURES============================================== -->
             <div class="sidebar-widget wow fadeInUp">
               
-               
+               <!-- Macello Hidde Bar 
               <div class="sidebar-widget-body">
                 <?php if(!empty($typers_count)){?>
                  <?php foreach($typers as $type){
@@ -185,7 +185,7 @@ $setid=1;
 				 ?><div>
                                     <h4 class="widget-title"><?php echo $type->attr_name;?></h4>
                                     </div>
-                                    <!--//==Product Price List Start==// -->
+                                    <!--//==Product Price List Start==// 
                                    
                                     <ul class="list">
                                     <?php if(!empty($value_cnt)){?>
@@ -197,7 +197,7 @@ $setid=1;
                                   
                                     <?php } } ?> 
               </div>
-            <!-- Macello Hidde Bar     Fim Marcello -->
+                Fim Marcello -->
                 
                  <!-- Marcello Alterando a posicao do Preco -->
             <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}

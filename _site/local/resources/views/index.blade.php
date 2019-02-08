@@ -1432,8 +1432,8 @@ $setid=1;
        
        
        
-       <div class="sidebar-widget hot-deals wow fadeInUp outer-top-vs">
-  <h3 class="section-title">iBench Banners</h3>
+       <div  style="background:#F2F3F7">
+  <!-- <h3 class="section-title">iBench Banners</h3> -->
   <div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-xs">
     
  
@@ -1444,7 +1444,7 @@ $setid=1;
                       ?>
       <div class="item">
                             <div class="products">
-        <div class="hot-deal-wrapper">
+        <div class="item positionR hbanner">
                                     <div class="image">
                                         <a href="#">
                                             <img src="<?php echo $url;?>/local/images/noimage_300x400_box.jpg" alt=""/>
@@ -1453,12 +1453,13 @@ $setid=1;
         </div>
                                             
                                 <!-- Marcello :: Foi adicionado no number_format os ,",","." para trocar ponto por virgula em toda pagina -->
-        <div class="product-info text-left m-t-20">
+        <!-- <div class="product-info text-left m-t-20">
           <h3 class="name"><a href="#">&Aacute;rea de Marketing! </a></h3>
                                            <div class="product-price"> 
                                                Texto Adicional de Marketing!
                                             </div> 
                                 </div>
+                                -->
                             </div>  
                         </div>            
                                       

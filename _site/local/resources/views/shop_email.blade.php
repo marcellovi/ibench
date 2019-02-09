@@ -86,26 +86,29 @@
             <p><b>Informa&ccedil;&otilde;es Importante:</b>
             </p>
             <p>
-                <b> - Comprador:</b> informe atrav&eacute;s do e-mail ibench@ibench.com.br o recebimento do seu
-                pedido ou, em at&eacute; 2 (dois) dias ap&oacute;s o t&eacute;rmino do prazo de entrega, informe o n&atilde;o
-                recebimento dos produtos. Caso o Fornecedor informe ao site iBench Market sobre a
-                entrega do pedido antes do Comprador, o site iBench Market entrar&aacute; em contato com o
-                Comprador atrav&eacute;s de e-mail para confirmar o recebimento. O Comprador ter&aacute; at&eacute; 2 (dois)
-                dias &uacute;teis para responder, caso n&atilde;o haja resposta a entrega ser&aacute; considerada confirmada e
-                o valor da venda poder&aacute; ser disponibilizado ao Fornecedor contado o prazo j&aacute;
-                estabelecido. Os produtos de diferentes fornecedores podem ser entregues em datas
+                <b> - Comprador:</b> o prazo de entrega come&ccedil;a a contar a partir da data de confirma&ccedil;&atilde;o de pagamento. 
+                Informe atrav&eacute;s do e-mail&nbsp;<a href="mailto:ibench@ibench.com.br" target="_blank">ibench@ibench.com.br</a>
+                &nbsp;o recebimento do seu pedido ou, em at&eacute; 2 (dois) dias ap&oacute;s o t&eacute;rmino do prazo de entrega, 
+                informe o n&atilde;o recebimento dos produtos. Caso o Fornecedor informe ao site iBench Market sobre a entrega do 
+                pedido antes do Comprador, o site iBench Market entrar&aacute; em contato com o Comprador atrav&eacute;s de e-mail 
+                para confirmar o recebimento. O Comprador ter&aacute; at&eacute; 2 (dois) dias &uacute;teis para responder, caso 
+                n&atilde;o haja resposta a entrega ser&aacute; considerada confirmada e o valor da venda poder&aacute; ser disponibilizado 
+                ao Fornecedor contado o prazo j&aacute; estabelecido. Os produtos de diferentes fornecedores podem ser entregues em datas 
                 diferentes.
             </p>
             <p>
-                <b> - Fornecedor:</b> O valor referente &agrave;s vendas realizadas ser&aacute; disponibilizado em sua conta na
-                Wirecard Brasil S.A. no prazo de at&eacute; 8 (oito) dias ap&oacute;s a confirma&ccedil;&atilde;o da entrega do pedido.
-                Informe a data de entrega do pedido em at&eacute; 2 (dois) dias &uacute;teis atrav&eacute;s de envio de e-mail
-                para ibench@ibench.com.br com assunto &ldquo;Entrega de Pedido&rdquo; incluindo no corpo do e-mail:
-                n&uacute;mero do pedido, nome e CPF do cliente, informa&ccedil;&otilde;es sobre os produtos entregues
-                (c&oacute;digos, especifica&ccedil;&otilde;es e quantidades) e data da entrega. O site iBench Market entrar&aacute; em
-                contato com o comprador para confirmar o recebimento e o mesmo ter&aacute; at&eacute; 2 (dois) dias
-                &uacute;teis para responder, caso n&atilde;o haja resposta a entrega ser&aacute; considerada confirmada e o
-                valor da venda poder&aacute; ser disponibilizado ao Fornecedor contado o prazo j&aacute; estabelecido.
+                <b> - Fornecedor:</b> para sua seguran&ccedil;a, aguarde a confirma&ccedil;&atilde;o do pagamento para enviar o pedido. 
+                Uma vez confirmado o pagamento, a libera&ccedil;&atilde;o do pagamento pela Wirecard Brasil S.A. pode levar at&eacute; 30 
+                (trinta) dias para pagamentos com cart&atilde;o de cr&eacute;dito ou at&eacute; 4 (quatro) dias &uacute;teis para 
+                pagamentos com boleto banc&aacute;rio. O valor referente &agrave;s vendas realizadas, estando liberado pela Wirecard 
+                Brasil S.A., ser&aacute; disponibilizado em sua conta na Wirecard Brasil S.A. no prazo de at&eacute; 8 (oito) dias 
+                ap&oacute;s a confirma&ccedil;&atilde;o da entrega do pedido. Informe a data de entrega do pedido em at&eacute; 2 (dois) 
+                dias &uacute;teis atrav&eacute;s de envio de e-mail para&nbsp;<a href="mailto:ibench@ibench.com.br" target="_blank">ibench@ibench.com.br</a>&nbsp;
+                com assunto &ldquo;Entrega de Pedido&rdquo; incluindo no corpo do e-mail: n&uacute;mero do pedido, nome e CPF do cliente, 
+                informa&ccedil;&otilde;es sobre os produtos entregues (c&oacute;digos, especifica&ccedil;&otilde;es e quantidades) e data 
+                da entrega. O site iBench Market entrar&aacute; em contato com o comprador para confirmar o recebimento e o mesmo ter&aacute; 
+                at&eacute; 2 (dois) dias &uacute;teis para responder, caso n&atilde;o haja resposta a entrega ser&aacute; considerada confirmada 
+                e o valor da venda poder&aacute; ser disponibilizado ao Fornecedor contado o prazo j&aacute; estabelecido.
             </p> 
 			
 				

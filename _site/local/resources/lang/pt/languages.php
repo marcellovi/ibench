@@ -241,7 +241,7 @@ return [
 	
 	/* footer */
 	
-	"quick_links" => "Links Rapido",
+	"quick_links" => "Links R&aacute;pidos",
 	"all_vendors" => "Todos Fornecedores",
 	"wish_list" => "Wish List",
 	"follow_us" => "Nos Siga",

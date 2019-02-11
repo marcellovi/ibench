@@ -109,7 +109,7 @@ $setid=1;
                                         ->where('delete_status','=','')
                                         ->where('status','=',1)
                                         ->where('cat_id','=',$catery->id)
-                                        ->orderBy('subid','asc')
+                                        ->orderBy('subcat_name','asc')
                                         ->get();
                                     foreach($subcat_get22 as $subcat22) {
 
@@ -131,7 +131,7 @@ $setid=1;
 																			 ->where('delete_status','=','')
 																			 ->where('status','=',1)
 																			 ->where('cat_id','=',$catery->id)
-																			 ->orderBy('subid','asc')
+																			 ->orderBy('subcat_name','asc')
 																			 ->get();
 																		foreach($subcat_get as $subcat)
 																		{ 

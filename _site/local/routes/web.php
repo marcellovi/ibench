@@ -123,7 +123,7 @@ Route::post('/profile', ['as'=>'profile','uses'=>'DashboardController@avigher_co
 
 
 Route::get('/my-product', 'ProductController@avigher_product');
-Route::get('/my-product/{token}', 'ProductController@avigher_product_delete');
+//Route::get('/my-product/{token}', 'ProductController@avigher_product_delete');
 Route::get('/add-product', 'ProductController@avigher_add_form');
 Route::post('/add-product', ['as'=>'add-product','uses'=>'ProductController@avigher_add_product']);
 Route::get('/edit-product/{token}', 'ProductController@avigher_edit_product');
@@ -806,6 +806,19 @@ Route::get('/wirecard-wirecard-notification','WirecardController@create_notifica
 Route::get('/wirecard-callback/','WirecardController@connect_to_app_callback');
 Route::post('/wirecard-shop-success',['as' => 'wirecard-shop-success', 'uses' => 'WirecardController@api_cc']);
 Route::post('/wirecard-boleto-shop-success',['as' => 'wirecard-boleto-shop-success', 'uses' => 'WirecardController@api_boleto']);
+
+
+/* Marcello :: Routes */
+
+/* Alterar status dos produtos para inativo ou retirar ele de inativo */
+Route::get('dashboard/{idUser}/{idType}','ProductController@manageProducts');
+
+/* Deletar produto do Seller */
+Route::get('/my-product/{token}', 'ProductController@deleteProductSeller');
+
+/* Alterar status dos produtos retirando o inactive */
+//Route::get('dashboard/{idUser}/{idEnable}','ProductController@enableProducts');
+
 
 // /* Cache Commands */
 // //Clear Cache facade value:

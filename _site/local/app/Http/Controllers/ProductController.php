@@ -25,6 +25,10 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        
+        /* Marcello  */
+        //$userid = Auth::user()->id;
+	//$editprofile = DB::select('select * from users where id = ?',[$userid]);
     }
 
     /**
@@ -477,14 +481,18 @@ class ProductController extends Controller
 	
 	} 
 	
+        /** Update do deleted status **/
 	public function avigher_product_delete($token)
-	{
-	
-	 DB::update('update product set delete_status="deleted",prod_status="0" where prod_token = ?',[$token]);
-	   
-      return back()->with('success', 'Produto foi deletado.'); // Marcello - Product has been deleted
-	
-	
+	{	
+            DB::update('update product set delete_status="deleted",prod_status="0" where prod_token = ?',[$token]);                        
+            return back()->with('success', 'Produto foi deletado.'); // Marcello - Product status to deleted		
+	}
+        
+        /** Marcello :: Delete a product **/
+	public function deleteProductSeller($token)
+	{	
+            DB::table('product')->where('prod_token', '=', $token)->delete();
+            return back()->with('success', 'Produto foi deletado Permanentemente.'); // Marcello - Product has been deleted
 	}
 	
 	
@@ -573,7 +581,7 @@ class ProductController extends Controller
 		   $prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
 		   $prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
                    // $prod_desc = $mysqli->real_escape_string($city); // Marcello - Tratando o erro de texto que utiliza aspas
-                   
+                   $prod_desc = str_replace('"','\"',$prod_desc);
 		  
                    
                    $prod_type = $data['prod_type'];
@@ -759,6 +767,28 @@ class ProductController extends Controller
   
                 return str_replace($search, $replace, $newTxt);
         }
+	        
+        
+        /** Marcello - Enable and Disable all products from a seller/user **/
+        public function manageProducts($id,$type){   
+            
+                      
+            if($type == 0){                
+                //Inactive all Products and User
+                DB::update('update product set delete_status="inactive" where user_id='.$id);
+                DB::update('update users set delete_status="inactive" where id='.$id);				
+            
+                return back()->with('success', 'Sucesso - Todos os Produtos est&atilde;o Inativos !');
+                // return back()->with('error', 'Already added this product!');
+            }if($type == 1){
+                // Active all Products and User
+                DB::update('update product set delete_status="" where user_id='.$id);
+                DB::update('update users set delete_status="" where id='.$id);  
+                
+                return back()->with('success', 'Sucesso - Todos os Produtos est&atilde;o Ativos !');
+                // return back()->with('error', 'Already added this product!');
+            } 
+        }
 	
 	
 	
@@ -839,7 +869,8 @@ class ProductController extends Controller
 	   
 	   $prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
 	   $prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
-		  
+           $prod_desc = str_replace('"','\"',$prod_desc);
+           
 	   $prod_type = $data['prod_type'];
 	   $prod_price = str_replace(",", ".", $data['prod_price']); // Marcello - Trocando o "," pelo "."  
 	   $prod_offer_price = str_replace(",", ".", $data['prod_offer_price']); // Marcello - Trocando o "," pelo "."  
@@ -850,7 +881,7 @@ class ProductController extends Controller
 	   }
 	   else
 	   {
-	     $prod_available_qty = 1;
+	     $prod_available_qty = 0;
 	   }
 	   
 	   $token = $data['prod_token'];

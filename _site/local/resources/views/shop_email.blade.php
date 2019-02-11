@@ -100,55 +100,23 @@
                 <b> - Fornecedor:</b> para sua seguran&ccedil;a, aguarde a confirma&ccedil;&atilde;o do pagamento para enviar o pedido. 
                 Uma vez confirmado o pagamento, a libera&ccedil;&atilde;o do pagamento pela Wirecard Brasil S.A. pode levar at&eacute; 30 
                 (trinta) dias para pagamentos com cart&atilde;o de cr&eacute;dito ou at&eacute; 4 (quatro) dias &uacute;teis para 
-                pagamentos com boleto banc&aacute;rio.   &agrave;s vendas realizadas, estando liberado pela Wirecard 
+                pagamentos com boleto banc&aacute;rio. O valor referente &agrave;s vendas realizadas, estando liberado pela Wirecard 
                 Brasil S.A., ser&aacute; disponibilizado em sua conta na Wirecard Brasil S.A. no prazo de at&eacute; 8 (oito) dias 
-                ap&oacute;s a confirma&ccedil;&atilde;o da entrega do pedido. Informe a data de entrega do pedido em at&eacute; 2 (dois) 
-                dias &uacute;teis atrav&eacute;s de envio de e-mail para&nbsp;<a href="mailto:ibench@ibench.com.br" target="_blank">ibench@ibench.com.br</a>&nbsp;
-                com assunto &ldquo;Entrega de Pedido&rdquo; incluindo no corpo do e-mail: n&uacute;mero do pedido, nome e CPF do cliente, 
-                informa&ccedil;&otilde;es sobre os produtos entregues (c&oacute;digos, especifica&ccedil;&otilde;es e quantidades) e data 
+                ap&oacute;s a confirma&ccedil;&atilde;o da entrega do pedido. Informe a data de entrega do pedido em at&eacute; 2 (dois) dias 
+                &uacute;teis atrav&eacute;s de envio de e-mail para&nbsp;<a href="mailto:ibench@ibench.com.br" target="_blank">ibench@ibench.com.br</a>
+                &nbsp;com assunto &ldquo;Entrega de Pedido&rdquo; incluindo no corpo do e-mail: n&uacute;mero do pedido, nome e CPF do cliente, 
+                informa&ccedil;&otilde;es sobre os produtos entregues (c&oacute;digos, especifica&ccedil;&otilde;es e quantidades) e data
                 da entrega. O site iBench Market entrar&aacute; em contato com o comprador para confirmar o recebimento e o mesmo ter&aacute; 
                 at&eacute; 2 (dois) dias &uacute;teis para responder, caso n&atilde;o haja resposta a entrega ser&aacute; considerada confirmada 
-                e o valor da venda poder&aacute; ser disponibilizado ao Fornecedor contado o prazo j&aacute; estabelecido.
+                e o valor da venda poder&aacute; ser disponibilizado ao Fornecedor contado o prazo j&aacute; estabelecido. 
             </p> 
-			
-				
-				
-			
-			
-			
-	
-	
-	
-	
-	</div>
-	</div>
-	 
-	 
-	 
-	
-	 
-	 
-	
-	
-	
-	
-	 
-	 
-	 
-	 
-	 
+            </div>
+            </div>
 	 <div class="height30"></div>
 	 <div class="row">
-	
-	
-	
-	
-	
-	</div>
-	
-	</div>
-	
 
-      
+	</div>
+	</div>
+
 </body>
 </html>

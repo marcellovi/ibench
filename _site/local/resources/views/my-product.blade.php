@@ -6,7 +6,11 @@ $setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
 		->get();
-		$headertype = $setts[0]->header_type;
+		$headertype = $setts[0]->header_type;  
+                
+                /* Marcello :: Pega as informacoes do Usuario */
+                $userid = Auth::user()->id;
+                $editprofile = DB::select('select * from users where id = ?',[$userid]);
 	?>
 <!DOCTYPE html>
 
@@ -74,8 +78,13 @@ $setid=1;
 				<div class="shopping-cart-table">
                 <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">@lang('languages.my_products') (<?php echo $viewcount;?>)</div></div>
                 <div class="col-md-6 text-right">
-                      
+                    
+                    <?php 
+                        /* Hide When Store is Close / Hidden */
+                        if($editprofile[0]->delete_status == ''){                          
+                    ?>
                     <a href="<?php echo $url;?>/add-product" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
+                        <?php } ?>
                    <!-- Marcello Add Product
                    <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
                  -->

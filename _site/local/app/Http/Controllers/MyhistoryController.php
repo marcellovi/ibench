@@ -280,24 +280,22 @@ class MyhistoryController extends Controller
 		 
 		 $user_id = $data['user_id'];
 		 $prod_id = $data['prod_id'];
-		
-		
-		
-		
+		 $product_order_id = $data['product_order_id'];
 		 
 		 $check = DB::table('product_rating')
 		          ->where('user_id','=', $user_id)
 				  ->where('prod_id','=', $prod_id)
+				  ->where('product_order_id','=', $product_order_id)
 				  ->count();
 				  
 		if(empty($check))
 		{
-		    DB::insert('insert into product_rating (user_id,prod_id,rating,review) values (?, ?, ?, ?)', [$user_id,$prod_id,$rating,$review]);
+		    DB::insert('insert into product_rating (user_id,prod_id,product_order_id,rating,review) values (?, ?, ?, ?, ?)', [$user_id,$prod_id,$product_order_id,$rating,$review]);
 		
 		}
 		else
 		{
-		   DB::update('update product_rating set rating="'.$rating.'",review="'.$review.'" where user_id="'.$user_id.'" and prod_id = ?', [$prod_id]);
+		   DB::update('update product_rating set rating="'.$rating.'",review="'.$review.'" where user_id="'.$user_id.'" and product_order_id="'.$product_order_id.'" and prod_id = ?', [$prod_id]);
 		}
 				  
 		

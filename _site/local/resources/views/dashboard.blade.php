@@ -119,6 +119,27 @@ $setid=1;
         @if(@Auth::user()->admin == 2)
         <div class="control-group">
             <a href="{{ $url }}/wirecard-connect" class="btn btn-primary"> Conectar com conta Wirecard </a>
+            <?php if($editprofile[0]->delete_status == 'inactive'){   ?>        
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary"> Ativar Produtos </a>
+            <?php }else if($editprofile[0]->delete_status == ''){?>  
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/0" class="btn btn-primary"> Desabilitar Produtos </a>
+            <?php } ?>
+            
+            @if(@isset($success))
+                        <p class="alert alert-success">
+
+                            {{ $success }}
+
+                        </p>
+                    @endif
+                    @if(@isset($error))
+
+                        <p class="alert alert-danger">
+
+                            {{ $error }}
+
+                        </p>
+                    @endif
         </div>
         @endif
     

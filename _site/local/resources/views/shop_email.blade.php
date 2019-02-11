@@ -100,7 +100,7 @@
                 <b> - Fornecedor:</b> para sua seguran&ccedil;a, aguarde a confirma&ccedil;&atilde;o do pagamento para enviar o pedido. 
                 Uma vez confirmado o pagamento, a libera&ccedil;&atilde;o do pagamento pela Wirecard Brasil S.A. pode levar at&eacute; 30 
                 (trinta) dias para pagamentos com cart&atilde;o de cr&eacute;dito ou at&eacute; 4 (quatro) dias &uacute;teis para 
-                pagamentos com boleto banc&aacute;rio. O valor referente &agrave;s vendas realizadas, estando liberado pela Wirecard 
+                pagamentos com boleto banc&aacute;rio.   &agrave;s vendas realizadas, estando liberado pela Wirecard 
                 Brasil S.A., ser&aacute; disponibilizado em sua conta na Wirecard Brasil S.A. no prazo de at&eacute; 8 (oito) dias 
                 ap&oacute;s a confirma&ccedil;&atilde;o da entrega do pedido. Informe a data de entrega do pedido em at&eacute; 2 (dois) 
                 dias &uacute;teis atrav&eacute;s de envio de e-mail para&nbsp;<a href="mailto:ibench@ibench.com.br" target="_blank">ibench@ibench.com.br</a>&nbsp;

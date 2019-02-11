@@ -789,13 +789,12 @@ $setid=1;
 				$userphoto="/media/";
 						$path ='/local/images'.$userphoto.$userphoter;
 						if($userphoter!=""){?>
-                    <a href="<?php echo $url;?>/profile/<?php echo $userid;?>/<?php echo $userslug;?>">    
+                       
 					<img src="<?php echo $url.$path;?>" class="img-circle w90" alt="" >
-                    </a>
 						<?php } else { ?>
-                        <a href="<?php echo $url;?>/profile/<?php echo $userid;?>/<?php echo $userslug;?>">
+                        
 						<img src="<?php echo $url.'/local/images/nophoto.jpg';?>" class="img-circle w90" alt="">
-                        </a>
+                        
 						<?php } ?>          
                                                                     
                                                                 </figure>
@@ -886,10 +885,10 @@ $setid=1;
                                                                 
                                                             </div>
                                                             <div class="col-md-10 col-sm-10 ">
-                                                                <h4><a href="<?php echo $url;?>/profile/<?php echo $userid;?>/<?php echo $userslug;?>">
+                                                                <h4>
 				  - <?php echo $usernameo;?>
 
-                  </a> </h4>
+                   </h4>
                                                                 <?php echo $rateus_views;?> 
                                                                 <p><?php echo $rating->review;?>
                                                                 </p>

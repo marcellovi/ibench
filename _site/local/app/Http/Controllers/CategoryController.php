@@ -83,7 +83,7 @@ class CategoryController extends Controller {
 		                      ->count();
 		$view_rating      = DB::table( 'product_rating' )
 		                      ->where( 'prod_id', '=', $prod_id )
-		                      ->groupBy( 'user_id' )
+		                      //->groupBy( 'user_id' )
 		                      ->orderBy( 'rate_id', 'desc' )
 		                      ->get();
 

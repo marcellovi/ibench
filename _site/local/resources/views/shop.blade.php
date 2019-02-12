@@ -109,7 +109,7 @@ $setid=1;
                                         ->where('delete_status','=','')
                                         ->where('status','=',1)
                                         ->where('cat_id','=',$catery->id)
-                                        ->orderBy('subid','asc')
+                                        ->orderBy('subcat_name','asc')
                                         ->get();
                                     foreach($subcat_get22 as $subcat22) {
 
@@ -131,7 +131,7 @@ $setid=1;
 																			 ->where('delete_status','=','')
 																			 ->where('status','=',1)
 																			 ->where('cat_id','=',$catery->id)
-																			 ->orderBy('subid','asc')
+																			 ->orderBy('subcat_name','asc')
 																			 ->get();
 																		foreach($subcat_get as $subcat)
 																		{ 
@@ -367,8 +367,21 @@ $setid=1;
                  <?php if(!empty($viewcount)){?>                               
                                 <?php 
 								$ii = 1;
-								foreach($viewproduct as $product){
-								
+
+                if (is_array($viewproduct)){
+                  $result_each = array_chunk($viewproduct, 6);
+                }else{
+                  $result_each = $viewproduct->chunk(6);
+                }
+
+								foreach($result_each as $grid){
+                
+                ?>
+
+                <div class="row">
+
+                <?php
+                  foreach ($grid as $product) {
 								
 								$prod_id = $product->prod_token; 
 								 $product_img_count = DB::table('product_images')
@@ -712,7 +725,7 @@ $setid=1;
                   </div>
                   <!-- /.item -->
                   
-                  <?php  $ii++;} ?>
+                  <?php  $ii++;} ?> </div> <?php } ?>
                        
                    <?php } else { ?> 
                               <div class="height100"></div>

@@ -155,7 +155,7 @@ $setid=1;
             ->where('delete_status','=','')
              ->where('prod_status','=',1)
              ->where('prod_featured','=','yes')
-            ->orderBy('prod_id','desc')
+            ->orderBy(DB::raw('RAND()'))
              ->get();
              $ij=1;
              foreach($viewproductt as $product){
@@ -528,9 +528,9 @@ $setid=1;
                 <div class="image"> 
                 
                 <?php if(!empty($home_banner_one[0]->slide_image)){?>
-                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt=""/>
+                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt="" style="object-fit: unset;"/>
                                 <?php } else { ?>
-                                <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt=""/>
+                                <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
                                 <?php } ?>
                 
                  </div>
@@ -559,9 +559,9 @@ $setid=1;
                 
                 
                 <?php if(!empty($home_banner_two[0]->slide_image)){?>
-                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_two[0]->slide_image;?>" alt=""/>
+                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_two[0]->slide_image;?>" alt="" style="object-fit: unset;"/>
                                 <?php } else { ?>
-                                <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt=""/>
+                                <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
                                 <?php } ?>
                                 
                                 
@@ -630,7 +630,7 @@ $setid=1;
             ->where('delete_status','=','')
              ->where('prod_status','=',1)
              ->take(12)
-             ->orderBy('prod_id','desc')
+             ->orderBy(DB::raw('RAND()'))
              ->get();
              $ii = 1;
              foreach($viewproduct as $product){

@@ -74,7 +74,7 @@ $setid=1;
     </div>
     </div>
     <?php
-    $nameFull = explode(' ',Auth::user()->name);
+    $nameFull = explode(' ',Auth::user()->full_name);
     ?>
     
     <form autocomplete="nope" method="POST" action="{{ route('payment-details') }}" id="formID" class="form-chackout" enctype="multipart/form-data">
@@ -105,7 +105,7 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.first_name') <span>*</span></label>
 
-            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="{{@$nameFull[0]}}">
+            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="<?php echo utf8_decode($nameFull[0]); ?>">
 		  </div>
 
 	</div>
@@ -116,7 +116,7 @@ $setid=1;
 
 
 
-            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value=""> <!-- Marcello {{@$nameFull[1]}} -->
+            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php echo utf8_decode($nameFull[1]); ?>"> <!-- Marcello {{@$nameFull[1]}} -->
 		  </div>
 
 	</div>

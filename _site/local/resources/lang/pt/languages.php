@@ -227,6 +227,7 @@ return [
 	"local_shipping_price" => "Custo do Envio Local",
 	"world_shipping_price" => "Custo do Envio Mundial",
 	"gender" => "Sexo",
+        "fullname" => "Nome Completo",
 	"about" => "Sobre",
 	"profile_photo" => "Imagem do Usu&aacute;rio",
 	"upload_size" => "Tamanho Upload",

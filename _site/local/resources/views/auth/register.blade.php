@@ -90,7 +90,7 @@
                 <div class="panel-heading">Cadastro</div>
                 
 				<div class="panel-body">
-                    <form class="register-form" role="form" method="POST" action="{{ route('register') }}">
+                    <form class="register-form" role="form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" accept-charset="utf-8">
                         {{ csrf_field() }}
                         
           

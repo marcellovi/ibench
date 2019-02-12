@@ -326,7 +326,10 @@ $setid=1;
                                  
                                 <div class="col-md-12">
                         <div class="form-group">
-                                 
+                            <label class="info-title" for="exampleInputName">@lang('languages.fullname') </label>
+                            <input type="text" placeholder="@lang('languages.fullname')" name="fullname" class="form-control unicase-form-control" value="<?php echo utf8_decode($editprofile[0]->full_name);?>" readonly>
+                            
+                             <!-- Marcello : Retirar Gender    
                               <label class="info-title" for="exampleInputName">@lang('languages.gender') </label>
                             <select name="gender" class="form-control unicase-form-control">
 							  
@@ -334,6 +337,7 @@ $setid=1;
 							   <option value="male" <?php if($editprofile[0]->gender=="male"){?> selected <?php } ?>>Masculino</option>
 							   <option value="female" <?php if($editprofile[0]->gender=="female"){?> selected <?php } ?>>Feminino</option>
 							</select>
+                              -->
                             
                             </div>
                             </div>
@@ -346,10 +350,7 @@ $setid=1;
                         <div class="col-md-12">
                         <div class="form-group">
                                  
-                              <label class="info-title" for="exampleInputName">@lang('languages.address') </label>
-                        
-                        
-                           
+                            <label class="info-title" for="exampleInputName">@lang('languages.address') </label>
                             <input type="text" placeholder="@lang('languages.address')" name="address" class="form-control unicase-form-control" value="<?php echo utf8_decode($editprofile[0]->address);?>">
                             </div>
                             </div>

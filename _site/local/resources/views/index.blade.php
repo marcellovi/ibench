@@ -1434,7 +1434,7 @@ $setid=1;
        
        <div  style="background:#F2F3F7">
   <!-- <h3 class="section-title">iBench Banners</h3> -->
-  <div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-xs">
+  <div class="item positionR hbanner">
     
  
         <?php 

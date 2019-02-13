@@ -320,7 +320,7 @@ $setid=1;
 <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Credit Card Payment
+                        Pagar com Cart&atilde;o de Cr&eacute;dito 
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -329,17 +329,17 @@ $setid=1;
                     <input type="hidden" name="currency" value="'.$currency.'">
                     '.$extra_data.'
                     <div class="form-group">
-                        <label for="cardNumber">CARD HOLDER</label>
+                        <label for="cardNumber">NOME DO TITULAR</label>
                         <div class="input-group">
-                            <input type="text" name="cc_holder" class="form-control cc-holder" id="cc-holder" placeholder="Card Holder Full Name"
+                            <input type="text" name="cc_holder" class="form-control cc-holder" id="cc-holder" placeholder="Nome do Titular no Cart&atilde;o de Cr&eacute;dito"
                                 required autofocus />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-edit"></span></span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="cardNumber">CARD NUMBER</label>
+                        <label for="cardNumber">N&Uacute;MERO DO CART&Atilde;O</label>
                         <div class="input-group">
-                            <input maxlength="16" minlength="16" type="tel" name="cc_number" class="form-control cc-number identified" id="cc-number" placeholder="Valid Card Number"
+                            <input maxlength="16" minlength="16" type="tel" name="cc_number" class="form-control cc-number identified" id="cc-number" placeholder="N&uacute;mero V&aacute;lido do Cart&atilde;o de Cr&eacute;dito"
                                 required autofocus />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                         </div>
@@ -347,12 +347,12 @@ $setid=1;
                     <div class="row">
                         <div class="col-xs-7 col-md-7">
                             <div class="form-group">
-                                <label for="expityMonth">EXPIRY DATE</label>
+                                <label for="expityMonth">DATA VALIDADE</label>
                                 <div class="row">
                                 <div class="col-xs-6 col-lg-6 pl-ziro">
                                     <!--<input type="tel" name="cc_exp_m" class="form-control" id="cc-exp-m" placeholder="MM" required />-->
                                     <select name="cc_exp_m" id="cc-exp-m" class="custom-select form-control cc-exp">
-									      <option value="" selected="selected">Month</option>
+									      <option value="" selected="selected">M&ecirc;s</option>
 									      <option value="01">01</option>
 									      <option value="02">02</option>
 									      <option value="03">03</option>
@@ -368,14 +368,14 @@ $setid=1;
 									    </select>
                                 </div>
                                 <div class="col-xs-6 col-lg-6 pl-ziro">
-                                    <input maxlength="2" minlength="2" data-min="'.date("y").'" pattern="[0-9]{2}" type="tel" name="cc_exp_y" class="form-control" id="cc-exp-y" placeholder="YY" required />
+                                    <input maxlength="2" minlength="2" data-min="'.date("y").'" pattern="[0-9]{2}" type="tel" name="cc_exp_y" class="form-control" id="cc-exp-y" placeholder="AA" required />
                                  </div>
                                  </div>
                             </div>
                         </div>
                         <div class="col-xs-5 col-md-5 pull-right">
                             <div class="form-group">
-                                <label for="cvCode">CV CODE</label>
+                                <label for="cvCode">C&Oacute;DIGO SEGURAN&Ccedil;A</label>
                                 <input maxlength="4" minlength="3" pattern="\d+" type="tel" name="ccv" class="form-control" id="ccv" placeholder="CV" required />
                             </div>
                         </div>
@@ -383,7 +383,7 @@ $setid=1;
                 </div>
             </div>
             <ul class="nav nav-pills nav-stacked">
-                <li class="active"><button type="submit"><span class="badge pull-right"><!--<span class="glyphicon glyphicon-usd"></span>-->'.$amount.' '.$currency.'</span> Pay Now</button>
+                <li class="active"><button type="submit"><span class="badge pull-right"><!--<span class="glyphicon glyphicon-usd"></span>-->'.$amount.' '.$currency.'</span>Confirmar Pagamento</button>
                 </li>
             </ul>
            </form>
@@ -395,7 +395,7 @@ $setid=1;
 <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        Boleto Payment
+                        Pagamento Via Boleto
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -404,7 +404,7 @@ $setid=1;
                     <input type="hidden" name="currency" value="'.$currency.'">
                     '.$extra_data.'
 
-                <button class="btn btn-success btn-block" type="submit">Pay Boleto</button>
+                <button class="btn btn-success btn-block" type="submit">Gerar Boleto</button>
                 </div></div></form></div>
 </div></div>
     </div>
@@ -445,7 +445,7 @@ $setid=1;
         <p style="color:red;">*There are products without enough stock in your cart!</p>
         <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
     <?php }else{ ?>
-		  <input type="submit" name="submit" value="Pay Now" class="btn-upper btn btn-primary">
+		  <input type="submit" name="submit" value="Confirmar" class="btn-upper btn btn-primary">
     <?php } ?> 
     
     </form>

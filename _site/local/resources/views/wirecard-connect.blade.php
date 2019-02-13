@@ -21,7 +21,7 @@ $headertype = $settings->header_type;
         <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
                 <li><a href="<?php echo $url;?>">@lang('languages.home')</a></li>
-                <li class='active'>Connect Wirecard Account</li>
+                <li class='active'>@lang('languages.connect_wirecard_title')</li>
             </ul>
         </div>
     </div>
@@ -82,7 +82,7 @@ $headertype = $settings->header_type;
 
             <div class="col-md-12 row">
                 <div class="heading-title">
-                    Connect Wirecard Account
+                    @lang('languages.connect_wirecard_title')
                 </div>
             </div>
             <div class="height10 clearfix"></div>
@@ -97,7 +97,7 @@ $headertype = $settings->header_type;
             <?php
             if ($is_app_exists === true){
                 echo '<div class="alert alert-info">';
-                echo "<strong>Wirecard Connected Account Details</strong><hr/>";
+                echo "<strong>Detalhes da sua conta Wirecard</strong><hr/>";
                 $wirecard_app_data = unserialize($wirecard_app_data);
                 foreach ($wirecard_app_data as $key => $val) {
                     if (in_array($key,array('moipAccount','expires_in'))){
@@ -113,8 +113,8 @@ $headertype = $settings->header_type;
 
             ?>
 
-            <h4>Connect to our Wirecard App</h4>
-            <a href="<?=$auth_link;?>" class="btn btn-success btn-lg<?=$disabled;?>"<?=$disabled;?>>Connect</a>
+            <h4>@lang('languages.connect_wirecard_info')</h4>
+            <a href="<?=$auth_link;?>" class="btn btn-success btn-lg<?=$disabled;?>"<?=$disabled;?>>@lang('languages.connect_wirecard')</a>
 
         </div>
     </div>

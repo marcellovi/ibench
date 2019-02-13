@@ -301,7 +301,7 @@ $setid=1;
                 </div>
                 <div class="info">
                     <div class="title"> <!-- Marcello :: Troca de name para name_business -->
-                        <a href="<?php echo $url;?>/profile/<?php echo $vendor->id;?>/<?php echo $vendor->post_slug;?>"><?php if(!empty($vendor->name_business)){ echo $vendor->name_business;}else{ echo "N/A";}?></a>
+                        <a href="<?php echo $url;?>/profile/<?php echo $vendor->id;?>/<?php echo $vendor->post_slug;?>"><?php if(!empty($vendor->name_business)){ echo utf8_decode($vendor->name_business);}else{ echo "N/A";}?></a>
                     </div>
                     <?php if($count_product==0 or $count_product==1){ $prod_txt = __('languages.product'); } else { $prod_txt = __('languages.products'); } ?>
                     <div class="height10"></div>

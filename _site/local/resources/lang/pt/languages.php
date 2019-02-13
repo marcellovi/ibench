@@ -573,7 +573,10 @@ return [
         "lbl_store" => "Empresa",
         "name_place" => "Area Designada ",
     
-    
+        /* Marcello - Wirecard */
+        "connect_wirecard_title" => "Conecte sua conta Wirecard",
+        "connect_wirecard_info" => "Clique para conectar iBench com Wirecard",
+        "connect_wirecard" => "Conectar Wirecard",
     
 	
 	

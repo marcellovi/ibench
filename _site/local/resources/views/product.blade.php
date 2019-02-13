@@ -103,8 +103,8 @@ $setid=1;
         
             <div class="single-product-gallery-item" id="slide<?php echo $pimg->prod_img_id;?>">
             <?php if(!empty($pimg)){?>
-                <a class="lumos-link" data-lumos="demo1" href="<?php echo $url;?>/local/images/media/<?php echo $pimg->image;?>">
-                    <img class="img-responsive" alt="" src="<?php echo $url;?>/local/images/media/<?php echo $pimg->image;?>" data-echo="<?php echo $url;?>/local/images/media/<?php echo $pimg->image;?>" />
+                <a class="lumos-link" data-lumos="demo1" href="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($pimg->image);?>">
+                    <img class="img-responsive" alt="" src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($pimg->image);?>" data-echo="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($pimg->image);?>" />
                 </a>
                 <?php } else {?>
                 <img src="<?php echo $url;?>/local/images/noimage.jpg" alt="" />
@@ -132,7 +132,7 @@ $setid=1;
                 <?php if(!empty($pimg)){?>                                    
                 
                     <a class="horizontal-thumb active" data-target="#owl-single-product" data-slide="1" href="#slide<?php echo $pimg->prod_img_id;?>">
-                        <img class="img-responsive" width="85" alt="" src="<?php echo $url;?>/local/images/media/<?php echo $pimg->image;?>" data-echo="<?php echo $url;?>/local/images/media/<?php echo $pimg->image;?>" />
+                        <img class="img-responsive" width="85" alt="" src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($pimg->image);?>" data-echo="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($pimg->image);?>" />
                     </a>
                 
                 <?php } else {?>
@@ -671,7 +671,7 @@ $setid=1;
 																			->get();
 												if(!empty($product_img[0]->image))
 												{ 
-												$share_img = $url.'/local/images/media/'.$product_img[0]->image;
+												$share_img = $url.'/local/images/media/'.utf8_decode($product_img[0]->image);
 												}
 												else
 												{
@@ -998,7 +998,7 @@ $setid=1;
 										if(!empty($product_img[0]->image))
 										{								
 										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""/>
+                                        <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
                                         <?php } } ?>
@@ -1374,7 +1374,7 @@ $setid=1;
 										if(!empty($product_img[0]->image))
 										{								
 										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""/>
+                                        <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
                                         <?php } } ?>

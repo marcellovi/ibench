@@ -404,7 +404,7 @@ $setid=1;
 										if(!empty($product_img[0]->image))
 										{								
 										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""/>
+                                        <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
                                         <?php } } ?>
@@ -778,7 +778,7 @@ $setid=1;
 										if(!empty($product_img[0]->image))
 										{								
 										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""/>
+                                        <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
                                         <?php } } ?>

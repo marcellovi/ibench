@@ -302,7 +302,7 @@ $setid=1;
             <!-- /.col -->
             
             <div class="col col-sm-10 col-md-10 text-right">
-            
+            <!-- Marcello :: Hide Organize Por 
               <div class="col col-sm-6 col-md-6">
                 <div class="lbl-cnt"> <span class="lbl">@lang('languages.sort_by')</span>
                   <div class="fld inline">
@@ -319,11 +319,13 @@ $setid=1;
                       
                     </div>
                   </div>
-                  <!-- /.fld --> 
+                  <!-- /.fld 
                 </div>
-                <!-- /.lbl-cnt --> 
+                <!-- /.lbl-cnt 
               </div>
+              *** Fim Organize Por -->
               <!-- /.col -->
+              <!-- Marcello :: Hide Mostre 
               <div class="col col-sm-6 col-md-6">
                 <div class="lbl-cnt"> <span class="lbl">@lang('languages.show')</span>
                   <div class="fld inline">
@@ -342,10 +344,11 @@ $setid=1;
                       </ul>
                     </div>
                   </div>
-                  <!-- /.fld --> 
+                  <!-- /.fld 
                 </div>
-                <!-- /.lbl-cnt --> 
+                <!-- /.lbl-cnt 
               </div>
+              *** Fim do Mostre -->
               <!-- /.col --> 
             
             

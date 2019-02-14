@@ -11,65 +11,41 @@ $setid=1;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-		
-
-   @include('style')
-   
-
-
-
-
+  @include('style')
 </head>
 <body class="cnt-home">
 
-@include('header')
+  @include('header')
 
-
-<div class="breadcrumb">
-  <div class="container-fluid">
-    <div class="breadcrumb-inner">
-      <ul class="list-inline list-unstyled">
-        <li> <a href="<?php echo $url;?>">@lang('languages.home')</a></li>
-        <li class='active'>@lang('languages.shop')</li>
-      </ul>
+  <div class="breadcrumb">
+    <div class="container-fluid">
+      <div class="breadcrumb-inner">
+        <ul class="list-inline list-unstyled">
+          <li> <a href="<?php echo $url;?>">@lang('languages.home')</a></li>
+          <li class='active'>@lang('languages.shop')</li>
+        </ul>
+      </div>
     </div>
-    
   </div>
-  
-</div>
 
+  <div class="body-content outer-top-xs">
+    <div class='container-fluid'>
 
-
-<div class="body-content outer-top-xs">
-  <div class='container-fluid'>
-  
-  <div class="row">
-                     <div class="col-md-12 col-sm-12">
-                    @if(Session::has('success'))
-
-	    <p class="alert alert-success">
-
-	      {{ Session::get('success') }}
-
-	    </p>
-
-	@endif
-
-
-	
-	
- 	@if(Session::has('error'))
-
-	    <p class="alert alert-danger">
-
-	      {{ Session::get('error') }}
-
-	    </p>
-
-	@endif
-    </div>
-    </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          @if(Session::has('success'))
+            <p class="alert alert-success">
+              {{ Session::get('success') }}
+            </p>
+          @endif
+ 	        
+          @if(Session::has('error'))
+            <p class="alert alert-danger">
+              {{ Session::get('error') }}
+            </p>
+          @endif
+        </div>
+      </div>
     
     
     <div class='row'>
@@ -381,7 +357,7 @@ $setid=1;
                 
                 ?>
 
-                <div class="row">
+                <div class="row" style="margin-left: 2px;margin-right: -20px;">
 
                 <?php
                   foreach ($grid as $product) {

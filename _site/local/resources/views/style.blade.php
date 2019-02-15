@@ -1,165 +1,143 @@
-
- <?php 
- use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();
- $url = URL::to("/"); 
- $setid=1;
+<?php 
+	use Illuminate\Support\Facades\Route;
+	$currentPaths= Route::getFacadeRoot()->current()->uri();
+ 	$url = URL::to("/"); 
+ 	$setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
 		->get();
-		$color_setts = DB::table('color_settings')
+	$color_setts = DB::table('color_settings')
 		->where('id', '=', $setid)
 		->get();
-		
-		
-		$name = Route::currentRouteName();
- if($currentPaths=="/")
- {
-	 $pagetitle="Home";
-	 $activemenu = "/";
- }
- else 
- {
-	 $pagetitle=$currentPaths;
-	 $activemenu = $currentPaths;
- }
- 
- 
 
+	$name = Route::currentRouteName();
+ 	
+ 	if($currentPaths=="/"){
+ 		$pagetitle="Home";
+ 		$activemenu = "/";
+ 	} else {
+ 		$pagetitle=$currentPaths;
+ 		$activemenu = $currentPaths;
+ 	}
 
-$ppid=1;
-		$about_title = DB::table('pages')
+ 	$ppid=1;
+	$about_title = DB::table('pages')
 		->where('page_id', '=', $ppid)
 		->get();
-$ppid_two=4;
-		$contact_title = DB::table('pages')
+	$ppid_two=4;
+	$contact_title = DB::table('pages')
 		->where('page_id', '=', $ppid_two)
 		->get();
-$ppid_three=5;
-		$donate_title = DB::table('pages')
+	$ppid_three=5;
+	$donate_title = DB::table('pages')
 		->where('page_id', '=', $ppid_three)
 		->get();
-$ppid_four=6;
-		$support_title = DB::table('pages')
+	$ppid_four=6;
+	$support_title = DB::table('pages')
 		->where('page_id', '=', $ppid_four)
 		->get();
-$ppid_five=7;
-		$faq_title = DB::table('pages')
+	$ppid_five=7;
+	$faq_title = DB::table('pages')
 		->where('page_id', '=', $ppid_five)
 		->get();	
-		
-$ppid_six=8;
-		$terms_title = DB::table('pages')
+	$ppid_six=8;
+	$terms_title = DB::table('pages')
 		->where('page_id', '=', $ppid_six)
 		->get();
-$ppid_seven=9;
-		$privacy_title = DB::table('pages')
+	$ppid_seven=9;
+	$privacy_title = DB::table('pages')
 		->where('page_id', '=', $ppid_seven)
 		->get();
-
-$author = DB::table('users')
+	$author = DB::table('users')
 		->where('id', '=', 1)
 		->get();
-		
-if($activemenu == "product/{prod_id}/{prod_slug}")
-{		
-$viewget = DB::table('product')
-		->where('delete_status', '=', '')
-		->where('prod_status','=',1)
-		->where('prod_id','=',$prod_id)
-		->count();
-if(!empty($viewget))
-{		
-$viewget_title = DB::table('product')
-		->where('delete_status', '=', '')
-		->where('prod_status','=',1)
-		->where('prod_id','=',$prod_id)
-		->get();
-	$product_heading = utf8_decode($viewget_title[0]->prod_name);												
-}
-else
-{
-  $product_heading = "";
-}
-}
-header('Content-Type:text/html; charset=UTF-8');
+	
+	if($activemenu == "product/{prod_id}/{prod_slug}"){		
+		$viewget = DB::table('product')
+			->where('delete_status', '=', '')
+			->where('prod_status','=',1)
+			->where('prod_id','=',$prod_id)
+			->count();
+		if(!empty($viewget)){		
+			$viewget_title = DB::table('product')
+				->where('delete_status', '=', '')
+				->where('prod_status','=',1)
+				->where('prod_id','=',$prod_id)
+				->get();
+			$product_heading = utf8_decode($viewget_title[0]->prod_name);												
+		} else {
+  		$product_heading = "";
+  	}
+  }
+
+  header('Content-Type:text/html; charset=UTF-8');
+
 ?>							
 
+<title>
+	<?php echo $setts[0]->site_name;?> -  <?php if($activemenu == "/" or $activemenu == "index"){ echo "Home"; } else { echo ""; } if($activemenu == "shop" or $activemenu=="shop/{type}/{id}/{slug}") { echo "Shop"; } else { echo ""; } if($activemenu == "product/{prod_id}/{prod_slug}") { echo "Produto"; } else { echo ""; }  if($activemenu == "page/{id}/{slug}") { echo "Page"; } else { echo ""; } if($activemenu == "cart") { echo "Cart"; } else { echo ""; } if($activemenu == "checkout") { echo "Checkout"; } else { echo ""; } if($activemenu == "vendors") { echo "Fornecedores"; } else { echo ""; }  if($activemenu == "profile/{user_id}/{user_slug}") { echo "Profile"; } else { echo ""; }    if($activemenu == "my-orders") { echo "Meus Pedidos"; } else { echo ""; }  if($activemenu == "view-orders/{ord_id}/{user_id}") { echo "Minhas Vendas"; } else { echo ""; }  if($activemenu == "my-shopping" or $activemenu=="view-shopping/{token}") { echo "Minhas Compras"; } else { echo ""; } if($activemenu == "attribute-type") { echo "My Attribute Type"; } else { echo ""; }if($activemenu == "add-attribute-type") { echo "Add Attribute Type"; } else { echo ""; }if($activemenu == "attribute-value") { echo "My Attribute Value"; } else { echo ""; }if($activemenu == "add-attribute-value") { echo "Add Attribute Value"; } else { echo ""; }if($activemenu == "my-balance") { echo "My Balance"; } else { echo ""; }if($activemenu == "my-wishlist") { echo "My Wishlist"; } else { echo ""; }  if($activemenu == "my-product") { echo "My Product"; } else { echo ""; } if($activemenu == "add-product") { echo "Adicionar Produto"; } else { echo ""; }if($activemenu == "blog" or $activemenu == "blog/{id}"){ echo "Blog"; } else { echo ""; }if($activemenu == "contact-us"){ echo $contact_title[0]->page_title; } else { echo ""; }if($activemenu == "dashboard"){ echo 'Dashboard'; } else { echo ""; }if($activemenu == "my-comments"){ echo 'Meus Comentarios'; } else { echo ""; }if($activemenu == "login"){ echo 'Login'; } else { echo ""; }if($activemenu == "register"){ echo 'Cadastrar'; } else { echo ""; }if($activemenu == "tag/{type}/{id}"){ echo 'Tags'; } else { echo ""; }if($activemenu == "404"){ echo '404 Page not found!'; } else { echo ""; }if($activemenu == "forgot-password"){ echo 'Esqueceu Senha?'; } else { echo ""; }if($activemenu == "reset-password/{id}"){ echo 'Redefinir Senha'; } else { echo ""; }if($activemenu == "thankyou/{id}"){ echo 'Obrigado'; } else { echo ""; }?>
+		
+</title>
 
- <title><?php echo $setts[0]->site_name;?> -  <?php if($activemenu == "/" or $activemenu == "index"){ echo "Home"; } else { echo ""; } if($activemenu == "shop" or $activemenu=="shop/{type}/{id}/{slug}") { echo "Shop"; } else { echo ""; } if($activemenu == "product/{prod_id}/{prod_slug}") { echo "Produto"; } else { echo ""; }  if($activemenu == "page/{id}/{slug}") { echo "Page"; } else { echo ""; } if($activemenu == "cart") { echo "Cart"; } else { echo ""; } if($activemenu == "checkout") { echo "Checkout"; } else { echo ""; } if($activemenu == "vendors") { echo "Fornecedores"; } else { echo ""; }  if($activemenu == "profile/{user_id}/{user_slug}") { echo "Profile"; } else { echo ""; }    if($activemenu == "my-orders") { echo "Meus Pedidos"; } else { echo ""; }  if($activemenu == "view-orders/{ord_id}/{user_id}") { echo "Minhas Vendas"; } else { echo ""; }  if($activemenu == "my-shopping" or $activemenu=="view-shopping/{token}") { echo "Minhas Compras"; } else { echo ""; } if($activemenu == "attribute-type") { echo "My Attribute Type"; } else { echo ""; }if($activemenu == "add-attribute-type") { echo "Add Attribute Type"; } else { echo ""; }if($activemenu == "attribute-value") { echo "My Attribute Value"; } else { echo ""; }if($activemenu == "add-attribute-value") { echo "Add Attribute Value"; } else { echo ""; }if($activemenu == "my-balance") { echo "My Balance"; } else { echo ""; }if($activemenu == "my-wishlist") { echo "My Wishlist"; } else { echo ""; }  if($activemenu == "my-product") { echo "My Product"; } else { echo ""; } if($activemenu == "add-product") { echo "Adicionar Produto"; } else { echo ""; }if($activemenu == "blog" or $activemenu == "blog/{id}"){ echo "Blog"; } else { echo ""; }if($activemenu == "contact-us"){ echo $contact_title[0]->page_title; } else { echo ""; }if($activemenu == "dashboard"){ echo 'Dashboard'; } else { echo ""; }if($activemenu == "my-comments"){ echo 'Meus Comentarios'; } else { echo ""; }if($activemenu == "login"){ echo 'Login'; } else { echo ""; }if($activemenu == "register"){ echo 'Cadastrar'; } else { echo ""; }if($activemenu == "tag/{type}/{id}"){ echo 'Tags'; } else { echo ""; }if($activemenu == "404"){ echo '404 Page not found!'; } else { echo ""; }if($activemenu == "forgot-password"){ echo 'Esqueceu Senha?'; } else { echo ""; }if($activemenu == "reset-password/{id}"){ echo 'Redefinir Senha'; } else { echo ""; }if($activemenu == "thankyou/{id}"){ echo 'Obrigado'; } else { echo ""; }?></title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="description" content="">
-<meta name="author" content="">
-<meta name="keywords" content="MediaCenter, Template, eCommerce">
+<meta name="google-site-verification" content="OcGKuyD3ehahTS_Uc0FfhV4F-E3xkoSTKcQbqV7j_O0"/>
+<meta name="description" content="iBench - O primeiro marketplace brasileiro dedicado a laboratórios, criado por cientistas para o mundo da ciência." />
+<meta name="keywords" content="ibench,bench,market,cientista,ciência,ciencia,marketplace,lab,laboratorio,produtos,dna,anticorpos,bio,biotecnico,pesquisadores,negocio,venda,fornecedor,equipamento,micropipetas,reagentes,consumo,compras" />
+<meta name="author" content="iBench Market" />
+
+<!-- Facebook -->
+<meta property="og:title" content="iBench Market"/>
+<meta property="og:site_name" content="iBench Market"/>
+<meta property="og:url" content="http://www.ibench.com.br"/>
+<meta property="og:image" content="https://www.ibench.com.br/assets/images/ibench-img-436x218.png"/>
+<meta property="og:type" content="website"/> 
+<meta property="og:description" content="iBench - O primeiro marketplace brasileiro dedicado a laboratórios, criado por cientistas para o mundo da ciência."/>
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <?php if(!empty($setts[0]->site_favicon)){?>
-	 <link rel="icon" type="image/x-icon" href="<?php echo $url.'/local/images/media/'.$setts[0]->site_favicon;?>" />
-	 <?php } else { ?>
-	 <link rel="icon" type="image/x-icon" href="<?php echo $url.'/local/images/noimage.jpg';?>" />
+	<link rel="icon" type="image/x-icon" href="<?php echo $url.'/local/images/media/'.$setts[0]->site_favicon;?>" />
+<?php } else { ?>
+	<link rel="icon" type="image/x-icon" href="<?php echo $url.'/local/images/noimage.jpg';?>" />
 <?php } ?>
-<link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/bootstrap.min.css">
 
+<link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/owl.carousel.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/owl.transitions.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/animate.min.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/rateit.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/bootstrap-select.min.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/font-awesome.css">
-
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/popup_image/lumos.css">
 
 <!-- Marcello validacao cpf e cnpj do register -->
-<script src="<?php echo $url;?>/local/resources/views/theme/js/valida_cpf_cnpj.js" type="text/javascript" charset="utf-8">
-	</script>
+<script src="<?php echo $url;?>/local/resources/views/theme/js/valida_cpf_cnpj.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
 
-
-<script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8">
-	</script>
-    
-    
-    
-    <?php /* menu */?>
-
+<?php /* menu */?>
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/toggle_menu/menu.css">
-
 <script type="text/javascript" src="<?php echo $url;?>/local/resources/views/theme/toggle_menu/menu.js"></script>
-
-
 <?php /* menu */ ?>
-
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/validationEngine.jquery.css" type="text/css"/>
 <?php if($activemenu == "blog" or $activemenu == "blog/{id}" or $activemenu == "product/{prod_id}/{prod_slug}"){?>
-
-<link rel="stylesheet" type="text/css" href="<?php echo $url;?>/local/resources/views/share/avigher.css">
- <script type="text/javascript" src="<?php echo $url;?>/local/resources/views/share/jquery.avigher.js"></script>
-    <script type="text/javascript">
-        jQuery(document).ready(function ($){
-
-            
-
-            $('#share1').sharegg();
-
-            
-
-            
-        });
-</script>
-
+	<link rel="stylesheet" type="text/css" href="<?php echo $url;?>/local/resources/views/share/avigher.css">
+	<script type="text/javascript" src="<?php echo $url;?>/local/resources/views/share/jquery.avigher.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function ($){
+			$('#share1').sharegg();
+		});
+	</script>
 <?php } ?>
+
 <script type="text/javascript">
-
-
 /* Marcello externo - fisico - digital */
- 
-$(document).ready(function () { 
- 
- $('#prod_type').on('change', function() {
+ $(document).ready(function () { 
+ 	$('#prod_type').on('change', function() {
 		
 		if ( this.value == 'externo')
-      {
+    {
 		  $("#price_container").show();
 		  $("#zipformat").hide();
 		  $("#notzipformat").show();
@@ -167,7 +145,7 @@ $(document).ready(function () {
 		  
 	  }
 	  else if(this.value == 'fisico')
-      {
+    {
 		  $("#price_container").hide();
 		  $("#zipformat").hide();
 		  $("#notzipformat").show();
@@ -175,57 +153,53 @@ $(document).ready(function () {
 	  }
 	  
 	  else if(this.value == 'digital')
-      {
+    {
 		  $("#price_container").hide();
 		  $("#zipformat").show();
 		  $("#notzipped").hide();
-		   $("#notzipformat").hide();
+	   	$("#notzipformat").hide();
 	  }
-	  
 	  else
 	  {
-	  $("#price_container").hide();
-	  $("#zipformat").hide();
-	  $("#notzipformat").show();
-	  $("#notzipped").show();
+	  	$("#price_container").hide();
+  		$("#zipformat").hide();
+	  	$("#notzipformat").show();
+	  	$("#notzipped").show();
 	  }
-		
 	
 	});
-	
 	
 });	
 
 
-
-function valueChanged()
-{
-
-
-    if($('.enable_ship').is(":checked"))   
-        $(".ship_details").show();
-    else
-        $(".ship_details").hide();
+function valueChanged(){
+	if($('.enable_ship').is(":checked"))   
+  	$(".ship_details").show();
+  else
+    $(".ship_details").hide();
 }
 	
 </script>
 
-
-
 <script>
-	
 	$(window).load(function() {
-		
 		$(".avigher_loader").fadeOut("slow");;
 	});
 </script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131470484-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-131470484-1');
+</script>
+
 	
 <style type="text/css">
-
-
 /* loader */
-
-
 .no-js #loader { display: none;  }
 .js #loader { display: block; position: absolute; left: 100px; top: 0; }
 .avigher_loader {
@@ -238,9 +212,7 @@ function valueChanged()
 	background: url(<?php echo $url;?>/local/images/media/<?php echo $setts[0]->site_loading_url;?>) center no-repeat #fff;
 }
 
-
 /* loader */
-
 .notclick
 {
 pointer-events: none;
@@ -252,21 +224,14 @@ pointer-events: none;
 color:red;
 }
 
-
 .m_nav_ham {
-   
-    background: <?php echo $setts[0]->site_button_color;?>;
-    
+  background: <?php echo $setts[0]->site_button_color;?>;
 }
-
-
-
 
 .logo img
 {
 max-width:200px;
 }
-
 
 a {
   color: <?php echo $setts[0]->site_primary_color;?>;

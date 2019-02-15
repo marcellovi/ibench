@@ -1,33 +1,24 @@
 <?php
 	use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();	
-$url = URL::to("/");
-$setid=1;
-		$setts = DB::table('settings')
-		->where('id', '=', $setid)
-		->get();
-		$headertype = $setts[0]->header_type;
-	?>
+	$currentPaths= Route::getFacadeRoot()->current()->uri();	
+	$url = URL::to("/");
+	$setid=1;
+			$setts = DB::table('settings')
+			->where('id', '=', $setid)
+			->get();
+			$headertype = $setts[0]->header_type;
+?>
 <!DOCTYPE html>
 
 <html class="no-js"  lang="en">
+
 <head>
-
-		
-
-   @include('style')
-   
-
-
-
-
+  @include('style')
 </head>
+
 <body>
 
-  
-
-   
-    @include('header')
+	@include('header')
 
 <!-- ============================================== HEADER : END ============================================== -->
 <div class="breadcrumb">

@@ -527,11 +527,12 @@ $setid=1;
               <div class="wide-banner cnt-strip">
                 <div class="image"> 
                 
-                <?php if(!empty($home_banner_one[0]->slide_image)){?>
-                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt="" style="object-fit: unset;"/>
-                                <?php } else { ?>
-                                <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
-                                <?php } ?>
+                  <?php if(!empty($home_banner_one[0]->slide_image)){?>
+                    <!--<img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt="" style="object-fit: unset;"/>-->
+                    <img src="<?php echo $url;?>/local/images/media/BannerQuatroG.png" alt="" style="object-fit: unset;"/>
+                  <?php } else { ?>
+                    <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
+                  <?php } ?>
                 
                  </div>
                  

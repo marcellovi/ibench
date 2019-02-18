@@ -502,7 +502,8 @@ class RegisterController extends Controller
 			$phoneno = $data['phone'];
 			//$gender = $data['gender'];
 			$usertype = $data['usertype'];
-			$country = $data['country'];                        
+			$country = $data['country'];   
+                        $delete_status = 'blocked';  // Marcello :: Add blocked when register
                         $cpf_cnpj = $data['cpf_cnpj']; // Marcello - Add cpf cnpj
 			
 			
@@ -516,7 +517,7 @@ class RegisterController extends Controller
 			$confirmation = 0;
 			
 			// Marcello ( gender ) DB::insert('insert into users (name,post_slug,email,password,confirm_key,confirmation,gender,phone,admin,country) values (?, ?, ?, ?, ?, ?,?, ?,?,?)', [$name,$post_slug,$email,$pass,$keyval,$confirmation,$gender,$phoneno,$usertype,$country]);
-			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj) values (?, ?, ?, ?, ?,?, ?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj]);
+			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj,delete_status) values (?, ?, ?, ?, ?,?, ?,?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj,$delete_status]);
 			
 			
 				
@@ -619,6 +620,7 @@ class RegisterController extends Controller
 			'photo' => '',
 			'country' => $data['country'],
 			'admin' => $data['usertype'],
+                        'delete_status' => 'blocked',  // Marcello :: Add blocked when register
 			'confirm_key' => $keyval,
 			
 			

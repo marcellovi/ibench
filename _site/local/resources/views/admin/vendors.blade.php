@@ -49,8 +49,9 @@
                  
                  {{ csrf_field() }}
                  <div align="right">
-                  <?php if(config('global.demosite')=="yes"){?>
-					
+                     
+                  <?php if(config('global.demosite')=="yes"){ ?>
+				
 				   <a href="#" class="btn btn-danger btndisable">Delete All</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
 				  <?php } else { ?>
 				   <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
@@ -86,6 +87,7 @@
 						  <th>Telefone</th>
                           <th>Ganhos</th>
                           <th>Status</th>
+                          <th>Wirecard</th>
                           <th>A&ccedil;&atilde;o</th>
                 </tr>
               </thead>
@@ -112,37 +114,36 @@
                           <td><?php echo $user->name;?></td>
                           <td><?php echo $user->email;?></td>
                           <td><?php echo $user->cpf_cnpj;?></td>
-						  <td><?php echo $user->phone;?></td>
-                          
+			  <td><?php echo $user->phone;?></td>                          
                           
                           <?php if($user->provider=="") { $logintype = "normal"; } else { $logintype = $user->provider; } ?>
+                                <td><?php echo $user->earning;?> <?php echo $setts[0]->site_currency;?></td>
+                                <td><?php if($user->delete_status == ""){ echo "Liberado"; }else{ echo "Bloqueado";} ?></td>
+                                <td><?php if($user->wirecard_app_data != ""){ echo "Conectado"; }else{ echo "N/A";} ?></td>
                           
-                          
-						  <td><?php echo $user->earning;?> <?php echo $setts[0]->site_currency;?></td>
-                          
-                          <td><?php echo $logintype;?></td>
-                          
-						  <td>
-                          
-                          <?php if($user->provider==""){?>
-						  <?php if(config('global.demosite')=="yes"){?>
-						  <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-				  <?php } else { ?>
+				<td>
+                                    <?php if($user->provider==""){?>
+                                        <?php if(config('global.demosite')=="yes"){?>
+                                            <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
+                                        <?php } else { ?>						  
+                                            <a href="<?php echo $url;?>/admin/edituser/{{ $user->id }}" class="btn btn-success">Editar</a>
+                                        <?php } ?>
+                                    <?php } ?>        
+                   
+				    <?php if(config('global.demosite')=="yes"){?>
+                                        <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
+                                    <?php } else { ?>						  
+                                            @if($sta!=1)
+                                                   <a href="<?php echo $url;?>/admin/users/{{ $user->id }}" class="btn btn-danger" onClick="return confirm('Tem certeza que quer deletar?')">Deletar</a> 
+                                                    <?php if($user->delete_status == ""){ ?> 
+                                                        <a href="<?php echo $url;?>/admin/authorizeseller/{{ $user->id }}/0" class="btn btn-primary" onClick="return confirm('Tem certeza que quer Bloquear o fornecedor?')">Bloquear</a>
+                                                    <?php }else{ ?>
+                                                        <a href="<?php echo $url;?>/admin/authorizeseller/{{ $user->id }}/1" class="btn btn-primary" onClick="return confirm('Tem certeza que quer liberar o fornecedor?')">Liberar</a>
+                                                    <?php } ?>
+                                            @endif
 						  
-						  <a href="<?php echo $url;?>/admin/edituser/{{ $user->id }}" class="btn btn-success">Editar</a>
-				  <?php } ?>
-                  <?php } ?>
-                  
-                  
-                  
-				   <?php if(config('global.demosite')=="yes"){?>
-				    <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-				  <?php } else { ?>
-						  
-						  @if($sta!=1)<a href="<?php echo $url;?>/admin/users/{{ $user->id }}" class="btn btn-danger" onClick="return confirm('Tem certeza que quer deletar?')">Deletar</a> @endif
-						  
-				  <?php } ?>
-						  </td>
+				    <?php } ?>
+				</td>
                         </tr>
                 
                 <?php $i++; } } ?>

@@ -56,6 +56,8 @@ class UsersController extends Controller
 		         ->where('admin','=',2)
 		         ->where('admin','!=',1)
 				 ->where('delete_status','=','')
+                                 ->orwhere('delete_status','=','inactive')
+                                 ->orwhere('delete_status','=','blocked')
 		         ->orderBy('id','desc')
 				 ->get();
 				 
@@ -63,6 +65,8 @@ class UsersController extends Controller
 		         ->where('admin','=',2)
 		         ->where('admin','!=',1)
 				 ->where('delete_status','=','')
+                                 ->orwhere('delete_status','=','inactive')
+                                 ->orwhere('delete_status','=','blocked')
 		         ->orderBy('id','desc')
 				 ->get();		 
 				 
@@ -118,5 +122,44 @@ class UsersController extends Controller
       return back();
       
    }
-	
+   
+   /** Marcello :: Check the Status of the Seller or Block Sellers 
+    * 
+    * Types { blocked , active, inactive }
+    * 0 : [status] >> Blocked - Seller is not allow to sell nor to be seen by the client
+    * 1 : [status] >> Authorized - Seller is allowed to sell in the market place and products are invisible
+    * 2 : [delete_status] >> Active - Products of the Seller are Invisible  ( Store is closed temporary )
+    * 3 : [delete_status] >> Inactive - Products of the Seller are Visible
+    * 
+    * **/
+   public function authorizeSeller($id,$type) {		
+
+          switch ($type) {
+            case 0:
+                $sql_user = 'update users set delete_status = "blocked" where id!=1 and id = ?';
+                $sql_product = 'update product set prod_status=0 , delete_status = "active" where user_id!=1 and user_id = ?'; 
+                break;
+            case 1:
+                $sql_user = 'update users set delete_status="" where id!=1 and id = ?';
+                $sql_product = 'update product set prod_status=1 , delete_status = "" where user_id!=1 and user_id = ?';
+                break;
+            case 2:
+               // $sql_user = 'update users set delete_status="active" where id!=1 and id = ?';
+               // $sql_product = 'update product set prod_status=1 and delete_status = "inactive" where user_id!=1 and user_id = ?';
+                break;
+             case 3:
+               // $sql_user = 'update users set delete_status="" where id!=1 and id = ?';
+               // $sql_product = 'update product set prod_status=1 and delete_status = "inactive" where user_id!=1 and user_id = ?';
+                break;
+}
+          /** Autorizando o Fornecedor **/
+            DB::update($sql_user,[$id]);
+            
+            DB::update($sql_product,[$id]);
+          //DB::update('update product set prod_status=1 and delete_status = "inactive" where user_id!=1 and user_id = ?',[$id]);
+	  //DB::update('update users set delete_status="" where id!=1 and id = ?',[$id]);
+           // print_r($sql_product);exit();
+
+      return back();      
+   }	
 }

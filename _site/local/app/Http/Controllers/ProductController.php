@@ -43,10 +43,7 @@ class ProductController extends Controller
 	 
 	 $loger_id = Auth::user()->id;
 	 $token = $id;
-	 
-	 
-	 
-	 
+ 
 	 
 	 $check_compare = DB::table('product_compare')
 							->where('user_id','=',$loger_id)
@@ -78,28 +75,17 @@ class ProductController extends Controller
 		$pcid = $viewas[0]->pc_id;
 					
 		DB::delete('delete from product_compare where user_id="'.$loger_id.'" and pc_id = ?',[$pcid]);			
-		   
-		   
+		  
 		}
-		
-		
-		
 			return back()->with('success', 'Produto adicionado!');
-		   
 		}			
 	 
 	 else
 		{
-		   
-		
-		
 		    return back()->with('error', 'Already added this product!');
 		}
 		
-		
-		
-	 
-	 
+
 	 
 	 /*if(empty($check_compare))
 		{
@@ -114,16 +100,6 @@ class ProductController extends Controller
 		{
 		    return back()->with('error', 'Already added this product!');
 		}*/
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	  
-	 
-	 
 	 
 	 }
 	 
@@ -150,8 +126,6 @@ class ProductController extends Controller
 	 return view('compare', ['viewcount' => $viewcount, 'viewproduct' => $viewproduct]);
 	 
 	 }
-	 
-	 
 	 
 	 
 	 public function avigher_cart(Request $request)
@@ -222,9 +196,7 @@ class ProductController extends Controller
 				return back()->with('error', 'Please check available stock');
 				
 			}
-		   
-		
-	
+
 	    }
 		else
 		{
@@ -232,33 +204,10 @@ class ProductController extends Controller
 			return back()->with('error', 'Please check available stock');
 			
 		}
-		
-		
-		
-	
-	
+
 	}
-	
-	
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+
+
 	 
 	 public function avigher_view_wishlist()
 	{
@@ -277,9 +226,7 @@ class ProductController extends Controller
 	
 	} 
 	
-	
-	
-	
+
 	
 	public function avigher_wishlist_delete($prod_token)
 	{
@@ -293,13 +240,7 @@ class ProductController extends Controller
 	
 	}
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
+
 	public function avigher_wishlist($log_id,$prod_token)
 	{
 	
@@ -321,35 +262,16 @@ class ProductController extends Controller
 		{
 		    return back()->with('error', 'Produto ja foi adicionado!');
 		}					
-	
-	
-	
+
 	} 
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-    
+ 
 	
 	public function avigher_edit_product($token)
-	{
+	{	
 	
-	
-	
-	   $userid = Auth::user()->id;
+        $userid = Auth::user()->id;
+     
 	$category = DB::table('category')
 		            ->where('delete_status','=','')
 					->where('status','=',1)
@@ -403,8 +325,6 @@ class ProductController extends Controller
 	}
 	
 	
-	
-	
 	public function avigher_product()
     {
 	
@@ -427,6 +347,34 @@ class ProductController extends Controller
 	
 	}
 	
+        /** Marcello :: List of all Active & Inactive Products**/
+        public function myProductListActiveInactive()
+    {	
+	$userid = Auth::user()->id;
+	$viewcount = DB::table('product')
+		          ->where('user_id', '=' , $userid)
+                          ->Where(function ($query) {
+                                $query->where('delete_status','=','')
+                                ->orwhere('delete_status','=','active');
+                          })
+				  ->orderBy('prod_id','desc')
+		          ->count();
+	
+	$viewproduct = DB::table('product')
+		          ->where('user_id', '=' , $userid)
+                          ->Where(function ($query) {
+                                $query->where('delete_status','=','')
+                                ->orwhere('delete_status','=','active');
+                          })
+				  // ->where('delete_status','=','')
+                                  // ->orwhere('delete_status','=','inactive')
+			 ->orderBy('prod_id','desc')
+		         ->get(); 
+				
+	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct);
+	 return view('my-product')->with($data);
+
+	}
 	
 	
 	public function avigher_add_form()
@@ -496,7 +444,29 @@ class ProductController extends Controller
 	}
 	
 	
-	
+	/** Marcello :: Hide or make Visible a product by the Seller 
+         * 0 - Invisible
+         * 1 - Visible
+         * **/
+	public function statusProductSeller($token, $id)
+	{	            
+            $userid = Auth::user()->id;
+            if($id == 1){                  
+                DB::update('update product set delete_status="" where user_id = ? and prod_token = ?',[$userid,$token]);
+                //$pass = DB::update('update product set delete_status = "active" where prod_token = ?',$token);
+            }else{
+                DB::update('update product set delete_status="active" where user_id = ? and prod_token = ?',[$userid,$token]);
+                //$data = ['delete_status'=>''];
+               // $pass = DB::table('product')->where('prod_token',$token)->update($data);
+                
+                //$pass = DB::update('update product set delete_status="" where prod_token=? and user_id=?',[$token,$userid]);
+              }
+             //if($pass)
+            //    return back()->with('success', 'Atualizado com sucesso.'); 
+            // else
+             //   return back()->with('error', 'Erro na atualiza&ccedil;&atilde;o.');
+            return back();
+	}
 	
 	public function avigher_edit_data (Request $request)
 	{
@@ -523,22 +493,16 @@ class ProductController extends Controller
 					->orderBy('attr_name', 'asc')->get();		
 		
 	
-	
 	   $data = $request->all();
 	    $token = $data['prod_token'];
 		
-		
-	   
 	   
 	   $settings = DB::select('select * from settings where id = ?',[1]);
 	      $imgsize = $settings[0]->image_size;
 		
-		
 		$rules = array(
-		
-		
+
 		'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize
-		
 		
 		);
 		
@@ -550,10 +514,7 @@ class ProductController extends Controller
         );
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
-		
-		
-		 
-		 
+ 
 		if ($validator->fails())
 		{
 			$failedRules = $validator->failed();
@@ -674,8 +635,6 @@ class ProductController extends Controller
 		 }
 	   
 	   
-	   
-	   
 	   if($settings[0]->with_submit_product==1)
 	   {
 	     $status_approval = 0;
@@ -730,32 +689,13 @@ class ProductController extends Controller
 					
 				}
 			}
-		
-	   
-	   
-	   
+
 	   }
 	   
-	   
-	   
-	   
-	   
-	   
-	   
+
 			return back()->with('success', $submit_msg);
-	   
-	   
-	   
+
 	   }
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/** Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao) **/
@@ -797,6 +737,9 @@ class ProductController extends Controller
 	
 	$userid = Auth::user()->id;
 	
+        // Marcello :: Find the User Status
+        $user_status = DB::select('select delete_status from users where id = ?',[$userid]);
+        
 	$category = DB::table('category')
 		            ->where('delete_status','=','')
 					->where('status','=',1)
@@ -815,14 +758,10 @@ class ProductController extends Controller
 					->where('status','=',1)
 					
 					->orderBy('attr_name', 'asc')->get();		
-		
-	
+
 	
 	   $data = $request->all();
-	   
-	   
-	   
-	   
+
 	   
 	   $settings = DB::select('select * from settings where id = ?',[1]);
 	      $imgsize = $settings[0]->image_size;
@@ -833,11 +772,9 @@ class ProductController extends Controller
 		'image' => 'required',
 		'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize,
 		'zipfile' => 'max:'.$zipsize.'|mimes:zip'
-		
-		
+
 		);
-		
-		
+
 		$messages = array(
             
             'image' => 'The :attribute field must only be image'
@@ -845,10 +782,7 @@ class ProductController extends Controller
         );
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
-		
-		
-		 
-		 
+
 		if ($validator->fails())
 		{
 			$failedRules = $validator->failed();
@@ -935,13 +869,7 @@ class ProductController extends Controller
 	     $prod_featured = "";
 	   }
 	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+
 	    $zipfile = Input::file('zipfile'); 
 		 if(isset($zipfile))
 		 { 
@@ -956,14 +884,7 @@ class ProductController extends Controller
 		    $zipname = "";
 		 }
 	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
-	   
+
 	   if($settings[0]->with_submit_product==1)
 	   {
 	     $status_approval = 0;
@@ -975,6 +896,12 @@ class ProductController extends Controller
 	     $status_approval = 1;
 		 $submit_msg = 'Produto criado com sucesso.';
 	   }
+           
+           // Marcello :: In case the user has a delete_status of blocked
+           if($user_status[0]->delete_status == "blocked"){
+                $status_approval = 0;
+		$submit_msg = 'Produto criado com sucesso. Esta pendente de aprova&ccedil;&atilde;o/libera&ccedil;&atilde;o.';
+           }
 	   
 	   
 	   
@@ -1022,18 +949,9 @@ class ProductController extends Controller
 				}
 			}
 		
-	   
-	   
-	  
-	   
-	   
+
 	   return back()->with('success', $submit_msg);
 	   
 	}   
-	
-	
-	
-	 
-	
-	
+
 }

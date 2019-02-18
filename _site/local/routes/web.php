@@ -119,16 +119,17 @@ Route::post('/profile', ['as'=>'profile','uses'=>'DashboardController@avigher_co
 
 /************* MY PROFILE *********/
 
-
-
-
-Route::get('/my-product', 'ProductController@avigher_product');
+//Route::get('/my-product', 'ProductController@avigher_product');
+Route::get('/my-product', 'ProductController@myProductListActiveInactive'); // Marcello :: List Active & Inactive
+Route::get('/my-product/{token}', 'ProductController@deleteProductSeller'); // Deletar produto do Seller 
+Route::get('/status-product/{token}/{status}', 'ProductController@statusProductSeller'); // Troca o Status do produto do Seller 
 //Route::get('/my-product/{token}', 'ProductController@avigher_product_delete');
 Route::get('/add-product', 'ProductController@avigher_add_form');
 Route::post('/add-product', ['as'=>'add-product','uses'=>'ProductController@avigher_add_product']);
 Route::get('/edit-product/{token}', 'ProductController@avigher_edit_product');
 Route::get('/edit-product/{delete}/{id}/{photo}', 'ProductController@avigher_delete_photo');
 Route::post('/edit-product', ['as'=>'edit-product','uses'=>'ProductController@avigher_edit_data']);
+
 /****************** END PRODUCT **********/
 
 
@@ -474,6 +475,7 @@ Route::group(['middleware' => 'admin'], function() {
 	
 	/* user */
 	Route::get('/admin/users','Admin\UsersController@index');
+        Route::get('/admin/authorizeseller/{id}/{type}','Admin\UsersController@authorizeSeller'); // Marcello :: Route to Authorize Seller Individually
 	Route::get('/admin/vendors','Admin\UsersController@vendor_index');
 	Route::get('/admin/adduser','Admin\AdduserController@formview');
 	Route::post('/admin/adduser', ['as'=>'admin.adduser','uses'=>'Admin\AdduserController@adduserdata']);
@@ -812,9 +814,6 @@ Route::post('/wirecard-boleto-shop-success',['as' => 'wirecard-boleto-shop-succe
 
 /* Alterar status dos produtos para inativo ou retirar ele de inativo */
 Route::get('dashboard/{idUser}/{idType}','ProductController@manageProducts');
-
-/* Deletar produto do Seller */
-Route::get('/my-product/{token}', 'ProductController@deleteProductSeller');
 
 /* Alterar status dos produtos retirando o inactive */
 //Route::get('dashboard/{idUser}/{idEnable}','ProductController@enableProducts');

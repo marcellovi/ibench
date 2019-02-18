@@ -81,10 +81,10 @@ $setid=1;
                     
                     <?php 
                         /* Hide When Store is Close / Hidden */
-                        if($editprofile[0]->delete_status == ''){                          
+                       // if($editprofile[0]->delete_status == ''){                          
                     ?>
                     <a href="<?php echo $url;?>/add-product" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
-                        <?php } ?>
+                        <?php // } ?>
                    <!-- Marcello Add Product
                    <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
                  -->
@@ -200,18 +200,44 @@ $setid=1;
 							<?php if(!empty($product->prod_offer_price)){?><span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?><?php } ?>
 						</div>
 		            </td>
-                    <?php if($product->prod_status==1){ $status_txt = __('languages.approved'); $status_clr = "#0B9752"; } else { $status_txt = __('languages.waiting_for_approval'); $status_clr = "#E11705"; } ?>
-
-					<td class="cart-product-sub-total"><?php if(empty($product->prod_featured)){ echo 'No'; } else { echo $product->prod_featured; }?></td>
-					<td class="cart-product-grand-total"><?php echo $product->prod_type;?></td>
-                    
-                    <td class="cart-product-sub-total" style="color:<?php echo $status_clr;?>"><?php echo $status_txt;?></td>
+                    <?php 
+                        if($product->prod_status==1){ 
+                            $status_txt = __('languages.approved'); 
+                            $status_clr = "#0B9752";                             
+                        } 
+                        else { 
+                            $status_txt = __('languages.waiting_for_approval'); 
+                            $status_clr = "#E11705";                            
+                        } 
+                  
+                        /** Marcello :: Checar Visibilidade do Produto **/
+                        if($product->delete_status==""){ 
+                            $status_visibility = "Vis&iacute;vel";  
+                            $visibility_oposte = "Invis&iacute;vel";
+                        } else if($product->delete_status=="active") { 
+                            $status_visibility = "Invis&iacute;vel"; 
+                            $visibility_oposte = "Vis&iacute;vel";
+                        } 
+                        ?>                    
+            
+                    <td class="cart-product-sub-total"><?php if(empty($product->prod_featured)){ echo 'No'; } else { echo $product->prod_featured; }?></td>
+                    <td class="cart-product-grand-total"><?php echo $product->prod_type;?></td>                    
+                           
+                    <td class="cart-product-sub-total" style="color:<?php echo $status_clr;?>"><?php echo $status_txt." | ".$status_visibility;?> </td>
                     
                     <td class="romove-item">
+                 
+                     <?php if($product->prod_status==1 && $product->delete_status=="" ){ ?>
                     <a href="<?php echo $url;?>/edit-product/<?php echo $product->prod_token;?>" title="@lang('languages.tooledit')" class="icon"><i class="fa fa-edit"></i></a>
-                    <a href="<?php echo $url;?>/my-product/<?php echo $product->prod_token;?>" title="@lang('languages.tooldelete')" class="icon" onClick="return confirm('@lang('languages.are_you_sure')');"><i class="fa fa-trash-o"></i></a></td>
-				</tr>
-				<?php }  } ?>
+                    <a href="<?php echo $url;?>/my-product/<?php echo $product->prod_token;?>" title="@lang('languages.tooldelete')" class="icon" onClick="return confirm('@lang('languages.are_you_sure')');"><i class="fa fa-trash-o"></i></a>
+                    <a href="<?php echo $url;?>/status-product/<?php echo $product->prod_token;?>/0" title="Tornar <?php echo $visibility_oposte; ?>" class="icon" onClick="return confirm('Confirma Altera&ccedil;&atilde;o');"><i class="fa fa-eye-slash"></i></a>
+                    
+                     <?php }else{ ?>
+                     <a href="<?php echo $url;?>/status-product/<?php echo $product->prod_token;?>/1" title="Tornar <?php echo $visibility_oposte; ?>" class="icon" onClick="return confirm('Confirma Altera&ccedil;&atilde;o');"><i class="fa fa-eye-slash"></i></a>   
+                     <?php } ?>	
+                    </td>
+                    </tr>
+                     <?php }  } ?>
 			</tbody><!-- /tbody -->
 		</table><!-- /table -->
 	</div>

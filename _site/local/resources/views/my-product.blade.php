@@ -233,7 +233,8 @@ $setid=1;
                     <a href="<?php echo $url;?>/status-product/<?php echo $product->prod_token;?>/0" title="Tornar <?php echo $visibility_oposte; ?>" class="icon" onClick="return confirm('Confirma Altera&ccedil;&atilde;o');"><i class="fa fa-eye-slash"></i></a>
                     
                      <?php }else{ ?>
-                     <a href="<?php echo $url;?>/status-product/<?php echo $product->prod_token;?>/1" title="Tornar <?php echo $visibility_oposte; ?>" class="icon" onClick="return confirm('Confirma Altera&ccedil;&atilde;o');"><i class="fa fa-eye-slash"></i></a>   
+                    <a href="<?php echo $url;?>/my-product/<?php echo $product->prod_token;?>" title="@lang('languages.tooldelete')" class="icon" onClick="return confirm('@lang('languages.are_you_sure')');"><i class="fa fa-trash-o"></i></a>
+                    <a href="<?php echo $url;?>/status-product/<?php echo $product->prod_token;?>/1" title="Tornar <?php echo $visibility_oposte; ?>" class="icon" onClick="return confirm('Confirma Altera&ccedil;&atilde;o');"><i class="fa fa-eye-slash"></i></a>   
                      <?php } ?>	
                     </td>
                     </tr>

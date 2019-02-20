@@ -16,244 +16,204 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use Input;
 use Redirect;
+use Storage;
 
 
 class LoginController extends Controller
 {
-/*
-|--------------------------------------------------------------------------
-| Login Controller
-|--------------------------------------------------------------------------
-|
-| This controller handles authenticating users for the application and
-| redirecting them to your home screen. The controller uses a trait
-| to conveniently provide its functionality to your applications.
-|
-*/
+	/*
+	|--------------------------------------------------------------------------
+	| Login Controller
+	|--------------------------------------------------------------------------
+	|
+	| This controller handles authenticating users for the application and
+	| redirecting them to your home screen. The controller uses a trait
+	| to conveniently provide its functionality to your applications.
+	|
+	*/
 
-use AuthenticatesUsers;
-
-
-protected function authenticated(Request $request, $user)
-{
-if(auth()->check() && auth()->user()->id == 1){
-            
-			return redirect('/admin');
-        }
-		else
-		{
-			return redirect('/dashboard');
-		}
-
-        
-}
-
-/********* SOCIAL LOGIN ********/
-public function redirectToProvider($provider)
-{
-       return Socialite::driver($provider)->scopes(['email'])->redirect(); 
-         /*return Socialite::driver('google')->scopes(['profile','email'])->redirect();*/
-}
+	use AuthenticatesUsers;
 
 
-public function clean($string) 
+	protected function authenticated(Request $request, $user)
 	{
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
+		if(auth()->check() && auth()->user()->id == 1)
+		{      
+			return redirect('/admin');
+	  }else{
+	  	return redirect('/dashboard');
+	  }  
+	}
 
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
+	/********* SOCIAL LOGIN ********/
+	public function redirectToProvider($provider)
+	{
+		return Socialite::driver($provider)->scopes(['email'])->redirect(); 
+	  /*return Socialite::driver('google')->scopes(['profile','email'])->redirect();*/
+	}
 
-    
-    $string =  trim($string,'-');
+	public function clean($string) 
+	{
+		$string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
 
-    return mb_strtolower($string);
+		$string = preg_replace("/[\/_|+ -]+/", '-', $string);
+
+		$string =  trim($string,'-');
+
+		return mb_strtolower($string);
 	}  
-   
-   
- public function handleProviderCallback($provider)
-    {
-        $user = Socialite::driver($provider)->user();
-        $authUser = $this->findOrCreateUser($user, $provider);
-        Auth::login($authUser, true);
-        /*return redirect($this->redirectToProvider);*/
-       /* return redirect()->action('IndexController@index');*/
-       return redirect('dashboard');
-
-    }
-	
-	
-	
-	
-	
- public function findOrCreateUser($user, $provider)
-    {
-        $authUser = User::where('provider_id', $user->id)->first();
-        if ($authUser) {
-            return $authUser;
-        }
-        return User::create([
-            'name'     => $user->name,
-			'post_slug' => $this->clean($user->name),
-            'email'    => $user->email,
-			'admin' => 2,
-            'provider' => $provider,
-            'provider_id' => $user->id
-        ]);
-    }	
-
-/**************** SOCIAL LOGIN **********/
-
-
-
-
-public function username()
-{
-    return 'username';
-}
-
-
-protected function credentials(Request $request)
-{
-    $usernameInput = trim($request->{$this->username()});
-    $usernameColumn = filter_var($usernameInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-
-    return [$usernameColumn => $usernameInput, 'password' => $request->password];
-	
-	/* return [$usernameColumn => $usernameInput, 'password' => $request->password, 'active' => 1]; */
-}
-
-
-
-
-protected function login(Request $request)
-{
-	
-
-	$validator = Validator::make($request->all(), [
-            'username' => 'required|max:255',
-            'password' => 'required',
-			
+	   
+	   
+	public function handleProviderCallback($provider)
+	{
+	  $user = Socialite::driver($provider)->user();
+	  $authUser = $this->findOrCreateUser($user, $provider);
+	  Auth::login($authUser, true);
+	  /*return redirect($this->redirectToProvider);*/
+	 	/* return redirect()->action('IndexController@index');*/
+	 return redirect('dashboard');
+	}	
 		
-        ]);
+	public function findOrCreateUser($user, $provider)
+	{
+	  $authUser = User::where('provider_id', $user->id)->first();
+	  if ($authUser) 
+	  {
+	  	return $authUser;
+	  }
+	  	return User::create([
+	            'name'     => $user->name,
+							'post_slug' => $this->clean($user->name),
+	            'email'    => $user->email,
+							'admin' => 2,
+	            'provider' => $provider,
+	            'provider_id' => $user->id
+	        	]);
+	}	
 
-        $input = $request->all();
-		 
-        
-   if ($validator->passes()) 
-   {
-	
-		   
-		   $auth = false;
-    
-	
-	
-		$usernameInput = trim(Input::get('username'));
-		$usernameColumn = filter_var($usernameInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+	/**************** SOCIAL LOGIN **********/
+	public function username()
+	{
+	    return 'username';
+	}
 
-		if (Auth::attempt(array($usernameColumn => $usernameInput, 'password' => Input::get('password') ))) 
-		{
-			$auth = true; // Success
-			
-			$editprofile = DB::table('users')
-		               ->where('id', '=', auth()->user()->id)
-	                   ->get();
-    
-		   if (auth()->user()->confirmation == 0 && auth()->user()->admin!=1) 
-		   {
-            auth()->logout();
-			
-			return back()->with('get_error', $editprofile[0]->email);
 
-            
-           } 
-		   else
-           {
-		       if(Auth::user()->admin == 1)
-				{
-					return redirect('/admin');
-					
-				}
-                else
-				{	
-                                $id= auth()->user()->id;
-                                /* Marcello :: Limpando o carrinho ao fazer o login */
-                                DB::delete('delete from product_orders where user_id="'.$id.'" and purchase_token ="'.'" and '
-                                        . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');			
+	protected function credentials(Request $request)
+	{
+	  $usernameInput = trim($request->{$this->username()});
+	  $usernameColumn = filter_var($usernameInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-                                return redirect('/dashboard');
-				}
-					
+	  return [$usernameColumn => $usernameInput, 'password' => $request->password];
+		
+		/* return [$usernameColumn => $usernameInput, 'password' => $request->password, 'active' => 1]; */
+	}
+
+
+	protected function login(Request $request)
+	{
+		
+		$validator =	Validator::make($request->all(), [
+	            			'username' => 'required|max:255',
+	            			'password' => 'required',
+	        				]);
+
+	  $input = $request->all();
+
+	  if ($validator->passes()) 
+	  {
+
+	  	$auth = false;
+			$usernameInput = trim(Input::get('username'));
+			$usernameColumn = filter_var($usernameInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+			if (Auth::attempt(array($usernameColumn => $usernameInput, 'password' => Input::get('password') ))) 
+			{
+
+				$auth = true; // Success
 				
-		   }		
-				
-				
-		}
-		
-		else
-		{
-			   
-			   return back()->with('error', 'Detalhes de login inv&aacute;lidos');
-		}
-		
-		   
-		
-		}
-		else
-		{
+				$editprofile = DB::table('users')
+			               		->where('id', '=', auth()->user()->id)
+		                  	->get();
+		    if (auth()->user()->confirmation == 0 && auth()->user()->admin!=1) 
+			  {
+			  	auth()->logout();
+			  	return back()->with('get_error', $editprofile[0]->email);
+			  }else{
+			  	
+			  	if(Auth::user()->admin == 1)
+					{
+
+						return redirect('/admin');
+
+					}else{	
+
+						$id= auth()->user()->id;
+	          /* Marcello :: Limpando o carrinho ao fazer o login */
+	          DB::delete('delete from product_orders where user_id="'.$id.'" and purchase_token ="'.'" and '
+	                                        . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');		
+	          //Storage::put('log.txt', $input['url_prev']);
+	          /* Verifica se o params com URL Previous é de algum detalhar de produto e retorna para pagina quando logar */
+	          if (strpos($input['url_prev'], 'product') !== false) 
+	          {
+	          	return redirect($input['url_prev']);
+						}else{ 
+							return redirect('/dashboard');
+						}
+					}
+
+				}		
+
+			}else{
+				return back()->with('error', 'Detalhes de login inv&aacute;lidos');
+			}
+
+		}else{
 			return back()->with('error', 'Detalhes de login inv&aacute;lidos');
 		}
-		
-		
-		
+	        
+	}
 
-        
-}
-
-
-
-
-
-
-
-
- protected function sendFailedLoginResponse(Request $request)
-    {
-        $errors = [$this->username() => trans('auth.failed')];
-        // Load user from database
-        $user = DB::table('users')
-				->where('name', $request->{$this->username()})->first();
-        
-        if ($user && \Hash::check($request->password, $user->password) && $user->admin != 1) {
-            $errors = [$this->username() => 'Your account is not active.'];
-        }
-        if ($request->expectsJson()) {
-            return response()->json($errors, 422);
-        }
-        /*return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors($errors);*/
-			return back()->with('error', 'Detalhes de login inv&aacute;lidos');
-    }
+	protected function sendFailedLoginResponse(Request $request)
+	{
+	  $errors = [$this->username() => trans('auth.failed')];
+	  // Load user from database
+	  $user = DB::table('users')
+								->where('name', $request->{$this->username()})->first();
+	        
+	  if ($user && \Hash::check($request->password, $user->password) && $user->admin != 1) 
+	  {
+	    $errors = [$this->username() => 'Your account is not active.'];
+	  }
+	  
+	  if ($request->expectsJson()) 
+	  {
+	  	return response()->json($errors, 422);
+	  }
+	    /*return redirect()->back()
+	            ->withInput($request->only($this->username(), 'remember'))
+	            ->withErrors($errors);*/
+		return back()->with('error', 'Detalhes de login inv&aacute;lidos');
+	}
 
 
 
-/**
- * Where to redirect users after login.
- *
- * @var string
- */
-//protected $redirectTo = '/admin';
+	/**
+	 * Where to redirect users after login.
+	 *
+	 * @var string
+	 */
+	//protected $redirectTo = '/admin';
 
-/**
- * Create a new controller instance.
- *
- * @return void
- */
-public function __construct()
-{
-    $this->middleware('guest', ['except' => 'logout']);
-}
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
+	public function __construct()
+	{
+	  $this->middleware('guest', ['except' => 'logout']);
+	}
+
 }
 
 

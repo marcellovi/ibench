@@ -75,6 +75,7 @@ $setid=1;
     </div>
     <?php
     $nameFull = explode(' ',Auth::user()->full_name);
+    $sum = count($nameFull);
     ?>
     
     <form autocomplete="nope" method="POST" action="{{ route('payment-details') }}" id="formID" class="form-chackout" enctype="multipart/form-data">
@@ -116,7 +117,7 @@ $setid=1;
 
 
 
-            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php echo utf8_decode($nameFull[1]); ?>"> <!-- Marcello {{@$nameFull[1]}} -->
+            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php if($sum>1){echo utf8_decode($nameFull[1]); }?>"> <!-- Marcello {{@$nameFull[1]}} -->
 		  </div>
 
 	</div>

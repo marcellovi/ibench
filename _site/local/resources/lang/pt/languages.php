@@ -572,6 +572,7 @@ return [
         "name_business" => "Nome da Empresa",
         "lbl_store" => "Empresa",
         "name_place" => "Area Designada ",
+        "view_boleto" => "Visualizar Boleto",
     
         /* Marcello - Wirecard */
         "connect_wirecard_title" => "Conecte sua conta Wirecard",

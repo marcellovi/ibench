@@ -90,6 +90,7 @@ $setid=1;
                     
 					<th class="item">@lang('languages.payment_date')</th>
 					<th class="item">@lang('languages.view_more')</th>
+                                        <th class="item">@lang('languages.view_boleto')</th>
 					
                     
 				</tr>
@@ -160,8 +161,10 @@ $setid=1;
                                         <!-- Visualize -->
 					<td class="cart-product-grand-total"><a href="<?php echo $url;?>/view-shopping/<?php echo $product->purchase_token;?>" style="color:#000099;">@lang('languages.view_more')</a></td>
                     
-                    
-                    
+                                        <?php if($product->wirecard_boleto_print_href != ""){ ?>
+                                        <!-- Marcello Gerar / Visualize Boleto -->
+                                        <td class="cart-product-grand-total"><a href="<?php echo $product->wirecard_boleto_print_href;?>" target="_blank" title="@lang('languages.view_boleto')" style="color:#000099;"><img src="<?php echo $url;?>/local/images/barcode.png"></a></td>
+                                        <?php } ?>
                     
 				</tr>
                 <?php } } ?>

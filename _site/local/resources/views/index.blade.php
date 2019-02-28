@@ -1491,7 +1491,9 @@ $setid=1;
                 </div>
                 <?php } ?>
                 <?php } ?>
-       
+         <div class="item positionR hbanner">
+           <img src="<?php echo $url;?>/local/images/depoi.jpg" alt=""/>
+         </div>
        </div>
        
        

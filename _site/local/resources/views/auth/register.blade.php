@@ -38,7 +38,8 @@
 		<div class="my-wishlist-page_new">
         
         <div class="row">
-        <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">Cadastro</div></div>
+            <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">Cadastro</div>
+                </div>
                 <div class="col-md-6 text-right"></div>
         </div>
         <div class="height50 clearfix"></div>
@@ -87,7 +88,9 @@
 
         
             <div class="panel panel-default">
-                <div class="panel-heading">Cadastro</div>
+                <div class="panel-heading"><b>Cadastro</b>
+                </div>
+                
                 
 				<div class="panel-body">
                     <form class="register-form" role="form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" accept-charset="utf-8">
@@ -278,6 +281,11 @@
                         
                         <div class="height10 clearfix"></div>
                         
+                          <div class="form-group">
+                            <label for="password-confirm" class="control-label para orange">Selecione o perfil <b>COMPRADOR</b> caso queira comprar atrav&eacute;s do iBench Market</label>
+                            <label for="password-confirm" class="control-label para orange">Selecione o perfil <b>FORNECEDOR</b> caso queira vender atrav&eacute;s do iBench Market</label>
+                        </div>
+                         <div class="height10 clearfix"></div>
                         
                         <div class="form-group">
                             <label for="usertype" class="col-md-4 control-label para black">Perfil Usu&aacute;rio</label>

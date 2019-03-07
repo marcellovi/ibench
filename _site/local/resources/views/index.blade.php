@@ -1483,10 +1483,15 @@ $setid=1;
                 <?php foreach($banners as $slide){?>
                 <div class="item positionR hbanner">
                 <?php if(!empty($slide->slide_image)){?>
+                  <?php //TODO: Provisorio ?>
+                  <?php if($slide->slide_image == "1537202199.market.jpeg"){ ?>
+                    <a href="mailto:inopat@inopat.com.br"><img src="<?php echo $url;?>/local/images/inopat_banner.jpg" alt=""/></a>
+                  <?php }else{ ?>
                     <a href="<?php echo $slide->slide_btn_link;?>"><img src="<?php echo $url;?>/local/images/media/<?php echo $slide->slide_image;?>" alt=""/></a>
-                    <?php } else { ?>
+                  <?php } ?>
+                <?php } else { ?>
                    <a href="<?php echo $slide->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
-                    <?php } ?>
+                <?php } ?>
                     
                 </div>
                 <?php } ?>

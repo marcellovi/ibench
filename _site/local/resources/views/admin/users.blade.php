@@ -115,7 +115,7 @@
 						  <td><?php echo $user->phone;?></td>
                           
                           
-                          <?php if($user->provider=="") { $logintype = "normal"; } else { $logintype = $user->provider; } ?>
+                          <?php if($user->delete_status=="") { $logintype = "ativo"; } else { $logintype = "N/A"; } ?>
                           
                           
 						  <?php /*?><td><?php echo $user->earning;?> <?php echo $setts[0]->site_currency;?></td><?php */?>

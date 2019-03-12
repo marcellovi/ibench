@@ -11,25 +11,10 @@ $setid=1;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    
-
    @include('style')
-   
-
-
-
-
 </head>
 <body class="cnt-home">
-
-  
-
-   
     @include('header')
-    
-  
-  
  <div class="row"> 
   
   <div id="hero">
@@ -47,47 +32,28 @@ $setid=1;
                  <?php if(!empty($slide->slide_title)){?><div class="big-text fadeInDown-1"> <?php echo $slide->slide_title;?> </div><?php } ?>
                    <?php if(!empty($slide->slide_sub_title)){?><div class="excerpt fadeInDown-2 hidden-xs"> <span><?php echo $slide->slide_sub_title;?></span> </div> <?php } ?>
                   <?php if(!empty($slide->slide_btn_link)){?><div class="button-holder fadeInDown-3"> <a href="<?php echo $slide->slide_btn_link;?>" class="btn-lg btn btn-uppercase btn-primary shop-now-button"><?php if(!empty($slide->slide_btn_text)){?><?php echo $slide->slide_btn_text;?><?php } ?></a> </div><?php } ?>
-                </div>
-               
-              </div>
-              
-            </div>
-           
+                </div>               
+              </div>              
+            </div>          
             
             <?php } ?>
-            <?php } ?>
-            
-            
-            
-            
-          </div>
-          
-        </div>
-        
-        
-     </div>   
-  
-  
+            <?php } ?>        
+ 
+          </div>          
+        </div>   
+     </div>    
   
   <div class="body-content outer-top-xs" id="top-banner-and-menu">
   <div class="container-fluid">
-    <div class="row"> 
-     
+    <div class="row">      
       <div class="col-xs-12 col-sm-12 col-md-12 homebanner-holder"> 
-        
-        
-        
-        
-        
+
         <div class="info-boxes wow fadeInUp">
           <div class="info-boxes-inner">
            <?php if(!empty($box_content_count)){?>
            
             <div class="row">
-              
-              
-              
-              
+
               <?php foreach($box_content as $box){?>
               <div class="col-md-4 col-sm-4 col-lg-4">
                 <div class="info-box">
@@ -108,28 +74,19 @@ $setid=1;
                   
                 </div>
               </div>
-              <?php } ?>
-              
-              
-              
-              
+              <?php } ?>              
+
             </div>
-            <?php } ?>
-            
+            <?php } ?>            
             <!-- /.row --> 
           </div>
-          <!-- /.info-boxes-inner --> 
+          <!-- /.info-boxes-inner -->           
+        </div>   
           
-        </div>
-       
-       
-       
        <!-- Marcello alinhamento -->
           <br><br><br>
-        <div class="row">
-        
-          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">       
-        
+        <div class="row">        
+          <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">      
         
         <!-- Marcello --> 
          <div class="featured-product">
@@ -138,8 +95,6 @@ $setid=1;
         
           <h3 class="section-title">@lang('languages.featured_products')</h3>
           <div class="owl-carousel home-owl-carousel custom-carousel owl-theme outer-top-xs">
-            
-            
             
             <?php 
                 $viewcountt = DB::table('product')
@@ -194,13 +149,8 @@ $setid=1;
                     <!-- Marcello <div class="tag hot"><span>Oferta</span></div>-->
                   </div>
                   
-                  <?php
-              
-              
-          
+        <?php
     
-              
-                
           $review_count_03 = DB::table('product_rating')
         ->where('prod_id', '=', $product->prod_id)
         ->count();
@@ -223,27 +173,19 @@ $setid=1;
     
     $fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
     
+    $over_03 +=$review->rating;
 
-      $over_03 +=$review->rating;
-    
-    
-    
-        }
+    }
         if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
       $roundeding_03 = 0; } 
         
+    }
         
-        }
-        
-        
-        
-        
-        
-        if(!empty($review_count_03))
-                                       {
-                                             if(!empty($roundeding_03)){
+    if(!empty($review_count_03))
+    {
+        if(!empty($roundeding_03)){
   
-                                             if($roundeding_03==1){ $rateus_new_03 ='
+            if($roundeding_03==1){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -254,8 +196,8 @@ $setid=1;
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-                        }
-                        if($roundeding_03==2){ $rateus_new_03 ='
+            }
+            if($roundeding_03==2){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -266,9 +208,9 @@ $setid=1;
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-                        }
+            }
                         
-                        if($roundeding_03==3){ $rateus_new_03 ='
+             if($roundeding_03==3){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -280,9 +222,9 @@ $setid=1;
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-                        }
+            }
                         
-                        if($roundeding_03==4){ $rateus_new_03 ='
+            if($roundeding_03==4){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -294,9 +236,9 @@ $setid=1;
                                                     
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-                        }
+            }
                         
-                        if($roundeding_03==5){ $rateus_new_03 ='
+            if($roundeding_03==5){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -306,11 +248,11 @@ $setid=1;
                            <i class="fa fa-star" aria-hidden="true"></i>
                                                     </span>
                           </p>';
-                        }
+            }
                         
                         
-                        }
-                          else if(empty($roundeding_03)){  $rateus_new_03 = '
+            }
+            else if(empty($roundeding_03)){  $rateus_new_03 = '
                         <p class="review-icon">
                                                     <span>
                                                     
@@ -321,11 +263,9 @@ $setid=1;
                           <i class="fa fa-star" aria-hidden="true"></i>
                            <i class="fa fa-star" aria-hidden="true"></i>
                           </p>';
-                        }
+            }
                         
-                        }
-                        
-                        
+            }           
                         
                         $rateus_empty_03 = '
                         <p class="review-icon">
@@ -425,7 +365,7 @@ $setid=1;
                           <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+                          <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
                           <!-- /.product-price --> 
                           
                         </div>
@@ -486,39 +426,18 @@ $setid=1;
                           </div>
                          
                         </div>
-                  
-                  
-                  
-                  
-                  
-                  
-                   
                 </div>
-                
-                
               </div>
-              
             </div>
-           
-            
-             <?php } } ?>
-            
-            
-            
-           
 
-            
-           
+             <?php } } ?>
+
           </div>
           </div>
           </div>
           
           </div>
-        
-        
-        
-        
-        
+
         <div class="row">
         
          <?php if(!empty($home_banner_one_count)){?>
@@ -541,9 +460,7 @@ $setid=1;
                 <?php if(!empty($home_banner_one[0]->slider_sub_title)){?><p class="animated moveUp shown white"><?php echo $home_banner_one[0]->slider_sub_title;?></p><?php } ?>
                 <?php if(!empty($home_banner_one[0]->slide_btn_link)){?><a href="<?php echo $home_banner_one[0]->slide_btn_link;?>" class="custombtn animated moveUp shown"><?php } ?><?php if(!empty($home_banner_one[0]->slide_btn_text)){?><span>Compre</span><?php } ?><?php if(!empty($home_banner_one[0]->slide_btn_link)){?></a><?php } ?>
               </div>
-                            
-                            
-                 
+   
               </div>
              
               <!-- /.wide-banner --> 
@@ -564,13 +481,9 @@ $setid=1;
                                 <?php } else { ?>
                                 <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
                                 <?php } ?>
-                                
-                                
-               
-                
+
                 </div>
-                
-                
+ 
                 <div class="left-banner-title">
                 <?php if(!empty($home_banner_two[0]->slide_title)){?><h3 class="animated moveUp shown white"><?php echo $home_banner_two[0]->slide_title;?></h3><?php } ?>
                 <?php if(!empty($home_banner_two[0]->slider_sub_title)){?><p class="animated moveUp shown white"><?php echo $home_banner_two[0]->slider_sub_title;?></p><?php } ?>
@@ -581,16 +494,10 @@ $setid=1;
             </div>
             
             <?php } ?>
-          </div>
-          
-          
-          
-          
-          
-          
-        <div class="clearfix"></div>
-        
-        
+          </div>          
+
+        <div class="clearfix"></div>        
+ 
         <!-- Marcello --> 
         <div id="product-tabs-slider" class="scroll-tabs outer-top-vs wow fadeInUp">
           <div class="more-info-tab clearfix ">
@@ -670,13 +577,8 @@ $setid=1;
                           <?php } ?>
                         </div>
                         
-                        <?php
-              
-              
-          
-    
-              
-                
+       <?php
+     
           $review_count_03 = DB::table('product_rating')
         ->where('prod_id', '=', $product->prod_id)
         ->count();
@@ -701,20 +603,13 @@ $setid=1;
     
 
       $over_03 +=$review->rating;
-    
-    
-    
+
         }
         if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
       $roundeding_03 = 0; } 
-        
-        
+
         }
-        
-        
-        
-        
-        
+
         if(!empty($review_count_03))
                                        {
                                              if(!empty($roundeding_03)){
@@ -800,9 +695,7 @@ $setid=1;
                         }
                         
                         }
-                        
-                        
-                        
+
                         $rateus_empty_03 = '
                         <p class="review-icon">
                                                     <span>
@@ -814,11 +707,6 @@ $setid=1;
                           <i class="fa fa-star" aria-hidden="true"></i>
                            <i class="fa fa-star" aria-hidden="true"></i>
                           </p>';
-                        
-                        
-        
-        
-
 
           ?>                       
                                 <?php
@@ -898,7 +786,7 @@ $setid=1;
                           <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+                          <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
                           
                           
                         </div>
@@ -955,36 +843,21 @@ $setid=1;
                           </div>
                           
                         </div>
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+
                       </div>
-                      
-                      
+ 
                     </div>
                      
                   </div>
                  
-                 
-                 
-                 
-                 
-                 
+
                  <?php  $ii++;} ?>
                         <?php } ?>
                         
                        <?php } ?>
                         <?php } ?>
                   
-                  
-                
-                  
-                  
+
                 </div>
                 
                 </div>
@@ -994,9 +867,7 @@ $setid=1;
               </div>
              
             </div>
-           
-            
-            
+
             <?php if(!empty($cate_cnt)){?>
                         <?php foreach($cate_get as $geti){?>
             <div class="tab-pane" id="<?php echo $geti->id;?>">
@@ -1061,19 +932,9 @@ $setid=1;
                           <div class="tag new"><span>@lang('languages.new')</span></div>
                           <?php } ?>
                         </div>
-                        
-                        
-                        
-                        
-                        
-                        
+
                          <?php
-              
-              
-          
-    
-              
-                
+
           $review_count_03 = DB::table('product_rating')
         ->where('prod_id', '=', $product->prod_id)
         ->count();
@@ -1099,19 +960,13 @@ $setid=1;
 
       $over_03 +=$review->rating;
     
-    
-    
+
         }
         if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
       $roundeding_03 = 0; } 
-        
-        
+
         }
-        
-        
-        
-        
-        
+
         if(!empty($review_count_03))
                                        {
                                              if(!empty($roundeding_03)){
@@ -1211,13 +1066,7 @@ $setid=1;
                           <i class="fa fa-star" aria-hidden="true"></i>
                            <i class="fa fa-star" aria-hidden="true"></i>
                           </p>';
-                        
-                        
-        
-        
-        
-      
-        
+
         ?>                       
                                 
           
@@ -1225,7 +1074,7 @@ $setid=1;
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
-                          <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+                          <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
                           <!-- /.product-price --> 
                           
                         </div>
@@ -1278,60 +1127,41 @@ $setid=1;
                               <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/compare/<?php echo $product->prod_token;?>" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
                               
                               <?php } ?>
-                              
-                              
-                              
+
                               
                               </li>
                               -->
                             </ul>
-                          </div>
-                         
-                        </div>
-                        
-                      </div>
-                      
+                          </div>                         
+                        </div>                        
+                      </div>                      
                       
                     </div>
                      
                   </div>
-                  
-                  
+
                   <?php $ij++;} } ?>
                  
-                  
-                  
-                  
-                </div>
-                
-              </div>
-             
-            </div>
+
+                </div>                
+              </div>             
+            </div>            
             
-            
-            <?php } } ?>
-           
+            <?php } } ?>           
             
           </div>
           <!-- /.tab-content --> 
         </div>
         
-        
-       
-        
-       
-        
-        
+
         <div class="latest-blog">
         
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 scroll-tabs">
-        
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 scroll-tabs">        
           <h3 class="section-title">@lang('languages.latest_blog')</h3>
           <div class="blog-slider-container outer-top-xs">
             <div class="owl-carousel blog-slider custom-carousel">
               
-              
-              
+ 
               
               <?php if(!empty($blogs_cnt)) {
       foreach($blogs as $blog){ ?>
@@ -1347,8 +1177,7 @@ $setid=1;
               <a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>">
                     <img src="<?php echo $url;?>/local/images/noimage.jpg" alt="">
                     </a>
-              <?php } ?>
-                    
+              <?php } ?>                    
                     
                     </div>
                   </div>
@@ -1377,16 +1206,10 @@ $setid=1;
               </div>
               
                <?php } } ?>
-              
-              
-              
-              
-            </div>
-            
-          </div>
-          
-          </div>
-        
+
+            </div>            
+          </div>          
+          </div>        
         
         </div>
         

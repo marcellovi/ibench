@@ -120,9 +120,9 @@ $setid=1;
         <div class="control-group">
             <a href="{{ $url }}/wirecard-connect" class="btn btn-primary"> Conectar com conta Wirecard </a>
             <?php if($editprofile[0]->delete_status == 'inactive'){   ?>
-                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary"> Ativar Produtos </a>
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary"> Ativar Loja </a>
             <?php }else if($editprofile[0]->delete_status == ''){?>
-                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/0" class="btn btn-primary"> Desabilitar Produtos </a>
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/0" class="btn btn-primary"> Desativar Loja </a>
             <?php } ?>
 
             @if(@isset($success))
@@ -251,7 +251,7 @@ $setid=1;
 
 
                             <?php if(Auth::user()->admin==2){?>
-                            <!-- Marcello :: retirado
+                           
                             <div class="col-md-12">
                         <div class="form-group">
 
@@ -260,7 +260,7 @@ $setid=1;
                             <input type="number" placeholder="Local shipping price" name="local_shipping_price" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->local_shipping_price;?>">
                             </div>
                             </div>
-                          -->
+                        
 
                              <!-- Marcello :: retirado
                             <div class="col-md-12">

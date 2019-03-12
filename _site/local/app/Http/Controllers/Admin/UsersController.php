@@ -26,15 +26,11 @@ class UsersController extends Controller
     {
         $users = DB::table('users')
 		         ->where('admin','=',0)
-				 ->where('admin','!=',1)
-				 ->where('delete_status','=','')
 		         ->orderBy('id','desc')
 				 ->get();
 				 
 		$users_cnt = DB::table('users')
 		          ->where('admin','=',0)
-				 ->where('admin','!=',1)
-				 ->where('delete_status','=','')
 		         ->orderBy('id','desc')
 				 ->get();	
 				 
@@ -52,23 +48,45 @@ class UsersController extends Controller
 	
 	public function vendor_index()
     {
+            /*
         $users = DB::table('users')
 		         ->where('admin','=',2)
-		         ->where('admin','!=',1)
-				 ->where('delete_status','=','')
-                                 ->orwhere('delete_status','=','inactive')
-                                 ->orwhere('delete_status','=','blocked')
+		         ->where('delete_status','=','')
+                         ->orwhere('delete_status','=','inactive')
+                         ->orwhere('delete_status','=','blocked')
 		         ->orderBy('id','desc')
-				 ->get();
-				 
+				 ->get(); */
+        
+        $users = DB::table('users')
+		                ->where('admin', '=' , 2)
+                    ->Where(function ($query) {
+                             $query->where('delete_status','=','')
+                                   ->orwhere('delete_status','=','blocked')
+                                   ->orwhere('delete_status','=','inactive');
+                          })
+			        ->orderBy('id','desc')
+                                ->get();     
+                          
+         $users_cnt = DB::table('users')
+		                ->where('admin', '=' , 2)
+                    ->Where(function ($query) {
+                             $query->where('delete_status','=','')
+                                   ->orwhere('delete_status','=','blocked')
+                                   ->orwhere('delete_status','=','inactive');
+                          })
+			        ->orderBy('id','desc')
+                                ->get(); 
+		
+                          /*
 		$users_cnt = DB::table('users')
 		         ->where('admin','=',2)
-		         ->where('admin','!=',1)
-				 ->where('delete_status','=','')
-                                 ->orwhere('delete_status','=','inactive')
-                                 ->orwhere('delete_status','=','blocked')
+		         ->where('delete_status','=','')
+                         ->orwhere('delete_status','=','inactive')
+                         ->orwhere('delete_status','=','blocked')
 		         ->orderBy('id','desc')
-				 ->get();		 
+				 ->get();
+                           * 
+                           */		 
 				 
 				 
 		$setid=1;

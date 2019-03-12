@@ -210,7 +210,7 @@
                     	</td>      
 
                     	<td class="cart-product-quantity">
-                    		<?php echo $setts[0]->site_currency.' '.number_format($product->price,2);?>	<br/> <?php echo $product->quantity;?> @lang('languages.qty')
+                    		<?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".");?>	<br/> <?php echo $product->quantity;?> @lang('languages.qty')
                   		</td>
 
                 		 	<?php

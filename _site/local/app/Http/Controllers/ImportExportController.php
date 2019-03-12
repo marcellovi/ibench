@@ -115,7 +115,7 @@ class ImportExportController extends Controller
 			
             });
 			
-			return back()->with('success', 'Insert Record successfully');
+			return back()->with('success', 'Inserido com Sucesso');
 			
 			
         }

@@ -73,7 +73,7 @@ $url = URL::to("/");
                 <li class="bg_lh"><i class="icon-tag"></i> <strong><?php echo $total_orders;?></strong> <small>Total de Pedidos</small></li>
                 <li class="bg_lh"><i class="icon-repeat"></i> <strong><?php echo $pending_orders;?></strong> <small>Pedidos Pendentes</small></li>
                 <li class="bg_lh"><i class="icon-repeat"></i> <strong><?php echo $completed_orders;?></strong> <small>Vendas Finalizadas</small></li>
-                
+                <li class="bg_lh"><i class="icon-repeat"></i> <strong><a href="<?php echo $url;?>/clear-all" >LIMPAR CACHE</a></strong> <small>Clear All</small></li>
                 <!-- Marcello 
                 <li class="bg_lh"><i class="icon-money"></i> <strong><?php echo $pending_withdraw;?></strong> <small>Pending Withdraw </small></li>
                 <li class="bg_lh"><i class="icon-money"></i> <strong><?php echo $completed_withdraw;?></strong> <small>Completed Withdraw</small></li>

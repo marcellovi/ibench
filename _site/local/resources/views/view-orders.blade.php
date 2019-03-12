@@ -278,7 +278,7 @@ $setid=1;
        
         
 			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.subtotal'): </strong> <?php echo $viewproduct[0]->subtotal;?> <?php echo $setting[0]->site_currency;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.subtotal'): </strong> <?php echo number_format($viewproduct[0]->subtotal,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
 		    
 		  </div>
 		
@@ -291,7 +291,7 @@ $setid=1;
        
         
 			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.total'): </strong> <?php echo $viewproduct[0]->total;?> <?php echo $setting[0]->site_currency;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.total'): </strong> <?php echo number_format($viewproduct[0]->total,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
 		    
 		  </div>
 		
@@ -377,12 +377,12 @@ $setid=1;
     <div class="col-md-6 ">
 		
        
-        
+         <!--
 			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.gender'): </strong> <?php echo $customer_gender;?></label>
+		   <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.gender'): </strong> <?php echo $customer_gender;?></label> 
 		    
 		  </div>
-		
+	-->	
 	</div>
     
     

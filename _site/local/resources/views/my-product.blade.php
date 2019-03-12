@@ -197,7 +197,7 @@ $setid=1;
 					<td class="cart-product-quantity">
 						<div class="price">
 							
-							<?php if(!empty($product->prod_offer_price)){?><span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?><?php } ?>
+							<?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?><?php } ?>
 						</div>
 		            </td>
                     <?php 

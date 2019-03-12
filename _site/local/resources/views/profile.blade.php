@@ -207,7 +207,7 @@ $setid=1;
                      <?php echo utf8_decode($product->prod_name);?>
                      </span>
                      <span class="price">
-                      <?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2).' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2);?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2);?></span> <?php } ?>
+                      <?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2).' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?>
                      </span>
                      </span>
                      </a>

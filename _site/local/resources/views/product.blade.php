@@ -381,7 +381,7 @@
 										<div class="price-box">
 											
                                             
-                                            <?php if(!empty($viewproduct[0]->prod_offer_price)){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
+                                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
                                             
 										</div>
 									</div>
@@ -541,7 +541,7 @@
                                                 
                                                 <input type="hidden" name="prod_token" value="<?php echo $viewproduct[0]->prod_token;?>">
                                         <input type="hidden" name="prod_id" value="<?php echo $viewproduct[0]->prod_id;?>">
-                                                <?php if(!empty($viewproduct[0]->prod_offer_price)){?>
+                                                <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0){?>
                                                 <input type="hidden" name="price" value="<?php echo $viewproduct[0]->prod_offer_price;?>">
                                                 <?php } else {?>
                                                 <input type="hidden" name="price" value="<?php echo $viewproduct[0]->prod_price;?>">
@@ -1240,7 +1240,7 @@
 
 			<div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
             
-            <p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+            <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
             <!-- /.product-price -->
 			
 		</div><!-- /.product-info -->
@@ -1277,7 +1277,7 @@
                                                          <?php } } ?>
                               
                               </li>
-                              
+                              <!--
                               
                               <li class="lnk">
                               <?php if(Auth::guest()) { ?>
@@ -1285,14 +1285,14 @@
                                             
                               
                               
-                              <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> 
+                             <!-- <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
                               <?php } else {?>
                               
-                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/compare/<?php echo $product->prod_token;?>" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
+                             <!-- <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/compare/<?php echo $product->prod_token;?>" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a> 
                               
                               <?php } ?>
                              </li> 
-                              
+                              -->
                               
                             </ul>
                           </div>
@@ -1607,7 +1607,7 @@
 
 							<div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
 
-							<p><?php if(!empty($product->prod_offer_price)){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+							<p><?php if(!empty($product->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
 							
 						</div>
                         

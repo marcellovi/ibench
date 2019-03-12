@@ -299,9 +299,9 @@ $setid=1;
 	
 		
 		<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">@lang('languages.offer_price') (<?php echo $setts[0]->site_currency;?>)<span>*</span></label>
+		    <label class="info-title" for="exampleInputEmail1">@lang('languages.offer_price') (<?php echo $setts[0]->site_currency;?>)<span></span></label>
 		    
-             <input id="prod_offer_price" class="form-control unicase-form-control validate[required]"  name="prod_offer_price" value="<?php if(!empty($viewcount)){ echo number_format($viewproduct[0]->prod_offer_price,2,",","."); } ?>" type="text">
+             <input id="prod_offer_price" class="form-control unicase-form-control"  name="prod_offer_price" value="<?php if(!empty($viewcount)){ echo number_format($viewproduct[0]->prod_offer_price,2,",","."); } ?>" type="text">
 		  </div>
 		
 		

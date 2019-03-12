@@ -212,7 +212,7 @@ $setid=1;
 						</div>
 		            </td>
                     
-					<td class="cart-product-sub-total"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2);?>	<br/> <?php echo $product->quantity;?> @lang('languages.qty')</td>
+					<td class="cart-product-sub-total"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".");?>	<br/> <?php echo $product->quantity;?> @lang('languages.qty')</td>
 					<td class="cart-product-grand-total"><a href="<?php echo $url;?>/view-orders/<?php echo $product->ord_id;?>/<?php echo $product->user_id;?>" style="color:#0033CC;">@lang('languages.view_more')</a></td>
                     
                     <td class="cart-product-sub-total">

@@ -818,6 +818,17 @@ Route::get('dashboard/{idUser}/{idType}','ProductController@manageProducts');
 /* Alterar status dos produtos retirando o inactive */
 //Route::get('dashboard/{idUser}/{idEnable}','ProductController@enableProducts');
 
+// Clear all 
+Route::get('/clear-all', function() {
+
+   Artisan::call('cache:clear');
+   Artisan::call('config:clear');
+   Artisan::call('config:cache');
+   Artisan::call('view:clear');
+
+   return "Cleared!";
+
+});
 
 // /* Cache Commands */
 // //Clear Cache facade value:

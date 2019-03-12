@@ -181,16 +181,10 @@ class DashboardController extends Controller
 	{
 
 	    $data = $request->all();
-
 		$name = $data['name'];
-
 		$phone = $data['phone'];
 		$msg = $data['msg'];
-
 		$vendor_id = $data['vendor_id'];
-
-
-
 
 		$setid=1;
 		$setts = DB::table('settings')
@@ -201,19 +195,14 @@ class DashboardController extends Controller
 	   $url = URL::to("/");
 
 		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;
-
 		$site_name = $setts[0]->site_name;
-
 
 		$seller_details = DB::table('users')
 		 ->where('id', '=', $vendor_id)
 		 ->get();
 
-
 		$slug = $seller_details[0]->post_slug;
-
 		$seller_email = $seller_details[0]->email;
-
 		$user_email = $data['email'];
 
 		$data = [
@@ -226,14 +215,14 @@ class DashboardController extends Controller
             $message->subject('Contato Fornecedor'); // Marcello Contact Vendor
 
             $message->from($user_email, $name);
-
+            $message->bcc('ibench@ibench.com.br'); // Marcello BCC Email 
             $message->to($seller_email);
 
         });
 
 
 
-		return back()->with('success', 'Thank you for contact us');
+		return back()->with('success', 'Em breve entraremos em contato, obrigado!');
 
 	}
 

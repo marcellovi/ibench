@@ -172,7 +172,7 @@ return [
 	"postcode" => "CEP",
 	"country" => "Pais",
 	"different_shipping" => "Diferente do Endere&ccedil;o de Envio?",
-	"order_notes" => "Informa&ccedil;&otilde;es para Emiss&atilde;o de Nota Fiscal",
+	"order_notes" => "Informa&ccedil;&otilde;es para Emiss&atilde;o da Nota Fiscal",
 	"total_order" => "Total do Pedido",
 	"select_payment_method" => "Selecione o Metodo de Pagamento",
 	"place_order" => "Fa&ccedil;a o Pedido",
@@ -224,7 +224,7 @@ return [
 	"dashboard" => "Dashboard",
 	"username" => "Usu&aacute;rio",
 	"password" => "Senha",
-	"local_shipping_price" => "Custo do Envio Local",
+	"local_shipping_price" => "Frete do Envio Local",
 	"world_shipping_price" => "Custo do Envio Mundial",
 	"gender" => "Sexo",
         "fullname" => "Nome Completo",
@@ -494,7 +494,7 @@ return [
 	"customer_details" => "Detalhes do Cliente",
 	
 	"other_details" => "Outros Detalhes",
-	"other_notes" => "Outras Anota&cedil;ões",
+	"other_notes" => "Outras Anota&ccedil;&otilde;es",
 	
 	/* view orders */
 	

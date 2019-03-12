@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   
-  
-     @include('admin.title')
+    @include('admin.title')
     @include('admin.style')
-	
-    
   </head>
 
   <body>
-  
-  
-  
-  
-  
    @include('admin.top')
 <!--close-top-serch-->
 <!--sidebar-menu-->
 @include('admin.menu')
-  
-  
   
   <div id="content">
   <div id="content-header">
@@ -156,14 +145,9 @@
                       </div>
 						<?php } ?>
               
-              
-              
+  
               <input type="hidden" name="currentphoto" value="<?php echo $users[0]->photo;?>">
-					  
-					  
-					  
-					  
-					  
+
 					  <?php if($users[0]->admin!=1){?>
 					 <div class="control-group">
                 <label class="control-label">Status</label>
@@ -203,19 +187,17 @@
                       
                 <?php } ?>      
               
-              
-             
-					
-              
               <div class="form-actions">
                         <div class="span8">
                          
-                                <?php /*?><a href="<?php echo $url;?>/admin/users" class="btn btn-primary">Cancel</a><?php */?>
+                               <a href="<?php echo $url;?>/admin/users" class="btn btn-primary">Voltar</a>
 						  
 						  
 						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
-                          <button id="send" type="submit" class="btn btn-success">Submit</button>
+                          
+                          
+                          <button id="send" type="submit" class="btn btn-success">Editar</button>
 						  <?php } ?>
                                 
                         </div>
@@ -229,12 +211,8 @@
   </div>
 </div>
 
+</div>  
 
-
-</div>
-  
-  
-  
   @include('admin.footer')
 	
   </body>

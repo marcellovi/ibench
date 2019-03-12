@@ -470,8 +470,7 @@ class RegisterController extends Controller
 			//'gender' => 'required|string|max:255',
 			'usertype' => 'required|string|max:255',
 			'g-recaptcha-response' => 'required|captcha',
-			
-			
+
         ]);
 
         $data = $request->all();
@@ -518,23 +517,17 @@ class RegisterController extends Controller
 			
 			// Marcello ( gender ) DB::insert('insert into users (name,post_slug,email,password,confirm_key,confirmation,gender,phone,admin,country) values (?, ?, ?, ?, ?, ?,?, ?,?,?)', [$name,$post_slug,$email,$pass,$keyval,$confirmation,$gender,$phoneno,$usertype,$country]);
 			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj,delete_status) values (?, ?, ?, ?, ?,?, ?,?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj,$delete_status]);
-			
-			
-				
+	
 			$admin_idd=1;
 		
 		$admin_email = DB::table('users')
                 ->where('id', '=', $admin_idd)
                 ->get();
 		
-		$url = URL::to("/");
-		
-		$site_logo=$url.'/local/images/media/'.'logo_email.jpg'; // Marcello.$setts[0]->site_logo;
-		
-		$site_name = $setts[0]->site_name;
-		
-		$adminemail = $admin_email[0]->email;
-		
+		$url = URL::to("/");		
+		$site_logo=$url.'/local/images/media/'.'logo_email.jpg'; // Marcello.$setts[0]->site_logo;		
+		$site_name = $setts[0]->site_name;		
+		$adminemail = $admin_email[0]->email;		
 		// $adminname = $admin_email[0]->name; Marcello 
                 $adminname = "iBench Market";
 		
@@ -545,54 +538,33 @@ class RegisterController extends Controller
 		
 		Mail::send('confirm_mail', $datas , function ($message) use ($adminemail,$adminname,$email)
         {
-		
-		
-		
+	
 	    // Marcello :: Email Confirmation for Registration
-            $message->subject('Confirme seu e-mail - Cadastro iBench');
-			
+            $message->subject('Confirme seu e-mail - Cadastro iBench');			
             $message->from($adminemail, $adminname);
-
             $message->to($email);
+        }); 		
 
-        }); 
-		
-		
 			// Marcello - Internacionalizar o texto abaixo :: We sent you an activation code. Check your email and click on the link to verify.
 			return redirect('login')->with('success', 'Foi enviado o c&oacute;digo de ativa&ccedil;&atilde;o. Verifique seu email e clique no link para confirmar a verifi&ccedil;&atilde;o.');
-			
-			
-
-            
-
         }
-		else
-		{
-        
-		  $failedRules = $validator->failed();
+	else
+	{        
+            $failedRules = $validator->failed();
 			 
-			return back()->withErrors($validator);
+            return back()->withErrors($validator);
         /*return redirect('login')->with('error', 'Invalid input fields. Please try again');*/
         }
 	
 	
-	}
-	
-   
-   
-   
-	
-	
-	
-	
-	protected function create(array $data)
-    {
-		
+    }   
+
+    protected function create(array $data)
+    {		
 		$setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
-		->get();
-		
+		->get();		
 		
 		
 		$name = $data['name'];
@@ -606,47 +578,54 @@ class RegisterController extends Controller
 		
 		
 		$temp_id = uniqid();
-		
-        return User::create([
-            'name' => $data['name'],
-            'full_name' => data['full_name'],
-	    'post_slug' => $this->clean($data['name']),
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-			'cpf_cnpj' => $data['cpf_cnpj'],
-			//'gender' => $data['gender'],
-			'phone' => $data['phone'],
-			'confirmation' => 0,		
-			'photo' => '',
-			'country' => $data['country'],
-			'admin' => $data['usertype'],
-                        'delete_status' => 'blocked',  // Marcello :: Add blocked when register
-			'confirm_key' => $keyval,
-			
-			
-			
-			
-			
-        ]);
-		
-		
+        if($data['usertype']==0){
+                return User::create([
+                 'name' => $data['name'],
+                 'full_name' => data['full_name'],
+                 'post_slug' => $this->clean($data['name']),
+                 'email' => $data['email'],
+                 'password' => bcrypt($data['password']),
+                             'cpf_cnpj' => $data['cpf_cnpj'],
+                             //'gender' => $data['gender'],
+                             'phone' => $data['phone'],
+                             'confirmation' => 0,		
+                             'photo' => '',
+                             'country' => $data['country'],
+                             'admin' => $data['usertype'],
+                             'delete_status' => '',  // Marcello :: Add blocked when register
+                             'confirm_key' => $keyval,		
+             ]); 
+        }
+        if($data['usertype']==2){
+                return User::create([
+                'name' => $data['name'],
+                'full_name' => data['full_name'],
+                'post_slug' => $this->clean($data['name']),
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                            'cpf_cnpj' => $data['cpf_cnpj'],
+                            //'gender' => $data['gender'],
+                            'phone' => $data['phone'],
+                            'confirmation' => 0,		
+                            'photo' => '',
+                            'country' => $data['country'],
+                            'admin' => $data['usertype'],
+                            'delete_status' => 'blocked',  // Marcello :: Add blocked when register
+                            'confirm_key' => $keyval,		
+            ]);
+        }
+        			
 		$admin_idd=1;
 		
 		$admin_email = DB::table('users')
                 ->where('id', '=', $admin_idd)
-                ->get();
+                ->get();		
 		
-		
-		$url = URL::to("/");
-		
-		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;
-		
-		$site_name = $setts[0]->site_name;
-		
-		$adminemail = $admin_email[0]->email;
-		
-		$adminname = $admin_email[0]->name;
-		
+		$url = URL::to("/");		
+		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;		
+		$site_name = $setts[0]->site_name;		
+		$adminemail = $admin_email[0]->email;		
+		$adminname = $admin_email[0]->name;		
 		
 		
 		$datas = [
@@ -656,26 +635,13 @@ class RegisterController extends Controller
 		
 		Mail::send('confirm_mail', $datas , function ($message) use ($adminemail,$adminname,$email)
         {
-		
-		
-		
-		// Marcello :: Email Confirmation for Registration
-            $message->subject('Confirma&ccedil;&atilde;o do Cadastro - iBench');
 			
+	    // Marcello :: Email Confirmation for Registration
+            $message->subject('Confirma&ccedil;&atilde;o do Cadastro - iBench');			
             $message->from($adminemail,$adminname);
-
             $message->to($email);
-
         }); 
 		// Marcello :: We sent you an activation code. Check your email and click on the link to verify.
 		return redirect('login')->with('success', 'Foi enviado o c&oacute;digo de ativa&ccedil;&atilde;o. Verifique seu email e clique no link para confirmar a verifi&ccedil;&atilde;o.');
-		
-		
-		
-		
     }
-	
-	
-	
-	
 }

@@ -101,12 +101,11 @@ $setid=1;
 
 	<div class="col-md-6 ">
 
-
-
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.first_name') <span>*</span></label>
 
-            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="<?php echo utf8_decode($nameFull[0]); ?>">
+            <!--<input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="<?php //echo utf8_decode($nameFull[0]); ?>">-->
+            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="">
 		  </div>
 
 	</div>
@@ -115,9 +114,9 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@lang('languages.last_name') <span>*</span></label>
 
+            <!--<input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php //if($sum>1){echo utf8_decode($nameFull[1]); }?>">--> <!-- Marcello {{@$nameFull[1]}} -->
 
-
-            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php if($sum>1){echo utf8_decode($nameFull[1]); }?>"> <!-- Marcello {{@$nameFull[1]}} -->
+            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="">
 		  </div>
 
 	</div>
@@ -125,10 +124,8 @@ $setid=1;
 
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputTitle">@lang('languages.company_name') <span>(opcional)</span></label>
-
-
-
-            <input type="text" name="bill_companyname" autocomplete="nope" id="bill_companyname" class="form-control unicase-form-control" value="{{Auth::user()->name_business}}">
+        <!--<input type="text" name="bill_companyname" autocomplete="nope" id="bill_companyname" class="form-control unicase-form-control" value="{{Auth::user()->name_business}}">-->
+        <input type="text" name="bill_companyname" autocomplete="nope" id="bill_companyname" class="form-control unicase-form-control" value="">
 		  </div>
 
 	</div>
@@ -136,16 +133,11 @@ $setid=1;
 
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.email_address') <span>*</span></label>
-
-
-
-            <input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->email}}">
+        <!--<input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->email}}">-->
+        <input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="">
 		  </div>
 
 	</div>
-
-
-
 
 
     <div class="col-md-6">
@@ -153,7 +145,8 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.phone') <span>*</span></label>
 
-            <input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->phone}}">
+        <!--<input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->phone}}">-->
+        <input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="">
 		  </div>
 
 	</div>
@@ -186,9 +179,8 @@ $setid=1;
 
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.address') <span>*</span></label>
-
-
-            <input type="text" name="bill_address" autocomplete="nope" id="bill_address" placeholder="@lang('languages.address')" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->address}}">
+        <!--<input type="text" name="bill_address" autocomplete="nope" id="bill_address" placeholder="@lang('languages.address')" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->address}}">-->
+        <input type="text" name="bill_address" autocomplete="nope" id="bill_address" class="form-control unicase-form-control validate[required]" value="">
 
 		  </div>
 
@@ -231,7 +223,8 @@ $setid=1;
 		    <label class="info-title" for="exampleInputComments">@lang('languages.postcode')  <span>*</span></label>
 
 
-             <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" placeholder="@lang('languages.postcode')" class="form-control unicase-form-control validate[required]" value="">
+             <!--<input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" placeholder="@lang('languages.postcode')" class="form-control unicase-form-control validate[required]" value="">-->
+             <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" class="form-control unicase-form-control validate[required]" value="">
 
 		  </div>
 
@@ -245,7 +238,7 @@ $setid=1;
 
 
 
-            <select name="bill_country" class="form-control unicase-form-control validate[required]">
+            <select name="bill_country" class="form-control unicase-form-control validate[required]" style="height: 40px;">
 
 							  <!-- <option value="">@lang('languages.country')</option> -->
 							  <option value="Brasil">Brasil</option>

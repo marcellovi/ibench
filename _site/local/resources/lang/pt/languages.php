@@ -159,7 +159,7 @@ return [
 	/* checkout page */
 	
 	"checkout" => "Checkout",
-	"billing_details" => "Detalhes de Compra",
+	"billing_details" => "Informa&ccedil;&otilde;es para Cobran&ccedil;a",
 	"shipping_details" => "Detalhes de Envio",
 	"first_name" => "Primeiro Nome",
 	"last_name" => "Sobre Nome",
@@ -171,7 +171,7 @@ return [
 	"state" => "Estado",
 	"postcode" => "CEP",
 	"country" => "Pais",
-	"different_shipping" => "Diferente do Endere&ccedil;o de Envio?",
+	"different_shipping" => "O Endere&ccedil;o de Cobran&ccedil;a &eacute; diferente do Endere&ccedil;o de Envio?",
 	"order_notes" => "Informa&ccedil;&otilde;es para Emiss&atilde;o da Nota Fiscal",
 	"total_order" => "Total do Pedido",
 	"select_payment_method" => "Selecione o Metodo de Pagamento",

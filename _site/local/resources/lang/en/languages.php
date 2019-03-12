@@ -159,7 +159,7 @@ return [
 	/* checkout page */
 	
 	"checkout" => "Checkout",
-	"billing_details" => "Billing Details",
+	"billing_details" => "Billing Information",
 	"shipping_details" => "Shipping Details",
 	"first_name" => "First Name",
 	"last_name" => "Last Name",

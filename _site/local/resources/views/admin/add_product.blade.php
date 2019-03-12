@@ -1,23 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   
-  
-     @include('admin.title')
+    @include('admin.title')
     @include('admin.style')
-	
-    
   </head>
-
   <body>
    @include('admin.top')
-
-@include('admin.menu')
-
-
-
-
-
+   @include('admin.menu')
 
 <div id="content">
   <div id="content-header">
@@ -35,7 +24,6 @@
       @endif
       
       @if(Session::has('success'))
-
 	           
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
@@ -54,13 +42,8 @@
                <?php $url = URL::to("/"); ?>   
                    <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add_product') }}" enctype="multipart/form-data" id="formID">
                      {{ csrf_field() }}       
-                     
-              
-              
-              
-                        
-                        
-                         <div class="control-group">
+                
+                <div class="control-group">
                 <label class="control-label">Product Name <span class="required">*</span></label> 
                 <div class="controls">
                         
@@ -70,31 +53,23 @@
                                         <strong>That product name is already exists</strong>
                                     </span>
                                 @endif
-					   </div>
-                      </div>
-              
-              
-              
-              
-                        
-                        <div class="control-group">
+		 </div>
+                 </div>
+                       
+                <div class="control-group">
                 <label class="control-label">URL Slug <span class="required">*</span></label> 
                 <div class="controls">
                         
                           <input id="prod_slug" class="validate[required] span8"  name="prod_slug" value="" type="text">
                          
-					   </div>
-                      </div>
+		</div>
+                </div>
                       
-                      
-                      
-                      
-                      <div class="control-group">
+                 <div class="control-group">
                 <label class="control-label">Select Category <span class="required">*</span></label>
-                <div class="controls">
-                    
+                <div class="controls">                    
                                 
-                   <select class="validate[required] span8"  name="cat_id">
+                <select class="validate[required] span8"  name="cat_id">
 						  <option value=""></option>
 						  <?php foreach($category as $service){?>
 						  <option value="<?php echo $service->id;?>_cat"><?php echo $service->cat_name;?></option>
@@ -114,31 +89,21 @@
                           <option value="<?php echo $subview->subid;?>_subcat"> - <?php echo $subview->subcat_name;?></option>
                           <?php } } ?>
 						  <?php } ?>
-						  </select>                       
+						  </select>                      
                   
                 </div>
-              </div>
+              </div>                     
                       
-                      
-                                           
-                        
-                         <div class="control-group">
+              <div class="control-group">
                 <label class="control-label">Description <span class="required">*</span></label> 
-                <div class="controls">
-                                             
+                <div class="controls">                                             
                         <textarea id="prod_desc" name="prod_desc" placeholder="" class="txteditor validate[required] span8"></textarea> 
-                         
-                         
-					   </div>
-                      </div>
+                 </div>
+               </div>
                       
-                      
-                      
-                      
-                       <div class="control-group">
+              <div class="control-group">
                 <label class="control-label">Product Type <span class="required">*</span></label>
-                <div class="controls">
-                    
+                <div class="controls">                    
                                 
                    <select class="validate[required] span8"  name="prod_type" id="prod_type">
 						  <option value=""></option>
@@ -150,64 +115,46 @@
                 </div>
               </div>
               
-              
-              
-              
               <div class="control-group">
                 <label class="control-label">Price <span class="required">*</span></label> 
-                <div class="controls">
-                        
+                <div class="controls">                        
                         
                           <input id="prod_price" class="validate[required] span8"  name="prod_price" value="" type="number">
                          
-					   </div>
-                      </div>
+		 </div>
+               </div>
               
-                   
-                   
-                   
-                    <div class="control-group">
+               <div class="control-group">
                 <label class="control-label">Offer Price <span class="required">*</span></label> 
-                <div class="controls">
-                        
+                <div class="controls">                        
                         
                           <input id="prod_offer_price" class="validate[required] span8"  name="prod_offer_price" value="" type="number">
                          
-					   </div>
-                      </div>
+		</div>
+                 </div>
                       
-                      
-                      
-                      <div class="control-group">
+               <div class="control-group">
                 <label class="control-label">Available Quantity <span class="required">*</span></label> 
-                <div class="controls">
-                        
+                <div class="controls">                        
                         
                           <input id="prod_available_qty" class="validate[required] span8"  name="prod_available_qty" value="" type="number">
                          
-					   </div>
-                      </div>
+		</div>
+                </div>
                       
-                 
-                 
-                 
-                 
-                 <div id="price_container" style="display:none;">     
+                <div id="price_container" style="display:none;">     
                       
                       <div class="control-group">
                 <label class="control-label">External Url <span class="required">*</span></label> 
-                <div class="controls">
-                        
+                <div class="controls">                        
                         
                           <input id="prod_external_url" class="validate[required] span8"  name="prod_external_url" value="" type="text">
                          
-					   </div>
-                      </div>
-
+		 </div>
+                 </div>
                       
                  </div> 
-                 
-                 
+                                  
                  <?php if(!empty($typer_count)){?>
                  <?php foreach($typer as $type){
 				 
@@ -233,17 +180,11 @@
                 </select>
               </div>
             </div>    
-             <?php } } ?>         
-                      
-                      
-                      
-                      
-                      
-                      
-                       <div class="control-group">
+             <?php } } ?>            
+             
+            <div class="control-group">
                 <label class="control-label">Images <span class="required">*</span></label> 
-                <div class="controls">
-                        
+                <div class="controls">                        
                         
                           <input type="file" placeholder="" name="image[]" class="validate[required] span8" accept="image/*" multiple>
 						  @if ($errors->has('image'))
@@ -252,26 +193,14 @@
                                     </span>
                                 @endif
                          
-					   </div>
-                      </div>
+		 </div>
+                 </div>
                       
-                      
-                      
-                      
-                 </div>     
-                      
-                      
-                      
-                      
-                  
-                      
-                    
-              
+                 </div>   
 					
               <?php $url = URL::to("/"); ?>
               <div class="form-actions">
-                        <div class="span8">
-                          
+                        <div class="span8">                          
                           
                         <a href="<?php echo $url;?>/admin/product" class="btn btn-primary">Cancel</a>
                        
@@ -291,14 +220,7 @@
   </div>
 </div>
 
-
-
 </div>
-
-
-
-
-
 
      @include('admin.footer')
 	

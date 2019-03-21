@@ -108,7 +108,7 @@ return [
 	"reply" => "Responder",
 	"logged" => "logado",
 	"post_a_comment" => "no coment&aacute;rio.",
-	"you_must" => "Você deve ser",
+	"you_must" => "Voc&ecirc; deve ser",
 	"recent_posts" => "Posts Recentes",
 	"read_more" => "Leia Mais",
 	"meta" => "Meta",

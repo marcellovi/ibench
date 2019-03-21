@@ -183,7 +183,7 @@ function valueChanged(){
 
 <script>
 	$(window).load(function() {
-		$(".avigher_loader").fadeOut("slow");;
+		$(".avigher_loader").fadeOut("slow");
 	});
 </script>
 
@@ -760,7 +760,7 @@ white-space: nowrap;
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('../fonts/Montserrat-Regular.eot?#iefix') format('embedded-opentype'),  url('../fonts/Montserrat-Regular.woff') format('woff'), url('../fonts/Montserrat-Regular.ttf')  format('truetype'), url('../fonts/Montserrat-Regular.svg#Montserrat-Regular') format('svg');
+  src: url('/_site/local/resources/views/theme/fonts/Montserrat-Regular.eot?#iefix') format('embedded-opentype'),  url('/_site/local/resources/views/theme/fonts/Montserrat-Regular.woff') format('woff'), url('/_site/local/resources/views/theme/fonts/Montserrat-Regular.ttf')  format('truetype'), url('../theme/fonts/Montserrat-Regular.svg#Montserrat-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -769,7 +769,7 @@ white-space: nowrap;
 
 @font-face {
   font-family: 'Open Sans';
-  src: url('../fonts/OpenSans-Regular.eot?#iefix') format('embedded-opentype'),  url('../fonts/OpenSans-Regular.woff') format('woff'), url('../fonts/OpenSans-Regular.ttf')  format('truetype'), url('../fonts/OpenSans-Regular.svg#OpenSans-Regular') format('svg');
+  src: url('/_site/local/resources/views/theme/fonts/OpenSans-Regular.eot?#iefix') format('embedded-opentype'),  url('/_site/local/resources/views/theme/fonts/OpenSans-Regular.woff') format('woff'), url('/_site/local/resources/views/theme/fonts/OpenSans-Regular.ttf')  format('truetype'), url('/_site/local/resources/views/theme/fonts/OpenSans-Regular.svg#OpenSans-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -2139,7 +2139,7 @@ button:focus {
     color: <?php echo $setts[0]->site_primary_color;?>;
     font-size: 11px;
     text-align: center;
-    line-height: 19px;;
+    line-height: 19px;
 }
 .top-cart-row .dropdown-cart .dropdown-menu {
   border: 1px solid #e1e1e1;

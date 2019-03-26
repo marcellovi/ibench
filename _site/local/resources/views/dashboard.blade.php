@@ -222,8 +222,17 @@ $setid=1;
                             </div>
                             </div>
 
-                            <?php if(Auth::user()->admin==2){?>
+                            <?php if(Auth::user()->admin==2){
+                                    if($waiting_count > 0) {?>
+                            <script>
+                                alert("Voce possui <?= $waiting_count ?> clientes esperando por produtos")
+                            </script>
+                                        
 
+                               <?php }                              
+                                ?>
+
+                                    
                             <!-- Marcello Inclusao de Nome Empresa (ou) Tipo Cliente -->
                              <div class="col-md-12">
                         <div class="form-group">
@@ -291,6 +300,17 @@ $setid=1;
                                 @endif
                             </div>
                             </div>
+                            <?php if(Auth::user()->admin==2){?>
+                               
+                                <div class="col-md-12">
+                        <div class="form-group">
+                        <label class="info-title" for="exampleInputName">Valor Minimo </label>
+
+                            <input type="text" placeholder="Valor Minimo" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value;?>">
+                          
+                            </div>
+                            </div>
+                            <?php } ?>
 
 
                              </div>

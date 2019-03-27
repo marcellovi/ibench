@@ -302,9 +302,9 @@ $headertype = $setts[0]->header_type;
 													<div class="cart-sub-total">
 													
 														<label>Subtotal <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
-								<?php if($company_min_value > 0) {?>                               
+								<?php if($company_min_value >= $price_val) {?>                               
 													
-														<small> <strong><?= utf8_decode('Observação') ?> </strong>Esse fornecedor possui um minimo de compra em sua loja de: <strong>R$ <?= $company_min_value ?></strong> </small>
+														<small> <strong><?= utf8_decode('Observação') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja de:') ?> <strong>R$ <?= $company_min_value ?></strong> </small>
 								<?php } ?>
 													</div>
 													</th>
@@ -410,11 +410,9 @@ if($quatroG){
 <!--<?php $pkCount = (is_array($check_prod_available_qty) ? count($check_prod_available_qty) : 0); ?>-->
 <?php if($check_prod_available_qty == 1){ ?>
 <p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
-<input type="submit" class="btn btn-primary checkout-btn" name="checkout" disabled value="@lang('languages.proceed_to_checkout')" style="background: #fdd922;">
 
 <?php }  if(isset($not_able)){ ?>
-	<p style="color:red;">*Existe(m) fornecedor(es) com valor minimo nao alcancado!</p>
-<input type="submit" class="btn btn-primary checkout-btn" name="checkout" disabled value="@lang('languages.proceed_to_checkout')" style="background: #fdd922;">
+	<p style="color:red;"><?= utf8_decode('*Existe(m) fornecedor(es) com valor mínimo não alcançado!') ?></p>
 
 <?php } else { ?>
 <input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">

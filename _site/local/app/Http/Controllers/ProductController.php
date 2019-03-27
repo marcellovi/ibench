@@ -197,6 +197,22 @@ class ProductController extends Controller {
 
 	}
 
+	public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
+
+			$check_waiting_list = DB::table('waiting_list')
+														->where('user_id','=',$user_id)
+														->where('product_id','=',$prod_token)
+														->count();
+
+			if(empty($check_waiting_list)) {
+				DB::insert('insert into waiting_list (user_id,product_id, waiting, prod_user_id) values (?, ?, ?, ?)', [$user_id,$prod_token, true, $prod_user_id]);
+				return back()->with('success', 'Obrigado! Você será avisado quando o produto retornar ao estoque!');
+			}	else {
+					return back()->with('success', 'Obrigado! Você será avisado quando o produto retornar ao estoque!');
+			}
+
+	}
+
 
 	public function avigher_wishlist($log_id,$prod_token)	{
 
@@ -288,24 +304,41 @@ class ProductController extends Controller {
 
 	}
 
+  public function waitingList() {
+		
+	$userid = Auth::user()->id;
+	$viewcount = DB::table('waiting_list')
+		          ->where('prod_user_id', '=' , $userid)
+		          ->count();
+
+	$viewproduct = DB::table('waiting_list')
+									->where('prod_user_id', '=' , $userid)
+		          		->get();
+
+	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct);
+	 return view('waiting-list')->with($data);
+
+	
+	}
+
         /** Marcello :: List of all Active & Inactive Products**/
   public function myProductListActiveInactive() {
 	$userid = Auth::user()->id;
 	$viewcount = DB::table('product')
 		          ->where('user_id', '=' , $userid)
-                          ->Where(function ($query) {
-                                $query->where('delete_status','=','')
-                                ->orwhere('delete_status','=','active');
-                          })
+                         // ->Where(function ($query) {
+                         //       $query->where('delete_status','=','')
+                         //       ->orwhere('delete_status','=','active');
+                         // })
 				  ->orderBy('prod_id','desc')
 		          ->count();
 
 	$viewproduct = DB::table('product')
 		                ->where('user_id', '=' , $userid)
-                    ->Where(function ($query) {
-                             $query->where('delete_status','=','')
-                                   ->orwhere('delete_status','=','active');
-                          })
+                    //->Where(function ($query) {
+                     //        $query->where('delete_status','=','')
+                       //            ->orwhere('delete_status','=','active');
+                      //    })
 				  // ->where('delete_status','=','')
                                   // ->orwhere('delete_status','=','inactive')
 			              ->orderBy('prod_id','desc')
@@ -375,30 +408,27 @@ class ProductController extends Controller {
 	}
 
 
-	/** Marcello :: Hide or make Visible a product by the Seller
-         * 0 - Invisible
-         * 1 - Visible
-         * **/
-	public function statusProductSeller($token, $id) {
+    /** Marcello :: Hide or make Visible a product by the Seller
+     * 0 - Invisible
+     * 1 - Visible
+     ***/
+    public function statusProductSeller($token, $id) {
     $userid = Auth::user()->id;
     if($id == 1){
-        DB::update('update product set delete_status="" where user_id = ? and prod_token = ?',[$userid,$token]);
-        //$pass = DB::update('update product set delete_status = "active" where prod_token = ?',$token);
-    }else{
-        DB::update('update product set delete_status="active" where user_id = ? and prod_token = ?',[$userid,$token]);
-        //$data = ['delete_status'=>''];
+        $pass = DB::update('update product set delete_status="" where user_id = ? and prod_token = ?',[$userid,$token]);
+    }else{       
+        $pass = DB::update('update product set delete_status="inactive" where user_id = ? and prod_token = ?',[$userid,$token]);
         // $pass = DB::table('product')->where('prod_token',$token)->update($data);
-
-        //$pass = DB::update('update product set delete_status="" where prod_token=? and user_id=?',[$token,$userid]);
-      }
-      //if($pass)
-    //    return back()->with('success', 'Atualizado com sucesso.');
-    // else
-      //   return back()->with('error', 'Erro na atualiza&ccedil;&atilde;o.');
+    }
+    
+        //if($pass)
+        //    return back()->with('success', 'Atualizado com sucesso.');
+        // else
+        //   return back()->with('error', 'Erro na atualiza&ccedil;&atilde;o.');
     return back();
-	}
+    }
 
-	public function avigher_edit_data (Request $request) {
+    public function avigher_edit_data (Request $request) {
 
     $userid = Auth::user()->id;
 

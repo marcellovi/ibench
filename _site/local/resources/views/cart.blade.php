@@ -272,9 +272,7 @@ $headertype = $setts[0]->header_type;
 										</td>
 										<?php $price_total = $product->price * $product->quantity;
 											$price_val += $product->price * $product->quantity;
-											if($price_val <= $company_min_value) {
-												$not_able = true;
-											}
+										
 											?>
 
 											<td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".").' ';?></span></td>
@@ -282,6 +280,7 @@ $headertype = $setts[0]->header_type;
 											<td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($price_total,2,",",".").' ';?></span></td>
 
 									</tr>
+								
 										<?php } } ?>
 
 
@@ -300,7 +299,12 @@ $headertype = $setts[0]->header_type;
 												<tr>
 													<th>
 													<div class="cart-sub-total">
-													
+													<?php
+														if($price_val <= $company_min_value) {
+															$not_able = true;
+														} 
+
+													?>
 														<label>Subtotal <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
 								<?php if($company_min_value >= $price_val) {?>                               
 													
@@ -411,10 +415,15 @@ if($quatroG){
 <?php if($check_prod_available_qty == 1){ ?>
 <p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
 
-<?php }  if(isset($not_able)){ ?>
+<?php }  if(isset($not_able)){
+		if(  $not_able == true) {
+	?>
 	<p style="color:red;"><?= utf8_decode('*Existe(m) fornecedor(es) com valor mínimo não alcançado!') ?></p>
+<?php } else {
+	?>
+<input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">
 
-<?php } else { ?>
+<?php } } else { ?>
 <input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">
 <?php }; ?>                           
 

@@ -51,13 +51,15 @@ class DashboardController extends Controller
 	$viewcount = DB::table('product')
 		          ->where('user_id', '=' , $user_id)
 				  ->where('delete_status','=','')
+                                  ->where( 'prod_status', '=', 1 )
 				  ->orderBy('prod_id','desc')
 		          ->count();
 
 	$viewproduct = DB::table('product')
 		          ->where('user_id', '=' , $user_id)
 				   ->where('delete_status','=','')
-				    ->orderBy('prod_id','desc')
+                                   ->where( 'prod_status', '=', 1 )
+				   ->orderBy('prod_id','desc')
 		          ->get();
 
 
@@ -74,7 +76,10 @@ class DashboardController extends Controller
     {
         $userid = Auth::user()->id;
 		$editprofile = DB::select('select * from users where id = ?',[$userid]);
-
+		$check_waiting_list = DB::table('waiting_list')
+		->where('prod_user_id','=',$userid)
+		->where('waiting','=', true)
+		->count();
 
 
 	$countries = array('Brazil');
@@ -96,7 +101,7 @@ class DashboardController extends Controller
 
 
 
-		$data = array('editprofile' => $editprofile, 'viewpost' => $viewpost, 'countries' => $countries, 'edited' => $edited, 'edited_count' => $edited_count);
+		$data = array('editprofile' => $editprofile, 'viewpost' => $viewpost, 'countries' => $countries, 'edited' => $edited, 'edited_count' => $edited_count, 'waiting_count' => $check_waiting_list);
 		return view('dashboard')->with($data);
     }
 
@@ -531,7 +536,7 @@ class DashboardController extends Controller
 		/* Marcello Update Users Wallet & Customer ID & Name Business & CPF/CNPJ & */
 		DB::update('update users set name="'.$name.'",post_slug="'.$this->clean($name).
                         '",email="'.$email.'",password="'.$passtxt.
-                        '",phone="'.$phone.'",full_name="'.$fullname.
+                        '",phone="'.$phone.'",min_value="'.$data['min_value'].'",full_name="'.$fullname.
                         '",country="'.$country.'",photo="'.$savefname.'",profile_banner="'.$save_banners.
                         '",about="'.addslashes($about_txt).'",address="'.$address.'",local_shipping_price="'.$local_shipping_price.
                         '",name_business="'.$name_business.'",name_place="'.$name_place.

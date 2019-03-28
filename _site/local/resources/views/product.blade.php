@@ -624,7 +624,7 @@
                                                 
                                                <div class="col-sm-3"> 
                                                 
-                                                <a href="javascript:void(0);" class="btn btn-primary" onClick="alert('Login user only');">
+                                                <a href="javascript:void(0);" class="btn btn-primary" onClick="alert('Usu&aacute;rio precisa estar logado!');">
                                                         <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.add_to_cart')
                                                         </a>
                                                 </div>

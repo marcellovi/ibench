@@ -119,8 +119,7 @@ $headertype = $setts[0]->header_type;
 										$total_price = 0;
 										$ord_id = ""; 
 										$prod_name = "";
-										/* Marcello - Verifica se o produto e' da QuartoG */
-										$quatroG = false;            
+										          
 										$cart_items = [];
 										foreach($cart_views as $cart_item) {
 											$item_total = $cart_item->price * $cart_item->quantity;
@@ -138,10 +137,7 @@ $headertype = $setts[0]->header_type;
 										// });
 										foreach($cart_items as $product){
 											// Marcello - Variavel que recebe o prod_user_id do produto
-											$my_user_id = $product->prod_user_id;
-											// Marcello - Verifica se e' a QuartoG ( id : 113 )
-											if($my_user_id == 113){ $quatroG = true; }
-		
+											$my_user_id = $product->prod_user_id;													
 											$prod_id = $product->prod_token; 
 											$product_img_count = DB::table('product_images')
 											->where('prod_token','=',$prod_id)
@@ -350,14 +346,6 @@ $headertype = $setts[0]->header_type;
 <div class="cart-sub-total">
 <label>@lang('languages.cart_total')</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_price,2,",",".").' ';?></span>
 </div>
-<!-- Marcello : Checando se e' a QuartoG -->
-<?php 
-if($quatroG){
-?>
-<div class="cart-sub-total">
-<label>Frete QuatroG</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format(275,2,",",".").' ';?></span>
-</div>                 
-<?php  } ?>
 
 <!-- Marcello Processing Fee 
 <div class="height20 clearfix"></div>
@@ -382,7 +370,6 @@ if($quatroG){
 
 <input type="hidden" name="cart_total" value="<?php echo $total_price;?>">
 <input type="hidden" name="processing_fee" value="<?php echo $setts[0]->processing_fee;?>">
-<input type="hidden" name="quatroG" value="<?php echo $quatroG;?>">
 </thead><!-- /thead -->
 <tbody>
 <tr>

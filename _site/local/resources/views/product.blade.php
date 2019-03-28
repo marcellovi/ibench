@@ -617,7 +617,10 @@
                                  
 										
                                         
-                                        <?php if(Auth::guest()) { ?>
+                                        <?php if(Auth::guest()) {
+											
+											if(!empty($viewproduct[0]->prod_available_qty)){
+												?>
                                                 
                                                <div class="col-sm-3"> 
                                                 
@@ -625,6 +628,13 @@
                                                         <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.add_to_cart')
                                                         </a>
                                                 </div>
+												<?php } else {  ?>
+													<div class="col-sm-12">
+														<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')"> <br>
+													</div>
+	
+															<?php
+													 }?>
                                                 <?php } else { 
 												
 												if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)

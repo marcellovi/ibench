@@ -24,7 +24,7 @@ require dirname(__DIR__).'/../moip-sdk/vendor/autoload.php';
 
 class WirecardController extends Controller
 {
-
+    
     /**
      * Create a new controller instance.
      *
@@ -267,7 +267,7 @@ class WirecardController extends Controller
         });
 
         foreach ($view_orders as $views2) {
-            $user_details2 = (array)$this->user($views2->prod_user_id);
+                $user_details2 = (array)$this->user($views2->prod_user_id);
             $email_seller = $user_details2['email'];
             $datas2 = array(
                 'site_logo' => $site_logo, 'site_name' => $site_name, 'name' => $name, 'email' => $email, 'phone' => $phone, 'amount' => $views2->total, 'url' => $url, 'order_id' => $purchase_token
@@ -320,57 +320,26 @@ class WirecardController extends Controller
             $ordersList = explode(',', $_POST['order_id']);
             $shipFeeList = explode(',', $_POST['shipping_fee_separate']);
             
-            // Verificador QuatroG Variavel 
-            // Quando for true e' por que ja inseriu o shipping entao nao precisa fazer novamente para nao incrementar
-            $quatroG = false;
-            $quatroGShipping = 27500; // Valor de 275 reais
             
             foreach ($ordersList as $key => $item) {
                 $order_details = (array)$this->order($item);
                 $product_details = (array)$this->product($order_details['prod_id']);
                 $user_details = (array)$this->user($order_details['prod_user_id']);
                 if ($user_details['wirecard_app_data'] != null) {
-                    /** QuartoG - Marcello Frete Customizado **/
-                    if($order_details['prod_user_id']==113){
-                        
-                        // Se true ja foi incluido o frete
-                        if(!$quatroG){
-                            $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
-                        ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
-                        ->setShippingAmount($quatroGShipping)
-                        ->setCustomer($customer)
-                        ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
-                        ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
-                    $multiorder->addOrder($order); 
-                        $quatroG = true;
-                        }else{
-                            $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
-                        ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
-                        ->setShippingAmount(0)
-                        ->setCustomer($customer)
-                        ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
-                        ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
-                    $multiorder->addOrder($order); 
-                        }
-                        
-                    } /** Fim -- Abaixo Original -- **/
-                    else{
-                       $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                       // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
+                    
+                $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                  // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
                     $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
                         ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
                         ->setShippingAmount((int) @$shipFeeList[$key] * 100)
-                        ->setCustomer($customer)
-                        ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
-                        ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
-                    $multiorder->addOrder($order); 
-                    }
-                    
-                    
-                }
-            }
+                              ->setCustomer($customer)
+                              ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
+                              ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
+                $multiorder->addOrder($order);
+                   
+
+              }
+            }  
             $create_order = $multiorder->create();
         } catch (\Moip\Exceptions\UnautorizedException $e) {
             $error[] = $e->__toString();
@@ -749,7 +718,7 @@ class WirecardController extends Controller
                 )),
                 'url' => $this->gateway_url() . 'channels/'
             );
-            
+           
            // print_r($data);
            // exit();
             
@@ -866,22 +835,20 @@ class WirecardController extends Controller
                      * to make transactions in his name.
                      */
                     $authorize = $connect->authorize();
-//            print_r($authorize);
-//            exit();
 
                     if (!empty($authorize->access_token)) {
                         $auth = (array)$authorize;
                         $auth = serialize($auth);
                         DB::update("UPDATE users SET wirecard_app_data='$auth' WHERE id = ?", array($userID));
-                        $add_array['success'] = 'Congrats, your Wirecard account has successfully connected with App ' . $wirecard_app_data['name'];
+                        $add_array['success'] = 'Parab&eacute;ns, sua conta Wirecard foi integrada com App ' . $wirecard_app_data['name'];
                     } else {
-                        $add_array['error'] = 'Oops, your Wirecard account failed to connect with App ' . $wirecard_app_data['name'];
+                        $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard com App ' . $wirecard_app_data['name'];
                     }
                 } else {
-                    $add_array['error'] = 'Oops, your Wirecard account failed to connect with App ' . $wirecard_app_data['name'] . ' due to ' . $error;
+                    $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard com App ' . $wirecard_app_data['name'] . ' due to ' . $error;
                 }
             } catch (Exception $e) {
-                $add_array['error'] = 'Oops, your Wirecard account failed to connect with App ' . $wirecard_app_data['name'] . ' due to ' . $e->getMessage() . ' ' . $e->getCode();
+                $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard  com App ' . $wirecard_app_data['name'] . ' due to ' . $e->getMessage() . ' ' . $e->getCode();
             }
 
         }

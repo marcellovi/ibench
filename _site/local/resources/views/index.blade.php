@@ -1197,7 +1197,7 @@ $setid=1;
                   <div class="blog-post-info text-left">
                     <h3 class="name"><a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>"><?php echo $blog->post_title;?></a></h3>
                     <span class="info"><?php echo $new_dates;?> </span>
-                    <p class="text"><?php echo substr($blog->post_desc,0,159).'...';?></p>
+                    <p class="text"><?php echo substr($blog->post_desc,0,146).'...';?></p>
                     <a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>" class="lnk btn btn-primary">@lang('languages.read_more')</a> </div>
                  
                   

@@ -488,9 +488,8 @@ $setid=1;
                                             <div class="order-data ashbg text-left pad15">
                                                 <div class="row">
                                                     <span class="col-md-9 col-sm-9 col-xs-6 fontsize17 text-left">@lang('languages.shipping_charge')</span> <span class="col-md-3 col-sm-3 col-xs-6 newfonts text-right black">
-                                                        <?php 
-                                                        // Marcello : Quatrog //
-                                                        if($quatroG == 1){ echo "BRL 275,00"; }else{ echo $setts[0]->site_currency.' '.number_format($ship_price,2,",",".").' '; }?></span>
+                                                        <?php                                                         
+                                                        echo $setts[0]->site_currency.' '.number_format($ship_price,2,",",".").' '; ?></span>
                                                     <div class="clear"></div>
                                                 </div>
                                             </div>
@@ -509,15 +508,10 @@ $setid=1;
                                              <!--
                                             <?php $total = $cart_total + $ship_price + $processing_fee; ?>
                                           -->
-                                          <!-- Marcello : Addicao do QuartroG -->                                          
-                                          <?php 
-                                            if($quatroG==1)
-                                            { $total = $cart_total + 275 + $processing_fee; }
-                                            else{
-                                                $total = $cart_total + $ship_price + $processing_fee;
-                                            }
-?>
-                                          
+                                                                                
+                                          <?php                                            
+                                                $total = $cart_total + $ship_price + $processing_fee;                                     
+?>                                          
                                             <div class="clearfix height10"></div>
                                             <div class="order-data ashbg text-left pad15">
                                                 <div class="row">
@@ -537,21 +531,33 @@ $setid=1;
                                         <input type="hidden" name="product_names" value="<?php echo utf8_decode($product_names);?>">
                                         <div class="col-md-12 marB20">
                                             <div class="order-data text-left padTB20">
-                                                <h3 class="text-left">@lang('languages.select_payment_method')</h3>
+                                               <!-- <h3 class="text-left">@lang('languages.select_payment_method')</h3> -->
+                                                <h3 class="text-left">Confirme para finalizar suas compras</h3>
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
                                         <?php
-										$option = explode (",", $setts[0]->payment_option);
-										?>
+						$option = explode (",", $setts[0]->payment_option);
+					?>
                                         <?php
-
-										$i=1;
-										foreach($option as $withdraw){?>
+					$i=1;
+					foreach($option as $withdraw){?>
                                         <div class="form-row col-sm-6 marB30">
 
                                             <input type="radio" id="method<?php echo $i;?>" name="payment_type" class="validate[required]" value="<?php echo $withdraw;?>">
-                                            <label for="method<?php echo $i;?>" class="radio-label fontsize16"><?php if($withdraw=="wirecard"){?>WireCard<?php } ?><?php if($withdraw=="localbank"){?>Bank transfer<?php } ?><?php if($withdraw=="paypal"){?>Paypal<?php } ?><?php if($withdraw=="stripe"){?>Stripe<?php } ?><?php if($withdraw=="cash-on-delivery"){?>Pagamento na Entrega<?php } ?><?php if($withdraw=="payhere"){?>Payhere<?php } ?><?php if($withdraw=="ccavenue"){?>Ccavenue<?php } ?><?php if($withdraw=="razorpay"){?>Razorpay<?php } ?><?php if($withdraw=="paytm"){?>Paytm<?php } ?><?php if(Auth::user()->earning >= $total) {?><?php if($withdraw=="wallet-balance"){?>Wallet Balance ( <?php echo $setts[0]->site_currency.' '.number_format(Auth::user()->earning,2);?> )<?php } ?><?php } ?></label>
+                                            <label for="method<?php echo $i;?>" class="radio-label fontsize16">
+                                                <?php if($withdraw=="wirecard"){?>WireCard<?php } ?>
+                                                    <?php if($withdraw=="localbank"){?>Bank transfer<?php } ?>
+                                                        <?php if($withdraw=="paypal"){?>Paypal<?php } ?>
+                                                            <?php if($withdraw=="stripe"){?>Stripe<?php } ?>
+                                                                <?php if($withdraw=="cash-on-delivery"){?>Pagamento na Entrega<?php } ?>
+                                                                    <?php if($withdraw=="payhere"){?>Payhere<?php } ?>
+                                                                        <?php if($withdraw=="ccavenue"){?>Ccavenue<?php } ?>
+                                                                            <?php if($withdraw=="razorpay"){?>Razorpay<?php } ?>
+                                                                                <?php if($withdraw=="paytm"){?>Paytm<?php } ?>
+                                                                                    <?php if(Auth::user()->earning >= $total) {?>
+                                                                                        <?php if($withdraw=="wallet-balance"){?>Wallet Balance ( <?php echo $setts[0]->site_currency.' '.number_format(Auth::user()->earning,2);?> )<?php } ?>
+                                                                                            <?php } ?></label>
                                             <span class="check"><span class="inside"></span></span>
 
                                         </div>

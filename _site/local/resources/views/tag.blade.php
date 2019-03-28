@@ -182,9 +182,9 @@ $setid=1;
                        
                         </div>
 						
-						<div class="price">
-							
-							<?php if(!empty($nquery->prod_offer_price)){?><span><?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_price,2).' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_offer_price,2);?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_price,2);?><?php } ?>
+						<div class="product-name">
+                                                    <p><?php if(!empty($nquery->prod_offer_price) && $nquery->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" ><?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_price,2,",",".").' ';?></span>&nbsp;&nbsp;<span> <?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span><?php echo $setts[0]->site_currency.' '.number_format($nquery->prod_price,2,",",".");?></span> <?php } ?></p>
+                                                        
 						</div>
                         
                         

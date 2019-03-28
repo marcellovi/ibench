@@ -330,7 +330,7 @@
                                          <?php if(!empty($viewproduct[0]->prod_available_qty)){?>
 											<span class="value">@lang('languages.in_stock') (<?php echo $viewproduct[0]->prod_available_qty;?>)</span>
                                             <?php } else { ?>
-                                     <span class="value">@lang('languages.out_of_stock')</span>
+                                     <span class="value"> <b>@lang('languages.out_of_stock')</b></span>
                                       <?php } ?>
 										</div>	
 									</div>
@@ -358,6 +358,7 @@
 															->get();
 									$view_sold_name = $view_sold[0]->name;
 									$view_sold_slug = $view_sold[0]->post_slug;
+									$view_sold_min_value =  $view_sold[0]->min_value;
                                                                         
                                                                         // Marcello - Pegando dados do Nome da Empresa
                                                                         $view_store_name = $view_sold[0]->name_business;
@@ -581,6 +582,14 @@
                                 <!-- fim -->
                                 
                                 </div>
+
+								<div class="mtop10">
+								<?php if($view_sold_min_value > 0) {?>                               
+                                    <span> <strong><?= utf8_decode('Observação') ?> </strong>Esse fornecedor possui um minimo de compra em sua loja de: <strong>R$ <?= $view_sold_min_value ?></strong> </span>
+								<?php }?>
+                                <!-- fim -->
+                                
+                                </div>
                                  <!-- Marcello Novo  Abaixo - Nao Usar
                                  <div class="row">
                                  <div class="col-md-12">
@@ -637,7 +646,17 @@
                                                 </div>
                                                 
                                                 
-                                                <?php } }
+												<?php } }
+												else {?>
+
+													<div class="col-sm-12">
+														<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')"> <br>
+														<span>Infelizmente o produto nao tem em estoque, me informe quando chegar. <a href="<?php echo $url;?>/waitin-list/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>/<?php echo $viewproduct[0]->user_id;?>">Clique Aqui</a></span>
+													</div>
+	
+															<?php
+													 }
+												
 												 }
                                                 
 												

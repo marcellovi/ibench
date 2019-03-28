@@ -69,9 +69,9 @@ class TagController extends Controller
 				
 			 $query = DB::table('product')
 					
-					 ->whereRaw("find_in_set('".$tag_txt."',prod_tags)")
-					 
+					 ->whereRaw("find_in_set('".$tag_txt."',prod_tags)")					 
 					 ->where("prod_status", "=", "1")
+                                         ->where("delete_status","=","")
 					 ->get();	  
 	
 	   }

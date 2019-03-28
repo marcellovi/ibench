@@ -120,6 +120,7 @@ Route::post('/profile', ['as'=>'profile','uses'=>'DashboardController@avigher_co
 /************* MY PROFILE *********/
 
 //Route::get('/my-product', 'ProductController@avigher_product');
+Route::get('/waiting-list', 'ProductController@waitingList'); 
 Route::get('/my-product', 'ProductController@myProductListActiveInactive'); // Marcello :: List Active & Inactive
 Route::get('/my-product/{token}', 'ProductController@deleteProductSeller'); // Deletar produto do Seller 
 Route::get('/status-product/{token}/{status}', 'ProductController@statusProductSeller'); // Troca o Status do produto do Seller 
@@ -153,6 +154,8 @@ Route::post('/shop', ['as'=>'shop','uses'=>'CategoryController@avigher_search_da
 
 
 Route::get('/wishlist/{log_id}/{prod_token}', 'ProductController@avigher_wishlist');
+Route::get('/waitin-list/{user_id}/{prod_token}/{prod_user_id}', 'ProductController@add_waiting_list');
+
 Route::get('/my-wishlist', 'ProductController@avigher_view_wishlist');
 Route::get('/my-wishlist/{prod_token}', 'ProductController@avigher_wishlist_delete');
 

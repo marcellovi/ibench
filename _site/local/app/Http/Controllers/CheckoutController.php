@@ -44,39 +44,79 @@ class CheckoutController extends Controller
 	   
 	   $local_shipping_separate = "";
 	   $world_shipping_separate = "";
+           
+           // Marcello : Created to organize shipping and users (fornecedor)
+           $view_prod_user = [];  
+           $view_prod_user_id = []; 
+           
+           // Marcello : Loop for not to repeat the same prod_user (fornecedor)
+           foreach($prod_user_id as $id)
+	   {
+               $view_user = DB::table('users')
+                                ->where('id', '=', $id)
+                                ->get();
+              
+               if(empty($view_prod_user)){
+                   $view_prod_user[] = $view_user;
+                   array_push($view_prod_user_id,$view_user[0]->id);  
+                   
+                    $local_shipping_price += $view_user[0]->local_shipping_price;
+		    $world_shipping_price += $view_user[0]->world_shipping_price;
+                    
+                    $local_shipping_separate .= $view_user[0]->local_shipping_price.',';
+		    $world_shipping_separate .= $view_user[0]->world_shipping_price.',';
+                  
+               }else 
+                   if(!in_array ($view_user[0]->id, $view_prod_user_id)){
+                       
+                       $local_shipping_price += $view_user[0]->local_shipping_price;
+                       $world_shipping_price += $view_user[0]->world_shipping_price;
+                       
+                       $local_shipping_separate .= $view_user[0]->local_shipping_price.',';
+		       $world_shipping_separate .= $view_user[0]->world_shipping_price.',';
+                  
+                       array_push($view_prod_user,$view_user);  
+                       array_push($view_prod_user_id,$view_user[0]->id);                        
+               } else{ 
+                       // Marcello : When it's the same you dont add with anything
+                       $local_shipping_price += 0;
+                       $world_shipping_price += 0;
+                       
+                       $local_shipping_separate .= '0,';
+		       $world_shipping_separate .= '0,';
+               }              
+               
+           } //print_r($view_prod_user); exit();
+           
+           /* Original
 	   foreach($prod_user_id as $id)
 	   {
+               
 	      $view_user = DB::table('users')
 		               ->where('id', '=', $id)
-                       ->get();
-					   
+                       ->get();            
+                
 		  $local_shipping_price += $view_user[0]->local_shipping_price;
 		  $world_shipping_price += $view_user[0]->world_shipping_price;	
-		  
-		  
+				  
 		  $local_shipping_separate .= $view_user[0]->local_shipping_price.',';
-		  $world_shipping_separate .= $view_user[0]->world_shipping_price.',';			   
-					   
-					   
+		  $world_shipping_separate .= $view_user[0]->world_shipping_price.',';
 	   }
-	   
+           **/
 	   
 	   if($shipping_charge == "local_shipping")
-	   {
+	   {//print_r("*** local_shipping ****<br> ");
 	      $ship_price = $local_shipping_price;
 		  $ship_separate = rtrim($local_shipping_separate,',');
+                 //  print_r("ship_price: ".$ship_price);
+                 //  print_r(" ship_separate: ".$ship_separate);
+                 // exit();
 	   }
 	   else if($shipping_charge == "world_shipping")
 	   {
 	      $ship_price = $world_shipping_price;
 		  $ship_separate = rtrim($world_shipping_separate,',');
 	   }
-	   
-	   
-	   
-	   
-	    
-		
 		/*
 		 if($available > $quantity)
 		   {
@@ -92,263 +132,18 @@ class CheckoutController extends Controller
 		$setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
-		->get();
+		->get();	
 		
-		
-		
-		
-		
-		$countries = array(
-	'Afghanistan',
-	'Albania',
-	'Algeria',
-	'American Samoa',
-	'Andorra',
-	'Angola',
-	'Anguilla',
-	'Antarctica',
-	'Antigua and Barbuda',
-	'Argentina',
-	'Armenia',
-	'Aruba',
-	'Australia',
-	'Austria',
-	'Azerbaijan',
-	'Bahamas',
-	'Bahrain',
-	'Bangladesh',
-	'Barbados',
-	'Belarus',
-	'Belgium',
-	'Belize',
-	'Benin',
-	'Bermuda',
-	'Bhutan',
-	'Bolivia',
-	'Bosnia and Herzegowina',
-	'Botswana',
-	'Bouvet Island',
-	'Brazil',
-	'British Indian Ocean Territory',
-	'Brunei Darussalam',
-	'Bulgaria',
-	'Burkina Faso',
-	'Burundi',
-	'Cambodia',
-	'Cameroon',
-	'Canada',
-	'Cape Verde',
-	'Cayman Islands',
-	'Central African Republic',
-	'Chad',
-	'Chile',
-	'China',
-	'Christmas Island',
-	'Cocos (Keeling) Islands',
-	'Colombia',
-	'Comoros',
-	'Congo',
-	'Congo, the Democratic Republic of the',
-	'Cook Islands',
-	'Costa Rica',
-	'Cote d\'Ivoire',
-	'Croatia (Hrvatska)',
-	'Cuba',
-	'Cyprus',
-	'Czech Republic',
-	'Denmark',
-	'Djibouti',
-	'Dominica',
-	'Dominican Republic',
-	'East Timor',
-	'Ecuador',
-	'Egypt',
-	'El Salvador',
-	'Equatorial Guinea',
-	'Eritrea',
-	'Estonia',
-	'Ethiopia',
-	'Falkland Islands (Malvinas)',
-	'Faroe Islands',
-	'Fiji',
-	'Finland',
-	'France',
-	'France Metropolitan',
-	'French Guiana',
-	'French Polynesia',
-	'French Southern Territories',
-	'Gabon',
-	'Gambia',
-	'Georgia',
-	'Germany',
-	'Ghana',
-	'Gibraltar',
-	'Greece',
-	'Greenland',
-	'Grenada',
-	'Guadeloupe',
-	'Guam',
-	'Guatemala',
-	'Guinea',
-	'Guinea-Bissau',
-	'Guyana',
-	'Haiti',
-	'Heard and Mc Donald Islands',
-	'Holy See (Vatican City State)',
-	'Honduras',
-	'Hong Kong',
-	'Hungary',
-	'Iceland',
-	'India',
-	'Indonesia',
-	'Iran (Islamic Republic of)',
-	'Iraq',
-	'Ireland',
-	'Israel',
-	'Italy',
-	'Jamaica',
-	'Japan',
-	'Jordan',
-	'Kazakhstan',
-	'Kenya',
-	'Kiribati',
-	'Korea, Democratic People\'s Republic of',
-	'Korea, Republic of',
-	'Kuwait',
-	'Kyrgyzstan',
-	'Lao, People\'s Democratic Republic',
-	'Latvia',
-	'Lebanon',
-	'Lesotho',
-	'Liberia',
-	'Libyan Arab Jamahiriya',
-	'Liechtenstein',
-	'Lithuania',
-	'Luxembourg',
-	'Macau',
-	'Macedonia, The Former Yugoslav Republic of',
-	'Madagascar',
-	'Malawi',
-	'Malaysia',
-	'Maldives',
-	'Mali',
-	'Malta',
-	'Marshall Islands',
-	'Martinique',
-	'Mauritania',
-	'Mauritius',
-	'Mayotte',
-	'Mexico',
-	'Micronesia, Federated States of',
-	'Moldova, Republic of',
-	'Monaco',
-	'Mongolia',
-	'Montserrat',
-	'Morocco',
-	'Mozambique',
-	'Myanmar',
-	'Namibia',
-	'Nauru',
-	'Nepal',
-	'Netherlands',
-	'Netherlands Antilles',
-	'New Caledonia',
-	'New Zealand',
-	'Nicaragua',
-	'Niger',
-	'Nigeria',
-	'Niue',
-	'Norfolk Island',
-	'Northern Mariana Islands',
-	'Norway',
-	'Oman',
-	'Pakistan',
-	'Palau',
-	'Panama',
-	'Papua New Guinea',
-	'Paraguay',
-	'Peru',
-	'Philippines',
-	'Pitcairn',
-	'Poland',
-	'Portugal',
-	'Puerto Rico',
-	'Qatar',
-	'Reunion',
-	'Romania',
-	'Russian Federation',
-	'Rwanda',
-	'Saint Kitts and Nevis',
-	'Saint Lucia',
-	'Saint Vincent and the Grenadines',
-	'Samoa',
-	'San Marino',
-	'Sao Tome and Principe',
-	'Saudi Arabia',
-	'Senegal',
-	'Seychelles',
-	'Sierra Leone',
-	'Singapore',
-	'Slovakia (Slovak Republic)',
-	'Slovenia',
-	'Solomon Islands',
-	'Somalia',
-	'South Africa',
-	'South Georgia and the South Sandwich Islands',
-	'Spain',
-	'Sri Lanka',
-	'St. Helena',
-	'St. Pierre and Miquelon',
-	'Sudan',
-	'Suriname',
-	'Svalbard and Jan Mayen Islands',
-	'Swaziland',
-	'Sweden',
-	'Switzerland',
-	'Syrian Arab Republic',
-	'Taiwan, Province of China',
-	'Tajikistan',
-	'Tanzania, United Republic of',
-	'Thailand',
-	'Togo',
-	'Tokelau',
-	'Tonga',
-	'Trinidad and Tobago',
-	'Tunisia',
-	'Turkey',
-	'Turkmenistan',
-	'Turks and Caicos Islands',
-	'Tuvalu',
-	'Uganda',
-	'Ukraine',
-	'United Arab Emirates',
-	'United Kingdom',
-	'United States',
-	'United States Minor Outlying Islands',
-	'Uruguay',
-	'Uzbekistan',
-	'Vanuatu',
-	'Venezuela',
-	'Vietnam',
-	'Virgin Islands (British)',
-	'Virgin Islands (U.S.)',
-	'Wallis and Futuna Islands',
-	'Western Sahara',
-	'Yemen',
-	'Yugoslavia',
-	'Zambia',
-	'Zimbabwe'
-);
-
+		$countries = array('Brazil');
 		
 		$login_user_count = DB::table('product_checkout')
-		               ->where('user_id', '=', $log_id)
-                       ->count();
+                                ->where('user_id', '=', $log_id)
+                                ->count();
 		
 		
 		$login_user = DB::table('product_checkout')
-		               ->where('user_id', '=', $log_id)
-                       ->get();
+                                ->where('user_id', '=', $log_id)
+                                ->get();
 		
 
 		//$prod_ids = DB::table('product_orders')
@@ -365,45 +160,30 @@ class CheckoutController extends Controller
                          ->where('prod_id', '=', $prod_ord->prod_id)
 						 ->get();
 
-           if($prod[0]->prod_available_qty < $prod_ord->quantity){
-			$check_qty = 1;
-           }
+                    if($prod[0]->prod_available_qty < $prod_ord->quantity){
+                                 $check_qty = 1;
+                    }
 
 		}
 		
 		$cart_total = $data['cart_total'];
 		$processing_fee = $data['processing_fee'];
-		$order_ids = $data['order_ids'];
-                
-                /** Marcello :: QuatroG - Variavel com frete unico **/
-                $quatroG = $data['quatroG'];               
+		$order_ids = $data['order_ids'];  
 		
 		$product_names = $data['product_names'];
 		
-		/* Marcello - Add QuatroG */
-		   $data = array('quatroG' => $quatroG, 'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
+                $data = array('ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
 	   
 	   return view('checkout')->with($data);
 	   
-	   /*return redirect()->back()->with(['data' => $data]);*/
-		  
-	   
-	
-	
+	   /*return redirect()->back()->with(['data' => $data]);*/ 
 	}
-	
-	
-	
-	
-	
 	
 	public function avigher_remove_cart($token)
-	{
-	
+	{	
 	   DB::delete('delete from product_orders where ord_id = ?',[$token]);
 	   return back();
-	}
-	
+	}	
 	
 	
 	public function avigher_view_checkout()
@@ -411,19 +191,15 @@ class CheckoutController extends Controller
 	   if(Auth::check()) {
 	   $log_id = Auth::user()->id;
 	   
-	   $cart_views_count = DB::table('product_orders')
-		
+	   $cart_views_count = DB::table('product_orders')		
 		->where('user_id', '=', $log_id)
-		->where('status', '=', 'pending')
-		
+		->where('status', '=', 'pending')		
 		->count();
 	   
 	   
-	   $cart_views = DB::table('product_orders')
-		
+	   $cart_views = DB::table('product_orders')		
 		->where('user_id', '=', $log_id)
-		->where('status', '=', 'pending')
-		
+		->where('status', '=', 'pending')		
 		->get();
 		
 		}
@@ -442,37 +218,16 @@ class CheckoutController extends Controller
 		$admin_details = DB::table('users')
 						 ->where('id', '=', 1)
 						 ->get();
-		
-		
-		
 	   
 	    $data = array('cart_views_count' => $cart_views_count, 'cart_views' => $cart_views, 'setts' => $setts, 'admin_details' => $admin_details);
 	   
 	   return view('checkout')->with($data);
 	}
 	
-	
-	
-	
+
 	public function avigher_view_no_checkout()
-	{
-	
-	return redirect('/404');
-	
-	}
-	
-	
-   
-   
-  
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	{	
+            return redirect('/404');	
+	}	
+
 }

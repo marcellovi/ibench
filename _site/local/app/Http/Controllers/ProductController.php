@@ -206,9 +206,9 @@ class ProductController extends Controller {
 
 			if(empty($check_waiting_list)) {
 				DB::insert('insert into waiting_list (user_id,product_id, waiting, prod_user_id) values (?, ?, ?, ?)', [$user_id,$prod_token, true, $prod_user_id]);
-				return back()->with('success', 'Obrigado! Você será avisado quando o produto retornar ao estoque!');
+				return back()->with('success', 'Obrigado! Voc&ecirc; ser&aacute; avisado quando o produto retornar ao estoque!');
 			}	else {
-					return back()->with('success', 'Obrigado! Você será avisado quando o produto retornar ao estoque!');
+					return back()->with('success', 'Obrigado! Voc&ecirc; ser&aacute; avisado quando o produto retornar ao estoque!');
 			}
 
 	}

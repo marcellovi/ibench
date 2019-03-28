@@ -296,6 +296,8 @@ if(Auth::check()) {
                                                         
                                                         <?php if(Auth::user()->admin==2){?>
                                                         <li><a href="<?php echo $url;?>/my-product">@lang('languages.my_product')</a></li>
+                                                        <li><a href="<?php echo $url;?>/waiting-list">Lista de Espera</a></li>
+
                                                         <li><a href="<?php echo $url;?>/my-orders">@lang('languages.my_orders')</a></li>
                                                         <li><a href="<?php echo $url;?>/my-shopping">@lang('languages.my_shopping')</a></li>
                                                         <!-- Meus atributos Marcello

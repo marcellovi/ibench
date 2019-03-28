@@ -103,7 +103,14 @@ $setid=1;
      <div class="col-md-12 row">
        <div class="heading-title"><!-- @lang('languages.dashboard')  - Marcello -->
            <?php if ($editprofile[0]->admin == 0) { echo 'Labor&aacute;torio';
-                }else if($editprofile[0]->admin == 2 ){ echo 'Fornecedor';
+                }else if($editprofile[0]->admin == 2 ){ 
+                    echo 'Fornecedor';
+                    if($editprofile[0]->delete_status == 'inactive'){
+                        echo "- <span style='color:red;'>ATEN&Ccedil;&Atilde;O! LOJA DESATIVADA </span>";
+                    
+                    }else if($editprofile[0]->delete_status == 'blocked'){
+                        echo "- <span style='color:red;'>&ldquo;ATEN&Ccedil;&Atilde;O! LOJA FECHADA/EM AN&Aacute;LISE&rdquo;</span>";
+                    }
                 }
            ?>
 
@@ -120,9 +127,9 @@ $setid=1;
         <div class="control-group">
             <a href="{{ $url }}/wirecard-connect" class="btn btn-primary"> Conectar com conta Wirecard </a>
             <?php if($editprofile[0]->delete_status == 'inactive'){   ?>
-                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary"> Ativar Loja </a>
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary" style="background-color: green;"> Ativar Loja </a>
             <?php }else if($editprofile[0]->delete_status == ''){?>
-                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/0" class="btn btn-primary"> Desativar Loja </a>
+                <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/0" class="btn btn-primary" style="background-color: #f31414;"> Desativar Loja </a>
             <?php } ?>
 
             @if(@isset($success))
@@ -222,8 +229,17 @@ $setid=1;
                             </div>
                             </div>
 
-                            <?php if(Auth::user()->admin==2){?>
+                            <?php if(Auth::user()->admin==2){
+                                    if($waiting_count > 0) {?>
+                            <script>
+                                alert("Voce possui <?= $waiting_count ?> clientes esperando por produtos")
+                            </script>
+                                        
 
+                               <?php }                              
+                                ?>
+
+                                    
                             <!-- Marcello Inclusao de Nome Empresa (ou) Tipo Cliente -->
                              <div class="col-md-12">
                         <div class="form-group">
@@ -291,6 +307,17 @@ $setid=1;
                                 @endif
                             </div>
                             </div>
+                            <?php if(Auth::user()->admin==2){?>
+                               
+                                <div class="col-md-12">
+                        <div class="form-group">
+                        <label class="info-title" for="exampleInputName">Valor Minimo </label>
+
+                            <input type="text" placeholder="Valor Minimo" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value;?>">
+                          
+                            </div>
+                            </div>
+                            <?php } ?>
 
 
                              </div>

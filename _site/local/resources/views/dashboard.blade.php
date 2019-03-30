@@ -101,6 +101,13 @@ $setid=1;
 
 
      <div class="col-md-12 row">
+      <?php 
+          if(Auth::user()->admin==2){
+            if($waiting_count > 0) { ?>
+              <p class="alert alert-success">Voc&ecirc; possu&iacute; <?= $waiting_count; ?> cliente(s) esperando por produto(s). <a href="<?php echo $url;?>/waiting-list">Clique Aqui.</a></p>
+      <?php }  }?>
+
+      
        <div class="heading-title"><!-- @lang('languages.dashboard')  - Marcello -->
            <?php if ($editprofile[0]->admin == 0) { echo 'Labor&aacute;torio';
                 }else if($editprofile[0]->admin == 2 ){ 
@@ -230,13 +237,7 @@ $setid=1;
                             </div>
 
                             <?php if(Auth::user()->admin==2){
-                                    if($waiting_count > 0) {?>
-                            <script>
-                                alert("Voce possui <?= $waiting_count ?> clientes esperando por produtos")
-                            </script>
-                                        
-
-                               <?php }                              
+                                                                
                                 ?>
 
                                     
@@ -296,24 +297,70 @@ $setid=1;
 
 
                             <div class="col-md-12">
-                        <div class="form-group">
-                        <label class="info-title" for="exampleInputName">@lang('languages.email') </label>
+                              <div class="form-group">
+                                <label class="info-title" for="exampleInputName">@lang('languages.email') </label>
 
-                            <input type="text" placeholder="Email" name="email" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->email;?>" readonly>
-                             @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                                <input type="text" placeholder="Email" name="email" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->email;?>" readonly>
+                                    @if ($errors->has('email'))
+                                      <span class="help-block">
+                                          <strong>{{ $errors->first('email') }}</strong>
+                                      </span>
+                                    @endif
+                              </div>
+                              <?php if(Auth::user()->admin==0){?>
+                                <div class="form-group">
+                                  <label class="info-title">Lista de Espera - Produtos</label>
+                                  <?php if (empty($customer_waiting_list)){ ?>
+                                    <p style="color:blue;">Sem produto(s) na lista de espera.</p>
+                                  <?php }else{?>
+
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          
+                                          <th class="item">@lang('languages.product_name')</th>
+                                          <th class="item">@lang('languages.status')</th>
+                                                    
+                                        </tr>
+                                      </thead><!-- /thead -->
+                                      
+                                      <tbody>
+                                        <?php foreach($customer_waiting_list as $item){
+                                          $product_waiting_list = DB::table('product')
+                                                        ->where('prod_token','=',$item->product_id)
+                                                        ->get();
+                                        ?>
+                                          <tr>
+                                            <td>
+                                              <a href="<?php echo $url;?>/product/<?php echo $product_waiting_list[0]->prod_id;?>/<?php echo utf8_decode($product_waiting_list[0]->prod_slug);?>" >
+                                                <?= $product_waiting_list[0]->prod_name; ?>
+                                              </a>
+                                            </td>
+                                            <td>
+                                              <?php if($item->waiting == 1){
+                                                        echo('<p style="color:red;">Sem Estoque</p>');
+                                                    } else {
+                                                        echo('<p style="color:green;">Produto Dispon&iacute;vel!</p>');
+
+                                              }?>
+                                            </td>
+                                          </tr>
+                                        <?php } ?>
+                                      </tbody><!-- /tbody -->
+                                    </table>
+
+                                  <?php } ?>
+                                  
+                                </div>
+                              <?php } ?>
                             </div>
                             <?php if(Auth::user()->admin==2){?>
                                
                                 <div class="col-md-12">
                         <div class="form-group">
-                        <label class="info-title" for="exampleInputName">Valor Minimo </label>
+                        <label class="info-title" for="exampleInputName">Valor de Compra M&iacute;nima (valor m&iacute;nimo exigido para cada pedido) </label>
 
-                            <input type="text" placeholder="Valor Minimo" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value;?>">
+                            <input type="text" placeholder="Valor de Compra M&iacute;nimo" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value;?>">
                           
                             </div>
                             </div>

@@ -17,19 +17,10 @@ $setid=1;
 <html class="no-js"  lang="en">
 <head>
 
-		
-
    @include('style')
    
-
-
-
-
 </head>
 <body class="cnt-home">
-
-  
-
    
     @include('header')
 
@@ -76,7 +67,8 @@ $setid=1;
 		<div class="row ">
 			<div class="shopping-cart">
 				<div class="shopping-cart-table">
-                <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">Clientes em Espera: (<?php echo $viewcount;?>)</div></div>
+	
+                <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">Clientes em Espera: (<?php echo $viewcount_waiting;?>)</div></div>
                 <div class="col-md-6 text-right">
                     
               
@@ -97,36 +89,65 @@ $setid=1;
 					<th class="item">@lang('languages.username')</th>
 					<th class="item">@lang('languages.product_name')</th>
           <th class="item">@lang('languages.status')</th>
+          <th class="item">Data/Hora</th>
                     
 				</tr>
 			</thead><!-- /thead -->
 			
 			<tbody>
           
-			<?php if(!empty($viewcount)){?>
-                                <?php foreach($viewproduct as $item){		
+			<?php if(!empty($viewcount_waiting)){ ?>
+        <?php foreach($viewproduct_waiting as $item){		
 																	
-																	$user = DB::table('users')
-																	->where('id','=',$item->user_id)
-																	->get();	
+						$user = DB::table('users')
+											->where('id','=',$item->user_id)
+											->get();	
 																	
-																	$product = DB::table('product')
-																	->where('prod_token','=',$item->product_id)
-																	->get();
+						$product = DB::table('product')
+													->where('prod_token','=',$item->product_id)
+													->get();
+						$product_img_count = DB::table('product_images')
+																		->where('prod_token','=',$item->product_id)
+																		->count();
 							
-								?>
+				?>
 				<tr>
-																	<td class="item"><?= $user[0]->name ?></td>
-																	<td class="item"><?= $product[0]->prod_name?></td>
-																	<td class="item"><?php if($item->waiting == 1){
-																			echo('Em Espera');
-																		} else {
-																			echo('Email Envaido');
+						<td class="item" style="text-align: center;"><?= $user[0]->name ?></td>
+						<td class="item" style="text-align: center;">
+							<?php
+              			if(!empty($product_img_count)){					
+												$product_img = DB::table('product_images')
+													->where('prod_token','=',$item->product_id)
+													->orderBy('prod_img_id','asc')
+													->get();
+							?>    
+							<a href="<?php echo $url;?>/edit-product/<?php echo $product[0]->prod_token;?>">
+								<img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt="" class="img_responsive">
+							</a>
+            	<?php } else { ?>
+            			<a href="<?php echo $url;?>/edit-product/<?php echo $product[0]->prod_token;?>">
+            				<img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt="" class="img_responsive">
+            			</a>
+            	<?php } ?>
+            	&nbsp;
+            	<a href="<?php echo $url;?>/edit-product/<?php echo $product[0]->prod_token;?>">
+            		<?= $product[0]->prod_name; ?>
+            	</a>
+								
+						</td>
+						<td class="item" style="text-align: center;">
+							<?php if($item->waiting == 1){
+												echo('<p style="color:red;">Em Espera</p>');
+										} else {
+												echo('<p style="color:green;">Cliente Notificado!</p>');
 
-																		}?></td>
-
-																	</tr>
-																<?php }} ?>
+							}?>
+								
+						</td>
+						<td class="item" style="text-align: center;"> <?php echo date("d/m/Y", strtotime($item->datatime)); ?></td>
+				</tr>
+																
+			<?php }} ?>
 			</tbody><!-- /tbody -->
 		</table><!-- /table -->
 	</div>
@@ -134,6 +155,89 @@ $setid=1;
 
 </div>
 		</div> 
+
+		<hr>
+		<div class="row ">
+			<div class="shopping-cart">
+				<div class="shopping-cart-table">
+        	<div class="col-md-6">
+        		<div class="heading-title" style="border-bottom:none !important;">Clientes Notificados: (<?php echo $viewcount_no_waiting;?>)</div>
+        	</div>
+         
+          <div class="height20 clearfix"></div>
+          <div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					
+					<th class="item">@lang('languages.username')</th>
+					<th class="item">@lang('languages.product_name')</th>
+          <th class="item">@lang('languages.status')</th>
+          <th class="item">Data/Hora</th>
+                    
+				</tr>
+			</thead><!-- /thead -->
+			
+			<tbody>
+          
+			<?php if(!empty($viewcount_no_waiting)){ ?>
+        <?php foreach($viewproduct_no_waiting as $item){		
+																	
+						$user = DB::table('users')
+											->where('id','=',$item->user_id)
+											->get();	
+																	
+						$product = DB::table('product')
+													->where('prod_token','=',$item->product_id)
+													->get();
+						$product_img_count = DB::table('product_images')
+																		->where('prod_token','=',$item->product_id)
+																		->count();
+							
+				?>
+				<tr>
+						<td class="item" style="text-align: center;"><?= $user[0]->name ?></td>
+						<td class="item" style="text-align: center;">
+							<?php
+              			if(!empty($product_img_count)){					
+												$product_img = DB::table('product_images')
+													->where('prod_token','=',$item->product_id)
+													->orderBy('prod_img_id','asc')
+													->get();
+							?>                       
+		            	<a href="<?php echo $url;?>/edit-product/<?php echo $product[0]->prod_token;?>">
+		            		<img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt="" class="img_responsive">
+		            	</a>
+            	<?php } else { ?>
+            			<a href="<?php echo $url;?>/edit-product/<?php echo $product[0]->prod_token;?>">
+            				<img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt="" class="img_responsive">
+            			</a>
+            	<?php } ?>
+            	&nbsp;
+							<?= $product[0]->prod_name; ?>
+								
+						</td>
+						<td class="item" style="text-align: center;">
+							<?php if($item->waiting == 1){
+												echo('<p style="color:red;">Em Espera</p>');
+										} else {
+												echo('<p style="color:green;">Cliente Notificado!</p>');
+
+							}?>
+								
+						</td>
+						<td class="item" style="text-align: center;"> <?php echo date("d-m-Y", strtotime($item->datatime)); ?></td>
+				</tr>
+																
+			<?php }} ?>
+			</tbody><!-- /tbody -->
+		</table><!-- /table -->
+	</div>
+
+        </div>
+      </div>
+    </div>
+
         
         </div>
 </div>

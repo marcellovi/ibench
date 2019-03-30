@@ -462,7 +462,10 @@
 									<?php if($viewproduct[0]->prod_type!="digital"){?>
 									<div class="col-sm-3">
 										<h4>@lang('languages.qty')</h4>
-                                                <select class="col-xs-12 marB20 form-control unicase-form-control" name="quantity">
+										<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="quantity" class="form-control"/>
+<br>
+										
+                                                <!-- <select class="col-xs-12 marB20 form-control unicase-form-control" name="quantity">
                                                     <option value="1">1</option>
                                                     <option value="2">2</option>
                                                     <option value="3">3</option>
@@ -473,7 +476,7 @@
                                                     <option value="8">8</option>
                                                     <option value="9">9</option>
                                                     <option value="10">10</option>
-                                                </select>
+                                                </select> -->
 									</div>
                                     <?php } else {?>
                                     <input type="hidden" name="quantity" value="1">
@@ -524,7 +527,7 @@
 													?>
 									<div class="col-md-3 col-sm-3">
                                                 <h4><?php echo $type->attr_name;?></h4>
-                                                <select class="col-xs-12 marB20 form-control unicase-form-control" name="attribute[]">
+                                                <select style="height: 35px;" class="col-xs-12 marB20 form-control unicase-form-control" name="attribute[]">
                                                      <?php if(!empty($value_cnt)){?>
                   										<?php foreach($value as $values){?>
                                                             <option value="<?php echo $values->value_id;?>"><?php echo $values->attr_value;?></option>
@@ -585,7 +588,7 @@
 
 								<div class="mtop10">
 								<?php if($view_sold_min_value > 0) {?>                               
-                                    <span> <strong><?= utf8_decode('Observação') ?> </strong>Esse fornecedor possui um minimo de compra em sua loja de: <strong>R$ <?= $view_sold_min_value ?></strong> </span>
+                                    <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>-->Esse fornecedor possui um minimo de compra em sua loja de: <strong>R$ <?= $view_sold_min_value ?></strong> </span>
 								<?php }?>
                                 <!-- fim -->
                                 
@@ -624,13 +627,16 @@
                                                 
                                                <div class="col-sm-3"> 
                                                 
-                                                <a href="javascript:void(0);" class="btn btn-primary" onClick="alert('Usu&aacute;rio precisa estar logado!');">
+                                                <a href="javascript:void(0);" style="background-color: #FE8F18" class="btn btn-primary" onClick="alert('Usu&aacute;rio precisa estar logado!');">
                                                         <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.add_to_cart')
                                                         </a>
                                                 </div>
 												<?php } else {  ?>
 													<div class="col-sm-12">
-														<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')"> <br>
+														<a class="btn btn-primary" >
+                              <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.out_of_stock')
+                            </a>
+														<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br>
 													</div>
 	
 															<?php
@@ -643,25 +649,30 @@
 												   
 												      if($viewproduct[0]->prod_type!="external"){
 												?>
-                                                 <div class="col-sm-3">
-                                                <input type="submit" name="add_to_cart" class="btn btn-primary" value="@lang('languages.add_to_cart')">
-                                                </div>
+                                                 	<div class="col-sm-3">
+                                                 		<button type="submit" name="add_to_cart" class="btn btn-primary" style="background-color: #FE8F18"><i class="fa fa-shopping-cart inner-right-vs"></i>@lang('languages.add_to_cart')</button>
+
+                                                		<!--<input type="submit" name="add_to_cart" class="btn btn-primary" value="@lang('languages.add_to_cart')">-->
+                                                	</div>
                                                 <?php } else { ?>
                                                 
                                                  <div class="col-sm-3">
-                                                <a href="<?php echo $viewproduct[0]->prod_external_url;?>" class="btn btn-primary" target="_blank">
-                                                        <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.buy_now')
-                                                        </a>
-                                                
-                                                </div>
+                                              			<a href="<?php echo $viewproduct[0]->prod_external_url;?>" class="btn btn-primary" target="_blank" style="background-color: #FE8F18">
+                                                      <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.buy_now')
+                                                    </a>                                         
+                                            		</div>
                                                 
                                                 
 												<?php } }
 												else {?>
 
 													<div class="col-sm-12">
-														<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')"> <br>
-														<span>Infelizmente o produto nao tem em estoque, me informe quando chegar. <a href="<?php echo $url;?>/waitin-list/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>/<?php echo $viewproduct[0]->user_id;?>">Clique Aqui</a></span>
+														<a class="btn btn-primary" >
+                              <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.out_of_stock')
+                            </a>
+														<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br><br>
+														<span>Infelizmente o fornecedor n&atilde;o possui esse produto em estoque. <a href="<?php echo $url;?>/waitin-list/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>/<?php echo $viewproduct[0]->user_id;?>"><b>Clique Aqui</b></a> para ser avisado quando estiver dispon&iacute;vel</span>
+														
 													</div>
 	
 															<?php

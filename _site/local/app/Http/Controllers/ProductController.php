@@ -160,11 +160,13 @@ class ProductController extends Controller {
          return redirect('/cart');
 
       } else {
-          return back()->with('error', 'Please check available stock');
+          //return back()->with('error', 'Please check available stock');
+      	return back()->with('error', 'Por favor, verifique a disponibilidade do produto no estoque!');
       }
 
 	    }	else {
-			  return back()->with('error', 'Please check available stock');
+			  //return back()->with('error', 'Please check available stock');
+	    	return back()->with('error', 'Por favor, verifique a disponibilidade do produto no estoque!');
     	}
 
 	}
@@ -307,15 +309,27 @@ class ProductController extends Controller {
   public function waitingList() {
 		
 	$userid = Auth::user()->id;
-	$viewcount = DB::table('waiting_list')
+	$viewcount_waiting = DB::table('waiting_list')
 		          ->where('prod_user_id', '=' , $userid)
+		          ->where('waiting', '=' , 1)
 		          ->count();
 
-	$viewproduct = DB::table('waiting_list')
+  $viewcount_no_waiting = DB::table('waiting_list')
+		          ->where('prod_user_id', '=' , $userid)
+		          ->where('waiting', '=' , 0)
+		          ->count();
+
+	$viewproduct_waiting = DB::table('waiting_list')
 									->where('prod_user_id', '=' , $userid)
+									->where('waiting', '=' , 1)
 		          		->get();
 
-	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct);
+	$viewproduct_no_waiting = DB::table('waiting_list')
+									->where('prod_user_id', '=' , $userid)
+									->where('waiting', '=' , 0)
+		          		->get();
+
+	 $data = array('viewcount_waiting' => $viewcount_waiting, 'viewcount_no_waiting' => $viewcount_no_waiting ,'viewproduct_waiting' => $viewproduct_waiting,'viewproduct_no_waiting' => $viewproduct_no_waiting);
 	 return view('waiting-list')->with($data);
 
 	
@@ -451,6 +465,10 @@ class ProductController extends Controller {
 
     $data = $request->all();
     $token = $data['prod_token'];
+
+    $product_check = DB::table('product')
+		                  ->where('prod_token', '=' , $data['prod_token'])
+		                  ->get();
 
     $settings = DB::select('select * from settings where id = ?',[1]);
     $imgsize = $settings[0]->image_size;
@@ -592,6 +610,18 @@ class ProductController extends Controller {
 
 		 // Marcello - inseri para poder exibir e retirar as tags
 		//$prod_desc =   strip_tags($prod_desc);
+   		if ($product_check[0]->prod_available_qty == 0){
+   			if ($prod_available_qty > $product_check[0]->prod_available_qty){
+   				$check_waiting_list = DB::table('waiting_list')
+														->where('waiting','=',1)
+														->where('product_id','=',$data['prod_token'])
+														->count();
+
+					if(!empty($check_waiting_list)) {
+						DB::table('waiting_list')->where('waiting','=',1)->where('product_id','=',$data['prod_token'])->update(array('waiting'=>0));
+					}
+   			}
+   		}
 
 	   DB::update('update product set prod_slug="'.$url_slug.
                    '",prod_category="'.$category_id.

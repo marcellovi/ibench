@@ -72,12 +72,14 @@ $headertype = $setts[0]->header_type;
 				<div class="heading-title">@lang('languages.my_cart')</div>
 				</div>
 					<div class="height50 clearfix"></div>  
+					<?php $total_shipping_by_company = 0; ?>
 					<?php  foreach($uniq_companies as $company)	{
 						$check_company = DB::table('users')
 						->where('id', '=', $company)
 						->get();
 						$company_slug = $check_company[0]->name_business;
 						$company_min_value = $check_company[0]->min_value;
+						$total_shipping_by_company += $check_company[0]->local_shipping_price;
 						?>
 					
 						<div class="row col-md-6">
@@ -282,8 +284,16 @@ $headertype = $setts[0]->header_type;
 												<tr>
 													<th>
 													<div class="cart-sub-total">
-													
-														<label>Subtotal <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
+														<div class="row" style="margin-left: 2px;">
+															<label>Valor do Frete:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price,2,",",".").' ';?></span> <br>
+														</div>
+														<div class="row" style="margin-left: 2px;">
+															<label>Total do Produto:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
+														</div>
+														
+														
+														<hr>
+														<label>Valor Total <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price + $price_val,2,",",".").' ';?></span> <br>
 								<?php if($company_min_value >= $price_val) {?>                               
 													
 														<small> <strong><?= utf8_decode('Observação') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja de:') ?> <strong>R$ <?= $company_min_value ?></strong> </small>
@@ -343,8 +353,15 @@ $headertype = $setts[0]->header_type;
 <thead>
 <tr>
 <th>
-<div class="cart-sub-total">
-<label>@lang('languages.cart_total')</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_price,2,",",".").' ';?></span>
+<div class="cart-sub-total"></div>
+	<div class="row">
+		<label>Total de Frete</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_shipping_by_company,2,",",".").' ';?></span><br>
+	</div>
+	<div class="row">
+		<label>Total de Produto</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_price,2,",",".").' ';?></span>
+	</div>
+	<hr>
+	<label>Total do Carrinho</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_shipping_by_company + $total_price,2,",",".").' ';?></span>
 </div>
 
 <!-- Marcello Processing Fee 

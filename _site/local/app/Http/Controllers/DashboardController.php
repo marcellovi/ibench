@@ -77,9 +77,13 @@ class DashboardController extends Controller
         $userid = Auth::user()->id;
 		$editprofile = DB::select('select * from users where id = ?',[$userid]);
 		$check_waiting_list = DB::table('waiting_list')
-		->where('prod_user_id','=',$userid)
-		->where('waiting','=', true)
-		->count();
+			->where('prod_user_id','=',$userid)
+			->where('waiting','=', true)
+			->count();
+
+		$customer_waiting_list = DB::table('waiting_list')
+			->where('user_id','=',$userid)
+			->get();
 
 
 	$countries = array('Brazil');
@@ -101,7 +105,7 @@ class DashboardController extends Controller
 
 
 
-		$data = array('editprofile' => $editprofile, 'viewpost' => $viewpost, 'countries' => $countries, 'edited' => $edited, 'edited_count' => $edited_count, 'waiting_count' => $check_waiting_list);
+		$data = array('editprofile' => $editprofile, 'viewpost' => $viewpost, 'countries' => $countries, 'edited' => $edited, 'edited_count' => $edited_count, 'waiting_count' => $check_waiting_list, 'customer_waiting_list' => $customer_waiting_list);
 		return view('dashboard')->with($data);
     }
 

@@ -337,12 +337,18 @@ $setid=1;
                                               </a>
                                             </td>
                                             <td>
-                                              <?php if($item->waiting == 1){
+                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive") ?>
+                                                <p style="color:red;">Produto Indispon&iacute;vel</p>
+                                              <?php }else{ ?>
+                                                
+                                                <?php if($item->waiting == 1){
                                                         echo('<p style="color:red;">Sem Estoque</p>');
                                                     } else {
                                                         echo('<p style="color:green;">Produto Dispon&iacute;vel!</p>');
 
-                                              }?>
+                                                }?>
+
+                                              <?php } ?>
                                             </td>
                                           </tr>
                                         <?php } ?>

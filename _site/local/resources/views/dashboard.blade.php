@@ -332,10 +332,10 @@ $setid=1;
                                         ?>
                                           <tr>
                                             <td>
-                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive") ?>
+                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive"){ ?>
 
                                                 <?= $product_waiting_list[0]->prod_name; ?>
-                                                
+
                                               <?php }else{ ?>
 
                                                 <a href="<?php echo $url;?>/product/<?php echo $product_waiting_list[0]->prod_id;?>/<?php echo utf8_decode($product_waiting_list[0]->prod_slug);?>" >
@@ -346,7 +346,7 @@ $setid=1;
                                       
                                             </td>
                                             <td>
-                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive") ?>
+                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive"){ ?>
                                                 <p style="color:red;">Produto Indispon&iacute;vel</p>
                                               <?php }else{ ?>
                                                 

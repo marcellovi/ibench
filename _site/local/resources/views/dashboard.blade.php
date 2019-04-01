@@ -332,9 +332,18 @@ $setid=1;
                                         ?>
                                           <tr>
                                             <td>
-                                              <a href="<?php echo $url;?>/product/<?php echo $product_waiting_list[0]->prod_id;?>/<?php echo utf8_decode($product_waiting_list[0]->prod_slug);?>" >
+                                              <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive") ?>
+
                                                 <?= $product_waiting_list[0]->prod_name; ?>
-                                              </a>
+                                                
+                                              <?php }else{ ?>
+
+                                                <a href="<?php echo $url;?>/product/<?php echo $product_waiting_list[0]->prod_id;?>/<?php echo utf8_decode($product_waiting_list[0]->prod_slug);?>" >
+                                                  <?= $product_waiting_list[0]->prod_name; ?>
+                                                </a>
+
+                                              <?php } ?>
+                                      
                                             </td>
                                             <td>
                                               <?php if ($product_waiting_list[0]->delete_status == "active" || $product_waiting_list[0]->delete_status == "inactive") ?>

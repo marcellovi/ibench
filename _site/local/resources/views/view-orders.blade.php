@@ -7,29 +7,14 @@ $setid=1;
 		->where('id', '=', $setid)
 		->get();
 		$headertype = $setts[0]->header_type;
-	?>
+?>
 <!DOCTYPE html>
-
 <html class="no-js"  lang="en">
 <head>
-
-		
-
    @include('style')
-   
-
-
-
-
 </head>
 <body class="cnt-home">
-
-  
-
-   
     @include('header')
-
-
 <div class="breadcrumb">
 	<div class="container-fluid">
 		<div class="breadcrumb-inner">
@@ -41,63 +26,42 @@ $setid=1;
 	</div>
 </div>
 
-
-
 <div class="body-content">
-	<div class="container-fluid">
-    
-    
-    
-    
-    
-    
-    
+  <div class="container-fluid">
     <div class="contact-page">
     
     <div class="row">
          @if(Session::has('success'))
-
 	    <div class="alert alert-success">
-
 	      <p>{{ Session::get('success') }}</p>
-
 	    </div>
-
 	@endif
-
-
 	
 	
  	@if(Session::has('error'))
-
 	    <div class="alert alert-danger">
-
 	      <p>{{ Session::get('error') }}</p>
-
 	    </div>
-
 	@endif
-    </div>
-    
-                
-            <?php if(!empty($viewcount)){
-		
+        
+    </div>   
+     <?php if(!empty($viewcount)){		
 		
 		$viewuser_cnt = DB::table('users')
-		                 ->where('id', '=', $viewproduct[0]->user_id)
-						 ->count();
+		                ->where('id', '=', $viewproduct[0]->user_id)
+				->count();
 		
 		if(!empty($viewuser_cnt))
 		{
 		$viewuser = DB::table('users')
-		                 ->where('id', '=', $viewproduct[0]->user_id)
-						 ->get();
-		$customer_name = $viewuser[0]->name;
+		            ->where('id', '=', $viewproduct[0]->user_id)
+                            ->get();
+		$customer_name = utf8_decode($viewuser[0]->name);
 		$customer_email = $viewuser[0]->email;
 		$customer_phone = $viewuser[0]->phone;
 		$customer_slug = $viewuser[0]->post_slug;
 		$customer_gender = $viewuser[0]->gender;
-		$customer_country = $viewuser[0]->country;
+		$customer_country = utf8_decode($viewuser[0]->country);
 		}
 		else
 		{
@@ -107,60 +71,58 @@ $setid=1;
 		  $customer_slug = "";
 		  $customer_gender = "";
 		  $customer_country = "";
-		}
-		
+		}		
 		
 		$view_cnt = DB::table('product_checkout')
-		                 ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
-						 ->count();
+		                ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
+				->count();
 		if(!empty($view_cnt))
 		{
 		  $vieww = DB::table('product_checkout')
-		                 ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
-						 ->get();
+		                ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
+				->get();
 			$purchase_date = $vieww[0]->payment_date;			 
 		}
 		else
 		{
 		$purchase_date = "";
-		}
-		
+		}		
 		
 		$view_bill_count = DB::table('product_checkout')
-		                 ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
-						 ->count();
+		                ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
+				->count();
 		if(!empty($view_bill_count))
 		{
 		   $view_bill = DB::table('product_checkout')
-		                 ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
-						 ->get();
+		                ->where('purchase_token', '=', $viewproduct[0]->purchase_token)
+				->get();
 						 
-			$bill_firstname = $view_bill[0]->bill_firstname;
-			$bill_lastname = $view_bill[0]->bill_lastname;
-			$bill_companyname = $view_bill[0]->bill_companyname;
-			$bill_email = $view_bill[0]->bill_email;
+			$bill_firstname = utf8_decode($view_bill[0]->bill_firstname);
+			$bill_lastname = utf8_decode($view_bill[0]->bill_lastname);
+			$bill_companyname = utf8_decode($view_bill[0]->bill_companyname);
+			$bill_email = utf8_decode($view_bill[0]->bill_email);
 			$bill_phone = $view_bill[0]->bill_phone;
-			$bill_country = $view_bill[0]->bill_country; 
-			$bill_address = $view_bill[0]->bill_address; 
-			$bill_city = $view_bill[0]->bill_city;
-			$bill_state = $view_bill[0]->bill_state;
+			$bill_country = utf8_decode($view_bill[0]->bill_country); 
+			$bill_address = utf8_decode($view_bill[0]->bill_address); 
+			$bill_city = utf8_decode($view_bill[0]->bill_city);
+                        $bill_district = utf8_decode($view_bill[0]->bill_district);
+			$bill_state = utf8_decode($view_bill[0]->bill_state);
 			$bill_postcode = $view_bill[0]->bill_postcode;
 			
 			
-			$ship_firstname = $view_bill[0]->ship_firstname;
-			$ship_lastname = $view_bill[0]->ship_lastname;
-			$ship_companyname = $view_bill[0]->ship_companyname;
+			$ship_firstname = utf8_decode($view_bill[0]->ship_firstname);
+			$ship_lastname = utf8_decode($view_bill[0]->ship_lastname);
+			$ship_companyname = utf8_decode($view_bill[0]->ship_companyname);
 			$ship_email = $view_bill[0]->ship_email;
 			$ship_phone = $view_bill[0]->ship_phone;
-			$ship_country = $view_bill[0]->ship_country;
-			$ship_address = $view_bill[0]->ship_address;
-			$ship_city = $view_bill[0]->ship_city;
-			$ship_state = $view_bill[0]->ship_state;
+			$ship_country = utf8_decode($view_bill[0]->ship_country);
+			$ship_address = utf8_decode($view_bill[0]->ship_address);
+			$ship_city = utf8_decode($view_bill[0]->ship_city);
+                        $ship_district = utf8_decode($view_bill[0]->ship_district);
+			$ship_state = utf8_decode($view_bill[0]->ship_state);
 			$ship_postcode = $view_bill[0]->ship_postcode;
 			
-			$other_notes = $view_bill[0]->other_notes;
-			
-			
+			$other_notes = utf8_decode($view_bill[0]->other_notes);		
 			$payment_type = $view_bill[0]->payment_type;
 		}
 		else
@@ -173,7 +135,8 @@ $setid=1;
 			$bill_phone = "";
 			$bill_country = ""; 
 			$bill_address = ""; 
-			$bill_city = "";
+			$bill_district= "";
+                        $bill_city = "";
 			$bill_state = "";
 			$bill_postcode = "";
 			
@@ -185,142 +148,71 @@ $setid=1;
 			$ship_phone = "";
 			$ship_country = "";
 			$ship_address = "";
-			$ship_city = "";
+			$ship_district = "";
+                        $ship_city = "";
 			$ship_state = "";
 			$ship_postcode = "";
 			$other_notes = "";
 			$payment_type = "";
-		
-		
-		
-		}				 
-						 
-		?>
+		}
+            ?>
             
-				<div class="col-md-6 contact-form">
-	<div class="col-md-12 contact-title">
-		<div class="heading-title" style="border-bottom:none !important;">@lang('languages.view_orders')</div>
-	</div>
+	<div class="col-md-6 contact-form">
+            <div class="col-md-12 contact-title">
+                    <div class="heading-title" style="border-bottom:none !important;">@lang('languages.view_orders')</div>
+            </div>
     
     <div class="height20 clearfix"></div>
     
     <div class="col-md-12"><h4>@lang('languages.order_details')</h4></div>
      <div class="height20 clearfix"></div>
-	<div class="col-md-6 ">
-		
-       
+	<div class="col-md-6 ">       
         
-			<div class="form-group">
+		<div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.purchase_id'): </strong> <?php echo $viewproduct[0]->purchase_token;?></label>
 		    
-		  </div>
-		
+		</div>		
 	</div>
 	
 	
     <?php if(!empty($viewproduct[0]->payment_token)){?>
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.payment_id'): </strong> <?php echo $viewproduct[0]->payment_token;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.payment_id'): </strong> <?php echo $viewproduct[0]->payment_token;?></label>
 	</div>
-     <?php } ?>
-    
-    
-    
+    </div>
+     <?php } ?> 
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.payment_type'): </strong> <?php echo $payment_type;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+	    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.payment_type'): </strong> <?php echo $payment_type;?></label>
 	</div>
-    
-    
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.purchase_date'): </strong> <?php echo $purchase_date;?></label>
-		    
-		  </div>
-		
+        <div class="form-group">
+	    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.purchase_date'): </strong> <?php echo $purchase_date;?></label>
 	</div>
-    
+    </div>    
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.shipping_price'): </strong> <?php echo $viewproduct[0]->shipping_price;?> <?php echo $setting[0]->site_currency;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.shipping_price'): </strong> <?php echo number_format($viewproduct[0]->shipping_price,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
 	</div>
-    
-    
-    
+    </div> 
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+	<div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.subtotal'): </strong> <?php echo number_format($viewproduct[0]->subtotal,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
+        </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.total'): </strong> <?php echo number_format($viewproduct[0]->total,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
-    
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.total'): </strong> <?php echo number_format($viewproduct[0]->total,2,",",".");?> <?php echo $setting[0]->site_currency;?></label>
+	 </div>
+    </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="col-md-6 contact-form">
 	<div class="col-md-12 contact-title text-right">
@@ -330,49 +222,26 @@ $setid=1;
     <div class="height20 clearfix"></div>
     
     <div class="col-md-12"><h4>@lang('languages.customer_details') </h4></div>
-     <div class="height20 clearfix"></div>
-	<div class="col-md-6 ">
-		
-       
         
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.name'): </strong> <a href="<?php echo $url;?>/profile/<?php echo $viewproduct[0]->user_id;?>/<?php echo $customer_slug;?>" class="theme_color"><?php echo $customer_name;?></a></label>
-		    
-		  </div>
-		
+    <div class="height20 clearfix"></div>
+    
+   <div class="col-md-6 ">		
+        <div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.name'): </strong> <a href="<?php echo $url;?>/profile/<?php echo $viewproduct[0]->user_id;?>/<?php echo $customer_slug;?>" class="theme_color"><?php echo $customer_name;?></a></label>
+        </div>
+    </div>
+	
+    <div class="col-md-6 ">
+	<div class="form-group">
+	  <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $customer_email;?></label>
 	</div>
-	
-	
-   
-    
-    
-    
+    </div>    
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $customer_email;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $customer_phone;?></label>
 	</div>
-    
-    
-    <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $customer_phone;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    </div>
     
     <div class="col-md-6 ">
 		
@@ -388,429 +257,171 @@ $setid=1;
     
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $customer_country;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+		<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $customer_country;?></label>
 	</div>
-    
-    
-    
-    
+    </div>
+
 </div>
- 
-            
-            
-       
-      
-      
-			
-		</div>
+</div>
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <div class="contact-page">
-        
-        
-        <div class="col-md-6 contact-form">
-	
+<div class="contact-page">
+    <div class="col-md-6 contact-form">
     
     <div class="height20 clearfix"></div>
     
     <div class="col-md-12"><h4>@lang('languages.billing_details')</h4></div>
      <div class="height20 clearfix"></div>
 	<div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+            <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.first_name'): </strong> <?php echo $bill_firstname;?></label>
-		    
-		  </div>
-		
-	</div>
-	
-	
-    
-    
-    
-    
-    <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php echo $bill_lastname;?></label>
-		    
-		  </div>
-		
+            </div>		
 	</div>
     
-    
-    <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.company_name'): </strong> <?php echo $bill_companyname;?></label>
-		    
-		  </div>
-		
+     <div class="col-md-6 ">
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php echo $bill_lastname;?></label>
 	</div>
-    
-    
-    
+    </div> 
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $bill_email;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $bill_email;?></label>
 	</div>
-    
-    
+    </div>  
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $bill_phone;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $bill_phone;?></label>
 	</div>
-    
-    
-    
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $bill_country;?></label>
-		    
-		  </div>
-		
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $bill_country;?></label>
+        </div>
+    </div>
+    
+    <div class="col-md-6 ">
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php echo $bill_address;?></label>
 	</div>
-    
-    
-    
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php echo $bill_address;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
-    
-    <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+        <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.city'): </strong> <?php echo $bill_city;?></label>
-		    
-		  </div>
-		
 	</div>
-    
-    
-    
+    </div>
+     
+    <div class="col-md-6 ">
+	<div class="form-group">
+		<label class="fontnromal" for="exampleInputName"><strong>Bairro: </strong> <?php echo $bill_district;?></label>
+	</div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+	<div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.state'): </strong> <?php echo $bill_state;?></label>
-		    
-		  </div>
-		
 	</div>
-    
-    
-    
+	</div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+	<div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.postcode'): </strong> <?php echo $bill_postcode;?></label>
-		    
-		  </div>
-		
 	</div>
-    
-    
-    
+	</div>
 </div>
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <div class="col-md-6 contact-form">
-	
+<div class="col-md-6 contact-form">
     
     <div class="height20 clearfix"></div>
     
     <div class="col-md-12"><h4>@lang('languages.shipping_details')</h4></div>
-     <div class="height20 clearfix"></div>
-	<div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+    
+    <div class="height20 clearfix"></div>
+	
+    <div class="col-md-6 ">
+	<div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.first_name'): </strong> <?php echo $ship_firstname;?></label>
-		    
-		  </div>
-		
 	</div>
+    </div>
 	
-	
-    
-    
-    
-    
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+    <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php echo $ship_lastname;?></label>
-		    
-		  </div>
-		
-	</div>
-    
+    </div>
+    </div>   
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.company_name'): </strong> <?php echo $ship_companyname;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
-    
-    <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+    <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $ship_email;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $ship_phone;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    <div class="form-group">
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $ship_phone;?></label>
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $ship_country;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    <div class="form-group">
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $ship_country;?></label>
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php echo $ship_address;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    <div class="form-group">
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php echo $ship_address;?></label>
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.city'): </strong> <?php echo $ship_city;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    <div class="form-group">
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.city'): </strong> <?php echo $ship_city;?></label>
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+    <div class="form-group">
+		    <label class="fontnromal" for="exampleInputName"><strong>Bairro: </strong> <?php echo $ship_district;?></label>
+    </div>
+    </div>
+    
+    <div class="col-md-6 ">
+    <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.state'): </strong> <?php echo $ship_state;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    </div>
+    </div>
     
     <div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
+    <div class="form-group">
 		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.postcode'): </strong> <?php echo $ship_postcode;?></label>
-		    
-		  </div>
-		
-	</div>
-    
-    
-    
+    </div>
+    </div>    
 </div>
         
         
-        
-        
-        
-        
-      
-      
-      
-      
-      
-      
-      
-      <div class="col-md-6 contact-form">
-	
-    
+    <div class="col-md-6 contact-form">
     <div class="height20 clearfix"></div>
     
     <div class="col-md-12"><h4>@lang('languages.other_details')</h4></div>
-     <div class="height20 clearfix"></div>
-	<div class="col-md-6 ">
-		
-       
-        
-			<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.other_notes'): </strong> <?php echo $other_notes;?></label>
-		    
-		  </div>
-		
-	</div>
+     
+    <div class="height20 clearfix"></div>
 	
-      
-      </div>
-      
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        </div>
-        
-    
-    
-    <?php } ?>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-		
-
+    <div class="col-md-6 ">
+    <div class="form-group">
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.other_notes'): </strong> <?php echo $other_notes;?></label>
+    </div>
+    </div>
+    </div>
 </div>
+        
+<?php } ?>
+
+  </div>
 </div>
 
 <div class="height30"></div>

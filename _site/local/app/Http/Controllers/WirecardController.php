@@ -258,7 +258,6 @@ class WirecardController extends Controller
 
         });
 
-
         Mail::send('shop_email', $datas, function ($message) use ($admin_email, $email) {
             $message->subject('Pedido Realizado com Sucesso');
             $message->from($admin_email, 'iBench Market');
@@ -290,56 +289,49 @@ class WirecardController extends Controller
      * @param Holder|null $holder
      * @param null|array $error
      */
-    protected function create_order(Moip $moipMerchant,Multiorders &$multiorder=null,Customer &$customer=null,Holder &$holder=null,&$error=null)
-    {
+    protected function create_order(Moip $moipMerchant, Multiorders &$multiorder = null, Customer &$customer = null, Holder &$holder = null, &$error = null) {
+        
         $user = Auth::user();
         try {
             // Creating an object customer to orders
             $customer->setOwnId(uniqid())
-                ->setFullname($user->name)
-                ->setEmail($user->email)
-                ->setTaxDocument($user->cpf_cnpj)
-                ->setPhone(11, @substr(@$_POST['bill_phone'], -9))
-                ->addAddress('BILLING',
-                    @$_POST['bill_address'], @substr(@$_POST['bill_phone'], -6),
-                    @$_POST['bill_city'], @$_POST['bill_city'], @$_POST['bill_state'],
-                    @$_POST['bill_postcode'], null, @$_POST['bill_country'])
-                ->addAddress('SHIPPING',
-                    @$_POST['bill_address'], @substr(@$_POST['bill_phone'], -6),
-                    @$_POST['bill_city'], @$_POST['bill_city'], @$_POST['bill_state'],
-                    @$_POST['bill_postcode'], null, @$_POST['bill_country']);
+                    // ->setFullname($user->name)
+                    ->setFullname(@$_POST['bill_firstname'] . " " . @$_POST['bill_lastname'])
+                    ->setEmail(@$_POST['bill_email'])
+                    ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']))
+                    ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'])
+                    ->addAddress('BILLING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country'])
+                    ->addAddress('SHIPPING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country']);
             // Creating an object customer to orders
             $holder
-                ->setFullname(@$_POST['cc_holder'])
-                ->setTaxDocument('')
-                ->setPhone(11, @substr(@$_POST['bill_phone'], -9));
+                    ->setFullname(@$_POST['cc_holder'])
+                    ->setTaxDocument('')
+                    ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'], 55);
 
             // Creating an multiorder and setting receiver for each order with `addReceiver` method
             $multiorder->setOwnId(uniqid());
 
             $ordersList = explode(',', $_POST['order_id']);
             $shipFeeList = explode(',', $_POST['shipping_fee_separate']);
-            
-            
-            foreach ($ordersList as $key => $item) {
-                $order_details = (array)$this->order($item);
-                $product_details = (array)$this->product($order_details['prod_id']);
-                $user_details = (array)$this->user($order_details['prod_user_id']);
-                if ($user_details['wirecard_app_data'] != null) {
-                    
-                $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                  // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
-                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
-                        ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
-                        ->setShippingAmount((int) @$shipFeeList[$key] * 100)
-                              ->setCustomer($customer)
-                              ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int)$user_details['comission_percentage'])
-                              ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int)$user_details['comission_percentage']));
-                $multiorder->addOrder($order);
-                   
 
-              }
-            }  
+
+            foreach ($ordersList as $key => $item) {
+                $order_details = (array) $this->order($item);
+                $product_details = (array) $this->product($order_details['prod_id']);
+                $user_details = (array) $this->user($order_details['prod_user_id']);
+                if ($user_details['wirecard_app_data'] != null) {
+
+                    $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                    // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
+                    $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
+                            ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
+                            ->setShippingAmount((int) @$shipFeeList[$key] * 100)
+                            ->setCustomer($customer)
+                            ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int) $user_details['comission_percentage'])
+                            ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int) $user_details['comission_percentage']));
+                    $multiorder->addOrder($order);
+                }
+            }
             $create_order = $multiorder->create();
         } catch (\Moip\Exceptions\UnautorizedException $e) {
             $error[] = $e->__toString();
@@ -356,7 +348,7 @@ class WirecardController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function api_cc(Request $request){
+    public function api_cc(Request $request) {
 
         $_POST = $request->all();
 
@@ -375,13 +367,12 @@ class WirecardController extends Controller
             $status = 'cancelled';
             $multi_status = '';
             $multi_amount = '';
-            if ($this->is_completed($purchase_token) === true){
+            if ($this->is_completed($purchase_token) === true) {
                 return view('wirecard-shop-success')->with(array_merge(
-                    @$_POST,
-                    array(
-                        'wirecard_payment_token' => $this->get_payment_id($purchase_token),
-                        'settings' => $this->settings()
-                    )
+                                        @$_POST, array(
+                            'wirecard_payment_token' => $this->get_payment_id($purchase_token),
+                            'settings' => $this->settings()
+                                        )
                 ));
             } else {
                 $errors = array();
@@ -392,13 +383,13 @@ class WirecardController extends Controller
                     $holder = $moipMerchant->holders();
                     $multiorder = $moipMerchant->multiorders();
 
-                    $this->create_order($moipMerchant,$multiorder,$customer,$holder,$error);
+                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error);
                     // Creating multipayment to multiorder
                     $multipayment = $multiorder->multipayments()
-                        ->setCreditCard(trim($_POST['cc_exp_m']), @substr(trim($_POST['cc_exp_y']),-2), trim($_POST['cc_number']), trim($_POST['ccv']), $holder)
-                        ->setEscrow($wirecard_app_data_array['name'])
-                        ->setStatementDescriptor($wirecard_app_data_array['name'])
-                        ->execute();
+                            ->setCreditCard(trim($_POST['cc_exp_m']), @substr(trim($_POST['cc_exp_y']), -2), trim($_POST['cc_number']), trim($_POST['ccv']), $holder)
+                            ->setEscrow($wirecard_app_data_array['name'])
+                            ->setStatementDescriptor($wirecard_app_data_array['name'])
+                            ->execute();
 
                     $wirecard_payment_token = $multipayment->getId();
                     $multi_status = $multipayment->getStatus();
@@ -429,17 +420,16 @@ class WirecardController extends Controller
                         $multipayments[] = $b;
                     }
 
-                    if ($error != null){
+                    if ($error != null) {
                         $errors = $error;
                     }
-
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
                     $errors[] = $e->__toString();
                 } catch (ValidationException $e) {
                     $errors[] = $e->__toString();
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
                     $errors[] = $e->__toString();
-                } catch (\Exception $e){
+                } catch (\Exception $e) {
                     $errors[] = $e->getMessage();
                 }
 
@@ -464,28 +454,26 @@ class WirecardController extends Controller
                     $this->complete_order($params);
                     $this->wirecard_log_pay($params);
                     return view('wirecard-shop-success')->with(array_merge(
-                        @$_POST,
-                        array(
-                            'wirecard_payment_token' => $wirecard_payment_token,
-                            'settings' => $this->settings()
-                        )
+                                            @$_POST, array(
+                                'wirecard_payment_token' => $wirecard_payment_token,
+                                'settings' => $this->settings()
+                                            )
                     ));
                 } else {
                     // else show cancel to user
                     return view('wirecard-cancel')->with(array(
-                        'settings' => $this->settings(),
-                        'reason' => implode("\n\n", $errors)
+                                'settings' => $this->settings(),
+                                'reason' => implode("\n\n", $errors)
                     ));
                 }
             }
         } else {
             // if gateway is not ready show "Wirecard payment gateway not ready yet!" to user
             return view('wirecard-shop-success')->with(array_merge(
-                @$_POST,
-                array(
-                    'error' => "Wirecard payment gateway not ready yet!",
-                    'settings' => $this->settings()
-                )
+                                    @$_POST, array(
+                        'error' => "Wirecard payment gateway not ready yet!",
+                        'settings' => $this->settings()
+                                    )
             ));
         }
     }
@@ -496,7 +484,7 @@ class WirecardController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function api_boleto(Request $request){
+    public function api_boleto(Request $request) {
 
         $_POST = $request->all();
 
@@ -517,15 +505,14 @@ class WirecardController extends Controller
             $multi_status = 'cancelled';
             $multi_amount = 'cancelled';
             $success = false;
-            if ($this->is_completed($purchase_token) === true){
+            if ($this->is_completed($purchase_token) === true) {
                 return view('wirecard-shop-success')->with(array_merge(
-                        @$_POST,
-                    array(
-                        'wirecard_payment_token' => $this->get_payment_id($purchase_token),
-                        'wirecard_boleto_href' => $this->get_payment_id($purchase_token,'wirecard_boleto_href'),
-                        'wirecard_boleto_print_href' => $this->get_payment_id($purchase_token,'wirecard_boleto_print_href'),
-                        'settings' => $this->settings()
-                    )
+                                        @$_POST, array(
+                            'wirecard_payment_token' => $this->get_payment_id($purchase_token),
+                            'wirecard_boleto_href' => $this->get_payment_id($purchase_token, 'wirecard_boleto_href'),
+                            'wirecard_boleto_print_href' => $this->get_payment_id($purchase_token, 'wirecard_boleto_print_href'),
+                            'settings' => $this->settings()
+                                        )
                 ));
             } else {
                 $errors = array();
@@ -536,20 +523,18 @@ class WirecardController extends Controller
                     $holder = $moipMerchant->holders();
                     $multiorder = $moipMerchant->multiorders();
 
-                    $this->create_order($moipMerchant,$multiorder,$customer,$holder,$error);
+                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error);
                     // Creating multipayment to multiorder
                     $multipayment = $multiorder->multipayments()
-                        ->setBoleto(
-                            date("Y-m-d",strtotime("+ 1 week")),
-                            $this->settings()->wirecard_boleto_logo_uri,
-                            array(
+                            ->setBoleto(
+                                    date("Y-m-d", strtotime("+ 1 week")), $this->settings()->wirecard_boleto_logo_uri, array(
                                 $this->settings()->wirecard_boleto_line_1,
                                 $this->settings()->wirecard_boleto_line_2,
                                 $this->settings()->wirecard_boleto_line_3
+                                    )
                             )
-                        )
-                        ->setEscrow($wirecard_app_data_array['name'])
-                        ->execute();
+                            ->setEscrow($wirecard_app_data_array['name'])
+                            ->execute();
 
 
                     $wirecard_payment_token = $multipayment->getId();
@@ -585,10 +570,9 @@ class WirecardController extends Controller
                         $multipayments[] = $b;
                     }
 
-                    if ($error != null){
+                    if ($error != null) {
                         $errors = $error;
                     }
-
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
                     $errors[] = $e->__toString();
                 } catch (ValidationException $e) {
@@ -616,35 +600,33 @@ class WirecardController extends Controller
                     $this->wirecard_log_pay($params);
                     // if true complete the order with the above status
                     return view('wirecard-shop-success')->with(array_merge(
-                        @$_POST,
-                        array(
-                            'wirecard_payment_token' => $wirecard_payment_token,
-                            'wirecard_boleto_href' => $wirecard_boleto_href,
-                            'wirecard_boleto_print_href' => $wirecard_boleto_print_href,
-                            'settings' => $this->settings()
-                        )
+                                            @$_POST, array(
+                                'wirecard_payment_token' => $wirecard_payment_token,
+                                'wirecard_boleto_href' => $wirecard_boleto_href,
+                                'wirecard_boleto_print_href' => $wirecard_boleto_print_href,
+                                'settings' => $this->settings()
+                                            )
                     ));
                 } else {
                     // else show cancel to user
                     return view('wirecard-cancel')->with(array(
-                        'settings' => $this->settings(),
-                        'reason' => implode("\n\n", $errors)
+                                'settings' => $this->settings(),
+                                'reason' => implode("\n\n", $errors)
                     ));
                 }
             }
         } else {
             // if gateway is not ready show "Wirecard payment gateway not ready yet!" to user
             return view('wirecard-shop-success')->with(array_merge(
-                @$_POST,
-                array(
-                    'error' => "Wirecard payment gateway not ready yet!",
-                    'settings' => $this->settings()
-                )
+                                    @$_POST, array(
+                        'error' => "Wirecard payment gateway not ready yet!",
+                        'settings' => $this->settings()
+                                    )
             ));
         }
     }
 
-    protected function pretty_print($data, $exit = true){
+    protected function pretty_print($data, $exit = true) {
         echo "<pre>";
         print_r($data);
         echo "</pre>";
@@ -657,12 +639,12 @@ class WirecardController extends Controller
      *
      * @return string
      */
-    protected function gateway_url(){
+    protected function gateway_url() {
         $url = "";
-        if ($this->settings()->wirecard_mode == 'test'){
+        if ($this->settings()->wirecard_mode == 'test') {
             $url = "https://sandbox.moip.com.br/v2/";
         }
-        if ($this->settings()->wirecard_mode == 'live'){
+        if ($this->settings()->wirecard_mode == 'live') {
             $url = "https://api.moip.com.br/v2/";
         }
         return $url;
@@ -676,16 +658,16 @@ class WirecardController extends Controller
      * @param int $id
      * @return bool
      */
-    protected function is_app_exists($id = 0){
-        if ($id != 0){
+    protected function is_app_exists($id = 0) {
+        if ($id != 0) {
             $user_details = $this->user($id);
-            if ($user_details->wirecard_app_data != null){
+            if ($user_details->wirecard_app_data != null) {
                 $app_data = unserialize($user_details->wirecard_app_data);
                 if (!empty($app_data['access_token']))
                     return true;
             }
         } else {
-            if ($this->settings()->wirecard_app_data != null){
+            if ($this->settings()->wirecard_app_data != null) {
                 $app_data = unserialize($this->settings()->wirecard_app_data);
                 if (!empty($app_data['id']))
                     return true;
@@ -720,8 +702,7 @@ class WirecardController extends Controller
             );
            
            // print_r($data);
-           // exit();
-            
+           // exit();            
             
             $output = array();
             if ($this->http_post_form_curl($data, $response, $error) == 0) {
@@ -764,21 +745,22 @@ class WirecardController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    protected function wirecard_app_form(){
+    protected function wirecard_app_form() {
         if (Auth::user()->id != 1) {
             return redirect('index');
         } else {
             $add_array = array();
-            if (!$this->is_gateway_ready(true)){
+            if (!$this->is_gateway_ready(true)) {
                 $add_array['error'] = "Wirecard gateway is not ready yet, please setup wirecard auth token, auth key, public key, mode first and come back here";
             }
             return view('admin.wirecard-app')->with(array(
-                    'is_app_exists' => $this->is_app_exists(),
-                    'wirecard_app_data' => serialize($this->wirecard_app_data()),
-                    'settings' => $this->settings()
-                ) + $add_array);
+                        'is_app_exists' => $this->is_app_exists(),
+                        'wirecard_app_data' => serialize($this->wirecard_app_data()),
+                        'settings' => $this->settings()
+                            ) + $add_array);
         }
     }
+
     /**
      * This Function send http request to wirecard api
      *
@@ -787,28 +769,27 @@ class WirecardController extends Controller
      * @param string $error
      * @return int
      */
-    protected function http_post_form_curl(array $data, &$response = "", &$error = ""){
+    protected function http_post_form_curl(array $data, &$response = "", &$error = "") {
         $data = array_merge(
-            array(
-                'headers' => null,
-                'url' => null,
-                'data' => null
-            ),
-            $data
+                array(
+            'headers' => null,
+            'url' => null,
+            'data' => null
+                ), $data
         );
         $ch = curl_init();
-        curl_setopt( $ch, CURLOPT_HEADER, false );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, $data['headers'] );
-        curl_setopt( $ch, CURLOPT_POST, true );
-        curl_setopt( $ch, CURLOPT_URL, $data['url'] );
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, $data['data'] );
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch, CURLOPT_ENCODING, 'UTF-8' );
-        curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-        $response = curl_exec( $ch );
-        $err_no   = curl_errno( $ch );
-        $error   = curl_error( $ch );
-        curl_close( $ch );
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $data['headers']);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_URL, $data['url']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data['data']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        $response = curl_exec($ch);
+        $err_no = curl_errno($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
         return $err_no;
     }
 
@@ -817,7 +798,7 @@ class WirecardController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function connect_to_app_callback(){
+    protected function connect_to_app_callback() {
         $code = @$_GET['code'];
         $error = @$_GET['error'];
         $wirecard_app_data = $this->wirecard_app_data();
@@ -837,7 +818,7 @@ class WirecardController extends Controller
                     $authorize = $connect->authorize();
 
                     if (!empty($authorize->access_token)) {
-                        $auth = (array)$authorize;
+                        $auth = (array) $authorize;
                         $auth = serialize($auth);
                         DB::update("UPDATE users SET wirecard_app_data='$auth' WHERE id = ?", array($userID));
                         $add_array['success'] = 'Parab&eacute;ns, sua conta Wirecard foi integrada com App ' . $wirecard_app_data['name'];
@@ -850,14 +831,13 @@ class WirecardController extends Controller
             } catch (Exception $e) {
                 $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard  com App ' . $wirecard_app_data['name'] . ' due to ' . $e->getMessage() . ' ' . $e->getCode();
             }
-
         }
         return view('wirecard-connect')->with(array(
-                'auth_link' => $this->create_auth_c_link(),
-                'is_app_exists' => $this->is_app_exists($userID),
-                'wirecard_app_data' => $this->user($userID)->wirecard_app_data,
-                'settings' => $this->settings()
-            ) + $add_array);
+                    'auth_link' => $this->create_auth_c_link(),
+                    'is_app_exists' => $this->is_app_exists($userID),
+                    'wirecard_app_data' => $this->user($userID)->wirecard_app_data,
+                    'settings' => $this->settings()
+                        ) + $add_array);
     }
 
     /**
@@ -865,7 +845,7 @@ class WirecardController extends Controller
      *
      * @return string
      */
-    protected function create_auth_c_link(){
+    protected function create_auth_c_link() {
         $userID = Auth::user()->id;
         $auth_link = "";
         if (!$this->is_app_exists($userID) && $this->is_gateway_ready()) {
@@ -873,35 +853,36 @@ class WirecardController extends Controller
             $wirecard_app_data = $this->wirecard_app_data();
             $connect = new Connect($wirecard_app_data['redirectUri'], $wirecard_app_data['id'], true, $this->is_test_mode() ? Connect::ENDPOINT_SANDBOX : Connect::ENDPOINT_PRODUCTION);
             $connect->setScope(Connect::RECEIVE_FUNDS)
-                ->setScope(Connect::REFUND)
-                ->setScope(Connect::MANAGE_ACCOUNT_INFO)
-                ->setScope(Connect::RETRIEVE_FINANCIAL_INFO);
+                    ->setScope(Connect::REFUND)
+                    ->setScope(Connect::MANAGE_ACCOUNT_INFO)
+                    ->setScope(Connect::RETRIEVE_FINANCIAL_INFO);
             $auth_link = $connect->getAuthUrl();
         }
         return $auth_link;
     }
+
     /**
      * This Function print authorize link to seller for connect his/her wirecard account
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function connect_to_app(){
+    protected function connect_to_app() {
         $userID = Auth::user()->id;
         $auth_link = $this->create_auth_c_link();
         $add_array = array();
-        if (!$this->is_gateway_ready(true)){
+        if (!$this->is_gateway_ready(true)) {
             $add_array['error'] = "Wirecard gateway is not ready yet, try again";
         }
         return view('wirecard-connect')->with(array(
-                'auth_link' => $auth_link,
-                'is_app_exists' => $this->is_app_exists($userID),
-                'wirecard_app_data' => $this->user($userID)->wirecard_app_data,
-                'settings' => $this->settings()
-            ) + $add_array);
+                    'auth_link' => $auth_link,
+                    'is_app_exists' => $this->is_app_exists($userID),
+                    'wirecard_app_data' => $this->user($userID)->wirecard_app_data,
+                    'settings' => $this->settings()
+                        ) + $add_array);
     }
 
-    protected function create_notifications_webhook()
-    {
+    protected function create_notifications_webhook() {
+        
         $wirecard_app_data = $this->wirecard_app_data();
         $data = array(
             'headers' => array(
@@ -917,10 +898,10 @@ class WirecardController extends Controller
                 'target' => rtrim($this->settings()->site_url, '/') . '/wirecard-webhook',
                 'media' => 'WEBHOOK'
             )),
-            'url' => $this->gateway_url() . 'preferences/'.$wirecard_app_data['id'].'/notifications'
+            'url' => $this->gateway_url() . 'preferences/' . $wirecard_app_data['id'] . '/notifications'
         );
         if ($this->http_post_form_curl($data, $response, $error) == 0) {
-            $response = serialize(json_decode($response,true));
+            $response = serialize(json_decode($response, true));
             DB::update("UPDATE settings SET wirecard_app_notify='$response' WHERE id = ?", [1]);
             return true;
         } else {

@@ -285,11 +285,12 @@ $headertype = $setts[0]->header_type;
 													<th>
 													<div class="cart-sub-total">
 														<div class="row" style="margin-left: 2px;">
-															<label>Valor do Frete:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price,2,",",".").' ';?></span> <br>
-														</div>
-														<div class="row" style="margin-left: 2px;">
 															<label>Total do Produto:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
 														</div>
+														<div class="row" style="margin-left: 2px;">
+															<label>Valor do Frete:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price,2,",",".").' ';?></span> <br>
+														</div>
+														
 														
 														
 														<hr>
@@ -355,11 +356,12 @@ $headertype = $setts[0]->header_type;
 <th>
 <div class="cart-sub-total"></div>
 	<div class="row">
-		<label>Total de Frete</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_shipping_by_company,2,",",".").' ';?></span><br>
-	</div>
-	<div class="row">
 		<label>Total de Produto</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_price,2,",",".").' ';?></span>
 	</div>
+	<div class="row">
+		<label>Total de Frete</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_shipping_by_company,2,",",".").' ';?></span><br>
+	</div>
+	
 	<hr>
 	<label>Total do Carrinho</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($total_shipping_by_company + $total_price,2,",",".").' ';?></span>
 </div>

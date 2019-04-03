@@ -16,7 +16,6 @@ use Session;
 
 use Razorpay\Api\Api;
 
-
 class PaymentController extends Controller
 {
     /**
@@ -35,8 +34,6 @@ class PaymentController extends Controller
 
     public function avigher_checkout_details(Request $request)
     {
-
-
         $url = URL::to("/");
 
         $data = $request->all();
@@ -46,6 +43,21 @@ class PaymentController extends Controller
             $bill_firstname = $data['bill_firstname'];
         } else {
             $bill_firstname = "";
+        }        
+        if (!empty($data['cpf_cnpj'])) {
+            $cpf_cnpj = $data['cpf_cnpj'];
+        } else {
+            $cpf_cnpj = "";
+        } 
+        if (!empty($data['bill_district'])) {
+            $bill_district = $data['bill_district'];
+        } else {
+            $bill_district = "";
+        }
+        if (!empty($data['ship_district'])) {
+            $ship_district = $data['ship_district'];
+        } else {
+            $ship_district = "";
         }
         if (!empty($data['bill_lastname'])) {
             $bill_lastname = $data['bill_lastname'];
@@ -230,15 +242,12 @@ class PaymentController extends Controller
 
             DB::update('update product_orders set shipping_price="' . $names[$index] . '" where order_status="pending" and ord_id = ?', [$code]);
 
-
         }
         $trimer = rtrim($weldone, ',');
 
-
         if (empty($check_checkout)) {
-            DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending']);
+            DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_district,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_district,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone,$bill_district, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone,$ship_district, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending']);
         } else {
-
 
             DB::update('update product_checkout set purchase_token="' . $purchase_token . '",
 	ord_id="' . $order_id . '",
@@ -254,6 +263,7 @@ class PaymentController extends Controller
 		bill_companyname="' . $bill_companyname . '",
 		bill_email="' . $bill_email . '",
 		bill_phone="' . $bill_phone . '",
+                bill_district="' . $bill_district . '",
 		bill_country="' . $bill_country . '",
 		bill_address="' . $bill_address . '",
 		bill_city="' . $bill_city . '",
@@ -265,6 +275,7 @@ class PaymentController extends Controller
 		ship_companyname="' . $ship_companyname . '",
 		ship_email="' . $ship_email . '",
 		ship_phone="' . $ship_phone . '",
+                ship_district="' . $ship_district . '",
 		ship_country="' . $ship_country . '",
 		ship_address="' . $ship_address . '",
 		ship_city="' . $ship_city . '",
@@ -275,9 +286,7 @@ class PaymentController extends Controller
 
         }
 
-
         DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and user_id = ?', [$log_id]);
-
 
         $setid = 1;
         $setts = DB::table('settings')
@@ -293,20 +302,15 @@ class PaymentController extends Controller
 
         $product_names = $data['product_names'];
 
-
         /* Razorpay */
 
         $log_detailer = DB::table('users')
             ->where('id', '=', $log_id)
             ->get();
 
-
         include(app_path() . '/razorpay-php/Razorpay.php');
-
         $api = new Api($setts[0]->razorpay_key_id, $setts[0]->razorpay_key_secret);
-
         $razor_amount = $amount;
-
         $receipt = rand(11111, 99999);
 
         $orderData = [
@@ -317,13 +321,10 @@ class PaymentController extends Controller
         ];
 
         $razorpayOrder = $api->order->create($orderData);
-
         $razorpayOrderId = $razorpayOrder['id'];
 
         Session::put('razorpay_order_id', $razorpayOrderId);
-
         $displayAmount = $razor_amount = $orderData['amount'];
-
         $displayCurrency = $setts[0]->site_currency;
 
         $details_namer = $bill_firstname . ' ' . $bill_lastname;
@@ -353,9 +354,7 @@ class PaymentController extends Controller
         /*$razordata['display_currency']  = 'INR';*/
         $razordata['display_amount'] = $razor_amount;
 
-
         $json_value = json_encode($razordata);
-
 
         /* Razorpay */
 
@@ -375,7 +374,6 @@ class PaymentController extends Controller
 
         }
 
-
         $ddata = array(
             'amount' => $amount,
             'currency' => $currency,
@@ -390,10 +388,7 @@ class PaymentController extends Controller
             'check_qty_ord' => $check_qty
             );
         return view('payment-details')->with($ddata);
-
-
     }
-
 
     public function avigher_view_cart()
     {
@@ -425,7 +420,6 @@ class PaymentController extends Controller
         $admin_details = DB::table('users')
             ->where('id', '=', 1)
             ->get();
-
 
         $data = array('cart_views_count' => $cart_views_count, 'cart_views' => $cart_views, 'setts' => $setts, 'admin_details' => $admin_details);
 

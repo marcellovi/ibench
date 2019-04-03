@@ -226,7 +226,7 @@ $setid=1;
 							}?>
 								
 						</td>
-						<td class="item" style="text-align: center;"> <?php echo date("d-m-Y", strtotime($item->datatime)); ?></td>
+						<td class="item" style="text-align: center;"> <?php echo date("d-m-Y", strtotime($item->datetime)); ?></td>
 				</tr>
 																
 			<?php }} ?>

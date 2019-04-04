@@ -372,15 +372,18 @@ $headertype = $setts[0]->header_type;
 -->
 <div class="height20 clearfix"></div>
 <div class="cart-grand-total">
-<label>Demais Fornecedores<!-- @lang('languages.shipping_charge') --></label><span class="inner-left-md"> <select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
-<!-- <option value="">Formas de Envio</option> -->
+   
+<input type="hidden" id="billing_country" name="shipping_charge" value="local_shipping">
+<!-- <label>Demais Fornecedores @lang('languages.shipping_charge') </label><span class="inner-left-md"> 
+<select class="unicase-form-control validate[required]" id="billing_country" name="shipping_charge" style="width:150px;">
+<!-- <option value="">Formas de Envio</option> 
 <option value="local_shipping">RJ - Gratuito</option>
 <!-- <option value="world_shipping">Envio Personalizado</option> Marcello :: -->
 <!-- Marcello Envio Original
 <option value="local_shipping">Local shipping (<?php //echo $admin_details[0]->country;?>)</option>
 <option value="world_shipping">Frete da Empresa</option>
---> 
-</select></span>
+
+</select></span>--> 
 </div>
 </th>
 </tr>

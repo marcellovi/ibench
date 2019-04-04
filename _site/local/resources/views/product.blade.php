@@ -462,7 +462,7 @@
 									<?php if($viewproduct[0]->prod_type!="digital"){?>
 									<div class="col-sm-3">
 										<h4>@lang('languages.qty')</h4>
-										<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="quantity" class="form-control"/>
+										<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="quantity" class="form-control" value="1"/>
 <br>
 										
                                                 <!-- <select class="col-xs-12 marB20 form-control unicase-form-control" name="quantity">

@@ -336,29 +336,70 @@ class ProductController extends Controller {
 	}
 
         /** Marcello :: List of all Active & Inactive Products**/
-  public function myProductListActiveInactive() {
+  public function myProductListActiveInactive(Request $request) {
 	$userid = Auth::user()->id;
+	$req = $request->all();
+	$category = DB::table('category')
+	->where('delete_status','=','')
+	->where('status','=',1)
+	->orderBy('cat_name', 'asc')->get();
+
+
 	$viewcount = DB::table('product')
-		          ->where('user_id', '=' , $userid)
+							->where('user_id', '=' , $userid)
                          // ->Where(function ($query) {
                          //       $query->where('delete_status','=','')
                          //       ->orwhere('delete_status','=','active');
                          // })
-				  ->orderBy('prod_id','desc')
-		          ->count();
+				  		->orderBy('prod_id','desc');
 
 	$viewproduct = DB::table('product')
-		                ->where('user_id', '=' , $userid)
+										->where('user_id', '=' , $userid)
+
+										->orderBy('prod_id','desc');
+                    
+
+	if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
+		$viewcount = $viewcount->where('prod_category', '=' , $req['category'] ? $req['category'] : '');
+
+		$viewproduct = $viewproduct->where('prod_category', '=' , $req['category'] ? $req['category'] : '');
+	}
+
+	if(array_key_exists('name', $req)) {
+		$viewcount = $viewcount->where('prod_name', 'LIKE' , $req['name'] ? '%'.$req['name'].'%' : '%'.''.'%');
+		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , $req['name'] ? '%'.$req['name'].'%' : '%'.''.'%');
+	}
+
+	if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
+		$viewcount = $viewcount->where('prod_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+
+		$viewproduct = $viewproduct->where('prod_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	}
+
+	if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+		$viewcount = $viewcount->where('prod_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
+
+		$viewproduct = $viewproduct->where('prod_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	}
+
+
+	// if(array_key_exists('name', $req)) {
+	// 	$viewproduct = $viewproduct->where('prod_name','LIKE','%'.'Sor'.'%');
+	// }
+		                // ->where('prod_name','LIKE','%'.''.'%')
+										
+										
                     //->Where(function ($query) {
                      //        $query->where('delete_status','=','')
                        //            ->orwhere('delete_status','=','active');
                       //    })
 				  // ->where('delete_status','=','')
                                   // ->orwhere('delete_status','=','inactive')
-			              ->orderBy('prod_id','desc')
-                    ->get();
-
-	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct);
+			              
+		          
+		$viewcount = 	$viewcount->count();				
+		$viewproduct = $viewproduct->get();	
+	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req);
 	 return view('my-product')->with($data);
 
 	}

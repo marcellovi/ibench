@@ -94,6 +94,101 @@ $setid=1;
                 </div>
                 
                 <div class="height20 clearfix"></div>
+<form action="#" method="get">
+                <div class="row">
+                <div class="col-md-6 ">
+		
+
+        
+        <div class="form-group">
+            <label class="info-title" for="exampleInputName">@lang('languages.product_name') </label>
+        
+            <input type="text" value="<?= array_key_exists('name', $data) ? $data['name'] : ' ' ?>" name="name" id="name" class="form-control unicase-form-control validate[required]">
+         </div>
+    
+        </div>
+ 
+<div class="col-md-6">
+    
+        <div class="form-group">
+        <label class="info-title" for="exampleInputTitle">@lang('languages.category') </label>
+        <select  class="form-control unicase-form-control validate[required]" id="category" name="category">
+                      <option value=""></option>
+                      <?php foreach($category as $service){?>
+                      <option value="<?php echo $service->id;?>" disabled="true"><?php echo $service->cat_name;?></option>
+                      <?php 
+                      $subcount = DB::table('subcategory')
+                        ->where('delete_status','=','')
+                        ->where('status','=',1)
+                        ->where('cat_id','=',$service->id)
+                        ->orderBy('subcat_name', 'asc')->count();
+                        if(!empty($subcount)){
+                        $subcategory = DB::table('subcategory')
+                        ->where('delete_status','=','')
+                        ->where('status','=',1)
+                        ->where('cat_id','=',$service->id)
+                        ->orderBy('subcat_name', 'asc')->get();
+                        foreach($subcategory as $subview){
+                      ?>
+                      
+                      <option value="<?php echo $subview->subid;?>"> - <?php echo $subview->subcat_name;?></option>
+                      <?php } } ?>
+                      <?php } ?>
+                      </select>
+                      
+                      <script>document.getElementById("category").value = <?= array_key_exists('category', $data) ? $data['category'] : ' ' ?>;</script>
+
+      </div>
+
+</div>
+                </div>
+
+          
+    <div class="row">
+<div class="col-md-6 ">
+	
+        
+    <div class="form-group">
+        <label class="info-title" for="exampleInputName"><?=utf8_decode('Preço Mínimo')?></label>
+    
+        <input value="<?= array_key_exists('minvalue', $data) ? $data['minvalue'] : ' ' ?>"  type="number" name="minvalue" id="minvalue" class="form-control unicase-form-control ">
+     </div>
+
+    </div>
+    <div class="col-md-6 ">
+	
+        
+    <div class="form-group">
+        <label class="info-title" for="exampleInputName"><?=utf8_decode('Preço Máximo')?></label>
+    
+        <input value="<?= array_key_exists('maxvalue', $data) ? $data['maxvalue'] : ' ' ?>" type="number" name="maxvalue" id="maxvalue" class="form-control unicase-form-control">
+     </div>
+
+    </div>
+    </div>
+
+    <div class="row ">
+			<div class="shopping-cart">
+				<div class="shopping-cart-table">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 text-right">
+                    
+                    <?php 
+                        /* Hide When Store is Close / Hidden */
+                       // if($editprofile[0]->delete_status == ''){                          
+                    ?>
+                    <button type="submit" class="btn-upper btn btn-primary">Filtrar</button> 
+                        <?php // } ?>
+                   <!-- Marcello Add Product
+                   <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
+                 -->
+                    <!-- Marcello Hide Import   
+                    <a href="<?php echo $url;?>/importExport" class="btn-upper btn btn-primary">@lang('languages.goto_import_export')</a>
+                  -->
+                </div>
+                </div>
+            </div>
+                       </form>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>

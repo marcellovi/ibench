@@ -297,7 +297,7 @@ $headertype = $setts[0]->header_type;
 														<label>Valor Total <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price + $price_val,2,",",".").' ';?></span> <br>
 								<?php if($company_min_value >= $price_val) {?>                               
 													
-														<small> <strong><?= utf8_decode('Observação') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja de:') ?> <strong>R$ <?= $company_min_value ?></strong> </small>
+														<small> <strong><?= utf8_decode('Observação') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que:') ?> <strong>R$ <?= $company_min_value ?></strong> </small>
 								<?php } ?>
 													</div>
 													</th>

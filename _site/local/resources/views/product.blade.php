@@ -588,7 +588,7 @@
 
 								<div class="mtop10">
 								<?php if($view_sold_min_value > 0) {?>                               
-                                    <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>-->Esse fornecedor possui um minimo de compra em sua loja de: <strong>R$ <?= $view_sold_min_value ?></strong> </span>
+                                    <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>-->Esse fornecedor possui um minimo de compra em sua loja maior que: <strong>R$ <?= $view_sold_min_value ?></strong> </span>
 								<?php }?>
                                 <!-- fim -->
                                 

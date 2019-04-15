@@ -68,6 +68,7 @@ $url = URL::to("/");
      <!-- <li><a href="<?php echo $url;?>/admin/blog"><i class="icon icon-comment"></i> <span> Blog </span> </a></li> -->
      <li><a href="<?php echo $url;?>/admin/permissions"><i class="icon icon-user"></i><span> Permiss&otilde;es </span></a></li>
      <li><a href="<?php echo $url;?>/admin/wirecard-transaction"><i class="icon icon-user"></i><span> Wirecard </span></a></li>
+     <li><a href="<?php echo $url;?>/admin/reports"><i class="icon icon-user"></i> <span>Relatorios</span> </a></li>
      
      <!-- Marcello Paginas - SlideShow & Banners 
      <li><a href="<?php echo $url;?>/admin/pages"><i class="icon icon-file"></i>  <span> Paginas </span> </a></li>

@@ -99,7 +99,52 @@
 					   $testimonialphoto="/media/";
 						$path ='/local/images'.$testimonialphoto.$slideshow[0]->slide_image;
 						if($slideshow[0]->slide_image!=""){
-						?>
+            ?>
+              <div class="control-group">
+                <label class="control-label">Position </label> 
+                <div class="controls"  style="display: flex">
+                <div style="display: flex; margin-right: 20px">
+                <input type="radio" checked="false" <?php echo ($slideshow[0]->position=='1')?'checked':'' ?>  id="contactChoice1"
+                    name="position" value="1">
+                    <label for="contactChoice1">1</label>
+                    </div>
+                    <div style="display: flex; margin-right: 20px">
+
+                    <input type="radio" id="contactChoice2"
+                    name="position" <?php echo ($slideshow[0]->position=='2')?'checked':'' ?>  value="2">
+                    <label for="contactChoice2">2</label>
+                </div>
+                <div style="display: flex; margin-right: 20px">
+
+                    <input type="radio" id="contactChoice3"
+                    name="position" <?php echo ($slideshow[0]->position=='3')?'checked':'' ?>  value="3">
+                    <label for="contactChoice3">3</label>
+                    </div>
+
+                    <div style="display: flex; margin-right: 20px">
+
+                    <input type="radio" id="contactChoice4"
+                    name="position" <?php echo ($slideshow[0]->position=='4')?'checked':'' ?>  value="4">
+                    <label for="contactChoice4">4</label>
+                    </div>
+
+                    <div style="display: flex; margin-right: 20px">
+
+                    <input type="radio" id="contactChoice5"
+                    name="position" <?php echo ($slideshow[0]->position=='5')?'checked':'' ?>  value="5">
+                    <label for="contactChoice5">5</label>
+                    </div>
+
+                    <div style="display: flex; margin-right: 20px">
+
+                    <input type="radio" id="contactChoice6"
+                    name="position" <?php echo ($slideshow[0]->position=='6')?'checked':'' ?>  value="6">
+                    <label for="contactChoice6">6</label>
+                </div>
+
+						        
+                </div>
+            </div>
 					  <div class="control-group">
                       <div class="controls">
 					  <div class="span8">

@@ -31,25 +31,34 @@ $url = URL::to("/");
     -->
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Categorias</span> </a>
-                   <ul>
-                    <li><a href="<?php echo $url;?>/admin/category">Categoria </a></li>
-                     <li><a href="<?php echo $url;?>/admin/subcategory">Sub Categoria </a></li>
-                  </ul>
-                </li>
+        <ul>
+        <li><a href="<?php echo $url;?>/admin/category">Categoria </a></li>
+          <li><a href="<?php echo $url;?>/admin/subcategory">Sub Categoria </a></li>
+      </ul>
+    </li>
+
     
     
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Produtos</span> </a>
-                   <ul>
-                    <li><a href="<?php echo $url;?>/admin/product">Produto </a></li>
-                     <li><a href="<?php echo $url;?>/admin/attribute_type">Tipo Atributo </a></li>
-                     <li><a href="<?php echo $url;?>/admin/attribute_value">Tipo Valor </a></li>
-                     
-                     <li><a href="<?php echo $url;?>/admin/orders">Detalhes do Pedido </a></li>
-                     
-                     <li><a href="<?php echo $url;?>/admin/rating"> Avaliacoes & Reviews </a></li>
-                  </ul>
-                </li>
+      <ul>
+        <li><a href="<?php echo $url;?>/admin/product">Produto </a></li>
+        <li><a href="<?php echo $url;?>/admin/attribute_type">Tipo Atributo </a></li>
+        <li><a href="<?php echo $url;?>/admin/attribute_value">Tipo Valor </a></li>
+        <li><a href="<?php echo $url;?>/admin/orders">Detalhes do Pedido </a></li>
+        <li><a href="<?php echo $url;?>/admin/rating"> Avaliacoes & Reviews </a></li>
+      </ul>
+    </li>
+    
+    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Website</span> </a>
+      <ul>
+        <li><a href="<?php echo $url;?>/admin/home_banners">Banners Central </a></li>
+        <li><a href="<?php echo $url;?>/admin/banners">Banners Lateral </a></li>
+
+        <li><a href="<?php echo $url;?>/admin/blog">Blogs </a></li>
+
+      </ul>
+    </li>
     
     <!-- Marcello Retiradas
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Retiradas</span> </a>

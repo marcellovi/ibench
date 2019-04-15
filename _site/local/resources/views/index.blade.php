@@ -447,7 +447,7 @@ $setid=1;
                 <div class="image"> 
                 
                   <?php if(!empty($home_banner_one[0]->slide_image)){?>
-                    <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt="" style="object-fit: unset;"/>
+                    <a href="<?= "$url/redirect_home_banner/".$home_banner_one[0]->id   ?> ">  <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_one[0]->slide_image;?>" alt="" style="object-fit: unset;"/> </a>
                     <!--<img src="<?php echo $url;?>/local/images/media/BannerQuatroG.png" alt="" style="object-fit: unset;"/>-->
                   <?php } else { ?>
                     <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
@@ -458,7 +458,6 @@ $setid=1;
                  <div class="left-banner-title">
                 <?php if(!empty($home_banner_one[0]->slide_title)){?><h3 class="animated moveUp shown white"><?php echo $home_banner_one[0]->slide_title;?></h3><?php } ?>
                 <?php if(!empty($home_banner_one[0]->slider_sub_title)){?><p class="animated moveUp shown white"><?php echo $home_banner_one[0]->slider_sub_title;?></p><?php } ?>
-                <?php if(!empty($home_banner_one[0]->slide_btn_link)){?><a href="<?php echo $home_banner_one[0]->slide_btn_link;?>" class="custombtn animated moveUp shown"><?php } ?><?php if(!empty($home_banner_one[0]->slide_btn_text)){?><span>Compre</span><?php } ?><?php if(!empty($home_banner_one[0]->slide_btn_link)){?></a><?php } ?>
               </div>
    
               </div>
@@ -477,7 +476,8 @@ $setid=1;
                 
                 
                 <?php if(!empty($home_banner_two[0]->slide_image)){?>
-                                <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_two[0]->slide_image;?>" alt="" style="object-fit: unset;"/>
+                               
+                  <a href="<?= "$url/redirect_home_banner/".$home_banner_two[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $home_banner_two[0]->slide_image;?>" alt="" style="object-fit: unset;"/> </a>
                                 <?php } else { ?>
                                 <img src="<?php echo $url;?>/local/resources/views/assets/img/banner/banner1.jpg" alt="" style="object-fit: unset;"/>
                                 <?php } ?>
@@ -487,7 +487,6 @@ $setid=1;
                 <div class="left-banner-title">
                 <?php if(!empty($home_banner_two[0]->slide_title)){?><h3 class="animated moveUp shown white"><?php echo $home_banner_two[0]->slide_title;?></h3><?php } ?>
                 <?php if(!empty($home_banner_two[0]->slider_sub_title)){?><p class="animated moveUp shown white"><?php echo $home_banner_two[0]->slider_sub_title;?></p><?php } ?>
-                <?php if(!empty($home_banner_two[0]->slide_btn_link)){?><a href="<?php echo $home_banner_two[0]->slide_btn_link;?>" class="custombtn animated moveUp shown"><?php } ?><?php if(!empty($home_banner_two[0]->slide_btn_text)){?><span>Compre</span><?php } ?><?php if(!empty($home_banner_two[0]->slide_btn_link)){?></a><?php } ?>
               </div>
               </div>
              
@@ -1170,7 +1169,7 @@ $setid=1;
                   <div class="blog-post-image">
                     <div class="image"> 
                     <?php if(!empty($blog->post_image)){?>
-                        <a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>">
+                        <a href="<?php echo $url;?>/redirect_blog/<?php echo $blog->post_slug;?>">
                 <img src="<?php echo $url.'/local/images/media/'.$blog->post_image;?>" alt="">
                     </a>
               <?php } else {?>
@@ -1301,19 +1300,79 @@ $setid=1;
        
        
        <div class="wow fadeInUp outer-top-vs">
-       
-       <?php if(!empty($banners_count)){?>
-                <?php foreach($banners as $slide){?>
-                <div class="item positionR hbanner">
-                <?php if(!empty($slide->slide_image)){?>
-                    <a href="<?php echo $slide->slide_btn_link;?>"><img src="<?php echo $url;?>/local/images/media/<?php echo $slide->slide_image;?>" alt=""/></a>
-                <?php } else { ?>
-                   <a href="<?php echo $slide->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
-                <?php } ?>
-                    
-                </div>
-                <?php } ?>
-                <?php } ?>
+       <?php if(!empty($banner_one_count)){?>
+
+        <div class="item positionR hbanner">
+            <?php if(!empty($banner_one[0]->slide_image)){?>
+              <a href="<?= "$url/redirect_banner/".$banner_one[0]->id   ?> ">  <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_one[0]->slide_image;?>" alt=""/></a>
+            <?php } else { ?>
+                <a href="<?php echo $banner_one[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+            <?php } ?>
+        </div>
+        
+      <?php } ?>
+
+      <?php if(!empty($banner_two_count)){?>
+
+        <div class="item positionR hbanner">
+            <?php if(!empty($banner_two[0]->slide_image)){?>
+              <a href="<?= "$url/redirect_banner/".$banner_two[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_two[0]->slide_image;?>" alt=""/></a>
+            <?php } else { ?>
+                <a href="<?php echo $banner_two[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+            <?php } ?>
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($banner_three_count)){?>
+
+        <div class="item positionR hbanner">
+            <?php if(!empty($banner_three[0]->slide_image)){?>
+              <a href="<?= "$url/redirect_banner/".$banner_three[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_three[0]->slide_image;?>" alt=""/></a>
+            <?php } else { ?>
+                <a href="<?php echo $banner_three[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+            <?php } ?>
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($banner_four_count)){?>
+
+        <div class="item positionR hbanner">
+            <?php if(!empty($banner_four[0]->slide_image)){?>
+              <a href="<?= "$url/redirect_banner/".$banner_four[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_four[0]->slide_image;?>" alt=""/></a>
+            <?php } else { ?>
+                <a href="<?php echo $banner_four[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+            <?php } ?>
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($banner_five_count)){?>
+
+        <div class="item positionR hbanner">
+            <?php if(!empty($banner_five[0]->slide_image)){?>
+              <a href="<?= "$url/redirect_banner/".$banner_five[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_five[0]->slide_image;?>" alt=""/></a>
+            <?php } else { ?>
+                <a href="<?php echo $banner_five[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+            <?php } ?>
+        </div>
+
+        <?php } ?>
+
+        <?php if(!empty($banner_six_count)){?>
+
+          <div class="item positionR hbanner">
+              <?php if(!empty($banner_six[0]->slide_image)){?>
+                <a href="<?= "$url/redirect_banner/".$banner_six[0]->id   ?> "> <img src="<?php echo $url;?>/local/images/media/<?php echo $banner_six[0]->slide_image;?>" alt=""/></a>
+              <?php } else { ?>
+                  <a href="<?php echo $banner_six[0]->slide_btn_link;?>"> <img src="<?php echo $url;?>/local/images/noimage.jpg" alt=""/></a>
+              <?php } ?>
+          </div>
+
+          <?php } ?>
+
+                
          <div class="item positionR hbanner">
            <img src="<?php echo $url;?>/local/images/depoi.jpg" alt=""/>
          </div>

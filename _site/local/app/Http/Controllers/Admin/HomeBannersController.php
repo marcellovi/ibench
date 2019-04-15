@@ -52,6 +52,82 @@ class HomeBannersController extends Controller
       $slideshow = DB::select('select * from home_banners where id = ?',[$id]);
       return view('admin.edit-home-banner',['slideshow'=>$slideshow]);
    }
+
+   public function addBannerForm() {
+	   
+	return view('admin.add-home-banner');
+ }
+
+ 	protected function addNewBanner(Request $request) {
+		
+ 
+		$data = $request->all();
+			
+ 			
+		$input['name'] = Input::get('name');
+       
+		$settings = DB::select('select * from settings where id = ?',[1]);
+		$imgsize = $settings[0]->image_size;
+		$imgtype = $settings[0]->image_type;	
+		  
+		  
+		$rules = array(
+		
+		
+		'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
+		
+		
+		);
+
+		
+		
+		
+		$messages = array(
+            
+            
+			
+        );
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+		
+		
+
+		if ($validator->fails())
+		{
+			$failedRules = $validator->failed();
+			return back()->withErrors($validator);
+		}
+		else
+		{  
+		  	
+		
+		
+		
+		$image = Input::file('photo');
+        if($image!="")
+		{	
+            $testimonialphoto="/media/";
+			$filename  = time() . '.' . $image->getClientOriginalExtension();
+        
+            $path = base_path('images'.$testimonialphoto.$filename);
+			$destinationPath=base_path('images'.$testimonialphoto);
+      
+                 Image::make($image->getRealPath())->resize(555, 180)->save($path);
+				/*Input::file('photo')->move($destinationPath, $filename);*/
+				$savefname=$filename;
+		}			
+		$position = $data['position'];
+		$slide_btn_link = $data['slide_btn_link'];
+		$slide_status = $data['slide_status'];
+
+	
+
+		DB::insert('insert into home_banners (position,slide_btn_link,slide_image,slide_status) values (?, ? ,?,?)', [$position,$slide_btn_link,$filename,$slide_status]);
+		
+		return back()->with('success', 'Record has been added');
+	}
+	 
+	}
    
    
    public function box_form($id)
@@ -88,12 +164,12 @@ class HomeBannersController extends Controller
 	
 	public function destroy($id) {
 		
-		$image = DB::table('slideshow')->where('id', $id)->first();
+		$image = DB::table('home_banners')->where('id', $id)->first();
 		$orginalfile=$image->slide_image;
 		$testimonialphoto="/media/";
        $path = base_path('images'.$testimonialphoto.$orginalfile);
 	  File::delete($path);
-      DB::delete('delete from slideshow where id = ?',[$id]);
+      DB::delete('delete from home_banners where id = ?',[$id]);
 	   
       return back();
       
@@ -244,7 +320,7 @@ class HomeBannersController extends Controller
 		
 		
 		
-		DB::update('update home_banners set slide_title="'.$slide_title.'",slider_sub_title="'.$slider_sub_title.'",slide_btn_text="'.$slide_btn_text.'",slide_btn_link="'.$slide_btn_link.'",slide_image="'.$savefname.'",slide_status="'.$slide_status.'" where id = ?', [$id]);
+		DB::update('update home_banners set position="'.$data['position'].'",slide_btn_link="'.$slide_btn_link.'",slide_image="'.$savefname.'",slide_status="'.$slide_status.'" where id = ?', [$id]);
 		
 			return back()->with('success', 'Record has been updated');
         }

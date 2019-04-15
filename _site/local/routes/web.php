@@ -12,9 +12,6 @@
 */
 
 
-
-
-
 Route::get('setlocale/{locale}', function ($locale) {
   if (in_array($locale, \Config::get('app.locales'))) {
     Session::put('locale', $locale);
@@ -23,22 +20,16 @@ Route::get('setlocale/{locale}', function ($locale) {
 });
 
 Route::get('/confirmemail/{id}', 'IndexController@confirmation');
-
 Route::get('/confirmemail', 'IndexController@view_former');
-
-
 Route::get('/resend/{email_address}', 'IndexController@resend_email');
 
-
-
+/* Import & Export */
 Route::get('importExport', 'ImportExportController@importExport');
 Route::get('downloadExcel/{type}', 'ImportExportController@downloadExcel');
+Route::get('downloadExcelModel', 'ImportExportController@downloadExcelModel');
 Route::post('importExcel', 'ImportExportController@importExcel');
 
-
-
-
-
+/* Index */
 Route::get('/', 'IndexController@avigher_index');
 Route::get('/index', 'IndexController@avigher_index');
 /*Route::post('/index', ['as'=>'index','uses'=>'IndexController@avigher_subscribe']);*/
@@ -47,9 +38,6 @@ Route::get('/thankyou/{id}', 'IndexController@newsletter_activate');
 
 
 /* paytm */
-
-
-
 Route::post('/paytm', ['as'=>'paytm','uses'=>'PaytmController@order']);
 Route::post('paytm/status', 'PaytmController@paymentCallback');
 Route::get('/paytm_shop_success/{payment_id}', 'PaytmController@paytm_success');
@@ -58,10 +46,10 @@ Route::get('/paytm_shop_success/{payment_id}', 'PaytmController@paytm_success');
 
 
 /************* BLOG ***************/
+
 Route::get('/blog', 'BlogController@avigher_index');
 Route::get('/blog/{id}', 'BlogController@avigher_singlepost');
 Route::post('/blog', ['as'=>'blog','uses'=>'BlogController@avigher_blog_comment']);
-
 
 Route::get('/gallery', 'GalleryController@avigher_gallery');
 
@@ -72,10 +60,8 @@ Route::get('/gallery', 'GalleryController@avigher_gallery');
 
 /****************** PRODUCT **********/
 
-
 Route::get('/product/{prod_id}/{prod_slug}', 'CategoryController@avigher_product_details');
 Route::post('/product', ['as'=>'product','uses'=>'ProductController@avigher_cart']);
-
 
 /****************** End PRODUCT **********/
 
@@ -97,11 +83,10 @@ Route::get('/checkout', 'CheckoutController@avigher_view_no_checkout');
 /************* END CHECKOUT *********/
 
 
+
 /*********** PAYMENT DETAILS **********/
 
-
 Route::post('/payment-details', ['as'=>'payment-details','uses'=>'PaymentController@avigher_checkout_details']);
-
 
 Route::post('/razorpay_verify', ['as'=>'razorpay_verify','uses'=>'RazorpayController@avigher_razorpay']);
 Route::get('/razorpay-success/{razor_id}', 'RazorpayController@avigher_view_razorpay');
@@ -109,15 +94,14 @@ Route::get('/razorpay-success/{razor_id}', 'RazorpayController@avigher_view_razo
 
 
 
-
 /********** MY PROFILE *********/
 
-
 Route::get('/profile/{user_id}/{user_slug}', 'DashboardController@avigher_my_profile');
-
 Route::post('/profile', ['as'=>'profile','uses'=>'DashboardController@avigher_contact_vendor']);
 
 /************* MY PROFILE *********/
+
+
 
 //Route::get('/my-product', 'ProductController@avigher_product');
 Route::get('/waiting-list', 'ProductController@waitingList'); 
@@ -144,7 +128,6 @@ Route::get('/shop/{pager}', 'CategoryController@avigher_pager_category');
 Route::get('/shop/{sort}/{type}', 'CategoryController@avigher_sort_category');
 Route::post('/shop', ['as'=>'shop','uses'=>'CategoryController@avigher_search_data']);
 
-
 /************ SHOP ***********/
 
 
@@ -152,33 +135,26 @@ Route::post('/shop', ['as'=>'shop','uses'=>'CategoryController@avigher_search_da
 
 /********* WISHLIST ************/
 
-
 Route::get('/wishlist/{log_id}/{prod_token}', 'ProductController@avigher_wishlist');
 Route::get('/waitin-list/{user_id}/{prod_token}/{prod_user_id}', 'ProductController@add_waiting_list');
 
 Route::get('/my-wishlist', 'ProductController@avigher_view_wishlist');
 Route::get('/my-wishlist/{prod_token}', 'ProductController@avigher_wishlist_delete');
 
-
-
 /************** WISHLIST ***********/
 
-Route::get('/compare/{id}', 'ProductController@avigher_view_compare');
 
-Route::get('/compare', 'ProductController@avigher_compare');
 
 /********** COMPARE ********/
 
-
+Route::get('/compare/{id}', 'ProductController@avigher_view_compare');
+Route::get('/compare', 'ProductController@avigher_compare');
 
 /****** COMPARE **********/
 
 
 
-
-
 /************ WALLET ************/
-
 
 Route::get('/my-balance', 'WalletController@avigher_my_balance');
 Route::post('/my-balance', ['as'=>'my-balance','uses'=>'WalletController@avigher_balance_data']);
@@ -187,40 +163,31 @@ Route::post('/my-balance', ['as'=>'my-balance','uses'=>'WalletController@avigher
 
 
 
-
-
-
 /* attribute type */
 	
-	Route::get('/attribute-type','AttributeController@attribute_type_index');
-	Route::get('/add-attribute-type','AttributeController@formview');
-	Route::post('/add-attribute-type', ['as'=>'add-attribute-type','uses'=>'AttributeController@attribute_type_data']);
-	Route::get('/attribute-type/{id}','AttributeController@deleted');
-	Route::get('/edit-attribute-type/{id}','AttributeController@showform');
-	Route::post('/edit-attribute-type', ['as'=>'edit-attribute-type','uses'=>'AttributeController@edit_attribute_type']);
-	/*Route::get('/admin/attribute_type/{action}/{id}/{status}','Admin\AttributeController@status');*/
+Route::get('/attribute-type','AttributeController@attribute_type_index');
+Route::get('/add-attribute-type','AttributeController@formview');
+Route::post('/add-attribute-type', ['as'=>'add-attribute-type','uses'=>'AttributeController@attribute_type_data']);
+Route::get('/attribute-type/{id}','AttributeController@deleted');
+Route::get('/edit-attribute-type/{id}','AttributeController@showform');
+Route::post('/edit-attribute-type', ['as'=>'edit-attribute-type','uses'=>'AttributeController@edit_attribute_type']);
+/*Route::get('/admin/attribute_type/{action}/{id}/{status}','Admin\AttributeController@status');*/
 	
-	/* attribute type */
-	
-	
-    /* attribute value */
-
-    Route::get('/attribute-value','AttributeController@attribute_value_index');
-	Route::get('/add-attribute-value','AttributeController@formview_value');
-	Route::post('/add-attribute-value', ['as'=>'add-attribute-value','uses'=>'AttributeController@attribute_value_data']);
-	
-	Route::get('/attribute-value/{id}','AttributeController@value_deleted');
+/* attribute type */
 	
 	
-	Route::get('/edit-attribute-value/{id}','AttributeController@edit_showform');
-	Route::post('/edit-attribute-value', ['as'=>'edit-attribute-value','uses'=>'AttributeController@edit_attribute_value']);
+/* attribute value */
 
-    /* attribute value */
+Route::get('/attribute-value','AttributeController@attribute_value_index');
+Route::get('/add-attribute-value','AttributeController@formview_value');
+Route::post('/add-attribute-value', ['as'=>'add-attribute-value','uses'=>'AttributeController@attribute_value_data']);
+	
+Route::get('/attribute-value/{id}','AttributeController@value_deleted');
+	
+Route::get('/edit-attribute-value/{id}','AttributeController@edit_showform');
+Route::post('/edit-attribute-value', ['as'=>'edit-attribute-value','uses'=>'AttributeController@edit_attribute_value']);
 
-
-
-
-
+/* attribute value */
 
 
 
@@ -245,10 +212,10 @@ Route::get('/seller/{id}/{slug}', 'ProfileController@avigher_singleshop');
 Route::post('/seller', ['as'=>'seller','uses'=>'ProfileController@avigher_shop_comment']);
 Route::post('/contact_seller', ['as'=>'contact_seller','uses'=>'ProfileController@avigher_contact_seller']);
 
-
 Route::get('/vendors', 'IndexController@avigher_all_vendors');
 
 /*********** END SHOP *********/
+
 
 
 /*********** BOOKING **********/
@@ -281,84 +248,51 @@ Route::post('/view-refund', ['as'=>'view-refund','uses'=>'MyhistoryController@av
 /* MY ORDERS */
 
 Route::get('/my-orders', 'MyhistoryController@avigher_view_myorders');
-
 Route::get('/view-orders/{ord_id}/{user_id}', 'MyhistoryController@avigher_view_orderdetails');
 
 /* END MY ORDERS */
 
 
 
-
-
 /************** CHECKOUT ***************/
 
 /*Route::get('/checkout', 'BookingController@avigher_checkout');
-
 Route::post('/checkout', ['as'=>'checkout','uses'=>'BookingController@avigher_submit_checkout']);*/
 
-
 Route::get('/success/{cid}', 'SuccessController@paypal_success');
-
-
-
 Route::post('/stripe_shop_success', ['as'=>'stripe_shop_success','uses'=>'StripeController@avigher_shop_stripe']);
 
-
 Route::get('/bank_payment/{token}/{book_id}', 'BookingController@avigher_bank_details');
-
 Route::post('/bank_payment', ['as'=>'bank_payment','uses'=>'BookingController@avigher_bank_submit']);
 
-
-
 Route::post('/ccavResponseHandler', ['as'=>'ccavResponseHandler','uses'=>'CcavenueController@avigher_ccavenue_success']);
-
 Route::post('/ccavRequestHandler', ['as'=>'ccavRequestHandler','uses'=>'CcavenueController@avigher_shop_ccavenue']);
-
 
 /************** CHECKOUT ***********/
 
 
 
 
-
-
-
 /**************** SOCIAL LOGIN ***************/
-
-
-
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
-
-
-
-
 /**************** SOCIAL LOGIN ***************/
 
 
 
 /************** TAGS ***************/
-
 Route::get('/tag/{type}/{id}', 'TagController@avigher_tag');
-
-
-
 /************* END TAGS ***************/
 
 
 
-
-
 /************** DASHBOARD **********/
-
 
 Route::get('/logout', 'DashboardController@avigher_logout');
 Route::get('/delete-account', 'DashboardController@avigher_deleteaccount');
 Route::post('/dashboard', ['as'=>'dashboard','uses'=>'DashboardController@avigher_edituserdata']);
 
 /*********** END DASHBOARD ************/
-
-
 
 
 
@@ -374,14 +308,12 @@ Route::post('/cash-on-delivery', ['as'=>'cash-on-delivery','uses'=>'Cashondelive
 Route::get('/payhere_success/{cid}', 'SuccessController@avigher_payhere_success');
 
 
-
 Route::post('/wallet-balance', ['as'=>'wallet-balance','uses'=>'WalletController@avigher_wallet_balance']);
 
 Route::get('/wallet-balance', 'WalletController@avigher_walletpage');
 
 
 Auth::routes();
-
 	
 	Route::get('/about-us','PageController@avigher_about_us');
 	
@@ -393,61 +325,37 @@ Auth::routes();
 	
 	Route::get('/terms-of-use','PageController@avigher_terms');
 	
-	Route::get('/privacy-policy','PageController@avigher_privacy');
-	
-	
+	Route::get('/privacy-policy','PageController@avigher_privacy');	
 	
 	Route::get('/404','PageController@avigher_404');
 	
 	
-	/******** Forgot Password *********/
-	
+	/******** Forgot Password *********/	
 	
 	Route::get('/forgot-password','ForgotpasswordController@avigher_forgot_view');
-	Route::post('/forgot-password', ['as'=>'forgot-password','uses'=>'ForgotpasswordController@avigher_forgot_password']);
-	
+	Route::post('/forgot-password', ['as'=>'forgot-password','uses'=>'ForgotpasswordController@avigher_forgot_password']);	
 	
 	/************* End Forgot Password **********/
 	
 	
-	/************** Reset Password ***********/
-	
-	
-	
-	Route::get('/reset-password/{id}', 'ResetpasswordController@avigher_reset_view');
-	
+	/************** Reset Password ***********/	
+	Route::get('/reset-password/{id}', 'ResetpasswordController@avigher_reset_view');	
 	Route::post('/reset-password', ['as'=>'reset-password','uses'=>'ResetpasswordController@avigher_reset_password']);
 	/************** End Reset Password *************/
 	
 	
 	
-	
-	Route::get('/contact-us','PageController@avigher_contact');
-	
-	Route::post('/contact-us', ['as'=>'contact-us','uses'=>'PageController@avigher_mailsend']);
-	
-	
-	
-	
-	
-	
+	Route::get('/contact-us','PageController@avigher_contact');	
+	Route::post('/contact-us', ['as'=>'contact-us','uses'=>'PageController@avigher_mailsend']);	
 	
 	
 	Route::post('/payment', ['as'=>'payment','uses'=>'PageController@avigher_donate_payment']);
-	
-	
-	
-
 
 
 /************* SHOP ***************/
 
-
-
 Route::get('/myshop','ShopController@index');
-
 Route::post('/myshop', ['as'=>'myshop','uses'=>'ShopController@avigher_savedata']);
-
 Route::get('/myshop/{delete}/{id}/{photo}','ShopController@avigher_delete_photo');
 /************ END SHOP ***********/
 
@@ -455,16 +363,12 @@ Route::get('/myshop/{delete}/{id}/{photo}','ShopController@avigher_delete_photo'
 
 /***************** MY SERVICES **************/
 
-
 Route::get('/myservices','ShopController@myservice_index');
 Route::get('/myservices/{id}','ShopController@avigher_editdata');
 Route::post('/myservices', ['as'=>'myservices','uses'=>'ShopController@avigher_servicedatas']);
 Route::get('/myservices/{id}/delete','ShopController@avigher_service_destroy');
 
 /**************** END MY SERVICES **********************/
-
-
-
 
 
 
@@ -488,8 +392,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/edituser', ['as'=>'admin.edituser','uses'=>'Admin\EdituserController@edituserdata']);
 	Route::post('/admin/users', ['as'=>'admin.users','uses'=>'Admin\UsersController@delete_all']);
 	/* end user */
-	
-	
+		
 	
 	
 	/* category */
@@ -510,8 +413,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/addsubcategory','Admin\AddsubcategoryController@getcategory');
 	Route::post('/admin/addsubcategory', ['as'=>'admin.addsubcategory','uses'=>'Admin\AddsubcategoryController@addsubcategorydata']);
 	Route::get('/admin/subcategory/{id}','Admin\SubcategoryController@destroy');
-	
-	
+		
 	
 	Route::get('/admin/editsubcategory/{id}','Admin\EditsubcategoryController@edit');
 	
@@ -536,8 +438,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/comment/{id}','Admin\BlogController@comment_destroy');
 	/* end Blogs */
 	
-	
-	
+		
 	
 	/* pages */
 	
@@ -553,14 +454,20 @@ Route::group(['middleware' => 'admin'], function() {
 	
 	
 	
-	/* start settings */
-	
+	/* start settings */	
 	
 	Route::get('/admin/settings','Admin\SettingsController@showform');
 	Route::post('/admin/settings', ['as'=>'admin.settings','uses'=>'Admin\SettingsController@editsettings']);
 	
 	/* end settings */
 	
+        
+        /* start reports */	
+        
+        Route::get('/admin/reports','Admin\ReportController@showreport');
+        Route::post('/admin/reports', ['as'=>'admin.reports','uses'=>'Admin\ReportController@find_all']);
+        /* end reports */
+        
 	
 	/* media settings */
 	
@@ -576,8 +483,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/permissions','Admin\PermissionController@showform');
 	Route::post('/admin/permissions', ['as'=>'admin.permissions','uses'=>'Admin\PermissionController@avigher_technologies_editsettings']);
 	
-	/* end permission */
-	
+	/* end permission */	
 	
 	
 	
@@ -608,26 +514,21 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/slideshow', ['as'=>'admin.slideshow','uses'=>'Admin\SlideshowController@delete_all']);
 	
 	
-	
 	/* end slideshow */
 	
 	
 	
-	/* banner */
-	
+	/* banner */	
 	
 	Route::get('/admin/banners','Admin\BannersController@index');
 	Route::get('/admin/edit-banner/{id}','Admin\EditbannerController@showform');
-	Route::post('/admin/edit-banner', ['as'=>'admin.edit-banner','uses'=>'Admin\EditbannerController@slideshowdata']);
-	
+	Route::post('/admin/edit-banner', ['as'=>'admin.edit-banner','uses'=>'Admin\EditbannerController@slideshowdata']);	
 	
 	Route::get('/admin/home-banners','Admin\HomeBannersController@index');
 	Route::get('/admin/edit-home-banner/{id}','Admin\HomeBannersController@showform');
 	Route::post('/admin/edit-home-banner', ['as'=>'admin.edit-home-banner','uses'=>'Admin\HomeBannersController@slideshowdata']);
 	
-	
-	
-	
+		
 	Route::get('/admin/home-box-content','Admin\HomeBannersController@box_index');
 	Route::get('/admin/edit-home-box-content/{id}','Admin\HomeBannersController@box_form');
 	Route::post('/admin/edit-home-box-content', ['as'=>'admin.edit-home-box-content','uses'=>'Admin\HomeBannersController@edit_slideshowdata']);
@@ -635,42 +536,31 @@ Route::group(['middleware' => 'admin'], function() {
 	
 	Route::post('/admin/edit-slideshow', ['as'=>'admin.edit-slideshow','uses'=>'Admin\EditslideshowController@slideshowdata']);
 	Route::post('/admin/slideshow', ['as'=>'admin.slideshow','uses'=>'Admin\SlideshowController@delete_all']);*/
-	
-	
+		
 	
 	/* end banner */
 	
 	
 	
-	/* rating */
-	
-	Route::get('/admin/rating','Admin\RatingController@index');
-	
+	/* rating */	
+	Route::get('/admin/rating','Admin\RatingController@index');	
 	Route::get('/admin/rating/{id}','Admin\RatingController@destroy');
 	/* end rating */
+		
 	
-	
-	
-	/* dispute refund */
-	
-	Route::get('/admin/refund','Admin\RefundController@index');
-	
-	
+	/* dispute refund */	
+	Route::get('/admin/refund','Admin\RefundController@index');	
 	/* end dispute refund */
+		
 	
-	
-	
-	
-	/* membership */
-	
+	/* membership */	
 	Route::get('/admin/membership','Admin\MembershipController@membership_index');
 	Route::get('/admin/edit_membership/{id}','Admin\MembershipController@showform');
 	Route::post('/admin/edit_membership', ['as'=>'admin.edit_membership','uses'=>'Admin\MembershipController@pagedata']);
 	Route::get('/admin/add_membership','Admin\MembershipController@formview');
 	Route::post('/admin/add_membership', ['as'=>'admin.add_membership','uses'=>'Admin\MembershipController@addplandata']);
 	Route::get('/admin/membership/{id}','Admin\MembershipController@deleted');
-	Route::get('/admin/membership/{action}/{id}/{sid}','Admin\MembershipController@status');
-	
+	Route::get('/admin/membership/{action}/{id}/{sid}','Admin\MembershipController@status');	
 	/* end membership */
 	
 	
@@ -679,8 +569,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/pending_withdraw','Admin\WithdrawController@avigher_pending_withdraw');
 	Route::get('/admin/pending_withdraw/{id}','Admin\WithdrawController@avigher_pending_withdraw_data');
 	Route::get('/admin/completed_withdraw','Admin\WithdrawController@avigher_completed_withdraw');
-	
-	
+		
 	
 	/* product */
 	
@@ -696,8 +585,7 @@ Route::group(['middleware' => 'admin'], function() {
 	/*Route::get('/admin/membership/{id}','Admin\MembershipController@deleted');
 	Route::get('/admin/membership/{action}/{id}/{sid}','Admin\MembershipController@status');*/
 	
-	/* end membership */
-	
+	/* end membership */	
 	
 	
 	
@@ -711,11 +599,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/edit_attribute_type', ['as'=>'admin.edit_attribute_type','uses'=>'Admin\AttributeController@edit_attribute_type']);
 	Route::get('/admin/attribute_type/{action}/{id}/{status}','Admin\AttributeController@status');
 	
-	/* attribute type */
-	
-	
-	
-	
+	/* attribute type */	
 	
 	
 	
@@ -730,8 +614,7 @@ Route::group(['middleware' => 'admin'], function() {
 	
 	Route::get('/admin/edit_attribute_value/{id}','Admin\AttributeController@edit_showform');
 	Route::post('/admin/edit_attribute_value', ['as'=>'admin.edit_attribute_value','uses'=>'Admin\AttributeController@edit_attribute_value']);
-	/* attribute value */
-	
+	/* attribute value */	
 	
 	
 	
@@ -740,26 +623,17 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/orders','Admin\OrdersController@orders_index');
 	Route::get('/admin/orders/{order_id}/{purchase_token}/{admin_commission}/{vendor_commission}','Admin\OrdersController@orders_approval');
 	
-	
-	Route::get('/admin/view_orders/{purchase_token}','Admin\OrdersController@view_orders_index');
-	
+	Route::get('/admin/view_orders/{purchase_token}','Admin\OrdersController@view_orders_index');	
 	Route::get('/admin/view_orders/{purchase_token}/{status}','Admin\OrdersController@view_orders_change');
 	
 	/* product orders */
 	
+		
 	
-	
-	
-	/* product refund */
-	
+	/* product refund */	
 	Route::get('/admin/refund/{dispute_id}/{order_id}/{purchase_token}/{admin_commission}/{vendor_commission}','Admin\OrdersController@orders_refund');
-	
 	Route::get('/admin/refund/{dispute_id}/{order_id}/{purchase_token}/{buyer_amount}','Admin\OrdersController@orders_buyer_refund');
 	/* product refund */
-	
-	
-	
-	
 	
 	
 	
@@ -774,12 +648,7 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/testimonials', ['as'=>'admin.testimonials','uses'=>'Admin\TestimonialsController@delete_all']);
 	
 	/* end Testimonials */
-	
-	
-	
-	
-	
-	
+		
    
 });
 
@@ -788,10 +657,9 @@ Route::group(['middleware' => 'web'], function (){
     
     Route::get('/dashboard', 'DashboardController@index');
     Route::get('/my-comments', 'DashboardController@mycomments');
-	Route::get('/my-comments/{id}', 'DashboardController@mycomments_destroy');
+    Route::get('/my-comments/{id}', 'DashboardController@mycomments_destroy');
 
 });
-
 
 
 
@@ -814,6 +682,9 @@ Route::post('/wirecard-boleto-shop-success',['as' => 'wirecard-boleto-shop-succe
 
 
 /* Marcello :: Routes */
+
+/* Shipping Settings */
+Route::get('/config-shipping','DashboardController@config_shipping');
 
 /* Alterar status dos produtos para inativo ou retirar ele de inativo */
 Route::get('dashboard/{idUser}/{idType}','ProductController@manageProducts');

@@ -52,6 +52,15 @@
 
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Home Banners</h5>
+            <div align="right">
+           
+                  
+				   <?php if(config('global.demosite')=="yes"){?>
+				  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span> <a href="#" class="btn btn-primary btndisable">Adcionar Banner</a> 
+				  <?php } else { ?>
+				  <a href="<?php echo $url;?>/admin/add-home-banner" class="btn btn-primary">Adicionar Banner</a>
+				  <?php } ?>
+                 </div>
           </div>
           
           
@@ -66,11 +75,12 @@
                         
                           <th>Sno</th>
 						  <th>Image</th>
-                          <th>Heading</th>
+                          <th>Position</th>
                           <th>Link</th>
                           <th>Status</th>
                           
                           <th>Action</th>
+                          <th>Clicks</th>
                           
                          </tr>
                          
@@ -105,8 +115,8 @@
                          
                          
                          
-                          <td><?php echo $slideshows->slide_title;?></td>
-                          <td><?php echo $slideshows->slide_btn_link;?></td>
+                          <td><?php echo $slideshows->position;?></td>
+                          <td><?php echo $slideshows->slide_btn_link;?></dt>
                           
                           <td><?php if($slideshows->slide_status==1){?> Enabled <?php } else { ?> Disabled <?php } ?></td>
 						  
@@ -118,8 +128,14 @@
 						  
 						  <a href="<?php echo $url;?>/admin/edit-home-banner/{{ $slideshows->id }}" class="btn btn-success">Edit</a>
 						  <?php } ?>
-				   
-						  </td>
+				     <?php if(config('global.demosite')=="yes"){?>
+				    <a href="#" class="btn btn-danger btndisable">Delete</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
+				  <?php } else { ?>
+						 <a href="<?php echo $url;?>/admin/home_banner/{{ $slideshows->id }}" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this?')">Delete</a>
+						  <?php } ?>
+              </td>
+              <td><?php echo $slideshows->clicks;?></td>
+              
                         </tr>
                         <?php $i++;} ?>
                                 

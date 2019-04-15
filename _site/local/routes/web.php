@@ -65,6 +65,10 @@ Route::post('/product', ['as'=>'product','uses'=>'ProductController@avigher_cart
 
 /****************** End PRODUCT **********/
 
+Route::get('/redirect_blog/{slug}', 'ClicksController@add_blog_clicks');
+Route::get('/redirect_banner/{slug}', 'ClicksController@add_banner_clicks');
+Route::get('/redirect_home_banner/{slug}', 'ClicksController@add_home_banner_clicks');
+
 
 
 /************* CART ************/
@@ -404,7 +408,12 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/editcategory', ['as'=>'admin.editcategory','uses'=>'Admin\EditcategoryController@editcategorydata']);
 	Route::post('/admin/category', ['as'=>'admin.category','uses'=>'Admin\CategoryController@delete_all']);
 	/* end category */
+
+	/* Home banners */
 	
+	
+	/* end Home Banners */
+
 	
 	/* sub category */
 	
@@ -521,11 +530,21 @@ Route::group(['middleware' => 'admin'], function() {
 	/* banner */	
 	
 	Route::get('/admin/banners','Admin\BannersController@index');
+	Route::get('/admin/add-banner','Admin\BannersController@addBannerForm');
+	Route::get('/admin/banner/{id}','Admin\HomeBannersController@destroy');
+
+	Route::post('/admin/add-banner', ['as'=>'admin.add-banner','uses'=>'Admin\BannersController@addNewBanner']);
+
 	Route::get('/admin/edit-banner/{id}','Admin\EditbannerController@showform');
 	Route::post('/admin/edit-banner', ['as'=>'admin.edit-banner','uses'=>'Admin\EditbannerController@slideshowdata']);	
 	
-	Route::get('/admin/home-banners','Admin\HomeBannersController@index');
+	Route::get('/admin/home_banners','Admin\HomeBannersController@index');
 	Route::get('/admin/edit-home-banner/{id}','Admin\HomeBannersController@showform');
+	Route::get('/admin/home_banner/{id}','Admin\HomeBannersController@destroy');
+
+	Route::get('/admin/add-home-banner','Admin\HomeBannersController@addBannerForm');
+	Route::post('/admin/add-home-banner', ['as'=>'admin.add-home-banner','uses'=>'Admin\HomeBannersController@addNewBanner']);
+
 	Route::post('/admin/edit-home-banner', ['as'=>'admin.edit-home-banner','uses'=>'Admin\HomeBannersController@slideshowdata']);
 	
 		

@@ -55,19 +55,94 @@ class BannersController extends Controller
 	
 	
 	}
+
+	public function addBannerForm() {
+	   
+		return view('admin.add-banner');
+	 }
+
+	protected function addNewBanner(Request $request) {
+		
+ 
+		$data = $request->all();
+			
+ 			
+		$input['name'] = Input::get('name');
+       
+		$settings = DB::select('select * from settings where id = ?',[1]);
+		$imgsize = $settings[0]->image_size;
+		$imgtype = $settings[0]->image_type;	
+		  
+		  
+		$rules = array(
+		
+		
+		'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
+		
+		
+		);
+
+		
+		
+		
+		$messages = array(
+            
+            
+			
+        );
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+		
+		
+
+		if ($validator->fails())
+		{
+			$failedRules = $validator->failed();
+			return back()->withErrors($validator);
+		}
+		else
+		{  
+		  	
+		
+		
+		
+		$image = Input::file('photo');
+        if($image!="")
+		{	
+            $testimonialphoto="/media/";
+			$filename  = time() . '.' . $image->getClientOriginalExtension();
+        
+            $path = base_path('images'.$testimonialphoto.$filename);
+			$destinationPath=base_path('images'.$testimonialphoto);
+      
+                 Image::make($image->getRealPath())->resize(555, 180)->save($path);
+				/*Input::file('photo')->move($destinationPath, $filename);*/
+				$savefname=$filename;
+		}			
+		$position = $data['position'];
+		$slide_btn_link = $data['slide_btn_link'];
+		$slide_status = $data['slide_status'];
+
+	
+
+		DB::insert('insert into banners (position,slide_btn_link,slide_image,slide_status) values (?, ? ,?,?)', [$position,$slide_btn_link,$filename,$slide_status]);
+		
+		return back()->with('success', 'Record has been added');
+	}
+	 
+	}
 	
 	
 	public function destroy($id) {
 		
-		$image = DB::table('slideshow')->where('id', $id)->first();
+		$image = DB::table('banners')->where('id', $id)->first();
 		$orginalfile=$image->slide_image;
 		$testimonialphoto="/media/";
        $path = base_path('images'.$testimonialphoto.$orginalfile);
 	  File::delete($path);
-      DB::delete('delete from slideshow where id = ?',[$id]);
+      DB::delete('delete from banners where id = ?',[$id]);
 	   
       return back();
-      
    }
 	
 }

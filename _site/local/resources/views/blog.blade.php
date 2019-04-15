@@ -62,6 +62,7 @@ $setid=1;
 	</div>
 </div>
     
+
 	
 	
      <div class="clear"></div>
@@ -209,7 +210,7 @@ $setid=1;
                         
 						
 </div>
-                              
+             
                      <div class="clearfix height20"></div>         
                               <div class="row">
                               <div class="col-sm-12 col-md-12 paddingoff">
@@ -418,7 +419,8 @@ $setid=1;
                                     <div class="fontsize19">@lang('languages.recent_posts')</div>
                                     <div class="height20"></div>
                                     <div class="row">
-                                        <div class="recent-posts">
+                                        <div class="recent-posts" style="    display: flex;
+    flex-direction: column;">
                                         <?php foreach($popular_blog as $popular){?>
                                             <div class="blog-recent-post">
                                                 <div class="col-md-4 col-sm-4 col-xs-4">

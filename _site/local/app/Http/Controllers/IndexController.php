@@ -189,17 +189,32 @@ class IndexController extends Controller
 			
 			$banners_count = DB::table('banners')->orderBy('id','asc')->count();
 			
-			$banners = DB::table('banners')->where('slide_status','=',1)->orderBy('id','desc')->get();			
+			$banners = DB::table('banners')->where('slide_status','=',1)->orderBy('id','desc')->get();		
+			
+			$banner_one_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '1')->count();	
+			$banner_one = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '1')->orderBy('id','desc')->get();
+			$banner_two_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '2')->count();			
+			$banner_two = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '2')->orderBy('id','desc')->get();
+			$banner_three_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '3')->count();	
+			$banner_three = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '3')->orderBy('id','desc')->get();
+			$banner_four_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '4')->count();			
+			$banner_four = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '4')->orderBy('id','desc')->get();
+			$banner_five_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '5')->count();			
+			$banner_five = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '5')->orderBy('id','desc')->get();
+			$banner_six_count = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '6')->count();			
+			$banner_six = DB::table('banners')->where('slide_status','=',1)->where('position', '=', '6')->orderBy('id','desc')->get();
+			
+
 			
 			$box_content_count = DB::table('home_box_content')->where('status','=',1)->orderBy('id','desc')->count();
 			
 			$box_content = DB::table('home_box_content')->where('status','=',1)->orderBy('id','desc')->get();
 			
 			
-			$home_banner_one_count = DB::table('home_banners')->where('slide_status','=',1)->where('id', '=', '1')->count();	
-			$home_banner_one = DB::table('home_banners')->where('slide_status','=',1)->where('id', '=', '1')->get();
-			$home_banner_two_count = DB::table('home_banners')->where('slide_status','=',1)->where('id', '=', '2')->count();			
-			$home_banner_two = DB::table('home_banners')->where('slide_status','=',1)->where('id', '=', '2')->get();
+			$home_banner_one_count = DB::table('home_banners')->where('slide_status','=',1)->where('position', '=', '1')->count();	
+			$home_banner_one = DB::table('home_banners')->where('slide_status','=',1)->where('position', '=', '1')->orderBy('id','desc')->get();
+			$home_banner_two_count = DB::table('home_banners')->where('slide_status','=',1)->where('position', '=', '2')->count();			
+			$home_banner_two = DB::table('home_banners')->where('slide_status','=',1)->where('position', '=', '2')->orderBy('id','desc')->get();
 			
 		
 					 
@@ -291,7 +306,7 @@ class IndexController extends Controller
 						  ->get();
 		
 		
-		$data = array('testimonials' => $testimonials, 'testimonials_cnt' => $testimonials_cnt, 'slideshow' => $slideshow, 'about' => $about,   'testimonials' => $testimonials, 'blogs' => $blogs, 'blogs_cnt' => $blogs_cnt, 'site_setting' => $site_setting, 'slideshow_cnt' => $slideshow_cnt, 'banners_count' => $banners_count, 'banners' => $banners, 'home_banner_one' => $home_banner_one, 'home_banner_two' => $home_banner_two, 'home_banner_one_count' => $home_banner_one_count, 'home_banner_two_count' => $home_banner_two_count, 'viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'cate_cnt' => $cate_cnt, 'cate_get' => $cate_get, 'viewcount_new' => $viewcount_new, 'viewproduct_new' => $viewproduct_new, 'viewcount_rating' => $viewcount_rating, 'view_rating' => $view_rating, 'latestcount' => $latestcount, 'latest_product' => $latest_product, 'box_content' => $box_content, 'box_content_count' => $box_content_count);
+		$data = array('testimonials' => $testimonials, 'testimonials_cnt' => $testimonials_cnt, 'slideshow' => $slideshow, 'about' => $about,   'testimonials' => $testimonials, 'blogs' => $blogs, 'blogs_cnt' => $blogs_cnt, 'site_setting' => $site_setting, 'slideshow_cnt' => $slideshow_cnt, 'banners_count' => $banners_count, 'banners' => $banners, 'banner_one' => $banner_one, 'banner_two' => $banner_two, 'banner_three' => $banner_three, 'banner_four' => $banner_four, 'banner_five' => $banner_five, 'banner_six' => $banner_six,'home_banner_one' => $home_banner_one, 'home_banner_two' => $home_banner_two, 'banner_one_count' => $banner_one_count, 'banner_two_count' => $banner_two_count, 'banner_three_count' => $banner_three_count, 'banner_four_count' => $banner_four_count, 'banner_five_count' => $banner_five_count, 'banner_six_count' => $banner_six_count, 'home_banner_one_count' => $home_banner_one_count, 'home_banner_two_count' => $home_banner_two_count, 'viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'cate_cnt' => $cate_cnt, 'cate_get' => $cate_get, 'viewcount_new' => $viewcount_new, 'viewproduct_new' => $viewproduct_new, 'viewcount_rating' => $viewcount_rating, 'view_rating' => $view_rating, 'latestcount' => $latestcount, 'latest_product' => $latest_product, 'box_content' => $box_content, 'box_content_count' => $box_content_count);
             return view('index')->with($data);
     }
 	

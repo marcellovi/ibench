@@ -86,12 +86,13 @@ return [
 	
 	"product_import_export" => "Protudos importa / exporta",
 	
-	"goto_import_export" => "Goto importa / exporta",
+	"goto_import_export" => "Importar Produtos em Massa",
 	
 	
 	"print_btn" => "Imprimir",
 	
 	"import_file" => "Importa Arquivo",
+        "import_model_file" => "Importar Planilha",
 	
 	/* product */
 	

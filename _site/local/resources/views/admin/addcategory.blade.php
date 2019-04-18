@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-   
-  
-     @include('admin.title')
-    @include('admin.style')
-	
-    
+  <head>  
+    @include('admin.title')
+    @include('admin.style')   
   </head>
-
   <body>
   @include('admin.top')
-
-@include('admin.menu') 
-  
-  
-  
+  @include('admin.menu')  
   <div id="content">
   <div id="content-header">
     <div id="breadcrumb">  </div>
@@ -31,126 +22,85 @@
               </div>
       @endif
       
-      @if(Session::has('success'))
-
-	           
+      @if(Session::has('success'))	           
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
               </div>
-
 	@endif
 
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
             <h5>Adicionar Categoria</h5>
           </div>
-          <div class="widget-content nopadding">
-          
+          <div class="widget-content nopadding">          
               
               <?php $url = URL::to("/"); ?>   
-                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.addcategory') }}"  enctype="multipart/form-data" id="formID">
-                     {{ csrf_field() }} 
-                     
-                    
+                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.addcategory') }}"  enctype="multipart/form-data" id="formID" accept-charset="utf-8">
+                     {{ csrf_field() }}            
                      
               <div class="control-group">
                 <label class="control-label">Nome</label>
                 <div class="controls">
-                 
                                 
                    <input id="name" class="validate[required] span8"  name="name" value="" type="text">
 						   @if ($errors->has('name'))
                                     <span class="help-block" style="color:red;">
                                         <strong>That category is already exists</strong>
                                     </span>
-                                @endif              
-                  
+                                @endif             
                 </div>
               </div>
-              
               
               <div class="control-group">
                 <label class="control-label">Imagem</label>
                 <div class="controls">
                 <input type="file" id="photo" name="photo" class="span8"><br/><br/><span> (Size is : 400px X 290px)</span>
 						  
-						  @if ($errors->has('photo'))
-                                    <span class="help-block" style="color:red;">
-                                        <strong>{{ $errors->first('photo') }}</strong>
-                                    </span>
-                                @endif
-                
-                 
-                  
+		    @if ($errors->has('photo'))
+                        <span class="help-block" style="color:red;">
+                        <strong>{{ $errors->first('photo') }}</strong>
+                        </span>
+                    @endif
                 </div>
               </div>
-              
-              
-             
-              
-              
               
               <div class="control-group">
                 <label class="control-label">Exibir no Menu Principal?</label>
                 <div class="controls">
-                 
-                                
                    <input id="display_menu" name="display_menu"  value="1" type="checkbox">
-						                
-                  
                 </div>
               </div>
-              
-              
               
                <div class="control-group">
                 <label class="control-label">Exibir na Ordem</label>
                 <div class="controls">
-                 
                                 
                    <input id="display_order" class="span8"  name="display_order" value="" type="text">
-						           
                   
                 </div>
               </div>
-              
-              
-              
-              
-              
-					
+			
               <?php $url = URL::to("/"); ?>
               <div class="form-actions">
-                        <div class="span8">
+                <div class="span8">
                          
-                          <a href="<?php echo $url;?>/admin/category" class="btn btn-primary">Cancelar</a>
-                        
-                       
-						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
-								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
-						  
-                           
-                           <button id="send" type="submit" class="btn btn-success">Submit</button>
-								<?php } ?>
+                    <a href="<?php echo $url;?>/admin/category" class="btn btn-primary">Cancelar</a>
+                             
+	            <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
+		    <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
+                    <?php } else { ?>
+		    <button id="send" type="submit" class="btn btn-success">Submit</button>
+		    <?php } ?>
                         </div>
-              
             </form>
           </div>
         </div>
       </div>
     </div>
-    
   </div>
 </div>
-
-
-
 </div>
-  
-  
-  
  @include('admin.footer')
-	
-  </body>
+</body>
 </html>

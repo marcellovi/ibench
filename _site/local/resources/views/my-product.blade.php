@@ -88,9 +88,9 @@ $setid=1;
                    <!-- Marcello Add Product
                    <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
                  -->
-                    <!-- Marcello Hide Import   
+                    <!-- Marcello Hide Import  
                     <a href="<?php echo $url;?>/importExport" class="btn-upper btn btn-primary">@lang('languages.goto_import_export')</a>
-                  -->
+                  --> 
                 </div>
                 
                 <div class="height20 clearfix"></div>
@@ -289,6 +289,10 @@ $setid=1;
                             $status_visibility = "Invis&iacute;vel"; 
                             $visible_clr = "#f31414";
                             $visibility_oposte = "Vis&iacute;vel";
+                    }else{
+                            $status_visibility = "N/A"; 
+                            $visible_clr = "#0B9752";
+                            $visibility_oposte = "N/A";
                     } 
                     ?>                    
             

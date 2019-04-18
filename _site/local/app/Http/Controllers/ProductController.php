@@ -202,9 +202,9 @@ class ProductController extends Controller {
 	public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 
 			$check_waiting_list = DB::table('waiting_list')
-														->where('user_id','=',$user_id)
-														->where('product_id','=',$prod_token)
-														->count();
+				->where('user_id','=',$user_id)
+				->where('product_id','=',$prod_token)
+				->count();
 
 			if(empty($check_waiting_list)) {
 				DB::insert('insert into waiting_list (user_id,product_id, waiting, prod_user_id) values (?, ?, ?, ?)', [$user_id,$prod_token, true, $prod_user_id]);
@@ -234,7 +234,7 @@ class ProductController extends Controller {
 
 
 
-	public function avigher_edit_product($token)	{
+    public function avigher_edit_product($token)	{
 
     $userid = Auth::user()->id;
 
@@ -269,9 +269,7 @@ class ProductController extends Controller {
        // $viewproduct[0]->prod_offer_price =
 
     return view('edit-product', ['category' => $category, 'product_type' => $product_type, 'typer_admin' => $typer_admin, 'typer_admin_count' => $typer_admin_count, 'viewcount' => $viewcount, 'viewproduct' => $viewproduct]);
-
-
-	}
+    }
 
 
 	public function avigher_delete_photo($delete,$id,$photo) {
@@ -346,17 +344,22 @@ class ProductController extends Controller {
 
 
 	$viewcount = DB::table('product')
-							->where('user_id', '=' , $userid)
-                         // ->Where(function ($query) {
-                         //       $query->where('delete_status','=','')
-                         //       ->orwhere('delete_status','=','active');
-                         // })
-				  		->orderBy('prod_id','desc');
+			->where('user_id', '=' , $userid)
+                        // Retirar abaixo quando for feito o task deletar cliente/seller
+                          ->Where(function ($query) {
+                                $query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                          })
+                        ->orderBy('prod_id','desc');
 
 	$viewproduct = DB::table('product')
-										->where('user_id', '=' , $userid)
-
-										->orderBy('prod_id','desc');
+                        ->where('user_id', '=' , $userid)
+                        // Retirar abaixo quando for feito o task deletar cliente/seller
+                            ->Where(function ($query) {
+                                $query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })
+			->orderBy('prod_id','desc');
                     
 
 	if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
@@ -404,8 +407,7 @@ class ProductController extends Controller {
 
 	}
 
-
-	public function avigher_add_form() {
+    public function avigher_add_form() {
 
     $userid = Auth::user()->id;
 	  $category = DB::table('category')
@@ -430,7 +432,7 @@ class ProductController extends Controller {
   }
 
 
-	public function clean($string) {
+    public function clean($string) {
 
     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
     $string = preg_replace("/[\/_|+ -]+/", '-', $string);

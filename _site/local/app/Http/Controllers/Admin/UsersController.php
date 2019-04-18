@@ -91,15 +91,65 @@ class UsersController extends Controller
 
     public function destroy($id) {
 
-        // Marcello :: Diferenciar entre Comprador e Fornecedor
+        /* Inicialize Variables */
+        $tot_product = 0;
+        $tot_complete_order = 0;
+        $tot_incomplete_order = 0;
+        $total_payment = 0;
+        $payment_detais = 'N/A';
+        
+        /* Getting the current time of the deleted users */
+        date_default_timezone_set('America/Sao_Paulo');
+        $date = date('Y-m-d h:i:s', time());
 
+        $user = DB::table('users')
+                ->where('id', '=', $id)
+                ->get(); 
+        
+        $product_ord = DB::table('product_orders')
+                ->where('user_id', '=', $id)
+                ->get(); 
+        
+        foreach( $product_ord as $prod){
+            $tot_product++;
+            if($prod->payment_status == 'completed'){
+                $tot_complete_order++;
+            }else if($prod->payment_status == 'pending'){
+                $tot_incomplete_order++;
+            }
+            $total_payment = $total_payment + $prod->total;            
+        }    
+        
+
+        /* Saving the Data in the History Table */ 
+        DB::insert('insert into history_deleted_users (h_name, h_type_user, h_comission_percentage, h_created_at, '
+                . 'h_deleted_at, h_tot_product, h_tot_complete_ord, h_tot_incomplete_ord, h_total_payment, h_payment_details) '
+                . 'values (?,?,?,?,?,?,?,?,?,?)', [$user[0]->name, $user[0]->admin, $user[0]->comission_percentage, $user[0]->created_at,
+                    $date, $tot_product,$tot_complete_order,$tot_incomplete_order,$total_payment,$payment_detais]); 
+             
         /** Deletando Produtos do Fornecedor * */
-        DB::update('update product set delete_status="deleted" where user_id!=1 and user_id = ?', [$id]);
-
         DB::delete('delete from post where post_type="comment" and post_user_id = ?', [$id]);
-
+       
+        /*
+        DB::delete('delete from users where id = ?', [$id]);
+        DB::delete('delete from product where user_id = ?', [$id]);
+        DB::delete('delete from product_billing_shipping where user_id = ?', [$id]);
+        DB::delete('delete from product_checkout where user_id = ?', [$id]);
+        DB::delete('delete from product_compare where user_id = ?', [$id]);
+        DB::delete('delete from wishlist where user_id = ?', [$id]);
+        
+        DB::delete('delete from product_rating where user_id = ?', [$id]); // if buyer
+        DB::delete('delete from product_rating where prod_id = ?', [$id]); // if seller
+        DB::delete('delete from product_orders where user_id = ?', [$id]); // if buyer
+        DB::delete('delete from product_orders where prod_id = ?', [$id]); // if seller
+        DB::delete('delete from waiting_list where user_id = ?', [$id]); // if buyer
+        DB::delete('delete from waiting_list where prod_user_id = ?', [$id]); // if seller
+        
+        DB::update('update product set delete_status="deleted" where user_id!=1 and user_id = ?', [$id]);
         DB::update('update users set delete_status="deleted" where id!=1 and id = ?', [$id]);
-
+        */
+        
+        /* ToDo : Delete Images ( product_images ) using the prod_token x (product) - Use foreach */
         return back();
     }
 

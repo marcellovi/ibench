@@ -243,12 +243,22 @@ $cates_cnt = DB::table('category')
           
           <div class="module-body">
             <ul class="toggle-footer  row" style="">
+            	<li class="media">
+                <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-phone fa-stack-1x fa-inverse"></i> </span> </div>
+                <div class="media-body">
+                  <p style="margin-top: 7px;">+55 21 98271-0963</p>
+                </div>
+              </li>
+              <!--
               <li class="media">
                 <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-map-marker fa-stack-1x fa-inverse"></i> </span> </div>
                 <div class="media-body">
                   <p><?php echo $setts[0]->site_address;?></p>
                 </div>
-              </li><!-- 
+              </li>
+							-->
+
+              <!-- 
               <li class="media">
                 <div class="pull-left"> 
                     <span class="icon fa-stack fa-lg"> <i class="fa fa-mobile fa-stack-1x fa-inverse"></i> </span> </div>
@@ -262,7 +272,9 @@ $cates_cnt = DB::table('category')
               </li>-->
               <li class="media">
                 <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-envelope fa-stack-1x fa-inverse"></i> </span> </div>
-                <div class="media-body"> <span><a href="mailto:<?php echo $setts[0]->site_email;?>"> <?php echo $setts[0]->site_email;?></a></span> </div>
+                <div class="media-body" style="margin-top: 2px;"> 
+                	<span><a href="mailto:<?php echo $setts[0]->site_email;?>"> <?php echo $setts[0]->site_email;?></a></span> 
+                </div>
               </li>
             </ul>
           </div>
@@ -304,7 +316,7 @@ $cates_cnt = DB::table('category')
   <div class="copyright-bar">
     <div class="container-fluid">
       <div class="col-xs-12 col-sm-12 no-padding social text-center footertxt">
-        <p>@lang('languages.copyright') <?php echo date('Y');?>  @lang('languages.all_right_reserved')</p>
+        <p>@lang('languages.copyright') <?php echo date('Y');?>  @lang('languages.all_right_reserved') <br> CNPJ: 22.632.205/0001-22</p>
       </div>
       
     </div>

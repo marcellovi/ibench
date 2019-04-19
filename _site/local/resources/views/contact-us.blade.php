@@ -147,11 +147,17 @@ $setid=1;
 	<div class="contact-title">
 		<div class="fontsize20">@lang('languages.information')</div>
 	</div>
-    <div class="height20"></div>
+  <div class="height20"></div>
 	<div class="clearfix address">
 		<span class="contact-i"><i class="fa fa-map-marker"></i></span>
-		<span class="contact-span"><?php echo $setting[0]->site_address;?></span>
+		<span class="contact-span" style="margin-top: 7px;">Rua do Catete, 243 - Catete - Rio de Janeiro/RJ</span>
+		<!--<span class="contact-span"><?php echo $setting[0]->site_address;?></span>-->
 	</div>
+	<div class="clearfix phone-no">
+		<span class="contact-i"><i class="fa fa-mobile"></i></span>
+		<span class="contact-span" style="margin-top: 7px;">+55 21 98271-0963</span>
+	</div>
+
     <!-- Marcello Phone retirado temporariamente 
 	<div class="clearfix phone-no">
 		<span class="contact-i"><i class="fa fa-mobile"></i></span>
@@ -160,7 +166,7 @@ $setid=1;
     -->
 	<div class="clearfix email">
 		<span class="contact-i"><i class="fa fa-envelope"></i></span>
-		<span class="contact-span"><a href="mailto:<?php echo $users[0]->email;?>"><?php echo $users[0]->email;?></a></span>
+		<span class="contact-span" style="margin-top: 7px;"><a href="mailto:<?php echo $users[0]->email;?>"><?php echo $users[0]->email;?></a></span>
 	</div>
 </div>			</div>
 		</div>

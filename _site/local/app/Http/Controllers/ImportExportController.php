@@ -38,10 +38,20 @@ class ImportExportController extends Controller
 	
     public function importExport()
     {    
-        $category = DB::Table('subcategory')->select('subcat_name')
+       /* $category = DB::Table('subcategory')->select('subcat_name')
                 ->where('status', 1)
                 ->where('delete_status', '')
                 ->get();  
+        */
+        $category = DB::Table('category')
+                ->join('subcategory','subcategory.cat_id','=','category.id')
+                ->where('category.status',1)
+                ->where('subcategory.status',1)
+                ->where('category.delete_status','')
+                ->where('subcategory.delete_status','')
+                ->select('category.cat_name','subcategory.subcat_name')
+                ->get();
+       
         $type = DB::Table('product_attribute_value')->select('attr_value')
                 ->where('status', 1)
                 ->where('delete_status', '')

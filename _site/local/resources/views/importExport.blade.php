@@ -77,30 +77,64 @@ $headertype = $setts[0]->header_type;
 	</form>
         
         <div class="widget-content nopadding">
-         
-            <table class="table table-bordered data-table" id="datatable-responsive">
+           <table> <!--  Get all -->
+           <tr>
+           <td style="vertical-align:top;">
+               <table class="table-bordered" id="datatable-responsive">
               <thead>
                 <tr>
-                 <th>Lista de Categorias</th>
-		<th>Lista de Marcas</th>
-                <th>Observacoes Sobre a Importacao</th>
+                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Categorias</th>
+                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Subcategorias</th>
+		<!--<th>Lista de Marcas</th>
+                <th>Observacoes Sobre a Importacao</th> -->
                 </tr>
-              </thead>
-              <tbody>
+              </thead>      
               <?php //if(!empty($hreport_cnt)){
 		 // $i=1;
 		 // foreach ($hreport as $user) { $sta=$user->h_type_user; if($sta==1){ $viewst="Admin"; } else if($sta==2) { $viewst="Fornecedor"; } else if($sta==0) { $viewst="Comprador"; }?>
-                
-                <tr class="gradeX">                        
-                    <td style="vertical-align:top;"><?php foreach($category as $cat){ echo utf8_decode($cat->subcat_name).'<br>'; } ?></td>
-                        <td style="vertical-align:top;"><?php foreach($type as $value){ echo utf8_decode($value->attr_value).'<br>'; }?></td>
-                        <td style="vertical-align:top;"></td>
-                    </tr>
-                
-                <?php //$i++; } } ?>
-                                
-              </tbody>
-            </table>           
+                <?php foreach($category as $cat){ ?>
+                <tr>   
+                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
+                    <?php  echo utf8_decode($cat->cat_name); ?>     
+                    </td>                    
+                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
+                    <?php echo utf8_decode($cat->subcat_name);?></td>                      
+                </tr>
+                <?php } ?>                 
+               </td>           
+            </table>  
+               
+             <td style="vertical-align:top;">   
+               <table class="table-bordered" id="datatable-responsive" >
+              <thead>
+                <tr>
+		<th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Marcas</th>
+                </tr>
+              </thead>
+              <?php foreach($type as $value){ ?>
+              <tr>   
+                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
+                     <?php echo utf8_decode($value->attr_value); ?>    
+                    </td>  
+              </tr>
+              <?php } ?>
+            </table>    
+            </td>
+            
+            <td style="vertical-align:top;">   
+               <table class="table-bordered" id="datatable-responsive">
+              <thead>
+                <tr>
+                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Observacoes Sobre a Importacao</th>
+                </tr>
+              </thead>
+              <tr>                   
+                <td style="vertical-align:top;padding: 10px 25px 5px 25px;"></td>                      
+              </tr>
+            </table>    
+            </td>
+        </tr>
+        </table>
           </div>  
         
         

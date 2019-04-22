@@ -124,7 +124,7 @@ class HomeBannersController extends Controller
 
 		DB::insert('insert into home_banners (position,slide_btn_link,slide_image,slide_status) values (?, ? ,?,?)', [$position,$slide_btn_link,$filename,$slide_status]);
 		
-		return back()->with('success', 'Record has been added');
+		return redirect('/admin/home_banners')->with('success', 'Record has been added');
 	}
 	 
 	}
@@ -322,7 +322,7 @@ class HomeBannersController extends Controller
 		
 		DB::update('update home_banners set position="'.$data['position'].'",slide_btn_link="'.$slide_btn_link.'",slide_image="'.$savefname.'",slide_status="'.$slide_status.'" where id = ?', [$id]);
 		
-			return back()->with('success', 'Record has been updated');
+			return redirect('/admin/home_banners')->with('success', 'Record has been updated');
         }
 		
 		

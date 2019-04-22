@@ -80,7 +80,9 @@
           <input type="checkbox" id="selectAll" class="main"></th>
                         
                           <th>Sno</th>
-						  <th>Title</th>
+                          <th>Título</th>
+
+                          <th>Clicks</th>
                          
                          <th>Comment</th>
                           <th>Media</th>
@@ -119,7 +121,7 @@
 						 <td><?php echo $i;?></td>
 						
                           <td><?php echo $blogs->post_title;?></td>
-                          
+                          <td><?php echo $blogs->clicks;?></td>
 						  
                           
                           <td> <a href="<?php echo $url;?>/admin/comment/blog/comment/<?php echo $blogs->post_id;?>" style="color:#067DE3; text-decoration:underline;"><?php echo $post_comment;?> Comment</a> 

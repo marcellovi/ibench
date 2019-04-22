@@ -183,7 +183,7 @@ class EditbannerController extends Controller
 		
 		DB::update('update banners set  position="'.$data['position'].'",slide_btn_link="'.$slide_btn_link.'",slide_image="'.$savefname.'",slide_status="'.$slide_status.'" where id = ?', [$id]);
 		
-			return back()->with('success', 'Record has been updated');
+			return redirect('admin/banners')->with('success', 'Record has been updated');
         }
 		
 		

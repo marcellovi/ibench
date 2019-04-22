@@ -127,7 +127,7 @@ class BannersController extends Controller
 
 		DB::insert('insert into banners (position,slide_btn_link,slide_image,slide_status) values (?, ? ,?,?)', [$position,$slide_btn_link,$filename,$slide_status]);
 		
-		return back()->with('success', 'Record has been added');
+		return redirect('admin/banners')->with('success', 'Record has been added');
 	}
 	 
 	}

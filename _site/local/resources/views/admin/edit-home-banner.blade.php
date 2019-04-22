@@ -52,49 +52,24 @@
                      
                      
                      
-              <div class="control-group">
-                <label class="control-label">Heading Text <span class="required">*</span></label> 
-                <div class="controls">
-                 
-                                
-                                
-                    <input id="slide_title" class="validate[required] span8"  name="slide_title" value="<?php echo $slideshow[0]->slide_title; ?>" type="text">
-						            
-                  
-                </div>
+                     <div class="control-group">
+                <label class="control-label">Position </label> 
+                <div class="controls"  style="display: flex">
+                <div style="display: flex; margin-right: 20px">
+                <input type="radio" checked="false" <?php echo ($slideshow[0]->position=='1')?'checked':'' ?>  id="contactChoice1"
+                    name="position" value="1">
+                    <label for="contactChoice1">1</label>
+                    </div>
+                    <div style="display: flex">
+
+                    <input type="radio" id="contactChoice2"
+                    name="position" <?php echo ($slideshow[0]->position=='2')?'checked':'' ?>  value="2">
+                    <label for="contactChoice2">2</label>
+              </div>
               </div>
               
               
-              
-              <div class="control-group">
-                <label class="control-label">Sub Heading Text <span class="required">*</span></label> 
-                <div class="controls">
-                 
-                                
-                                
-                    <input id="slider_sub_title" class="validate[required] span8"  name="slider_sub_title" value="<?php echo $slideshow[0]->slider_sub_title; ?>" type="text">
-						            
-                  
-                </div>
-              </div>
-              
-              
-              
-              
-              
-              <div class="control-group">
-                <label class="control-label">Button Text </label> 
-                <div class="controls">
-                 
-                                
-                                
-                    <input id="slide_btn_text" class="span8"  name="slide_btn_text" value="<?php echo $slideshow[0]->slide_btn_text; ?>" type="text">
-						            
-                  
-                </div>
-              </div>
-              
-              
+      
               
               <div class="control-group">
                 <label class="control-label">Button Link </label> 
@@ -129,12 +104,15 @@
                   
                   
                   <input type="file" id="photo" name="photo" class="span8<?php if($slideshow[0]->slide_image==""){?> validate[required]<?php } ?>"><br/>
-						 ( upload image size : 1920 x 600 ) 
 						  @if ($errors->has('photo'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
                                 @endif
+                                <span class="help-block">
+                                
+                                <strong>Tamanho ideal: 500x180</strong>
+                                </span>
                   
                   
                 </div>
@@ -195,7 +173,7 @@
                         <div class="span8">
                          
                               
-						   <a href="<?php echo $url;?>/admin/home-banners" class="btn btn-primary">Cancel</a>
+						   <a href="<?php echo $url;?>/admin/home_banners" class="btn btn-primary">Cancel</a>
 						  
 						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>

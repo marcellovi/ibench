@@ -16,6 +16,8 @@
 @include('admin.menu')
 
 
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cae5v8ohqq2y45yurx2yqba3ng4rqukel679jhibsfg3gk4r"></script>
+<script> tinymce.init({ selector:'textarea' });</script>
 
 <div id="content">
   <div id="content-header">

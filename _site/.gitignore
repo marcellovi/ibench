@@ -20,7 +20,7 @@ capybara-*.html
 .DS_Store
 bower_components/
 .coveralls.yml
-
+.htaccess
 
 coverage
 

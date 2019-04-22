@@ -256,7 +256,7 @@ $headertype = $setts[0]->header_type;
 										</td>
 										<?php $price_total = $product->price * $product->quantity;
 											$price_val += $product->price * $product->quantity;
-											if($price_val <= $company_min_value) {
+											if($price_val < $company_min_value) {
 												$not_able = true;
 											}
 											?>

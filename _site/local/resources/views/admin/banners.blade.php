@@ -135,7 +135,7 @@
               <?php if(config('global.demosite')=="yes"){?>
 				    <a href="#" class="btn btn-danger btndisable">Delete</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
 				  <?php } else { ?>
-						 <a href="<?php echo $url;?>/admin/banner/{{ $slideshows->id }}" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this?')">Delete</a>
+						 <a href="<?php echo $url;?>/admin/banner/{{$slideshows->id}}" class="btn btn-danger" onClick="return confirm('Are you sure you want to delete this?')">Delete</a>
 						  <?php } ?>
               </td>
              <td><?php echo $slideshows->clicks;?></td>

@@ -369,20 +369,20 @@ class ProductController extends Controller {
 	}
 
 	if(array_key_exists('name', $req)) {
-		$viewcount = $viewcount->where('prod_name', 'LIKE' , $req['name'] ? '%'.$req['name'].'%' : '%'.''.'%');
-		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , $req['name'] ? '%'.$req['name'].'%' : '%'.''.'%');
+		$viewcount = $viewcount->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
+		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
 	}
 
 	if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+		$viewcount = $viewcount->where('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
 
-		$viewproduct = $viewproduct->where('prod_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+		$viewproduct = $viewproduct->where('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
 	}
 
 	if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		$viewcount = $viewcount->where('prod_offer_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
 
-		$viewproduct = $viewproduct->where('prod_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		$viewproduct = $viewproduct->where('prod_offer_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
 	}
 
 

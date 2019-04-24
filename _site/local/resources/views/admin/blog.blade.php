@@ -80,11 +80,13 @@
           <input type="checkbox" id="selectAll" class="main"></th>
                         
                           <th>Sno</th>
-                          <th>Título</th>
+                          <th>T&iacute;tulo</th>
 
                           <th>Clicks</th>
                          
                          <th>Comment</th>
+                         <th>Data de Cria&ccedil;&atilde;o</th>
+
                           <th>Media</th>
                           <th>Action</th>
                           
@@ -128,6 +130,7 @@
                           <br/>
                           <span style="color:#006600;"><?php echo $active_comment;?> Active</span> |  <span style="color:#FF0000;"><?php echo $deactive_comment;?> Deactive</span>
                           </td>
+                          <td><?php echo $blogs->post_date;?></td>
                           
                           <?php 
 					  

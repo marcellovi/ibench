@@ -1269,9 +1269,9 @@ $setid=1;
                             <div class="products">
         <div class="item positionR hbanner">
                                     <div class="image">
-                                        <a href="#">
+                                        <!-- <a href="#">
                                             <img src="<?php echo $url;?>/local/images/noimage_300x400_box.jpg" alt=""/>
-                                        </a>
+                                        </a> -->
             </div>
         </div>
                                             
@@ -1373,9 +1373,9 @@ $setid=1;
           <?php } ?>
 
                 
-         <div class="item positionR hbanner">
+         <!-- <div class="item positionR hbanner">
            <img src="<?php echo $url;?>/local/images/depoi.jpg" alt=""/>
-         </div>
+         </div> -->
        </div>
        
        

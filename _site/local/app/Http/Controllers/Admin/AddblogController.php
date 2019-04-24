@@ -215,7 +215,7 @@ class AddblogController extends Controller
 		DB::insert('insert into post (post_title,post_slug,post_desc,post_tags,post_type,post_media_type,post_image,post_audio,post_video,post_date,post_status) values (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?)', [$post_title,$this->clean($post_title),$post_desc,$post_tags,$post_type,$media_type,$namef,$mp3name,$videourl,$post_date,$post_status]);
 		
 		
-			return back()->with('success', 'Post has been created');
+			return redirect('admin/blog')->with('success', 'Post has been created');
         }
 		
 		

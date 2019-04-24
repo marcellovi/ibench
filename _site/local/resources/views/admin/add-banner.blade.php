@@ -54,7 +54,7 @@
               <?php $url = URL::to("/"); ?>   
 
 
-               <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add-home-banner') }}" enctype="multipart/form-data" id="formID">
+               <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add-banner') }}" enctype="multipart/form-data" id="formID">
                      {{ csrf_field() }}       
 
              <div class="control-group">
@@ -157,7 +157,7 @@
                         <div class="span8">
 
 
-                        <a href="<?php echo $url;?>/admin/home_banners" class="btn btn-primary">Cancel</a>
+                        <a href="<?php echo $url;?>/admin/banners" class="btn btn-primary">Cancel</a>
 
 						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>

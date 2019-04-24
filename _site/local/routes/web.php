@@ -531,7 +531,7 @@ Route::group(['middleware' => 'admin'], function() {
 	
 	Route::get('/admin/banners','Admin\BannersController@index');
 	Route::get('/admin/add-banner','Admin\BannersController@addBannerForm');
-	Route::get('/admin/banner/{id}','Admin\HomeBannersController@destroy');
+	Route::get('/admin/banner/{id}','Admin\BannersController@destroy');
 
 	Route::post('/admin/add-banner', ['as'=>'admin.add-banner','uses'=>'Admin\BannersController@addNewBanner']);
 

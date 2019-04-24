@@ -121,7 +121,11 @@ class BannersController extends Controller
 		}			
 		$position = $data['position'];
 		$slide_btn_link = $data['slide_btn_link'];
-		$slide_status = $data['slide_status'];
+		if (array_key_exists("slide_status", $data)){
+			$slide_status = $data['slide_status'];
+		} else {
+			$slide_status = 0;
+		}
 
 	
 

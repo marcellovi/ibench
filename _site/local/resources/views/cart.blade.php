@@ -119,8 +119,16 @@ $headertype = $setts[0]->header_type;
 									<?php 
 										$price_val=0;
 										$total_price = 0;
-										$ord_id = ""; 
-										$prod_name = "";
+										if (isset($ord_id)) {
+											$ord_id = $ord_id; 
+										} else {
+											$ord_id = "";
+										}
+										if (isset($prod_name)) {
+											$prod_name = $prod_name; 
+										} else {
+											$prod_name = "";
+										}
 										          
 										$cart_items = [];
 										foreach($cart_views as $cart_item) {
@@ -147,9 +155,10 @@ $headertype = $setts[0]->header_type;
 											$view_product = DB::table('product')
 											->where('prod_token','=',$prod_id)
 											->get();
-											$ord_id .=	$product->ord_id.',';		
+											$ord_id.=$product->ord_id.',';		
 													
 									?>
+									
 									<tr>
 										<td class="romove-item">
 											<a href="<?php echo $url;?>/cart/<?php echo $product->ord_id;?>" onClick="return confirm('@lang('languages.are_you_sure')');" title="Remover" class="icon"><i class="fa fa-trash-o"></i></a>
@@ -256,7 +265,7 @@ $headertype = $setts[0]->header_type;
 										</td>
 										<?php $price_total = $product->price * $product->quantity;
 											$price_val += $product->price * $product->quantity;
-											if($price_val < $company_min_value) {
+											if($price_val <= $company_min_value) {
 												$not_able = true;
 											}
 											?>
@@ -269,8 +278,6 @@ $headertype = $setts[0]->header_type;
 										<?php } } ?>
 
 
-										<input type="hidden" name="order_ids" value="<?php echo rtrim($ord_id,',');?>">
-										<input type="hidden" name="product_names" value="<?php echo rtrim($prod_name,',');?>">
 
 										</tbody><!-- /tbody -->
 										</table><!-- /table -->
@@ -392,6 +399,8 @@ $headertype = $setts[0]->header_type;
 
 <input type="hidden" name="cart_total" value="<?php echo $total_price;?>">
 <input type="hidden" name="processing_fee" value="<?php echo $setts[0]->processing_fee;?>">
+<input type="hidden" name="order_ids" value="<?php echo rtrim($ord_id,',');?>">
+										<input type="hidden" name="product_names" value="<?php echo rtrim($prod_name,',');?>">
 </thead><!-- /thead -->
 <tbody>
 <tr>

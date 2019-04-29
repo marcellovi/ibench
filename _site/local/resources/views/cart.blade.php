@@ -265,7 +265,7 @@ $headertype = $setts[0]->header_type;
 										</td>
 										<?php $price_total = $product->price * $product->quantity;
 											$price_val += $product->price * $product->quantity;
-											if($price_val <= $company_min_value) {
+											if($price_val < $company_min_value) {
 												$not_able = true;
 											}
 											?>
@@ -302,9 +302,14 @@ $headertype = $setts[0]->header_type;
 														
 														<hr>
 														<label>Valor Total <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price + $price_val,2,",",".").' ';?></span> <br>
-								<?php if($company_min_value >= $price_val) {?>                               
+								<?php if($company_min_value > 0 ) {?>                               
 													
-														<small> <strong><?= utf8_decode('Observação') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que:') ?> <strong>R$ <?= $company_min_value ?></strong> </small>
+														<label> <strong><?= utf8_decode('Observação: ') ?> </strong><?= utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que') ?> <strong>R$ <?= $company_min_value ?></strong> </label>
+								<?php } ?>
+
+								<?php if($company_min_value > $price_val) {?>                               
+													
+														<label> <strong style="color:red;"><?= utf8_decode('* Valor mínimo não atingido') ?> </strong> </label>
 								<?php } ?>
 													</div>
 													</th>

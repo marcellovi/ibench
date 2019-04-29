@@ -72,7 +72,10 @@ $headertype = $setts[0]->header_type;
 				<div class="heading-title">@lang('languages.my_cart')</div>
 				</div>
 					<div class="height50 clearfix"></div>  
-					<?php $total_shipping_by_company = 0; ?>
+					<?php 
+						$total_shipping_by_company = 0;
+						$not_able = 0; 
+					?>
 					<?php  foreach($uniq_companies as $company)	{
 						$check_company = DB::table('users')
 						->where('id', '=', $company)
@@ -114,7 +117,9 @@ $headertype = $setts[0]->header_type;
 							<tbody>
 								<!-- Adicionar em um Array ID dos produtos que estão fora do Estoque para verificação  -->
 								<!-- <?php $check_prod_available_qty = array(); ?> -->
-								<?php $check_prod_available_qty = 0; ?>
+								<?php 
+									$check_prod_available_qty = 0; 
+								?>
 								<?php if(!empty($cart_views_count)){?>
 									<?php 
 										$price_val=0;
@@ -209,13 +214,15 @@ $headertype = $setts[0]->header_type;
 													}	
 													$prod_name .=$view_product[0]->prod_name.',';				 
 											?>
-													<input type="hidden" name="prod_user_id[]" value="<?php echo $row_user[0]->user_id;?>">  
-													<div class="row">
+													<input type="hidden" name="prod_user_id[]" value="<?php echo $row_user[0]->user_id;?>"> 
+
+													<!--<div class="row">
 														<div class="col-sm-12">
-															<p><b class="fontsize13">@lang('languages.sold_by'):</b> <a href="<?php echo $url;?>/profile/<?php echo $check_user[0]->id;?>/<?php echo $slug;?>" class="fontsize14 red"><?php echo $check_user[0]->name_business;?></a></p> 
+															<p><b class="fontsize13">@lang('languages.sold_by'):</b> <a href="<?#php echo $url;?>/profile/<?#php echo $check_user[0]->id;?>/<?#php echo $slug;?>" class="fontsize14 red"><?#php echo $check_user[0]->name_business;?></a></p> 
 														</div>
 
-													</div><!-- /.row -->
+													</div> -->
+													<!-- /.row -->
 												<?php } ?>
 
 											<?php
@@ -263,12 +270,12 @@ $headertype = $setts[0]->header_type;
 											<?php echo $product->quantity;?>
 											</div>
 										</td>
-										<?php $price_total = $product->price * $product->quantity;
+										<?php 
+
+											$price_total = $product->price * $product->quantity;
 											$price_val += $product->price * $product->quantity;
-											if($price_val < $company_min_value) {
-												$not_able = true;
-											}
-											?>
+											
+										?>
 
 											<td class="cart-product-sub-total"><span class="cart-sub-total-price"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".").' ';?></span></td>
 
@@ -291,14 +298,20 @@ $headertype = $setts[0]->header_type;
 												<tr>
 													<th>
 													<div class="cart-sub-total">
+														<?php 
+
+															if($price_val < $company_min_value) {
+																$not_able = 1;
+															}
+
+														?>
+														
 														<div class="row" style="margin-left: 2px;">
 															<label>Total do Produto:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($price_val,2,",",".").' ';?></span> <br>
 														</div>
 														<div class="row" style="margin-left: 2px;">
 															<label>Valor do Frete:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price,2,",",".").' ';?></span> <br>
 														</div>
-														
-														
 														
 														<hr>
 														<label>Valor Total <?php echo($company_slug) ?>:</label><span class="inner-left-md"><?php echo $setts[0]->site_currency.' '.number_format($check_company[0]->local_shipping_price + $price_val,2,",",".").' ';?></span> <br>
@@ -415,9 +428,9 @@ $headertype = $setts[0]->header_type;
 <?php if($check_prod_available_qty == 1){ ?>
 <p style="color:red;">*Existe(m) produto(s) sem Estoque suficiente em seu Carrinho!</p>
 
-<?php }  if(isset($not_able)){ ?>
+<!--<?#php }  if(isset($not_able)){ ?>-->
+<?php } if($not_able == 1){ ?>
 	<p style="color:red;"><?= utf8_decode('*Existe(m) fornecedor(es) com valor mínimo não alcançado!') ?></p>
-
 <?php } else { ?>
 <input type="submit" class="btn btn-primary checkout-btn" name="checkout" value="@lang('languages.proceed_to_checkout')">
 <?php }; ?>                           

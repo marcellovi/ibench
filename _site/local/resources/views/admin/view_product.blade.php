@@ -48,7 +48,7 @@ $url = URL::to("/");
         <div class="span7"></div>
        </div>      
       <br/>      
-      <h4>Product Details</h4><br/>
+      <h4>Detalhes do Produto</h4><br/>
       
           <div class="row-fluid">
             <div class="span2"><strong>Nome Produto</strong></div>

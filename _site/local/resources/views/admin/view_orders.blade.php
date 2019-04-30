@@ -443,7 +443,7 @@
                             <div style="width:100%; float:left;" class="form-horizontal">
 
                                 <div class="control-group">
-                                    <label class="control-label" style="text-align:left; width:150px;">Other Notes : </label>
+                                    <label class="control-label" style="text-align:left; width:150px;">Outras Anota&ccedil;&otilde;es : </label>
                                     <div class="controls" style="padding-left:0px; margin-top:5px; margin-left:0px;">
                                         <?php if (!empty($bill_ship[0]->other_notes)) { ?> <?php echo utf8_decode($bill_ship[0]->other_notes); ?> <?php } else { ?>-<?php } ?>
                                     </div>

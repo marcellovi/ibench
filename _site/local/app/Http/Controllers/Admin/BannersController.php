@@ -115,16 +115,21 @@ class BannersController extends Controller
             $path = base_path('images'.$testimonialphoto.$filename);
 			$destinationPath=base_path('images'.$testimonialphoto);
       
-                 Image::make($image->getRealPath())->resize(555, 180)->save($path);
+                 Image::make($image->getRealPath())->save($path);
 				/*Input::file('photo')->move($destinationPath, $filename);*/
 				$savefname=$filename;
 		}			
 		$position = $data['position'];
-		$slide_btn_link = $data['slide_btn_link'];
 		if (array_key_exists("slide_status", $data)){
 			$slide_status = $data['slide_status'];
 		} else {
 			$slide_status = 0;
+		}
+
+		if ($data['slide_btn_link'] != null){
+			$slide_btn_link = $data['slide_btn_link'];
+		} else {
+			$slide_btn_link = "";
 		}
 
 	

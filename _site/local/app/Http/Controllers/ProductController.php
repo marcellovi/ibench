@@ -373,29 +373,85 @@ class ProductController extends Controller {
 		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
 	}
 
-	if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
 
-		$viewproduct = $viewproduct->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+	// }
+
+	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
+	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
+	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	// 	});
+	// 	// ->where('prod_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+
+	// 	$viewproduct =  $viewproduct->where(function ($query) use ($req){
+	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
+	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	// 	});
+	// }
+
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
+	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
+	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	});
+
+	// 	$viewproduct = $viewproduct->where(function ($query) use ($req){
+	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
+	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	});
+	// 	//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// }
+
+	if(	array_key_exists('minvalue', $req) && $req['minvalue'] == 0) {
+		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+			$viewcount = $viewcount->where(function ($query) use ($req) {
+				$query->whereBetween('prod_price',  [1, $req['maxvalue']])
+							->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+			});
+	
+			$viewproduct = $viewproduct->where(function ($query) use ($req) {
+				$query->whereBetween('prod_price', [1, $req['maxvalue']])
+							->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+			});
+			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		}
+	} else {
+		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+			$viewcount = $viewcount->where(function ($query) use ($req) {
+				$query->whereBetween('prod_price',  [$req['minvalue'], $req['maxvalue']])
+							->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+			});
+	
+			$viewproduct = $viewproduct->where(function ($query) use ($req) {
+				$query->whereBetween('prod_price', [$req['minvalue'], $req['maxvalue']])
+							->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+			});
+			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		}
+	
 	}
 
-	if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+	
 
-		$viewproduct = $viewproduct->where('prod_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
-	}
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->orwhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
 
-	if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// }
 
-		$viewproduct = $viewproduct->where('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	}
+	
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where('prod_offer_price', '<', 4);
 
-	if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<', 50) ->orWhere('name', 'John');
+	// }
 
-		$viewproduct = $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	}
 
 	// if(array_key_exists('name', $req)) {
 	// 	$viewproduct = $viewproduct->where('prod_name','LIKE','%'.'Sor'.'%');

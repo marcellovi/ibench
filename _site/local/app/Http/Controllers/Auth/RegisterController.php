@@ -432,7 +432,57 @@ class RegisterController extends Controller
    
    
    
-   
+   protected function validaCPF($cpf) {
+ 
+        // Extrai somente os números
+        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+        
+        // Verifica se foi informado todos os digitos corretamente
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+        // Faz o calculo para validar o CPF
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf{$c} * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf{$c} != $d) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+   protected function validar_cnpj($cnpj)
+   {
+       $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+       // Valida tamanho
+       if (strlen($cnpj) != 14)
+           return false;
+       // Valida primeiro dígito verificador
+       for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
+       {
+           $soma += $cnpj{$i} * $j;
+           $j = ($j == 2) ? 9 : $j - 1;
+       }
+       $resto = $soma % 11;
+       if ($cnpj{12} != ($resto < 2 ? 0 : 11 - $resto))
+           return false;
+       // Valida segundo dígito verificador
+       for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
+       {
+           $soma += $cnpj{$i} * $j;
+           $j = ($j == 2) ? 9 : $j - 1;
+       }
+       $resto = $soma % 11;
+       return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
+   }
    
    protected function register(Request $request)
     {
@@ -469,7 +519,7 @@ class RegisterController extends Controller
             //'myCheck' => 'min:2',
 			//'gender' => 'required|string|max:255',
 			'usertype' => 'required|string|max:255',
-			'g-recaptcha-response' => 'required|captcha',
+			// 'g-recaptcha-response' => 'required|captcha',
 
         ]);
 
@@ -488,7 +538,17 @@ class RegisterController extends Controller
          * 
          */
 
-        if ($validator->passes()) {
+         $cpfvalid = $this->validaCPF($data['cpf_cnpj']);
+         $cnpjvalid = $this->validar_cnpj($data['cpf_cnpj']);
+
+         $cpfok = false;
+         
+
+         if( $cpfvalid == true || $cnpjvalid == true  ) {
+             $cpfok = true;
+         }
+
+        if ($validator->passes() &&  $cpfok ) {
 
             $data = $request->all();
 			
@@ -503,7 +563,7 @@ class RegisterController extends Controller
 			$usertype = $data['usertype'];
 			$country = $data['country'];   
                         $delete_status = 'blocked';  // Marcello :: Add blocked when register
-                        $cpf_cnpj = $data['cpf_cnpj']; // Marcello - Add cpf cnpj
+                        $cpf_cnpj = preg_replace('/[^0-9]/', '', (string) $data['cpf_cnpj']); // Marcello - Add cpf cnpj
 			
 			
 			$setid=1;

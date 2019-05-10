@@ -162,7 +162,18 @@ $setid=1;
         <label class="info-title" for="exampleInputName"><?=utf8_decode('Preço Máximo')?></label>
     
         <input value="<?= array_key_exists('maxvalue', $data) ? $data['maxvalue'] : ' ' ?>" type="number" name="maxvalue" id="maxvalue" class="form-control unicase-form-control">
-     </div>
+   
+    </div>
+    <div class="form-group">
+        <label for="exampleInputName"><?=utf8_decode('Produtos com desconto')?></label>
+        <?php  if (array_key_exists('discount', $data)) { ?>
+            <input checked type="checkbox" name="discount" id="discount" > 
+            <?php } else { ?>
+            <input  type="checkbox" name="discount" id="discount" > 
+            
+            <?php } ?>
+                     
+    </div>
 
     </div>
     </div>

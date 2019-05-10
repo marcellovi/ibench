@@ -410,27 +410,44 @@ class ProductController extends Controller {
 		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
 			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
 			$viewcount = $viewcount->where(function ($query) use ($req) {
-				$query->whereBetween('prod_price',  [1, $req['maxvalue']])
-							->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+				$query->whereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+							// ->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
 			});
+			// $viewproduct = $viewproduct->whereBetween('prod_offer_price',  [0, 0]);
+			
+			if(array_key_exists('discount', $req) ){
+			$viewproducttwo =	$viewproduct->whereBetween('prod_offer_price', [1, $req['maxvalue']])->get();
+
+			} else {
+			$viewproductone = $viewproduct->whereBetween('prod_price', [1, $req['maxvalue']])->whereBetween('prod_offer_price',  [0, 0])->get();
+
+			}
+		
+			// $viewcount = 	$viewcount->count();	
+			// if(isset($viewoffer) && isset($viewprice)) {
+			// 	$viewoffer = $viewoffer->get();				
+			// 	$viewprice = $viewprice->get();
+			// 	$merged = $viewoffer->merge($viewprice);
+			// 	$viewproduct =  	$viewprice
+			// } else {
+			// 	$viewproduct = $viewproduct->get();	
 	
-			$viewproduct = $viewproduct->where(function ($query) use ($req) {
-				$query->whereBetween('prod_price', [1, $req['maxvalue']])
-							->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
-			});
+			// }
+			
+
+
 			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
 		}
 	} else {
 		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
 			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
 			$viewcount = $viewcount->where(function ($query) use ($req) {
-				$query->whereBetween('prod_price',  [$req['minvalue'], $req['maxvalue']])
-							->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+				$query->whereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
 			});
 	
 			$viewproduct = $viewproduct->where(function ($query) use ($req) {
-				$query->whereBetween('prod_price', [$req['minvalue'], $req['maxvalue']])
-							->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+				$query->whereBetween('prod_offer_price', [$req['minvalue'], $req['maxvalue']]);
+							// ->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
 			});
 			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
 		}
@@ -467,8 +484,20 @@ class ProductController extends Controller {
                                   // ->orwhere('delete_status','=','inactive')
 			              
 		          
-		$viewcount = 	$viewcount->count();				
-		$viewproduct = $viewproduct->get();	
+		$viewcount = 	$viewcount->count();	
+		
+			// $viewcount = 	$viewcount->count();	
+			if(isset($viewproductone) && isset($viewproducttwo)) {
+				// $viewproductone = $viewproductone->get();				
+				// $viewproducttwo = $viewproducttwo->get();
+				// $merged = $viewproductone->merge($viewproducttwo);
+				$viewproduct = $viewproductone;
+			} else {
+				$viewproduct = $viewproduct->get();	
+	
+			}
+			// $viewproduct = $viewproduct->get();	
+
 	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req);
 	 return view('my-product')->with($data);
 

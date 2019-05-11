@@ -344,15 +344,102 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
 	}
 
-	if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
-		$viewproduct = $viewproduct->where('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+	// }
+
+	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
+	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
+	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	// 	});
+	// 	// ->where('prod_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+
+	// 	$viewproduct =  $viewproduct->where(function ($query) use ($req){
+	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
+	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
+	// 	});
+	// }
+
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
+	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
+	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	});
+
+	// 	$viewproduct = $viewproduct->where(function ($query) use ($req){
+	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
+	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// 	});
+	// 	//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// }
+
+	if(	array_key_exists('minvalue', $req) && $req['minvalue'] == 0) {
+		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+			$viewcount = $viewcount->where(function ($query) use ($req) {
+				$query->whereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+							// ->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
+			});
+			// $viewproduct = $viewproduct->whereBetween('prod_offer_price',  [0, 0]);
+			
+			if(array_key_exists('discount', $req) ){
+			$viewproducttwo =	$viewproduct->whereBetween('prod_offer_price', [1, $req['maxvalue']])->get();
+
+			} else {
+			$viewproductone = $viewproduct->whereBetween('prod_price', [1, $req['maxvalue']])->whereBetween('prod_offer_price',  [0, 0])->get();
+
+			}
+		
+			// $viewcount = 	$viewcount->count();	
+			// if(isset($viewoffer) && isset($viewprice)) {
+			// 	$viewoffer = $viewoffer->get();				
+			// 	$viewprice = $viewprice->get();
+			// 	$merged = $viewoffer->merge($viewprice);
+			// 	$viewproduct =  	$viewprice
+			// } else {
+			// 	$viewproduct = $viewproduct->get();	
+	
+			// }
+			
+
+
+			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		}
+	} else {
+		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+			$viewcount = $viewcount->where(function ($query) use ($req) {
+				$query->whereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+			});
+	
+			$viewproduct = $viewproduct->where(function ($query) use ($req) {
+				$query->whereBetween('prod_offer_price', [$req['minvalue'], $req['maxvalue']]);
+							// ->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
+			});
+			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+		}
+	
 	}
 
-	if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-		$viewcount = $viewcount->where('prod_offer_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
-		$viewproduct = $viewproduct->where('prod_offer_price', '<' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	}
+	
+
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->orwhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
+	// }
+
+	
+	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
+	// 	$viewcount = $viewcount->where('prod_offer_price', '<', 4);
+
+	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<', 50) ->orWhere('name', 'John');
+	// }
+
 
 	// if(array_key_exists('name', $req)) {
 	// 	$viewproduct = $viewproduct->where('prod_name','LIKE','%'.'Sor'.'%');
@@ -367,11 +454,24 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
                                   // ->orwhere('delete_status','=','inactive')
 			              
 		          
-	$viewcount = 	$viewcount->count();				
-	$viewproduct = $viewproduct->get();	
-	$data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req);
-	return view('my-product')->with($data);
-    }
+		$viewcount = 	$viewcount->count();	
+		
+			// $viewcount = 	$viewcount->count();	
+			if(isset($viewproductone) && isset($viewproducttwo)) {
+				// $viewproductone = $viewproductone->get();				
+				// $viewproducttwo = $viewproducttwo->get();
+				// $merged = $viewproductone->merge($viewproducttwo);
+				$viewproduct = $viewproductone;
+			} else {
+				$viewproduct = $viewproduct->get();	
+	
+			}
+			// $viewproduct = $viewproduct->get();	
+
+	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req);
+	 return view('my-product')->with($data);
+
+	}
 
     public function avigher_add_form() {
 

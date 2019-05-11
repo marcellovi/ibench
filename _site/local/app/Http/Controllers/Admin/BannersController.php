@@ -2,8 +2,6 @@
 
 namespace Responsive\Http\Controllers\Admin;
 
-
-
 use File;
 use Image;
 use Responsive\Http\Controllers\Controller;
@@ -22,20 +20,16 @@ class BannersController extends Controller
      *
      * @return Response
      */
-    public function index()
-    {
+    public function index()    {
         $slideshow = DB::table('banners')
-		                ->orderBy('id','desc')
-					   ->get();
-
+	            ->orderBy('id','desc')
+                    ->get();
         return view('admin.banners', ['slideshow' => $slideshow]);
     }
 	
 	
 	protected function delete_all(Request $request)
-    {
-		
-		
+    {		
 	   $data = $request->all();
 	   $slide_id = $data['slide_id'];
 	   
@@ -45,96 +39,71 @@ class BannersController extends Controller
 		$image = DB::table('slideshow')->where('id', $postt)->first();
 		$orginalfile=$image->slide_image;
 		$testimonialphoto="/media/";
-       $path = base_path('images'.$testimonialphoto.$orginalfile);
-	  File::delete($path);
-      DB::delete('delete from slideshow where id = ?',[$postt]);
-	   
-	   }
-	
-	return back();
-	
-	
+                $path = base_path('images'.$testimonialphoto.$orginalfile);
+                File::delete($path);
+                DB::delete('delete from slideshow where id = ?',[$postt]);	   
+	   }	
+	return back();	
 	}
 
-	public function addBannerForm() {
-	   
+	public function addBannerForm() {	   
 		return view('admin.add-banner');
 	 }
 
-	protected function addNewBanner(Request $request) {
-		
+	protected function addNewBanner(Request $request) {		
  
-		$data = $request->all();
-			
- 			
+		$data = $request->all(); 			
 		$input['name'] = Input::get('name');
        
 		$settings = DB::select('select * from settings where id = ?',[1]);
 		$imgsize = $settings[0]->image_size;
-		$imgtype = $settings[0]->image_type;	
+		$imgtype = $settings[0]->image_type;			  
 		  
-		  
-		$rules = array(
+		$rules = array(		
+		'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype		
+		);	
 		
-		
-		'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
-		
-		
-		);
+		$messages = array();
 
-		
-		
-		
-		$messages = array(
-            
-            
-			
-        );
-
-		$validator = Validator::make(Input::all(), $rules, $messages);
-		
-		
+		$validator = Validator::make(Input::all(), $rules, $messages);		
 
 		if ($validator->fails())
 		{
 			$failedRules = $validator->failed();
 			return back()->withErrors($validator);
-		}
-		else
-		{  
-		  	
-		
-		
+		}else{  
 		
 		$image = Input::file('photo');
-        if($image!="")
+                if($image!="")
 		{	
-            $testimonialphoto="/media/";
-			$filename  = time() . '.' . $image->getClientOriginalExtension();
+                    $testimonialphoto="/media/";
+                    $filename  = time() . '.' . $image->getClientOriginalExtension();
         
-            $path = base_path('images'.$testimonialphoto.$filename);
-			$destinationPath=base_path('images'.$testimonialphoto);
+                    $path = base_path('images'.$testimonialphoto.$filename);
+                    $destinationPath=base_path('images'.$testimonialphoto);
       
-                 Image::make($image->getRealPath())->resize(555, 180)->save($path);
-				/*Input::file('photo')->move($destinationPath, $filename);*/
-				$savefname=$filename;
+                    Image::make($image->getRealPath())->save($path);
+			/*Input::file('photo')->move($destinationPath, $filename);*/
+                    $savefname=$filename;
 		}			
 		$position = $data['position'];
-		$slide_btn_link = $data['slide_btn_link'];
 		if (array_key_exists("slide_status", $data)){
 			$slide_status = $data['slide_status'];
 		} else {
 			$slide_status = 0;
 		}
 
-	
+		if ($data['slide_btn_link'] != null){
+			$slide_btn_link = $data['slide_btn_link'];
+		} else {
+			$slide_btn_link = "";
+		}	
 
 		DB::insert('insert into banners (position,slide_btn_link,slide_image,slide_status) values (?, ? ,?,?)', [$position,$slide_btn_link,$filename,$slide_status]);
 		
 		return redirect('admin/banners')->with('success', 'Record has been added');
 	}
-	 
-	}
+    }
 	
 	
 	public function destroy($id) {
@@ -142,11 +111,10 @@ class BannersController extends Controller
 		$image = DB::table('banners')->where('id', $id)->first();
 		$orginalfile=$image->slide_image;
 		$testimonialphoto="/media/";
-       $path = base_path('images'.$testimonialphoto.$orginalfile);
-	  File::delete($path);
-      DB::delete('delete from banners where id = ?',[$id]);
+                $path = base_path('images'.$testimonialphoto.$orginalfile);
+                File::delete($path);
+                DB::delete('delete from banners where id = ?',[$id]);
 	   
       return back();
-   }
-	
+   }	
 }

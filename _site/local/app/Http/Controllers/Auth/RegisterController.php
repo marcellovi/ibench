@@ -52,8 +52,7 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {       
-       
+    {              
         /** 
          * Marcello - fazendo retornar uma validacao customizavel 
          * Obs.: Foi incluido na pasta lang o arquivo validation.php 
@@ -68,8 +67,7 @@ class RegisterController extends Controller
 	    'cpf_cnpj' => 'required|string|min:9|unique:users',
             //'cktermuse' => 'required',
             
-	    'g-recaptcha-response' => 'required|captcha',
-			
+	    'g-recaptcha-response' => 'required|captcha',			
         ]);
         
         return $validator;
@@ -91,10 +89,10 @@ class RegisterController extends Controller
     public function checagem_cpf_cnpj(){
         
         /** $dataVal sera utilizado no validador com o cpf/cnpj boolean **/
-      $dataVal = $data;
+        $dataVal = $data;
       
-     /**  Marcello - Variaveis Customizaveis     */
-     $validou = false;
+        /**  Marcello - Variaveis Customizaveis     */
+        $validou = false;
     
         $cpf_cnpj = $dataVal['cpf_cnpj'];
         
@@ -181,13 +179,10 @@ class RegisterController extends Controller
                     // CPF inválido
                     $validou = false;
                 }
-
-
             }
-             /** fim pesquisador **/ 
+             /** fim pesquisador **/             
             
-            
-        } else if   ( strlen( $cpf_cnpj ) == 14 && $dataVal['usertype'] == 2){
+        } else if( strlen( $cpf_cnpj ) == 14 && $dataVal['usertype'] == 2){
             
                /** Inicio fornecedor **/    
 
@@ -197,17 +192,17 @@ class RegisterController extends Controller
                      
 
 
-                              // Deixa o CNPJ com apenas números
-                              $cnpj = preg_replace( '/[^0-9]/', '', $cnpj );
+                    // Deixa o CNPJ com apenas números
+                    $cnpj = preg_replace( '/[^0-9]/', '', $cnpj );
 
-                              // Garante que o CNPJ é uma string
-                              $cnpj = (string)$cnpj;
+                    // Garante que o CNPJ é uma string
+                    $cnpj = (string)$cnpj;
 
-                              // O valor original
-                              $cnpj_original = $cnpj;
+                    // O valor original
+                    $cnpj_original = $cnpj;
 
-                              // Captura os primeiros 12 números do CNPJ
-                              $primeiros_numeros_cnpj = substr( $cnpj, 0, 12 );
+                    // Captura os primeiros 12 números do CNPJ
+                    $primeiros_numeros_cnpj = substr( $cnpj, 0, 12 );
 
                               /**
                                * Multiplicação do CNPJ
@@ -217,7 +212,7 @@ class RegisterController extends Controller
                                * @return int O
                                *
                                */
-                              if ( ! function_exists('multiplica_cnpj') ) {
+                    if ( ! function_exists('multiplica_cnpj') ) {
                                   function multiplica_cnpj( $cnpj, $posicao = 5 ) {
                                       // Variável para o cálculo
                                       $calculo = 0;
@@ -287,20 +282,13 @@ class RegisterController extends Controller
      * @return User
      */
 	 
-	public function clean($string) 
-	{
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
-
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
-
-    
-    $string =  trim($string,'-');
-
-    return mb_strtolower($string);
-	}  
-	 
+    public function clean($string) 
+    {
+        $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
+        $string = preg_replace("/[\/_|+ -]+/", '-', $string);
+        $string =  trim($string,'-');
+        return mb_strtolower($string);
+    }  	 
         
     /**
      * Verify if CPF is Valid.
@@ -309,8 +297,7 @@ class RegisterController extends Controller
      * @return User
      */
     public function checkCPF($ckcpf) 
-    {
-        
+    {       
         /**  Marcello - Variaveis Customizaveis     */
         $validou = false;
 
@@ -323,8 +310,7 @@ class RegisterController extends Controller
          *  O Usuario Pesquisador "0" - CPF
          *  O usuario Fornecedor "2" - CNPJ 
          **/
-        //if ( strlen( $cpf_cnpj ) == 11 && $dataVal['usertype'] == 0) {
-            
+        //if ( strlen( $cpf_cnpj ) == 11 && $dataVal['usertype'] == 0) {           
  
 
             if ( ! function_exists('calc_digitos_posicoes') ) {
@@ -334,7 +320,7 @@ class RegisterController extends Controller
                     //   0    2    5    4    6    2    8    8   4
                     // x10   x9   x8   x7   x6   x5   x4   x3  x2
                     //   0 + 18 + 40 + 28 + 36 + 10 + 32 + 24 + 8 = 196
-                    for ( $i = 0; $i < strlen( $digitos ); $i++  ) {
+                   for ( $i = 0; $i < strlen( $digitos ); $i++  ) {
                         $soma_digitos = $soma_digitos + ( $digitos[$i] * $posicoes );
                         $posicoes--;
                     }
@@ -399,12 +385,9 @@ class RegisterController extends Controller
 
                 return $validou;
             //}
-             /** fim pesquisador **/ 
-            
+             /** fim pesquisador **/           
             
        // } 
-        
-        
     
     //$string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);    
     //$string = preg_replace("/[\/_|+ -]+/", '-', $string);    
@@ -419,20 +402,64 @@ class RegisterController extends Controller
      * @return User
      */
     public function checkCNPJ($string) 
-    {
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
-    
-    $string =  trim($string,'-');   
+    {    
+        $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
+        $string = preg_replace("/[\/_|+ -]+/", '-', $string);
+        $string =  trim($string,'-');   
+        return mb_strtolower($string);
+   }        
+   
+    protected function validaCPF($cpf) {
+        
+        // Extrai somente os números
+        $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+        
+        // Verifica se foi informado todos os digitos corretamente
+        if (strlen($cpf) != 11) {
+            return false;
+        }
+        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+        if (preg_match('/(\d)\1{10}/', $cpf)) {
+            return false;
+        }
+        // Faz o calculo para validar o CPF
+        for ($t = 9; $t < 11; $t++) {
+            for ($d = 0, $c = 0; $c < $t; $c++) {
+                $d += $cpf{$c} * (($t + 1) - $c);
+            }
+            $d = ((10 * $d) % 11) % 10;
+            if ($cpf{$c} != $d) {
+                return false;
+            }
+        }
+        return true;
 
-    return mb_strtolower($string);
-   }  
-   
-   
-   
-   
+    }
+
+   protected function validar_cnpj($cnpj)
+   {
+       $cnpj = preg_replace('/[^0-9]/', '', (string) $cnpj);
+       // Valida tamanho
+       if (strlen($cnpj) != 14)
+           return false;
+       // Valida primeiro dígito verificador
+       for ($i = 0, $j = 5, $soma = 0; $i < 12; $i++)
+       {
+           $soma += $cnpj{$i} * $j;
+           $j = ($j == 2) ? 9 : $j - 1;
+       }
+       $resto = $soma % 11;
+       if ($cnpj{12} != ($resto < 2 ? 0 : 11 - $resto))
+           return false;
+       // Valida segundo dígito verificador
+       for ($i = 0, $j = 6, $soma = 0; $i < 13; $i++)
+       {
+           $soma += $cnpj{$i} * $j;
+           $j = ($j == 2) ? 9 : $j - 1;
+       }
+       $resto = $soma % 11;
+       return $cnpj{13} == ($resto < 2 ? 0 : 11 - $resto);
+   }
    
    protected function register(Request $request)
     {
@@ -469,26 +496,34 @@ class RegisterController extends Controller
             //'myCheck' => 'min:2',
 			//'gender' => 'required|string|max:255',
 			'usertype' => 'required|string|max:255',
-			'g-recaptcha-response' => 'required|captcha',
-
+			// 'g-recaptcha-response' => 'required|captcha',
         ]);
 
         $data = $request->all();
-		 $post_slugs = $this->clean($data['name']);
+	$post_slugs = $this->clean($data['name']);
              
         /*
         $validacao = $this->checkCPF($data['cpf_cnpj']);
         if($validacao)
             echo "validacao: correta";
         else 
-            echo "validacao: invalida";
-        
+            echo "validacao: invalida";        
         
         exit();
          * 
          */
 
-        if ($validator->passes()) {
+         $cpfvalid = $this->validaCPF($data['cpf_cnpj']);
+         $cnpjvalid = $this->validar_cnpj($data['cpf_cnpj']);
+
+         $cpfok = false;
+         
+
+         if( $cpfvalid == true || $cnpjvalid == true  ) {
+             $cpfok = true;
+         }
+
+        if ($validator->passes() &&  $cpfok ) {
 
             $data = $request->all();
 			
@@ -503,7 +538,7 @@ class RegisterController extends Controller
 			$usertype = $data['usertype'];
 			$country = $data['country'];   
                         $delete_status = 'blocked';  // Marcello :: Add blocked when register
-                        $cpf_cnpj = $data['cpf_cnpj']; // Marcello - Add cpf cnpj
+                        $cpf_cnpj = preg_replace('/[^0-9]/', '', (string) $data['cpf_cnpj']); // Marcello - Add cpf cnpj
 			
 			
 			$setid=1;
@@ -543,7 +578,7 @@ class RegisterController extends Controller
             $message->subject('Confirme seu e-mail - Cadastro iBench');			
             $message->from($adminemail, $adminname);
             $message->to($email);
-        }); 		
+        }); 	
 
 			// Marcello - Internacionalizar o texto abaixo :: We sent you an activation code. Check your email and click on the link to verify.
 			return redirect('login')->with('success', 'Foi enviado o c&oacute;digo de ativa&ccedil;&atilde;o. Verifique seu email e clique no link para confirmar a verifi&ccedil;&atilde;o.');

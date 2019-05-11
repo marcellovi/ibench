@@ -40,7 +40,7 @@
           
               
                <?php $url = URL::to("/"); ?>   
-                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add_product') }}" enctype="multipart/form-data" id="formID">
+                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add_product') }}" enctype="multipart/form-data" accept-charset="utf-8" id="formID">
                      {{ csrf_field() }}       
                 
                 <div class="control-group">

@@ -361,8 +361,8 @@ $setid=1;
                   
                   <div class="product-info text-center product_names">
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
-                          <p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
-                          <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
+                          <p><b>Marca(s): </b> <?php echo utf8_decode(implode(", ", $brand_product)); ?></p>
+                          <p><b>Fornecedor: </b> <?php echo utf8_decode($view_store_name); ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
                           <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
@@ -508,7 +508,7 @@ $setid=1;
               <?php if(!empty($cate_cnt)){?>
                         <?php foreach($cate_get as $geti){?>
                         
-                       <li><a data-transition-type="backSlide" href="#<?php echo $geti->id;?>" data-toggle="tab"><?php echo $geti->cat_name;?></a></li> 
+                       <li><a data-transition-type="backSlide" href="#<?php echo $geti->id;?>" data-toggle="tab"><?php echo utf8_decode($geti->cat_name);?></a></li> 
                         <?php } ?>
                         <?php } ?>
             </ul>
@@ -1194,12 +1194,10 @@ $setid=1;
                ->count();
           ?> 
                   <div class="blog-post-info text-left">
-                    <h3 class="name"><a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>"><?php echo $blog->post_title;?></a></h3>
+                    <h3 class="name"><a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>"><?php echo utf8_decode($blog->post_title);?></a></h3>
                     <span class="info"><?php echo $new_dates;?> </span>
                     <p class="text"><?php echo substr($blog->post_desc,0,146).'...';?></p>
                     <a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>" class="lnk btn btn-primary">@lang('languages.read_more')</a> </div>
-                 
-                  
                 </div>
                
               </div>

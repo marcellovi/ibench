@@ -337,28 +337,51 @@ class MyhistoryController extends Controller
 	
 	public function avigher_view_myorders() {
 		
-		 $logged = Auth::user()->id;
-		 
-		 
-		 $set_id=1;
-		$setting = DB::table('settings')->where('id', $set_id)->get();
-		
-		
+            $logged = Auth::user()->id;	 
+            $set_id=1;
+            $setting = DB::table('settings')->where('id', $set_id)->get();		
       
-		$viewcount = DB::table('product_orders')
-		                 ->where('prod_user_id', '=', $logged)
-						 ->count();
+            
+            /* Future fixing to group up the orders like avigher_view_myshopping 
+            $viewcount = DB::table('product_orders')
+	                ->where('prod_user_id', '=', $logged)
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')
+                        ->orderBy('purchase_token', 'desc')
+                        ->groupBy('purchase_token','desc')
+                        ->count();
 		
-        $viewproduct = DB::table('product_orders')
-		                 ->where('prod_user_id', '=', $logged)
-						 ->orderBy('ord_id','desc')
-						 ->get();
-				 
-		
+            $viewproduct = DB::table('product_orders')
+	                ->where('prod_user_id', '=', $logged)
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')
+                        ->orderBy('purchase_token', 'desc')
+                        ->groupBy('purchase_token','desc')
+			->get();	
 			
 	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
-	   		 
+		*/
+            
+            $logged = Auth::user()->id;	 
+            $set_id=1;
+            $setting = DB::table('settings')->where('id', $set_id)->get();		
+      
+            $viewcount = DB::table('product_orders')
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')
+	                ->where('prod_user_id', '=', $logged)
+                        ->count();
 		
+            $viewproduct = DB::table('product_orders')
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')
+	                ->where('prod_user_id', '=', $logged)
+                        ->orderBy('ord_id','desc')
+			->get();	
+			
+	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
+           
+           
       return view('my-orders')->with($data);
    }
    
@@ -641,36 +664,27 @@ class MyhistoryController extends Controller
    $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
 	   
 	   return view('view-shopping')->with($data);
-   
    }
-   
-   
-   
+       
    
    
    public function avigher_view_myshopping()
    {
-       
-	   $logged = Auth::user()->id;
+	$logged = Auth::user()->id;		 
 		 
-		 
-		 $set_id=1;
-		$setting = DB::table('settings')->where('id', $set_id)->get();
+	$set_id=1;
+	$setting = DB::table('settings')->where('id', $set_id)->get();
 		
-		
-		
-		$viewcount = DB::table('product_checkout')
-		                 ->where('user_id', '=', $logged)
-						 ->orderBy('cid','desc')
-						 ->count();
+	$viewcount = DB::table('product_checkout')
+	                ->where('user_id', '=', $logged)
+                        ->orderBy('cid','desc')
+			->count();
 		
         $viewproduct = DB::table('product_checkout')
-		                 ->where('user_id', '=', $logged)
-						 ->orderBy('cid','desc')
-						 ->get();
-				 
-		
-			
+		        ->where('user_id', '=', $logged)
+			->orderBy('cid','desc')
+			->get();
+					
 	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
 	   
 	   return view('my-shopping')->with($data);

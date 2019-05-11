@@ -97,7 +97,7 @@ $setid=1;
                                         ->count();
                                     }}
 									?>
-                                    <option value="<?php echo $url;?>/shop/cat/<?php echo $catery->id;?>/<?php echo $catery->post_slug;?>" <?php if($id==$catery->id){?> selected <?php } ?>><?php echo $catery->cat_name;?> [<?php echo $total_sub_cnt;?>]
+                                    <option value="<?php echo $url;?>/shop/cat/<?php echo $catery->id;?>/<?php echo $catery->post_slug;?>" <?php if($id==$catery->id){?> selected <?php } ?>><?php echo utf8_decode($catery->cat_name);?> [<?php echo $total_sub_cnt;?>]
                                     
                                     <?php
 
@@ -120,7 +120,7 @@ $setid=1;
 																					   ->where('prod_cat_type','=','subcat')
 																					  ->count();
 																		?>
-                                    <option value="<?php echo $url;?>/shop/subcat/<?php echo $subcat->subid;?>/<?php echo $subcat->post_slug;?>" <?php if($id==$subcat->subid){?> selected <?php } ?>>  - <?php echo $subcat->subcat_name;?> [<?php echo $wellcount_two;?>]</option>
+                                    <option value="<?php echo $url;?>/shop/subcat/<?php echo $subcat->subid;?>/<?php echo $subcat->post_slug;?>" <?php if($id==$subcat->subid){?> selected <?php } ?>>  - <?php echo utf8_decode($subcat->subcat_name);?> [<?php echo $wellcount_two;?>]</option>
                                     
                                      <?php } } ?>
                                     
@@ -159,14 +159,14 @@ $setid=1;
 					->where('attr_id','=',$type->attr_id)
 					->orderBy('attr_value', 'asc')->get();	
 				 ?><div>
-                                    <h4 class="widget-title"><?php echo $type->attr_name;?></h4>
+                                    <h4 class="widget-title"><?php echo utf8_decode($type->attr_name);?></h4>
                                     </div>
                                     <!--//==Product Price List Start==// 
                                    
                                     <ul class="list">
                                     <?php if(!empty($value_cnt)){?>
                                      <?php foreach($value as $values){?>
-                                        <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>"><label class="radio-label" for="checkbox1"><?php echo $values->attr_value;?> <span class="pull-right"></span></label><span class=""></span></li>
+                                        <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>"><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li>
                                         <?php } ?>
                                          <?php } ?>
                                     </ul>
@@ -626,8 +626,8 @@ $setid=1;
                         
                          <div class="product-info text-center product_names">
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
-                          <p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
-                          <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
+                          <p><b>Marca(s): </b> <?php echo utf8_decode(implode(", ", $brand_product)); ?></p>
+                          <p><b>Fornecedor: </b> <?php echo utf8_decode($view_store_name); ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
                           <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>

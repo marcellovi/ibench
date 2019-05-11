@@ -30,9 +30,6 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-
-
     public function avigher_my_profile($user_id, $user_slug) {
 
         $editprofile_count = DB::table('users')

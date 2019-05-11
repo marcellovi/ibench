@@ -202,7 +202,7 @@ class WirecardController extends Controller
             ->where('order_status', '=', 'completed')
             ->get();
 
-
+        //print_r($view_orders);exit();
         foreach ($view_orders as $key => $views) {
             $ord_id = $views->ord_id;
             $subtotal = $views->quantity * $views->price;
@@ -314,7 +314,6 @@ class WirecardController extends Controller
             $ordersList = explode(',', $_POST['order_id']);
             $shipFeeList = explode(',', $_POST['shipping_fee_separate']);
 
-
             foreach ($ordersList as $key => $item) {
                 $order_details = (array) $this->order($item);
                 $product_details = (array) $this->product($order_details['prod_id']);
@@ -324,14 +323,15 @@ class WirecardController extends Controller
                     $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
                     // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
                     $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
-                            ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int) $order_details['price'] * 100, null)
-                            ->setShippingAmount((int) @$shipFeeList[$key] * 100)
+                            ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int)($order_details['price'] * 100), null)
+                            ->setShippingAmount((int) (@$shipFeeList[$key] * 100))
                             ->setCustomer($customer)
                             ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int) $user_details['comission_percentage'])
                             ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int) $user_details['comission_percentage']));
                     $multiorder->addOrder($order);
                 }
             }
+            //print_r("<br>Muilti<br>");print_r(json_encode($multiorder));exit();
             $create_order = $multiorder->create();
         } catch (\Moip\Exceptions\UnautorizedException $e) {
             $error[] = $e->__toString();
@@ -424,13 +424,17 @@ class WirecardController extends Controller
                         $errors = $error;
                     }
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
-                    $errors[] = $e->__toString();
+                    $this->clearCheckoutBlankOrder($user,$order_id);
+                    $errors[] = $e->__toString();                
                 } catch (ValidationException $e) {
+                    $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
+                    $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
                 } catch (\Exception $e) {
-                    $errors[] = $e->getMessage();
+                    $this->clearCheckoutBlankOrder($user,$order_id);
+                    $errors[] = $e->__toString();
                 }
 
                 if ($success === true) {
@@ -460,6 +464,7 @@ class WirecardController extends Controller
                                             )
                     ));
                 } else {
+                     $this->clearCheckoutBlankOrder($user,$order_id);
                     // else show cancel to user
                     return view('wirecard-cancel')->with(array(
                                 'settings' => $this->settings(),
@@ -477,6 +482,41 @@ class WirecardController extends Controller
             ));
         }
     }
+    
+    /*
+     * 
+     */
+    public function clearCheckoutBlankOrder($user,$token){
+        //print_r($user->id);
+        //print_r("<br>--<br>");
+       // print_r($token);
+        
+        DB::delete('delete from product_checkout where user_id = ? and purchase_token = ? and payment_status = "pending" ',[$user->id,$token]);
+        //exit();
+    }
+    
+    
+    /* Custom Boleto gets information which will be used on the third line of the boleto
+     * 
+     * Name_Business :: Realtotal ( quant * price ) + shipping
+     */
+    public function custom_Boleto($ord){
+        
+        $t_line = '';
+   
+        /* $custm_boleto get the name of sellers, total purchase of a purchase_token */
+            $custm_boleto = DB::select('select sum((quantity * price) + shipping_price) as total, name_business '
+                    . ' from product_orders, users where product_orders.purchase_token = ? '
+                    . ' and product_orders.prod_user_id = users.id group by name_business', [$ord]);            
+            
+            foreach($custm_boleto as $bol){
+                $t_line .= $bol->name_business.' : R$ '.number_format($bol->total,2,",",".").' | ';
+            }
+            $t_line = rtrim($t_line," | ");
+
+            return $t_line;
+    }
+
 
     /**
      * This function is use to process Boleto Payment
@@ -485,15 +525,16 @@ class WirecardController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function api_boleto(Request $request) {
-
-        $_POST = $request->all();
-
+        
         if ($this->is_gateway_ready()) {
             $wirecard_app_data_array = $this->wirecard_app_data();
 
             $token = $wirecard_app_data_array['accessToken'];
             $moipMerchant = new Moip(new OAuth($token), $this->is_test_mode() ? Moip::ENDPOINT_SANDBOX : Moip::ENDPOINT_PRODUCTION);
 
+            /* Return String for the third line of the boleto */
+            $third_line_boleto = $this->custom_Boleto($_POST['order_no']);
+            $third_line_boleto = substr($third_line_boleto, 0,140);    // limit to 140 characteres
             $user = Auth::user();
             $wirecard_payment_token = "";
             $wirecard_boleto_href = "";
@@ -503,7 +544,7 @@ class WirecardController extends Controller
             $payment_type = $_POST['payment_type'];
             $status = 'cancelled';
             $multi_status = 'cancelled';
-            $multi_amount = 'cancelled';
+            $multi_amount = 'cancelled';            
             $success = false;
             if ($this->is_completed($purchase_token) === true) {
                 return view('wirecard-shop-success')->with(array_merge(
@@ -522,20 +563,19 @@ class WirecardController extends Controller
                     $customer = $moipMerchant->customers();
                     $holder = $moipMerchant->holders();
                     $multiorder = $moipMerchant->multiorders();
-
-                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error);
+     
+                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error); 
                     // Creating multipayment to multiorder
                     $multipayment = $multiorder->multipayments()
                             ->setBoleto(
                                     date("Y-m-d", strtotime("+ 1 week")), $this->settings()->wirecard_boleto_logo_uri, array(
-                                $this->settings()->wirecard_boleto_line_1,
-                                $this->settings()->wirecard_boleto_line_2,
-                                $this->settings()->wirecard_boleto_line_3
+                                $this->settings()->wirecard_boleto_line_1.' '.$this->settings()->wirecard_boleto_line_2,
+                                $this->settings()->wirecard_boleto_line_3,
+                                $third_line_boleto,     
                                     )
                             )
                             ->setEscrow($wirecard_app_data_array['name'])
                             ->execute();
-
 
                     $wirecard_payment_token = $multipayment->getId();
                     $wirecard_boleto_href = $multipayment->getHrefBoleto();
@@ -543,7 +583,12 @@ class WirecardController extends Controller
 
                     $multi_status = $multipayment->getStatus();
                     $multi_amount = $multipayment->getAmount()->total;
-
+                    
+                    //print_r("Multipayment <br>");
+                   // print_r($multipayment);
+                   // print_r("<br><br>MultiOrder <br>");
+                   // print_r($multiorder);
+                   // exit();
                     if ($multipayment->getStatus() == 'AUTHORIZED') {
                         $status = 'completed';
                         $success = true;
@@ -574,11 +619,17 @@ class WirecardController extends Controller
                         $errors = $error;
                     }
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
-                    $errors[] = $e->__toString();
+                    //print_r("UnautorizedException <BR><BR>");
+                    $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    $errors[] = $e->__toString()." -> UnautorizedException <- ";   
                 } catch (ValidationException $e) {
-                    $errors[] = $e->__toString();
+                    //print_r("ValidationException  <BR><BR>");
+                    $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    $errors[] = $e->__toString()." -> ValidationException <- ";  
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
-                    $errors[] = $e->__toString();
+                    //print_r("UnexpectedException  <BR><BR>");
+                    $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    $errors[] = $e->__toString()." -> UnexpectedException <- ";  
                 }
 
                 if ($success === true) {
@@ -595,9 +646,12 @@ class WirecardController extends Controller
                         'multi_status' => $multi_status,
                         'multi_amount' => $multi_amount
                     );
-
+                    
                     $this->complete_order($params);
                     $this->wirecard_log_pay($params);
+                    
+                    
+                    
                     // if true complete the order with the above status
                     return view('wirecard-shop-success')->with(array_merge(
                                             @$_POST, array(
@@ -608,10 +662,12 @@ class WirecardController extends Controller
                                             )
                     ));
                 } else {
+                    $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    $errors[] = $e->__toString()." -> ELSE <- ";    
                     // else show cancel to user
                     return view('wirecard-cancel')->with(array(
                                 'settings' => $this->settings(),
-                                'reason' => implode("\n\n", $errors)
+                                'reason' => implode("\n\n",$errors)
                     ));
                 }
             }

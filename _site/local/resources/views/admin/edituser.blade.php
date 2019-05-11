@@ -42,7 +42,7 @@
           </div>
           <div class="widget-content nopadding">
           <?php $url = URL::to("/"); ?> 
-            <form class="form-horizontal" method="post" action="{{ route('admin.edituser') }}" enctype="multipart/form-data"  name="basic_validate" id="formID" novalidate="novalidate">
+            <form class="form-horizontal" method="post" action="{{ route('admin.edituser') }}" enctype="multipart/form-data"  name="basic_validate"  id="formID" novalidate="novalidate">
               {{ csrf_field() }}
               
               

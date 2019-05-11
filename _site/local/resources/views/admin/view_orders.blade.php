@@ -19,30 +19,30 @@
             <div class="container-fluid"><hr>
                 <div class="row-fluid">
                     <div class="span12">
-                        @if(Session::has('error'))
+                    @if(Session::has('error'))
                         <div class="alert alert-error">
                             <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                             {{ Session::get('error') }}
                         </div>
-                        @endif
+                    @endif
 
-                        @if(Session::has('success'))
+                    @if(Session::has('success'))
                         <div class="alert alert-success">
                             <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                             {{ Session::get('success') }}
                         </div>
-                        @endif
+                    @endif
 
-                        <div align="left">
+                    <div align="left">
 
-                            <?php if (config('global.demosite') == "yes") { ?>
+                        <?php if (config('global.demosite') == "yes") { ?>
                                 <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span> <a href="#" class="btn btn-primary btndisable">Back</a> 
-                            <?php } else { ?>
+                        <?php } else { ?>
                                 <a href="<?php echo $url; ?>/admin/orders" class="btn btn-primary">@lang('languages.back')</a>
-                            <?php } ?>
-                        </div>
+                        <?php } ?>
+                    </div>
                         
-                        <div class="widget-box">
+                    <div class="widget-box">
                             <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
                                 <h5>@lang('languages.order_details')</h5>
                             </div>
@@ -169,7 +169,7 @@
                         <?php if (!empty($product->prod_attribute)) { ?>
                             <?php echo utf8_decode($attri_name); ?>
                         <?php } ?>
-                    </td>
+            </td>
 
             <td>
             <?php echo $setts[0]->site_currency . ' ' . number_format($product->shipping_price, 2); ?>

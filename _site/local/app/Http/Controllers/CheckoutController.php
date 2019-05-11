@@ -31,9 +31,9 @@ class CheckoutController extends Controller
      */
     
 	public function avigher_update_cart(Request $request)
-	{
-	
-	   $data = $request->all();
+	{	
+	   $data = $request->all();  
+          
 	   $log_id = Auth::user()->id;
 	   
 	   $shipping_charge = $data['shipping_charge'];
@@ -148,11 +148,11 @@ class CheckoutController extends Controller
 
 		//$prod_ids = DB::table('product_orders')
 		//               ->whereIn('ord_id', explode(",",$data['order_ids']))
-        //               ->pluck('prod_id');
+                //               ->pluck('prod_id');
 
-        $prod_ords = DB::table('product_orders')
-		               ->whereIn('ord_id', explode(",",$data['order_ids']))
-                       ->get();
+                $prod_ords = DB::table('product_orders')
+                                ->whereIn('ord_id', explode(",",$data['order_ids']))
+                                ->get();
 
 		$check_qty = 0;
 		foreach($prod_ords as $prod_ord){
@@ -163,7 +163,6 @@ class CheckoutController extends Controller
                     if($prod[0]->prod_available_qty < $prod_ord->quantity){
                                  $check_qty = 1;
                     }
-
 		}
 		
 		$cart_total = $data['cart_total'];
@@ -171,9 +170,13 @@ class CheckoutController extends Controller
 		$order_ids = $data['order_ids'];  
 		
 		$product_names = $data['product_names'];
-		
-                $data = array('ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
-	   
+		//print_r("<br><br>");
+                
+                // Will be used on the Boleto Payment
+                $listcompanies = $data['companies'];
+                
+                $data = array('listcompanies' => $listcompanies,'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
+	  // print_r($data);exit();
 	   return view('checkout')->with($data);
 	   
 	   /*return redirect()->back()->with(['data' => $data]);*/ 

@@ -54,7 +54,7 @@
               <?php $url = URL::to("/"); ?>   
 
 
-               <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add-banner') }}" enctype="multipart/form-data" id="formID">
+               <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add-banner') }}" enctype="multipart/form-data" id="formID" accept-charset="utf-8">
                      {{ csrf_field() }}       
 
              <div class="control-group">

@@ -98,7 +98,7 @@ $headertype = $setts[0]->header_type;
         @if(@Auth::user()->admin == 2)
         <div class="control-group">
             <a href="{{ $url }}/wirecard-connect" class="btn btn-primary"> Conectar com conta Wirecard </a>
-            <a href="{{ $url }}/config-shipping" class="btn btn-primary"> Configurar Frete </a>
+            <!-- <a href="{{ $url }}/config-shipping" class="btn btn-primary"> Configurar Frete </a> -->
             <?php if($editprofile[0]->delete_status == 'inactive'){   ?>
                 <a href="{{ route('dashboard') }}/<?php echo $editprofile[0]->id; ?>/1" class="btn btn-primary" style="background-color: green;"> Ativar Loja </a>
             <?php }else if($editprofile[0]->delete_status == ''){?>

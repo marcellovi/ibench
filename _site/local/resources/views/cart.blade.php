@@ -63,7 +63,7 @@ $headertype = $setts[0]->header_type;
 <div class="row ">
 
 
-	<form class="form-horizontal" role="form" method="POST" action="{{ route('checkout') }}" id="formID" enctype="multipart/form-data">
+	<form class="form-horizontal" role="form" method="POST" action="{{ route('checkout') }}" id="formID" enctype="multipart/form-data" accept-charset="utf-8">
 		{{ csrf_field() }}
 
 		<div class="shopping-cart">
@@ -75,6 +75,7 @@ $headertype = $setts[0]->header_type;
 					<?php 
 						$total_shipping_by_company = 0;
 						$not_able = 0; 
+                                                $listcompanies = '';
 					?>
 					<?php  foreach($uniq_companies as $company)	{
 						$check_company = DB::table('users')
@@ -83,6 +84,8 @@ $headertype = $setts[0]->header_type;
 						$company_slug = $check_company[0]->name_business;
 						$company_min_value = $check_company[0]->min_value;
 						$total_shipping_by_company += $check_company[0]->local_shipping_price;
+                                                
+                                                $listcompanies .= $check_company[0]->name_business.",";
 						?>
 					
 						<div class="row col-md-6">
@@ -190,7 +193,7 @@ $headertype = $setts[0]->header_type;
 											<!-- <?php $check_prod_available_qty = $product->prod_id; ?> -->
 											<?php $check_prod_available_qty = 1; ?>
 											<p style="color:red;">* Produto Sem Estoque suficiente</p>
-											<?php }; ?>
+											<?php } ?>
 
 											<h4 class='cart-product-description'>
 												<a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($view_product[0]->prod_slug);?>"><?php echo utf8_decode($view_product[0]->prod_name);?></a>
@@ -215,7 +218,7 @@ $headertype = $setts[0]->header_type;
 													$prod_name .=$view_product[0]->prod_name.',';				 
 											?>
 													<input type="hidden" name="prod_user_id[]" value="<?php echo $row_user[0]->user_id;?>"> 
-
+                                                                                                        
 													<!--<div class="row">
 														<div class="col-sm-12">
 															<p><b class="fontsize13">@lang('languages.sold_by'):</b> <a href="<?#php echo $url;?>/profile/<?#php echo $check_user[0]->id;?>/<?#php echo $slug;?>" class="fontsize14 red"><?#php echo $check_user[0]->name_business;?></a></p> 
@@ -417,8 +420,10 @@ $headertype = $setts[0]->header_type;
 
 <input type="hidden" name="cart_total" value="<?php echo $total_price;?>">
 <input type="hidden" name="processing_fee" value="<?php echo $setts[0]->processing_fee;?>">
+<input type="hidden" name="companies" value="<?php echo rtrim($total_shipping_by_company + $total_price.'_'.$listcompanies,',');?>">
+
 <input type="hidden" name="order_ids" value="<?php echo rtrim($ord_id,',');?>">
-										<input type="hidden" name="product_names" value="<?php echo rtrim($prod_name,',');?>">
+<input type="hidden" name="product_names" value="<?php echo rtrim(utf8_decode($prod_name),',');?>">
 </thead><!-- /thead -->
 <tbody>
 <tr>

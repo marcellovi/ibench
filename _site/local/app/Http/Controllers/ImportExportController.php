@@ -81,7 +81,7 @@ class ImportExportController extends Controller
         $userid = Auth::user()->id;
         $type = 'xls';
 
-        $data = ['Nome', 'Categoria', 'Marca', 'Descricao', 'Quantidade', 'Preco', 'Preco_Promocional', 'Tags'];
+        $data = ['Nome', 'Categoria', 'SubCategoria', 'Marca', 'Descricao', 'Quantidade', 'Preco', 'Preco_Promocional', 'Tags'];
         // Headings//
         //$headers[] = ['Id', 'Name'];
         $tempname = "planilha_modelo_" . uniqid();
@@ -117,8 +117,13 @@ class ImportExportController extends Controller
 				if(!empty($row['prod_available_qty'])) { $prod_available_qty = $row['prod_available_qty']; } else { $prod_available_qty = 0; }
 				if(!empty($row['prod_attribute'])) { $prod_attribute = $row['prod_attribute']; } else { $prod_attribute = ""; } 
 				*/
-                             	if(!empty($row['categoria'])) { $prod_categoria = $this->findCategory($row['categoria']); } else { $prod_categoria = ''; } // Se nao for preenchido vai para Outros
-				if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $prod_desc = ""; }
+                                
+                                //$prod_categoria = $this->findCategory($row['categoria'],null);
+                                $prod_categoria_sub = $this->findCategory($row['categoria'],$row['subcategoria']);
+                                
+                             	//if(!empty($row['categoria'])) { $prod_categoria = $this->findCategory($row['categoria'],null); } else { $prod_categoria = ''; } // Se nao for preenchido vai para Outros
+				//if(!empty($row['subcategoria'])) { $prod_categoria = $this->findCategory($row['categoria'],$row['subcategoria']); } else { $prod_categoria = ''; } // Se nao for preenchido vai para Outros
+                                if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $prod_desc = ""; }
 				if(!empty($row['nome'])) { $prod_name = $row['nome']; } else { $prod_name = "Sem Nome"; }
 				if(!empty($row['tags'])) { $prod_tags = $row['tags']; } else { $prod_tags = ""; }
 				if(!empty($row['preco'])){ $prod_price = $row['preco']; } else { $prod_price = 0; }
@@ -233,10 +238,45 @@ class ImportExportController extends Controller
         }
 	
         /* */
-        public function findCategory($subcategname){
+        public function findCategory($categname,$subcategname){
+            $categ_sub = [];      
+                                     
+            $cname = strtolower($categname); // Fazer tratamento no texto para caracteres
+            $subcname = strtolower($subcategname); // Fazer tratamento no texto para caracteres
             
-            $scategname = strtolower($subcategname); // Fazer tratamento no texto para caracteres
+            /* Find id Category */
+            $cname_count = DB::table('category')
+                ->select('id')
+		->where('delete_status','=','')
+		->where('status','=',1)
+                ->whereRaw('LOWER(cat_name) = ?', [$cname])->get();
             
+            /* Find id Sub-Category */
+            $subcname_count = DB::table('subcategory')
+                ->select('cat_id')
+		->where('delete_status','=','')
+		->where('status','=',1)
+                ->whereRaw('LOWER(subcat_name) = ?', [$subcname])->get();
+            
+            if(!empty($cname_count) || !empty($subcname_count)){
+                return $categ_sub; // return empty array
+            }
+            
+                /* If they exist check if they are related */
+		if(!empty($cname_count) || !empty($subcname_count)){
+                    $subcategory = DB::table('category')
+                    ->select('category.id','subcategory.subid')
+                    ->join('subcategory','category.id','=','subcategory.cat_id')
+                    ->where('category.delete_status','=','')
+                    ->where('subcategory.delete_status','=','')
+                    ->where('category.status','=',1)
+                    ->where('subcategory.status','=',1)
+                    ->whereRaw('category.id = ?', [$cname_count])
+                    ->whereRaw('subcategory.cat_id = ?', [$cname_count])
+                    ->orderBy('subcat_name', 'asc')->get();
+                }              
+                    
+            /* Find cat_id Subcategory */
             $subcount = DB::table('subcategory')
 		->where('delete_status','=','')
 		->where('status','=',1)
@@ -250,10 +290,41 @@ class ImportExportController extends Controller
                     ->where('delete_status','=','')
                     ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
                     ->orderBy('subcat_name', 'asc')->get();
+                }
+                    
+            
+            /* Check if there is relationship between category & subcategory */
+            if(!empty($cname) || !empty($subcname)){
+                    $subcategory = DB::table('category')
+                    ->join('subcategory','category.id','=','subcategory.cat_id')
+                    ->where('delete_status','=','')
+                    ->where('status','=',1)
+                    ->where('delete_status','=','')
+                    ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
+                    ->orderBy('subcat_name', 'asc')->get();
+          
+            
+             
+            
+            $subcount = DB::table('subcategory')
+		->where('delete_status','=','')
+		->where('status','=',1)
+                ->where('delete_status','=','')
+                ->whereRaw('LOWER(subcat_name) = ?', [$scategname])->count();
+            }				
+		if(!empty($subcount)){
+                    $subcategory = DB::table('subcategory')
+                    ->where('delete_status','=','')
+                    ->where('status','=',1)
+                    ->where('delete_status','=','')
+                    ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
+                    ->orderBy('subcat_name', 'asc')->get();
                     
                     return $subcategory[0]->subid;
                 }else{
                     return 13; // Categoria Equipamento >> Subcategoria Outros ( DoTo: Descobrir o que fazer neste caso )
                 }
         }
+                
+        
 }

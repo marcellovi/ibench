@@ -49,7 +49,7 @@
           
               
               <?php $url = URL::to("/"); ?>   
-                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.edit_attribute_type') }}"  enctype="multipart/form-data" id="formID">
+                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.edit_attribute_type') }}"  enctype="multipart/form-data" accept-charset="utf-8" id="formID">
                      {{ csrf_field() }} 
                      
                     

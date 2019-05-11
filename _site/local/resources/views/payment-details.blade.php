@@ -1,32 +1,23 @@
 <?php
-	use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();	
+
+use Illuminate\Support\Facades\Route;
+
+$currentPaths = Route::getFacadeRoot()->current()->uri();
 $url = URL::to("/");
-$setid=1;
-		$setts = DB::table('settings')
-		->where('id', '=', $setid)
-		->get();
-		$headertype = $setts[0]->header_type;
-	?>
+$setid = 1;
+$setts = DB::table('settings')
+        ->where('id', '=', $setid)
+        ->get();
+$headertype = $setts[0]->header_type;
+?>
 <!DOCTYPE html>
 
 <html class="no-js"  lang="en">
 <head>
-
-		
-
    @include('style')
-   
-
-
-
-
 </head>
 <body  class="cnt-home">
-
   
-
-   
     @include('header')
 <!-- ============================================== HEADER : END ============================================== -->
 <div class="breadcrumb">
@@ -40,82 +31,53 @@ $setid=1;
 	</div>
 </div>
 
-
-
 <div class="body-content">
 	<div class="container-fluid">
 		<div class="my-wishlist-page">
         <div class="row">
-                     <div class="col-md-12 col-sm-12">
-                    @if(Session::has('success'))
-
+        <div class="col-md-12 col-sm-12">
+        @if(Session::has('success'))
 	    <p class="alert alert-success">
-
 	      {{ Session::get('success') }}
-
 	    </p>
-
 	@endif
-
-
-	
 	
  	@if(Session::has('error'))
-
 	    <p class="alert alert-danger">
-
 	      {{ Session::get('error') }}
-
 	    </p>
-
 	@endif
     </div>
     </div>
-        
-			<div class="row">
-           
-				<div class="col-md-12 my-wishlist">
-	
-		
-        
+    	<div class="row">
+     	<div class="col-md-12 my-wishlist">
         <div class="col-md-12 row"><div class="heading-title">@lang('languages.payment_confirmation')</div></div>
-                
-       
-        
-        
         <div class="height20 clearfix"></div>
-        
         <div class="table-responsive">
-        
-       
-        <div class="text-center">   
+        <div class="text-center"> 
+            
 	<div class="clearfix height30"></div>
+        
 	<div class="h4 black">
     <label class="black">@lang('languages.total')</label> : <?php echo number_format($amount,2,",","."); ?> <?php echo $currency; ?>
 	</div>
-	<div class="clear height20"></div>
+	<div class="clear height20"></div>    
     
-    
-    <?php if($payment_type=="paytm"){
-	
+    <?php if($payment_type=="paytm"){	
 	$user_details = DB::table('users')
 		->where('id', '=', Auth::user()->id)
 		->get();
 	?>
      <?php if($currency=="INR"){?>
     <form action="{{ url('paytm') }}" class="form-image-upload" method="POST" enctype="multipart/form-data">
-    {!! csrf_field() !!}
-    
-                        <input type="hidden" name="name" value="<?php echo $user_details[0]->name;?>">
-                   
-                        <input type="hidden" name="mobile_number" value="<?php echo $user_details[0]->phone;?>">
-                        
-                        <input type="hidden" name="email" value="<?php echo $user_details[0]->email;?>">
-                        <input type="hidden" name="amount" value="<?php echo $amount; ?>"/>
-                        <input type="hidden" name="currency" value="<?php echo $currency; ?>"/>
-                   
-                   <input type="hidden" name="address" value="<?php echo $user_details[0]->address;?>">
-                     <input type="hidden" name="order_id" value="<?php echo $order_no;?>"/>   
+    {!! csrf_field() !!}    
+                    <input type="hidden" name="name" value="<?php echo $user_details[0]->name;?>">                   
+                    <input type="hidden" name="mobile_number" value="<?php echo $user_details[0]->phone;?>">                        
+                    <input type="hidden" name="email" value="<?php echo $user_details[0]->email;?>">
+                    <input type="hidden" name="amount" value="<?php echo $amount; ?>"/>
+                    <input type="hidden" name="currency" value="<?php echo $currency; ?>"/>                   
+                    <input type="hidden" name="address" value="<?php echo $user_details[0]->address;?>">
+                    <input type="hidden" name="order_id" value="<?php echo $order_no;?>"/>   
                     
         <?php if($check_qty_ord == 1){ ?> 
             <p style="color:red;">*There are products without enough stock in your cart!</p>
@@ -125,14 +87,10 @@ $setid=1;
         <?php } ?>
     </form>
     <?php } else {?>
-    <span class="red">( Paytm Indian Rupees Only Supported )</span>
-    
-    
-    
+    <span class="red">( Paytm Indian Rupees Only Supported )</span>  
     <?php } } ?>
     
-    <?php if($payment_type=="razorpay"){?>
-    
+    <?php if($payment_type=="razorpay"){?>   
     
     <?php if($currency=="INR"){?>
       
@@ -159,44 +117,32 @@ $setid=1;
     </form>
     <script>
     
-    var options = <?php echo $json_value?>;
-    
+    var options = <?php echo $json_value?>;   
     
     options.handler = function (response){
 	     
         document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
         document.getElementById('razorpay_signature').value = response.razorpay_signature;
         document.razorpayform.submit();
-    };
-    
+    };    
     
     options.theme.image_padding = false;
     
     options.modal = {
         ondismiss: function() {
             console.log("This code runs when the popup is closed");
-        },
-        
-        escape: true,
-       
+        },        
+        escape: true,       
         backdropclose: false
-    };
-    
-    var rzp = new Razorpay(options);
-    
+    };    
+    var rzp = new Razorpay(options);    
     document.getElementById('rzp-button1').onclick = function(e){
         rzp.open();
         e.preventDefault();
     }
-    </script>
+    </script>  
     
-
-        
-    
-    <?php } ?>
-    
-    
-    
+    <?php } ?>   
     
    <?php if($payment_type=="ccavenue"){
 	
@@ -246,9 +192,6 @@ $setid=1;
 		
     <?php } ?>
     
-    
-    
-    
     <?php if($payment_type=="payhere"){
 	
 	  if($setts[0]->payhere_mode=="test") { $payurl = "https://sandbox.payhere.lk/pay/checkout"; }
@@ -267,12 +210,7 @@ $setid=1;
     <input type="hidden" name="items" value="<?php echo  utf8_decode($product_names);?>">
     <input type="hidden" name="currency" value="<?php echo $currency; ?>">
     <input type="hidden" name="amount" value="<?php echo $amount; ?>"> 
-    
-    
-    
      
-    
-    
     
     <input type="hidden" name="first_name" value="<?php echo Auth::user()->name;?>">
     <input type="hidden" name="last_name" value="<?php echo Auth::user()->name;?>">
@@ -281,29 +219,24 @@ $setid=1;
     <input type="hidden" name="address" value="<?php echo Auth::user()->address;?>">
     <input type="hidden" name="city" value="<?php echo Auth::user()->country;?>">
     <input type="hidden" name="country" value="<?php echo Auth::user()->country;?>"> 
-    
-    
+        
     <?php if($check_qty_ord == 1){ ?> 
         <p style="color:red;">*There are products without enough stock in your cart!</p>
         <a href="<?php echo $url;?>/cart" class="btn-upper btn btn-primary"><i class="icon fa fa-shopping-cart"></i> &nbsp; Back Cart</a>
     <?php }else{ ?>
         <input type="submit" value="Buy Now" class="btn-upper btn btn-primary"> 
-    <?php } ?>
-      
-    </form> 
+    <?php } ?>      
+    </form>    
     
-    
-    <?php } ?>
-    
-    
+    <?php } ?>   
     
     <?php
-            if ($payment_type=='wirecard'){
-                $extra_data = "";
-                if (isset($raw_data)){
-                foreach (unserialize($raw_data) as $key => $value){
-                    if ($key != '_token')
-                        $extra_data .= "<input type='hidden' name='{$key}' value='{$value}'>\n";
+        if ($payment_type=='wirecard'){
+            $extra_data = "";
+            if (isset($raw_data)){
+            foreach (unserialize($raw_data) as $key => $value){
+                if ($key != '_token')
+                    $extra_data .= "<input type='hidden' name='{$key}' value='{$value}'>\n";
                 }
                 }
 //                print_r($wirecardcontroller);
@@ -311,11 +244,10 @@ $setid=1;
         {!!Html::script('local/resources/views/mj-wirecard.js')!!}
         {!!Html::style('local/resources/views/mj-wirecard.css?ver=1')!!}
 <?php
-
-                echo '<div class="container" xmlns="http://www.w3.org/1999/html">
+        echo '<div class="container" xmlns="http://www.w3.org/1999/html">
     <div class="row text-center">
     <div class="col-md-5"><div class="row"><div class="col-xs-12 col-md-12 text-center">
-                                <form method="POST" action="' .route("wirecard-shop-success").'" enctype="multipart/form-data">
+                                <form method="POST" action="' .route("wirecard-shop-success").'" enctype="multipart/form-data" accept-charset="utf-8">
                                  '.csrf_field().'
 <div class="panel panel-default">
                 <div class="panel-heading">
@@ -390,7 +322,7 @@ $setid=1;
  </div></div></div>
     <div class="col-md-2"><div style="vertical-align: middle;align-items: center;font-weight: bold;font-size: xx-large">OR</div></div>
     <div class="col-md-5"><div class="row"><div class="col-xs-12 col-md-12 text-center">
-                                <form method="POST" action="'.route("wirecard-boleto-shop-success").'" enctype="multipart/form-data">
+                                <form method="POST" action="'.route("wirecard-boleto-shop-success").'" enctype="multipart/form-data" accept-charset="utf-8">
                                  '.csrf_field().'
 <div class="panel panel-default">
                 <div class="panel-heading">
@@ -401,6 +333,7 @@ $setid=1;
                 <div class="panel-body">
                     <input type="hidden" name="order_no" value="'.$order_no.'">
                     <input type="hidden" name="amount" value="'.$amount.'">
+                    <input type="hidden" name="listcompanies" value="'.$listcompanies.'">
                     <input type="hidden" name="currency" value="'.$currency.'">
                     '.$extra_data.'
 

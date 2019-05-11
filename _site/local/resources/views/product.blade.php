@@ -526,11 +526,11 @@
 													{			
 													?>
 									<div class="col-md-3 col-sm-3">
-                                                <h4><?php echo $type->attr_name;?></h4>
+                                                <h4><?php echo utf8_decode($type->attr_name);?></h4>
                                                 <select style="height: 35px;" class="col-xs-12 marB20 form-control unicase-form-control" name="attribute[]">
                                                      <?php if(!empty($value_cnt)){?>
                   										<?php foreach($value as $values){?>
-                                                            <option value="<?php echo $values->value_id;?>"><?php echo $values->attr_value;?></option>
+                                                            <option value="<?php echo $values->value_id;?>"><?php echo utf8_decode($values->attr_value);?></option>
                                                         <?php } ?>
                                                         <?php } ?>  
                                                 </select>
@@ -572,7 +572,7 @@
                                 <div class="mtop10">
                                     <!-- Marcello Retirar o nome do Vendedor
                                     <strong class="black">@lang('languages.sold_by'): </strong>
-                                    <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color"><?php echo $view_sold_name;?></a>
+                                    <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color"><?php echo utf8_decode($view_sold_name);?></a>
                                  
                                     Marcello  :: Nome da Empresa -->
                                     
@@ -581,7 +581,7 @@
                                         <!-- Marcello : Link para o vendedor  -->
                                             <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color">
                                                 
-                                                    <?php echo $view_store_name;?></a>
+                                                    <?php echo utf8_decode($view_store_name);?></a>
                                 <!-- fim -->
                                 
                                 </div>
@@ -598,7 +598,7 @@
                                  <div class="col-md-12">
                                 
                                 <div class="mtop10"><strong class="black">@lang('languages.sold_by'): </strong>
-                                    <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color"><?php echo $view_sold_name;?></a>
+                                    <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color"><?php echo utf8_decode($view_sold_name);?></a>
                                 </div>
                                  </div>
                                       fim -->
@@ -917,7 +917,7 @@
                                                             </div>
                                                             <div class="col-md-10 col-sm-10 ">
                                                                 <h4>
-				  - <?php echo $usernameo;?>
+				  - <?php echo utf8_decode($usernameo);?>
 
                    </h4>
                                                                 <?php echo $rateus_views;?> 
@@ -1272,8 +1272,8 @@
 		
 		<div class="product-info text-center">
 			<h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
-			<p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
-      <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
+			<p><b>Marca(s): </b> <?php echo utf8_decode(implode(", ", $brand_product)); ?></p>
+      <p><b>Fornecedor: </b> <?php echo utf8_decode($view_store_name); ?></p>
 
 			<div class="rating rateit-small"></div>
 			<div class="description"></div>
@@ -1642,8 +1642,8 @@
 						<div class="product-info text-left m-t-20">
 							<h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
 
-							<p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
-              <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
+							<p><b>Marca(s): </b> <?php echo utf8_decode(implode(", ", $brand_product)); ?></p>
+              <p><b>Fornecedor: </b> <?php echo utf8_decode($view_store_name); ?></p>
 
 							<div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
 

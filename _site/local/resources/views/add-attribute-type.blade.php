@@ -111,7 +111,7 @@ $setid=1;
 	<div class="table-responsive">
 		
         
-        <form class="register-form" role="form" method="POST" action="{{ route('add-attribute-type') }}" id="formID" enctype="multipart/form-data">
+        <form class="register-form" role="form" method="POST" action="{{ route('add-attribute-type') }}" id="formID" enctype="multipart/form-data" accept-charset="utf-8">
                     {{ csrf_field() }}
                     
                     

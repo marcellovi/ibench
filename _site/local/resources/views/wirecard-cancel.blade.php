@@ -19,7 +19,7 @@ $url = URL::to("/");
         <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
                 <li><a href="<?php echo $url;?>">@lang('languages.home')</a></li>
-                <li class='active'>Wirecard Transaction Canceled</li>
+                <li class='active'>Erro na transacao</li>
             </ul>
         </div>
     </div>
@@ -68,7 +68,7 @@ $url = URL::to("/");
 
                 <div class="col-md-12 my-wishlist">
 
-                    <div class="col-md-12 row"><div class="heading-title">Your Wirecard Transaction has been canceled.</div></div>
+                    <div class="col-md-12 row"><div class="heading-title">Ops! Ocorreu um erro ao tentar concluir seu pagamento.</div></div>
 
                     <div class="height20 clearfix"></div>
 
@@ -77,8 +77,9 @@ $url = URL::to("/");
                         <div class="text-center">
                             <div class="clear height50"></div>
                             <div>
-                                <h2>Your Wirecard Transaction has been canceled.</h2>
-                                <p>Due to : @if(@isset($reason)) {{ $reason }} @endif </p>
+                                <h2>Seu pedido nao pode ser finalizado.</h2>
+                                <p> Favor tentar novamente ou entre em contato conosco : ibench@ibench.com.br</p>
+                               <!-- <p>Due to : @if(@isset($reason)) {{ $reason }} @endif </p> -->
                             </div>
                             <div class="clear height100"></div>
 

@@ -372,6 +372,8 @@ $headertype = $setts[0]->header_type;
                                         <input type="hidden" name="shipping_fee_separate" value="<?php echo $ship_separate;?>">
                                         <input type="hidden" name="processing_fee" value="<?php echo $processing_fee;?>">
                                         <input type="hidden" name="total" value="<?php echo $total;?>">
+                                        <input type="hidden" name="listcompanies" value="<?php echo $listcompanies;?>">
+                                        <input type="hidden" name="payment_type" value="wirecard">   
 
 
                                         <input type="hidden" name="product_names" value="<?php echo utf8_decode($product_names);?>">
@@ -382,6 +384,7 @@ $headertype = $setts[0]->header_type;
                                                 <div class="clear"></div>
                                             </div>
                                         </div>
+                                        <!--
                                         <?php
 						$option = explode (",", $setts[0]->payment_option);
 					?>
@@ -389,7 +392,9 @@ $headertype = $setts[0]->header_type;
 					$i=1;
 					foreach($option as $withdraw){?>
                                         <div class="form-row col-sm-6 marB30">
-
+                                            
+                                            
+                                            
                                             <input type="radio" id="method<?php echo $i;?>" name="payment_type" class="validate[required]" value="<?php echo $withdraw;?>">
                                             <label for="method<?php echo $i;?>" class="radio-label fontsize16">
                                                 <?php if($withdraw=="wirecard"){?>WireCard<?php } ?>
@@ -404,13 +409,14 @@ $headertype = $setts[0]->header_type;
                                                                                     <?php if(Auth::user()->earning >= $total) {?>
                                                                                         <?php if($withdraw=="wallet-balance"){?>Wallet Balance ( <?php echo $setts[0]->site_currency.' '.number_format(Auth::user()->earning,2);?> )<?php } ?>
                                                                                             <?php } ?></label>
+                                           
                                             <span class="check"><span class="inside"></span></span>
-
+                                                     
                                         </div>
                                          <?php $i++; } ?>
-
-                                        <div class="col-md-12 col-sm-12">
-
+                            -->
+                            <div class="col-md-12 col-sm-12">
+                                 
 
 
                             <?php if(config('global.demosite')=="yes"){?><button type="submit" class="btn-upper btn btn-primary">@lang('languages.place_order')</button>

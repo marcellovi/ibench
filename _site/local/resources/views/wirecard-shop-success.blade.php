@@ -38,8 +38,9 @@ $headertype = $settings->header_type;
                     @if(@isset($error))
 
                         <p class="alert alert-danger">
-
-                            {{ $error }}
+                            Ops! Ocorreu um erro na confirmacao do pagamento. <br>
+                            Favor tentar novamente ou entre em contato conosco : ibench@ibench.com.br
+                           <!-- {{ $error }} -->
 
                         </p>
                     @endif

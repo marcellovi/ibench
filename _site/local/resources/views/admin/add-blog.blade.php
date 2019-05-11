@@ -50,7 +50,7 @@
           </div>
           <div class="widget-content nopadding">
           <?php $url = URL::to("/"); ?> 
-            <form class="form-horizontal" method="post"  name="basic_validate" id="formID" action="{{ route('admin.add-blog') }}" enctype="multipart/form-data" >
+            <form class="form-horizontal" method="post"  name="basic_validate" id="formID" action="{{ route('admin.add-blog') }}" enctype="multipart/form-data" accept-charset="utf-8">
               {{ csrf_field() }}
               
               

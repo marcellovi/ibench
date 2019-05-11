@@ -35,9 +35,9 @@ class PaymentController extends Controller
     public function avigher_checkout_details(Request $request)
     {
         $url = URL::to("/");
-
         $data = $request->all();
-        $log_id = Auth::user()->id;
+        
+        $log_id = Auth::user()->id;   
 
         if (!empty($data['bill_firstname'])) {
             $bill_firstname = $data['bill_firstname'];
@@ -170,20 +170,16 @@ class PaymentController extends Controller
             $payment_type = "";
         }
 
-
         $viewcount = DB::table('product_billing_shipping')
             ->where('user_id', '=', $log_id)
             ->count();
 
         /*if(empty($viewcount))
-        {
-        
+        {        
            DB::insert('insert into product_billing_shipping (user_id,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes) values (?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?, ?)', [$log_id,$bill_firstname,$bill_lastname,$bill_companyname,$bill_email,$bill_phone,$bill_country,$bill_address,$bill_city,$bill_state,$bill_postcode,$enable_ship,$ship_firstname,$ship_lastname,$ship_companyname,$ship_email,$ship_phone,$ship_country,$ship_address,$ship_city,$ship_state,$ship_postcode,$order_comments]);
- 
         }
         else
         {
-        
          DB::update('update product_billing_shipping set 
          bill_firstname="'.$bill_firstname.'",
          bill_lastname="'.$bill_lastname.'",
@@ -208,12 +204,11 @@ class PaymentController extends Controller
          ship_postcode="'.$ship_postcode.'",
          other_notes="'.$order_comments.'"
          
-          where user_id = ?', [$log_id]);
-                
+         where user_id = ?', [$log_id]);              
         
         }*/
 
-        $purchase_token = rand(1111111, 9999999);
+        $purchase_token = rand(11111111, 99999999);
         $token = csrf_token();
         $payment_date = date("Y-m-d");
 
@@ -225,68 +220,73 @@ class PaymentController extends Controller
         $processing_fee = $data['processing_fee'];
         $total = $data['total'];
 
-
+        /* ToDo : Get the last id and delete any other pending with payment token '' ( check if there is a problem */
         $check_checkout = DB::table('product_checkout')
             ->where('token', '=', $token)
             ->where('payment_status', '=', 'pending')
             ->where('payment_token', '=', '')
             ->count();
 
-
+        //print_r("checkout: ".$check_checkout." | token: ".$token. " | order_id: ".$order_id." | purchase_token: ".$purchase_token); exit();
+                
         $codes = explode(",", $order_id);
         $names = explode(",", $shipping_fee_separate);
         $weldone = "";
         foreach ($codes as $index => $code) {
             $weldone .= $code . '_' . $names[$index] . ',';
-
-
             DB::update('update product_orders set shipping_price="' . $names[$index] . '" where order_status="pending" and ord_id = ?', [$code]);
-
         }
         $trimer = rtrim($weldone, ',');
 
         if (empty($check_checkout)) {
+            //print_r("entrou no empty");
             DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_district,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_district,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone,$bill_district, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone,$ship_district, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending']);
         } else {
-
+           // print_r("entrou no else");
             DB::update('update product_checkout set purchase_token="' . $purchase_token . '",
-	ord_id="' . $order_id . '",
-	shipping_separate ="' . $shipping_fee_separate . '",
-	order_id_shipping ="' . $trimer . '",
-	subtotal="' . $sub_total . '",
-	total="' . $total . '",
-	shipping_price="' . $shipping_fee . '",
-	payment_type="' . $payment_type . '",
-	payment_date="' . $payment_date . '",
-	bill_firstname="' . $bill_firstname . '",
-		bill_lastname="' . $bill_lastname . '",
-		bill_companyname="' . $bill_companyname . '",
-		bill_email="' . $bill_email . '",
-		bill_phone="' . $bill_phone . '",
-                bill_district="' . $bill_district . '",
-		bill_country="' . $bill_country . '",
-		bill_address="' . $bill_address . '",
-		bill_city="' . $bill_city . '",
-		bill_state="' . $bill_state . '",
-		bill_postcode="' . $bill_postcode . '",
-		enable_ship="' . $enable_ship . '",
-		ship_firstname="' . $ship_firstname . '",
-		ship_lastname="' . $ship_lastname . '",
-		ship_companyname="' . $ship_companyname . '",
-		ship_email="' . $ship_email . '",
-		ship_phone="' . $ship_phone . '",
-                ship_district="' . $ship_district . '",
-		ship_country="' . $ship_country . '",
-		ship_address="' . $ship_address . '",
-		ship_city="' . $ship_city . '",
-		ship_state="' . $ship_state . '",
-		ship_postcode="' . $ship_postcode . '",
-		other_notes="' . $order_comments . '"
-	where payment_status="pending" and token = ?', [$token]);
+                    ord_id="' . $order_id . '",
+                    shipping_separate ="' . $shipping_fee_separate . '",
+                    order_id_shipping ="' . $trimer . '",
+                    subtotal="' . $sub_total . '",
+                    total="' . $total . '",
+                    shipping_price="' . $shipping_fee . '",
+                    payment_type="' . $payment_type . '",
+                    payment_date="' . $payment_date . '",
+                    bill_firstname="' . $bill_firstname . '",
+                            bill_lastname="' . $bill_lastname . '",
+                            bill_companyname="' . $bill_companyname . '",
+                            bill_email="' . $bill_email . '",
+                            bill_phone="' . $bill_phone . '",
+                            bill_district="' . $bill_district . '",
+                            bill_country="' . $bill_country . '",
+                            bill_address="' . $bill_address . '",
+                            bill_city="' . $bill_city . '",
+                            bill_state="' . $bill_state . '",
+                            bill_postcode="' . $bill_postcode . '",
+                            enable_ship="' . $enable_ship . '",
+                            ship_firstname="' . $ship_firstname . '",
+                            ship_lastname="' . $ship_lastname . '",
+                            ship_companyname="' . $ship_companyname . '",
+                            ship_email="' . $ship_email . '",
+                            ship_phone="' . $ship_phone . '",
+                            ship_district="' . $ship_district . '",
+                            ship_country="' . $ship_country . '",
+                            ship_address="' . $ship_address . '",
+                            ship_city="' . $ship_city . '",
+                            ship_state="' . $ship_state . '",
+                            ship_postcode="' . $ship_postcode . '",
+                            other_notes="' . $order_comments . '"
+                    where ="pending" and token = ?', [$token]);
 
         }
 
-        DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and user_id = ?', [$log_id]);
+        // Update with the new purchase_token 
+        foreach ($codes as $index => $code) {
+            DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and payment_token="" and ord_id = ?', [$code]);
+            //DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and user_id = ?', [$log_id]);
+        }        
+        
+        //print_r("logid : ". $log_id." | token: ".$token." | purchase token : ".$purchase_token); exit();
 
         $setid = 1;
         $setts = DB::table('settings')
@@ -371,7 +371,6 @@ class PaymentController extends Controller
            if($prod[0]->prod_available_qty < $prod_ord->quantity){
                 $check_qty = 1;
            }
-
         }
 
         $ddata = array(
@@ -385,8 +384,10 @@ class PaymentController extends Controller
             'product_names' => $product_names,
             'json_value' => $json_value,
             'raw_data' => serialize($data),
-            'check_qty_ord' => $check_qty
+            'check_qty_ord' => $check_qty,
+            'listcompanies' => $data['listcompanies']
             );
+        
         return view('payment-details')->with($ddata);
     }
 

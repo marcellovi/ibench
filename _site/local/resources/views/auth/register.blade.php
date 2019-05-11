@@ -229,7 +229,7 @@
                             <label for="cpf_cnpj" class="col-md-4 control-label para black">@lang('languages.cpf_cnpj')</label>
 
                             <div class="col-md-6">
-                                <input id="cpf_cnpj" type="text" class="form-control unicase-form-control" name="cpf_cnpj" required>
+                                <input id="cpf_cnpj" type="text" class="form-control cpfcnpj unicase-form-control" name="cpf_cnpj" required>
 								@if ($errors->has('cpf_cnpj'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('cpf_cnpj') }}</strong>
@@ -393,6 +393,16 @@ $("input#name").on({
     this.value = this.value.replace(/\s/g, "");
   }
 });
+
+var cpfMascara = function (val) {
+   return val.replace(/\D/g, '').length > 11 ? '00.000.000/0000-00' : '000.000.000-009';
+},
+cpfOptions = {
+   onKeyPress: function(val, e, field, options) {
+      field.mask(cpfMascara.apply({}, arguments), options);
+   }
+};
+$('.cpfcnpj').mask(cpfMascara, cpfOptions);
 </script>
 @endsection
 

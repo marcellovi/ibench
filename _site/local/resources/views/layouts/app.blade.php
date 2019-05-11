@@ -41,7 +41,8 @@ if($pagetitle == "register"){ echo 'Register'; } else { echo ""; }
 
      @include('style')
 
-   
+     <script src="/public/jquery-mask-plugin.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js" integrity="sha256-u7MY6EG5ass8JhTuxBek18r5YG6pllB9zLqE4vZyTn4=" crossorigin="anonymous"></script>
+
 </head>
 <body class="index">
 

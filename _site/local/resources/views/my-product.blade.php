@@ -1,36 +1,26 @@
 <?php
-	use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();	
+
+use Illuminate\Support\Facades\Route;
+
+$currentPaths = Route::getFacadeRoot()->current()->uri();
 $url = URL::to("/");
-$setid=1;
-		$setts = DB::table('settings')
-		->where('id', '=', $setid)
-		->get();
-		$headertype = $setts[0]->header_type;  
-                
-                /* Marcello :: Pega as informacoes do Usuario */
-                $userid = Auth::user()->id;
-                $editprofile = DB::select('select * from users where id = ?',[$userid]);
-	?>
+$setid = 1;
+$setts = DB::table('settings')
+        ->where('id', '=', $setid)
+        ->get();
+$headertype = $setts[0]->header_type;
+
+/* Marcello :: Pega as informacoes do Usuario */
+$userid = Auth::user()->id;
+$editprofile = DB::select('select * from users where id = ?', [$userid]);
+?>
 <!DOCTYPE html>
 
 <html class="no-js"  lang="en">
 <head>
-
-		
-
    @include('style')
-   
-
-
-
-
 </head>
-<body class="cnt-home">
-
-  
-
-   
+<body class="cnt-home">   
     @include('header')
 
 <!-- ============================================== HEADER : END ============================================== -->
@@ -115,7 +105,7 @@ $setid=1;
         <select  class="form-control unicase-form-control validate[required]" id="category" name="category">
                       <option value=""></option>
                       <?php foreach($category as $service){?>
-                      <option value="<?php echo $service->id;?>" disabled="true"><?php echo $service->cat_name;?></option>
+                      <option value="<?php echo $service->id;?>" disabled="true"><?php echo utf8_decode($service->cat_name);?></option>
                       <?php 
                       $subcount = DB::table('subcategory')
                         ->where('delete_status','=','')
@@ -131,7 +121,7 @@ $setid=1;
                         foreach($subcategory as $subview){
                       ?>
                       
-                      <option value="<?php echo $subview->subid;?>"> - <?php echo $subview->subcat_name;?></option>
+                      <option value="<?php echo $subview->subid;?>"> - <?php echo utf8_decode($subview->subcat_name);?></option>
                       <?php } } ?>
                       <?php } ?>
                       </select>
@@ -151,7 +141,7 @@ $setid=1;
     <div class="form-group">
         <label class="info-title" for="exampleInputName"><?=utf8_decode('Preço Mínimo')?></label>
     
-        <input value="<?= array_key_exists('minvalue', $data) ? $data['minvalue'] : ' ' ?>"  type="number" name="minvalue" id="minvalue" class="form-control unicase-form-control ">
+        <input value="<?= array_key_exists('minvalue', $data) ? $data['minvalue'] : ' ' ?>"  type="number" name="minvalue" id="minvalue" min="0" class="form-control unicase-form-control ">
      </div>
 
     </div>
@@ -161,7 +151,7 @@ $setid=1;
     <div class="form-group">
         <label class="info-title" for="exampleInputName"><?=utf8_decode('Preço Máximo')?></label>
     
-        <input value="<?= array_key_exists('maxvalue', $data) ? $data['maxvalue'] : ' ' ?>" type="number" name="maxvalue" id="maxvalue" class="form-control unicase-form-control">
+        <input value="<?= array_key_exists('maxvalue', $data) ? $data['maxvalue'] : ' ' ?>" type="number" name="maxvalue" id="maxvalue" min="0" class="form-control unicase-form-control">
      </div>
 
     </div>
@@ -264,7 +254,7 @@ $setid=1;
 		<h4 class='cart-product-description'><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode(substr($product->prod_name,0,30));?></a></h4>
 					
 		</td>
-		<td class="cart-product-edit"><?php echo $category_name;?></td>
+		<td class="cart-product-edit"><?php echo utf8_decode($category_name);?></td>
 		<td class="cart-product-quantity">
                     <div class="price">							
                     <?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?><?php } ?>

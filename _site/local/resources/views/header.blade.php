@@ -573,7 +573,7 @@ if(Auth::check()) {
                       </div>
                     </div>
                     <div class="col-xs-7">
-                      <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo $view_product[0]->prod_slug;?>"><?php echo $view_product[0]->prod_name;?></a></h3>
+                        <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo $view_product[0]->prod_slug;?>"><?php echo utf8_decode($view_product[0]->prod_name);?></a></h3>
                       <div class="price"><?php echo $setts[0]->site_currency.' '.number_format($product->price,2,",",".").' ';?> X <?php echo $product->quantity;?></div>
                     </div>
                     <?php $price_val += $product->price * $product->quantity; ?>
@@ -664,7 +664,7 @@ if(Auth::check()) {
 								 ->get();	
 					foreach($views_category as $views){			 		 
 					?>
-                <li class="dropdown"> <a href="<?php echo $url;?>/shop/cat/<?php echo $views->id;?>/<?php echo $views->post_slug;?>" class="dropdown-toggle  disabled" data-hover="dropdown" data-toggle="dropdown"><?php echo $views->cat_name;?></a>
+                <li class="dropdown"> <a href="<?php echo $url;?>/shop/cat/<?php echo $views->id;?>/<?php echo $views->post_slug;?>" class="dropdown-toggle  disabled" data-hover="dropdown" data-toggle="dropdown"><?php echo utf8_decode($views->cat_name);?></a>
                   
                    <?php // Marcello - Foi trocado o subid para subcat_name para organizar os submenus por ordem alfabetica
 					  $subcat_cnt = DB::table('subcategory')
@@ -696,7 +696,7 @@ if(Auth::check()) {
                           <div class="col-xs-12 col-menu">
                             <ul class="links">
                             <?php foreach($viewsub as $subs){?>
-                              <li><a href="<?php echo $url;?>/shop/subcat/<?php echo $subs->subid;?>/<?php echo $subs->post_slug;?>"><?php echo $subs->subcat_name;?></a></li>
+                                <li><a href="<?php echo $url;?>/shop/subcat/<?php echo $subs->subid;?>/<?php echo $subs->post_slug;?>"><?php echo utf8_decode($subs->subcat_name);?></a></li>
                             <?php } ?>
                             </ul>
                           </div>
@@ -725,7 +725,7 @@ if(Auth::check()) {
 								else { $pagerurl = $url.'/page/'.$page->page_id.'/'.$page->post_slug; }
 								?>
                                                         
-                                  <li><a href="<?php echo $pagerurl; ?>"><?php echo $page->page_title;?></a></li>                      
+                                                                <li><a href="<?php echo $pagerurl; ?>"><?php echo utf8_decode($page->page_title);?></a></li>                      
                                   <?php } } ?>      
                                    <li><!-- Marcello :: Menu Fornecedores -->
                                       <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a> 

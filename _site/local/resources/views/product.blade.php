@@ -581,7 +581,7 @@
                                         <!-- Marcello : Link para o vendedor  -->
                                             <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color">
                                                 
-                                                    <?php echo utf8_decode($view_store_name);?></a>
+                                                    <?php echo $view_store_name;?></a>
                                 <!-- fim -->
                                 
                                 </div>

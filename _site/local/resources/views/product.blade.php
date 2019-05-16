@@ -527,7 +527,7 @@
 													?>
 									<div class="col-md-3 col-sm-3">
                                                 <h4><?php echo utf8_decode($type->attr_name);?></h4>
-                                                <select style="height: 35px;" class="col-xs-12 marB20 form-control unicase-form-control" name="attribute[]">
+                                                <select class="col-xs-12 marB20 form-control unicase-form-control select_marca" name="attribute[]">
                                                      <?php if(!empty($value_cnt)){?>
                   										<?php foreach($value as $values){?>
                                                             <option value="<?php echo $values->value_id;?>"><?php echo utf8_decode($values->attr_value);?></option>
@@ -1790,6 +1790,15 @@
 </div><!-- /.body-content -->
 
 @include('footer')
+
+<style type="text/css">
+	@media screen and (min-width: 1281px) {
+	  .select_marca {
+	    height: 35px;
+	  }
+	}
+</style>
+
 
 </body>
 </html>

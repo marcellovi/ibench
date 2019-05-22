@@ -78,9 +78,9 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
                    <!-- Marcello Add Product
                    <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
                  -->
-                    <!-- Marcello Hide Import  
+                    <!-- Marcello Hide Import  --> 
                     <a href="<?php echo $url;?>/importExport" class="btn-upper btn btn-primary">@lang('languages.goto_import_export')</a>
-                  --> 
+                  
                 </div>
                 
                 <div class="height20 clearfix"></div>

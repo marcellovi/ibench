@@ -37,60 +37,46 @@
 	<div class='container-fluid'>
     
     <div class="row">
-                     <div class="col-md-12 col-sm-12">
-                    @if(Session::has('success'))
-
+             <div class="col-md-12 col-sm-12">
+        @if(Session::has('success'))
 	    <p class="alert alert-success">
-
 	      {{ Session::get('success') }}
-
 	    </p>
-
-	@endif
-
-
-	
+	@endif	
 	
  	@if(Session::has('error'))
-
 	    <p class="alert alert-danger">
-
 	      {{ Session::get('error') }}
-
 	    </p>
-
 	@endif
     </div>
-    </div>
+    </div> 
     
-    
-		<div class='row single-product'>
+	<div class='row single-product'>
 			
             <?php if(!empty($viewcount)){
 			
-			$prod_id = $viewproduct[0]->prod_token; 
-            $product_img_count = DB::table('product_images')
-								->where('prod_token','=',$prod_id)
-								->count();
-			?>
+		$prod_id = $viewproduct[0]->prod_token; 
+                $product_img_count = DB::table('product_images')
+					->where('prod_token','=',$prod_id)
+					->count();
+            ?>            
             
-            
-			<div class='col-md-9'>
+		<div class='col-md-9'>
             <div class="detail-block">
-				<div class="row  wow fadeInUp">
-                
-					     <div class="col-xs-12 col-sm-6 col-md-5 gallery-holder">
+		<div class="row  wow fadeInUp">
+                <div class="col-xs-12 col-sm-6 col-md-5 gallery-holder">
     <div class="product-item-holder size-big single-product-gallery small-gallery">
 
         <div id="owl-single-product">
         <?php if(!empty($product_img_count)){
 													
-													$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
-																			->orderBy('prod_img_id','asc')
+		$product_img = DB::table('product_images')
+					->where('prod_token','=',$prod_id)
+					->orderBy('prod_img_id','asc')
 																			->get();
-													foreach($product_img as $pimg){						
-													?>
+		foreach($product_img as $pimg){						
+	?>
         
             <div class="single-product-gallery-item" id="slide<?php echo $pimg->prod_img_id;?>">
             <?php if(!empty($pimg)){?>
@@ -101,24 +87,21 @@
                 <img src="<?php echo $url;?>/local/images/noimage.jpg" alt="" />
                 <?php } ?>
             </div>
-
             
  <?php } } ?>
-
         </div>
-
 
         <div class="single-product-gallery-thumbs gallery-thumbs">
 
             <div id="owl-single-product-thumbnails">
             <?php if(!empty($product_img_count)){
 													
-													$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
-																			->orderBy('prod_img_id','asc')
+			$product_img = DB::table('product_images')
+				->where('prod_token','=',$prod_id)
+				->orderBy('prod_img_id','asc')
 																			->get();
-													foreach($product_img as $pimg){						
-													?>
+				foreach($product_img as $pimg){						
+		?>
                 <div class="item">                                    
                 <?php if(!empty($pimg)){?>                                    
                 
@@ -134,34 +117,28 @@
                 </div>
              <?php } } ?>   
                 
-            </div><!-- /#owl-single-product-thumbnails -->
-
-            
+            </div><!-- /#owl-single-product-thumbnails -->            
 
         </div>
-
     </div>
 </div>
-
-<?php
-							
+<?php							
 							
 					/************** STAR RATING *************/
-		
-							
+								
 								
           $review_count_02 = DB::table('product_rating')
 				->where('prod_id', '=', $viewproduct[0]->prod_id)
 				->count();
 				
-				if(!empty($review_count_02))
-				{
-				$review_value_02 = DB::table('product_rating')
+			if(!empty($review_count_02))
+			{
+			$review_value_02 = DB::table('product_rating')
 				               ->where('prod_id', '=', $viewproduct[0]->prod_id)
 				               ->get();
 				
 				
-				$over_02 = 0;
+			$over_02 = 0;
 		        $fine_value_02 = 0;
 				foreach($review_value_02 as $review){
 				if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
@@ -170,241 +147,209 @@
 		if($review->rating==4){$value4 = $review->rating*4;} else { $value4 = 0; }
 		if($review->rating==5){$value5 = $review->rating*5;} else { $value5 = 0; }
 		
-		$fine_value_02 += $value1 + $value2 + $value3 + $value4 + $value5;
-		
+		$fine_value_02 += $value1 + $value2 + $value3 + $value4 + $value5;		
 
-      $over_02 +=$review->rating;
+      $over_02 +=$review->rating;	  
 	  
-	  
-	  
-				}
-				if(!empty(round($fine_value_02/$over_02))){ $roundeding_02 = round($fine_value_02/$over_02); } else {
-		  $roundeding_02 = 0; }	
+		}
+		if(!empty(round($fine_value_02/$over_02))){ $roundeding_02 = round($fine_value_02/$over_02); } else {
+		  $roundeding_02 = 0; }			
+			
+		}			
 				
-				
-				}
-				
-				
-				
-				
-				
-				if(!empty($review_count_02))
-				                               {
-	                                           if(!empty($roundeding_02)){
+		if(!empty($review_count_02))
+		{
+	            if(!empty($roundeding_02)){
 	
-	                                           if($roundeding_02==1){ $rateus_new_02 ='
+	                if($roundeding_02==1){ $rateus_new_02 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    
                                                     </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+                                                   <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </p>';
+				}
+			if($roundeding_02==2){ $rateus_new_02 ='
+                                                <p class="review-icon">
+                                                    <span>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </span>
+												
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												if($roundeding_02==2){ $rateus_new_02 ='
+				}
+			if($roundeding_02==3){ $rateus_new_02 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-													
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												
-												if($roundeding_02==3){ $rateus_new_02 ='
-                                                <p class="review-icon">
-                                                    <span>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-                                                    </span>
-													
+						<i class="fa fa-star" aria-hidden="true"></i>
+                                                    </span>				
                                                     
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												
-												if($roundeding_02==4){ $rateus_new_02 ='
+				}
+								
+			if($roundeding_02==4){ $rateus_new_02 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
                                                     </span>
-											                                                
-                                                    
+			                                                    
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												
-												if($roundeding_02==5){ $rateus_new_02 ='
+				}
+									
+			if($roundeding_02==5){ $rateus_new_02 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+                                		<i class="fa fa-star" aria-hidden="true"></i>
+						 <i class="fa fa-star" aria-hidden="true"></i>
                                                     </span>
-											    </p>';
-												}
-												
-												
-												}
-											    else if(empty($roundeding_02)){  $rateus_new_02 = '
-												<p class="review-icon">
-                                                    <span>
-                                                    
-                                                    </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
+						    </p>';
+			}
+											
+			}
+			else if(empty($roundeding_02)){  $rateus_new_02 = '
+					<p class="review-icon">
+                                                    <span>  </span>
+						<i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
-											    </p>';
-												}
-												
-												}
-												
-												
-												
-												$rateus_empty_02 = '
-												<p class="review-icon">
-                                                    <span>
-                                                    
-                                                    </span>
-													<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+                                        	 <i class="fa fa-star" aria-hidden="true"></i>
+						    </p>';
+					}
+									
+				}
+									
+				$rateus_empty_02 = '
+					<p class="review-icon">
+                                                    <span>   </span>
+						<i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													<i class="fa fa-star" aria-hidden="true"></i>
-													 <i class="fa fa-star" aria-hidden="true"></i>
-											    </p>';
-												
-												
+						<i class="fa fa-star" aria-hidden="true"></i>
+						<i class="fa fa-star" aria-hidden="true"></i>
+						 <i class="fa fa-star" aria-hidden="true"></i>
+						    </p>';
+														
 				
 				/************** STAR RATING *************/
-				
-			
-				
-				?>                                       
+		
+		?>                                       
                                 
-                            
-              
-
-
-
-
-   			
-					<div class='col-sm-6 col-md-7 product-info-block'>
-						<div class="product-info">
-							<h1 class="name"><?php echo utf8_decode($viewproduct[0]->prod_name);?></h1>
+             			<div class='col-sm-6 col-md-7 product-info-block'>
+				<div class="product-info">
+				<h1 class="name"><?php echo utf8_decode($viewproduct[0]->prod_name);?></h1>
 							
-							<div class="rating-reviews m-t-20">
-								<div class="row">
-									<div class="col-sm-3">
-										<?php if(!empty($review_count_02)){ echo $rateus_new_02; } else { echo $rateus_empty_02; }?>
-									</div>
-									<div class="col-sm-8">
-										
-									</div>
-								</div><!-- /.row -->		
-							</div><!-- /.rating-reviews -->
+				<div class="rating-reviews m-t-20">
+						<div class="row">
+							<div class="col-sm-3">
+					<?php if(!empty($review_count_02)){ echo $rateus_new_02; } else { echo $rateus_empty_02; }?>
+							</div>
+						<div class="col-sm-8">
+								
+							</div>
+						</div><!-- /.row -->		
+					</div><!-- /.rating-reviews -->
                            <?php if($viewproduct[0]->prod_type!="digital"){?>
-							<div class="stock-container info-container m-t-10">
-								<div class="row">
-									<div class="col-sm-2">
-										<div class="stock-box">
-											<span class="label">@lang('languages.availability') :</span>
-										</div>	
-									</div>
-									<div class="col-sm-9">
-										<div class="stock-box">
+						<div class="stock-container info-container m-t-10">
+						<div class="row">
+							<div class="col-sm-2">
+							<div class="stock-box">
+							<span class="label">@lang('languages.availability') :</span>
+							</div>	
+							</div>
+						<div class="col-sm-9">
+					<div class="stock-box">
                                          <?php if(!empty($viewproduct[0]->prod_available_qty)){?>
-											<span class="value">@lang('languages.in_stock') (<?php echo $viewproduct[0]->prod_available_qty;?>)</span>
+						<span class="value">@lang('languages.in_stock') (<?php echo $viewproduct[0]->prod_available_qty;?>)</span>
                                             <?php } else { ?>
                                      <span class="value"> <b>@lang('languages.out_of_stock')</b></span>
                                       <?php } ?>
-										</div>	
-									</div>
-								</div><!-- /.row -->	
-							</div><!-- /.stock-container -->
+								</div>	
+							</div>
+						</div><!-- /.row -->	
+					</div><!-- /.stock-container -->
                             <?php } ?>
 
-							<div class="description-container m-t-20">
-								<?php echo utf8_decode(substr($viewproduct[0]->prod_desc,0,400));?>
+					<div class="description-container m-t-20">
+					<?php echo utf8_decode(substr($viewproduct[0]->prod_desc,0,400));?>
                                                             
-                                                            <!-- Marcello - add desc --><br>
-                                                                <b>Entrega somente na cidade do Rio de Janeiro.</b>
-							</div>
+                                             <!-- Marcello - add desc --><br>
+                                                    <b>Entrega somente na cidade do Rio de Janeiro.</b>
+					</div>
                             
                             <?php
-									  $sold_id = $viewproduct[0]->user_id;
-									  $sold = DB::table('users')
-															->where('id', '=', $sold_id)
-															->count();
+				  $sold_id = $viewproduct[0]->user_id;
+				  $sold = DB::table('users')
+					->where('id', '=', $sold_id)
+					->count();
 									  
-									  if(!empty($sold))
-									  {
-									  $view_sold = DB::table('users')
-															->where('id', '=', $sold_id)
-															->get();
-									$view_sold_name = $view_sold[0]->name;
-									$view_sold_slug = $view_sold[0]->post_slug;
-									$view_sold_min_value =  $view_sold[0]->min_value;
+				  if(!empty($sold))
+				  {
+					  $view_sold = DB::table('users')
+						->where('id', '=', $sold_id)
+						->get();
+					$view_sold_name = $view_sold[0]->name;
+					$view_sold_slug = $view_sold[0]->post_slug;
+					$view_sold_min_value =  $view_sold[0]->min_value;
                                                                         
-                                                                        // Marcello - Pegando dados do Nome da Empresa
-                                                                        $view_store_name = $view_sold[0]->name_business;
-									}
-									else
-									{
-									$view_sold_name = "";
-									$view_sold_slug = "";
+                                       // Marcello - Pegando dados do Nome da Empresa
+                                       $view_store_name = $view_sold[0]->name_business;
+				}
+				else
+				{
+				$view_sold_name = "";
+				$view_sold_slug = "";
                                                                         
-                                                                        // Marcello - Variavel criada
-                                                                        $view_store_name = "N/A";
-									}						
+                                // Marcello - Variavel criada
+                                $view_store_name = "N/A";
+				}						
 															
-									  ?>
+			  ?>
                             
-							<div class="price-container info-container m-t-20">
-								<div class="row">
-									
-
-									<div class="col-sm-8">
-										<div class="price-box">
-											
-                                            
+					<div class="price-container info-container m-t-20">
+						<div class="row">
+								<div class="col-sm-8">
+								<div class="price-box">
+			                                          
                                             <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
                                             
 										</div>
 									</div>
 
-									<div class="col-sm-4">
-										<div class="favorite-button m-t-10">
+						<div class="col-sm-4">
+						<div class="favorite-button m-t-10">
                                         <?php if(Auth::guest()) { ?>
-											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
-											    <i class="fa fa-heart"></i>
-											</a>
+								<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
+								    <i class="fa fa-heart"></i>
+								</a>
                                             <?php
-														} else { 
-														
-														if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
-														{
-														?>
+						} else { 
+													
+						if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
+						{
+						?>
                                             <a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>">
-											    <i class="fa fa-heart"></i>
-											</a>
-                                                        <?php } } ?>
+					    <i class="fa fa-heart"></i>
+					</a>
+                                        <?php } } ?>
                                                         
-                                                        <?php if(Auth::guest()) { ?>
+                                        <?php if(Auth::guest()) { ?>
                                                                                     <!-- Marcello Compare
 											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
 											   <i class="fa fa-signal"></i>
@@ -427,39 +372,39 @@
                             
                             
                             <?php
-									  $sold_id = $viewproduct[0]->user_id;
-									  $sold = DB::table('users')
-															->where('id', '=', $sold_id)
-															->count();
+				  $sold_id = $viewproduct[0]->user_id;
+				  $sold = DB::table('users')
+						->where('id', '=', $sold_id)
+						->count();
 									  
-									  if(!empty($sold))
-									  {
-									  $view_sold = DB::table('users')
-															->where('id', '=', $sold_id)
-															->get();
-									$view_sold_name = $view_sold[0]->name;
-									$view_sold_slug = $view_sold[0]->post_slug;
+				if(!empty($sold))
+				{
+				  $view_sold = DB::table('users')
+							->where('id', '=', $sold_id)
+							->get();
+				$view_sold_name = $view_sold[0]->name;
+				$view_sold_slug = $view_sold[0]->post_slug;
                                                                         
-                                                                        // Marcello - Pegando dados do Nome da Empresa
-                                                                        $view_store_name = utf8_decode($view_sold[0]->name_business);
-									}
-									else
-									{
-									$view_sold_name = "";
-									$view_sold_slug = "";
+                                // Marcello - Pegando dados do Nome da Empresa
+                                $view_store_name = utf8_decode($view_sold[0]->name_business);
+				}
+				else
+				{
+				$view_sold_name = "";
+				$view_sold_slug = "";
                                                                         
-                                                                        // Marcello nova var
-                                                                        $view_store_name = "N/A";
-									}						
+                                // Marcello nova var
+                                $view_store_name = "N/A";
+				}						
 															
-									  ?>
+				 ?>
                                 
                             
  <form class="register-form" role="form" method="POST" action="{{ route('product') }}" id="formID" enctype="multipart/form-data">
  {{ csrf_field() }}
-							<div class="quantity-container info-container">
-								<div class="row">
-									<?php if($viewproduct[0]->prod_type!="digital"){?>
+						<div class="quantity-container info-container">
+							<div class="row">
+								<?php if($viewproduct[0]->prod_type!="digital"){?>
 									<div class="col-sm-3">
 										<h4>@lang('languages.qty')</h4>
 										<input type="text" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57" name="quantity" class="form-control" value="1"/>
@@ -484,52 +429,49 @@
                                     
 									
                                      <?php
-													$newer_count = DB::table('product_attribute_type')
-																	->where('delete_status','=','')
-																	->where('status','=',1)
-																	
-																	->whereIn('user_id',[1,$viewproduct[0]->user_id])
-																	
-																	->orderBy('attr_name', 'asc')->count();
+					$newer_count = DB::table('product_attribute_type')
+							->where('delete_status','=','')
+							->where('status','=',1)
+							->whereIn('user_id',[1,$viewproduct[0]->user_id])
+							->orderBy('attr_name', 'asc')->count();
 		
-													 $newer = DB::table('product_attribute_type')
-																->where('delete_status','=','')
-																->where('status','=',1)
-																->whereIn('user_id',[1,$viewproduct[0]->user_id])
-																->orderBy('attr_name', 'asc')->get();
+					$newer = DB::table('product_attribute_type')
+							->where('delete_status','=','')
+							->where('status','=',1)
+							->whereIn('user_id',[1,$viewproduct[0]->user_id])
+							->orderBy('attr_name', 'asc')->get();
 													
-													?>
+					?>
 														
-													 <?php if(!empty($newer_count)){?>
-                 									<?php foreach($newer as $type){
+				<?php if(!empty($newer_count)){?>
+                                    <?php foreach($newer as $type){
 													
-													
-													$value_cnt = DB::table('product_attribute_value')
-																->where('delete_status','=','')
-																->where('status','=',1)
-																->whereRaw('FIND_IN_SET(value_id,"'.$viewproduct[0]->prod_attribute.'")')
-																->where('attr_id','=',$type->attr_id)
-																->orderBy('attr_value', 'asc')->count();
+					$value_cnt = DB::table('product_attribute_value')
+						->where('delete_status','=','')
+                                        	->where('status','=',1)
+						->whereRaw('FIND_IN_SET(value_id,"'.$viewproduct[0]->prod_attribute.'")')
+						->where('attr_id','=',$type->attr_id)
+						->orderBy('attr_value', 'asc')->count();
 															 
-															 $value = DB::table('product_attribute_value')
-																->where('delete_status','=','')
-																->where('status','=',1)
-																->whereRaw('FIND_IN_SET(value_id,"'.$viewproduct[0]->prod_attribute.'")')
-																->where('attr_id','=',$type->attr_id)
-																->orderBy('attr_value', 'asc')->get();
+					$value = DB::table('product_attribute_value')
+						->where('delete_status','=','')
+						->where('status','=',1)
+						->whereRaw('FIND_IN_SET(value_id,"'.$viewproduct[0]->prod_attribute.'")')
+						->where('attr_id','=',$type->attr_id)
+						->orderBy('attr_value', 'asc')->get();
 																
-																?>
+					?>
                                                         	       
-                                                                <?php
+                                        <?php
 																
-													if(!empty($value_cnt))
-													{			
-													?>
-									<div class="col-md-3 col-sm-3">
+					if(!empty($value_cnt))
+					{			
+					?>
+						<div class="col-md-3 col-sm-3">
                                                 <h4><?php echo utf8_decode($type->attr_name);?></h4>
                                                 <select class="col-xs-12 marB20 form-control unicase-form-control select_marca" name="attribute[]">
-                                                     <?php if(!empty($value_cnt)){?>
-                  										<?php foreach($value as $values){?>
+                                                <?php if(!empty($value_cnt)){?>
+                  					<?php foreach($value as $values){?>
                                                             <option value="<?php echo $values->value_id;?>"><?php echo utf8_decode($values->attr_value);?></option>
                                                         <?php } ?>
                                                         <?php } ?>  
@@ -538,9 +480,7 @@
                                                 <?php } else {?>
                                                 
                                                 <input type="hidden" name="attribute[]" value="">
-                                                
-                                                
-                                                
+                                                                                         
                                                 <?php } } } ?>
                                                 
                                                 <input type="hidden" name="prod_token" value="<?php echo $viewproduct[0]->prod_token;?>">
@@ -552,23 +492,12 @@
                                                 <?php } ?>
                                         <input type="hidden" name="prod_user_id" value="<?php echo $viewproduct[0]->user_id;?>">
 
-									
-                                    
-                                    
-
-									
-								</div><!-- /.row -->
+					</div><!-- /.row -->
                                 
                                 <div class="info-container">
                                 
-                                
-                                
-                                
-                                
-                                <div class="row">
-                                
-                                <div class="col-md-12">
-                                
+                                <div class="row">                                
+                                <div class="col-md-12">                                
                                 <div class="mtop10">
                                     <!-- Marcello Retirar o nome do Vendedor
                                     <strong class="black">@lang('languages.sold_by'): </strong>
@@ -585,9 +514,8 @@
                                 <!-- fim -->
                                 
                                 </div>
-
-								<div class="mtop10">
-								<?php if($view_sold_min_value > 0) {?>                               
+						<div class="mtop10">
+						<?php if($view_sold_min_value > 0) {?>                               
                                     <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>--><?php echo utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que: ') ?><strong>R$ <?= $view_sold_min_value ?></strong> </span>
 								<?php }?>
                                 <!-- fim -->
@@ -601,54 +529,43 @@
                                     <a href="<?php echo $url;?>/profile/<?php echo $sold_id;?>/<?php echo $view_sold_slug;?>" class="theme_color"><?php echo utf8_decode($view_sold_name);?></a>
                                 </div>
                                  </div>
-                                      fim -->
-                                     
+                                      fim -->                                   
                                 
-                                </div>
-                                
-                                </div>
-                                
-                                
-                                
-                                
-                                <div class="height10 clearfix"></div>
-                                
-                                <div class="row">
-                                  
-                                  
-                                  
-                                 
+                                </div>                                
+                                </div>                                    
+                                <div class="height10 clearfix"></div>                                
+                                <div class="row">                                   
 										
                                         
-                                        <?php if(Auth::guest()) {
+                                <?php if(Auth::guest()) {
 											
-											if(!empty($viewproduct[0]->prod_available_qty)){
-												?>
-                                                
-                                               <div class="col-sm-3"> 
+					if(!empty($viewproduct[0]->prod_available_qty)){
+				?>
+                                               
+                                            <div class="col-sm-3"> 
                                                 
                                                 <a href="javascript:void(0);" style="background-color: #FE8F18" class="btn btn-primary" onClick="alert('Usu&aacute;rio precisa estar logado!');">
                                                         <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.add_to_cart')
                                                         </a>
                                                 </div>
-												<?php } else {  ?>
-													<div class="col-sm-12">
-														<a class="btn btn-primary" >
+						<?php } else {  ?>
+							<div class="col-sm-12">
+							<a class="btn btn-primary" >
                               <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.out_of_stock')
                             </a>
-														<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br>
-													</div>
+					<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br>
+					</div>
 	
-															<?php
-													 }?>
-                                                <?php } else { 
+				<?php
+					 }?>
+                                <?php } else { 
 												
-												if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
-												{
-												   if(!empty($viewproduct[0]->prod_available_qty)){
+					if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
+					{
+					   if(!empty($viewproduct[0]->prod_available_qty)){
 												   
-												      if($viewproduct[0]->prod_type!="external"){
-												?>
+					      if($viewproduct[0]->prod_type!="external"){
+				?>
                                                  	<div class="col-sm-3">
                                                  		<button type="submit" name="add_to_cart" class="btn btn-primary" style="background-color: #FE8F18"><i class="fa fa-shopping-cart inner-right-vs"></i>@lang('languages.add_to_cart')</button>
 
@@ -661,60 +578,44 @@
                                                       <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.buy_now')
                                                     </a>                                         
                                             		</div>
-                                                
-                                                
-												<?php } }
-												else {?>
+                                                                                   
+					<?php } }
+						else {?>
 
-													<div class="col-sm-12">
-														<a class="btn btn-primary" >
+							<div class="col-sm-12">
+								<a class="btn btn-primary" >
                               <i class="fa fa-shopping-cart inner-right-vs"></i> @lang('languages.out_of_stock')
                             </a>
-														<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br><br>
-														<span>Infelizmente o fornecedor n&atilde;o possui esse produto em estoque. <a href="<?php echo $url;?>/waitin-list/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>/<?php echo $viewproduct[0]->user_id;?>"><b>Clique Aqui</b></a> para ser avisado quando estiver dispon&iacute;vel</span>
-														
-													</div>
-	
-															<?php
-													 }
-												
-												 }
-                                                
-												
-												 } ?>
-                                        
-									
-                                    
+					<!--<input disabled class="btn btn-primary" value="@lang('languages.out_of_stock')">--> <br><br>
+					<span>Infelizmente o fornecedor n&atilde;o possui esse produto em estoque. <a href="<?php echo $url;?>/waitin-list/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>/<?php echo $viewproduct[0]->user_id;?>"><b>Clique Aqui</b></a> para ser avisado quando estiver dispon&iacute;vel</span>
+													
+					</div>
+			<?php
+					 }
+				 }
+                     	 } ?>
+                                                         
                                     <div class="col-md-4">
-                                  
-                                    
-                                  
-                                  </div>
-                                  
-                                  
-                                  
-                                  
+                            </div>
+                                                                    
                                 </div>
-                                <?php if(!empty($product_img_count)){
-												$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
-																			->orderBy('prod_img_id','asc')
-																			->get();
-												if(!empty($product_img[0]->image))
-												{ 
-												$share_img = $url.'/local/images/media/'.utf8_decode($product_img[0]->image);
-												}
-												else
-												{
-												 $share_img = $url.'/local/resources/views/assets/img/product/product-detail.jpg';
-												}
-												
-												}							
-																			
-												?>
+                        <?php if(!empty($product_img_count)){
+				$product_img = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+							->orderBy('prod_img_id','asc')
+							->get();
+				if(!empty($product_img[0]->image))
+				{ 
+					$share_img = $url.'/local/images/media/'.utf8_decode($product_img[0]->image);
+				}
+				else
+				{
+                                        $share_img = $url.'/local/resources/views/assets/img/product/product-detail.jpg';
+				}
+			}							
+                    ?>
                                 <div class="height40 clearfix"></div>
-                                
-                                
+                                                   
                                 <div class="row">
                                 <div class="col-md-12">
                                 
@@ -726,100 +627,84 @@
          data-image="<?php echo $share_img;?>"></div>
                                     -->
                                 </div>
-                                
-                                </div>
-                                
-                                
-                                
-                                </div>
-                                
-                                
-							</div><!-- /.quantity-container -->
-
-							
-</form>
-							
-
-							
-						</div><!-- /.product-info -->
-					</div><!-- /.col-sm-7 -->
-				</div><!-- /.row -->
+                            </div>
+                        </div>
+                                            
+		</div><!-- /.quantity-container -->
+	</form>
+								
+		</div><!-- /.product-info -->
+		</div><!-- /.col-sm-7 -->
+		</div><!-- /.row -->
                 </div>
 				
-				<div class="product-tabs inner-bottom-xs  wow fadeInUp">
-					<div class="row">
-						<div class="col-sm-3">
-							<ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
-								<li class="active"><a data-toggle="tab" href="#description">@lang('languages.description')</a></li>
-								<li><a data-toggle="tab" href="#review">@lang('languages.review')</a></li>
-								<li><a data-toggle="tab" href="#tags">@lang('languages.tags')</a></li>
-							</ul><!-- /.nav-tabs #product-tabs -->
-						</div>
-						<div class="col-sm-9">
+		<div class="product-tabs inner-bottom-xs  wow fadeInUp">
+			<div class="row">
+				<div class="col-sm-3">
+					<ul id="product-tabs" class="nav nav-tabs nav-tab-cell">
+						<li class="active"><a data-toggle="tab" href="#description">@lang('languages.description')</a></li>
+						<li><a data-toggle="tab" href="#review">@lang('languages.review')</a></li>
+						<li><a data-toggle="tab" href="#tags">@lang('languages.tags')</a></li>
+					</ul><!-- /.nav-tabs #product-tabs -->
+				</div>
+			<div class="col-sm-9">
 
-							<div class="tab-content">
+				<div class="tab-content">
 								
-								<div id="description" class="tab-pane in active">
-									<div class="product-tab">
-										<p class="text"><?php echo utf8_decode($viewproduct[0]->prod_desc);?></p>
-									</div>	
-								</div><!-- /.tab-pane -->
+				<div id="description" class="tab-pane in active">
+				<div class="product-tab">
+                                <p class="text"><?php echo utf8_decode($viewproduct[0]->prod_desc);?></p>
+				</div>	
+			</div><!-- /.tab-pane -->
 
-								<div id="review" class="tab-pane">
-									<div class="product-tab">
+			<div id="review" class="tab-pane">
+				<div class="product-tab">
 																				
-										<div class="product-reviews">
-											<h3 class="title font17">@lang('languages.customer_reviews')</h3>
+					<div class="product-reviews">
+						<h3 class="title font17">@lang('languages.customer_reviews')</h3>
                                             <div class="height20"></div>
-											<div class="reviews">
-												
-                                                
-                                                
-                                                
+						<div class="reviews">
+			                                                 
                                                 <div class="comment-section">
-                                            <?php if(!empty($viewcount_rating)){?>
-                                            
-                                                <div class="comment-list">
+                                            <?php if(!empty($viewcount_rating)){?>                                            
+                                                <div class="comment-list">                                                   
                                                     
-                                                    
-                                                    
-                                                    <?php 
-												  $jzoo=0;
-												  foreach($view_rating as $rating){
-												  
-												  $user_count = DB::table('users')
-																			->where('id', '=', $rating->user_id)
-																			->count();
-															  if(!empty($user_count))
-															  {				
-															  $user = DB::table('users')
-																			->where('id', '=', $rating->user_id)
-																			->get();
-															  
-															  $userphoter = $user[0]->photo;
-															  $usernameo = $user[0]->name;
-															  $userid = $user[0]->id;
-															  $userslug = $user[0]->post_slug;
-															  }
-															  else
-															  {
-																$userphoter = "";
-																$usernameo = "";
-																$userid = "";
-																$userslug = "";
-															  }
-												  ?>
+                        <?php 
+			  $jzoo=0;
+				  foreach($view_rating as $rating){
+											  
+					  $user_count = DB::table('users')
+							->where('id', '=', $rating->user_id)
+							->count();
+					  if(!empty($user_count))
+					  {				
+						  $user = DB::table('users')
+							->where('id', '=', $rating->user_id)
+							->get();
+											  
+					  $userphoter = $user[0]->photo;
+					  $usernameo = $user[0]->name;
+					  $userid = $user[0]->id;
+					  $userslug = $user[0]->post_slug;
+					  }
+					  else
+					  {
+					$userphoter = "";
+					$usernameo = "";
+					$userid = "";
+                                        $userslug = "";
+					  }
+				  ?>
                                                     <div class="comment-box marB30">
                                                         <div class="row">
                                                             <div class="col-md-2 col-sm-2 col-xs-4">
                                                                 <figure>
                                                                     
                                                                     
-                                                           <?php 
-				
+                            <?php 
 				$userphoto="/media/";
-						$path ='/local/images'.$userphoto.$userphoter;
-						if($userphoter!=""){?>
+				$path ='/local/images'.$userphoto.$userphoter;
+				if($userphoter!=""){?>
                        
 					<img src="<?php echo $url.$path;?>" class="img-circle w90" alt="" >
 						<?php } else { ?>
@@ -828,7 +713,7 @@
                         
 						<?php } ?>          
                                                                     
-                                                                </figure>
+                                                </figure>
                                                                 
                            <?php
 				  
@@ -843,8 +728,8 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												if($rating->rating==2){ $rateus_views ='
+					}
+					if($rating->rating==2){ $rateus_views ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -854,10 +739,10 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-                                                </p>';
-												}
-												
-												if($rating->rating==3){ $rateus_views ='
+                                              </p>';
+					}
+										
+					if($rating->rating==3){ $rateus_views ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -869,9 +754,9 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												
-												if($rating->rating==4){ $rateus_views ='
+					}
+										
+					if($rating->rating==4){ $rateus_views ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -883,9 +768,9 @@
                                                     
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												
-												if($rating->rating==5){ $rateus_views ='
+					}
+										
+					if($rating->rating==5){ $rateus_views ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -895,10 +780,10 @@
 													 <i class="fa fa-star" aria-hidden="true"></i>
                                                     </span>
 											    </p>';
-												}
-												
-												if($rating->rating==0 or $rating->rating==""){
-												$rateus_views ='
+					}
+										
+					if($rating->rating==0 or $rating->rating==""){
+					$rateus_views ='
                                                 <p class="review-icon">
                                                     <span>
                                                     
@@ -910,9 +795,9 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
+					}
 												
-												?>                                     
+				?>                                     
                                                                 
                                                             </div>
                                                             <div class="col-md-10 col-sm-10 ">
@@ -920,45 +805,34 @@
 				  - <?php echo utf8_decode($usernameo);?>
 
                    </h4>
-                                                                <?php echo $rateus_views;?> 
-                                                                <p><?php echo $rating->review;?>
+                                            <?php echo $rateus_views;?> 
+                                             <p><?php echo $rating->review;?>
                                                                 </p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <?php } ?>
-                                                    
-                                                    
-                                                    
+                                          
                                                 </div>
                                                 
                                                 <?php } ?>
                                                 
                                             </div>
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-                                                
-											
-											</div><!-- /.reviews -->
-										</div><!-- /.product-reviews -->
+                          											
+					</div><!-- /.reviews -->
+				</div><!-- /.product-reviews -->
+													
+						<!-- /.product-add-review -->										
 										
-
-										
-										<!-- /.product-add-review -->										
-										
-							        </div><!-- /.product-tab -->
-								</div><!-- /.tab-pane -->
+					        </div><!-- /.product-tab -->
+						</div><!-- /.tab-pane -->
 
 								<div id="tags" class="tab-pane">
 									<div class="product-tag">
 										
 							<div class="tag-list">			
                                        
-                                            <?php 
+                                        <?php 
 					$post_tags = explode(',',$viewproduct[0]->prod_tags);
 					
 					foreach($post_tags as $tags)
@@ -975,40 +849,30 @@
 					?>
                      </div>                       
                                             
-                                                
-                                          
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
+                  					</div><!-- /.product-tab -->
+						</div><!-- /.tab-pane -->
 
-									</div><!-- /.product-tab -->
-								</div><!-- /.tab-pane -->
+					</div><!-- /.tab-content -->
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+		</div><!-- /.product-tabs -->
 
-							</div><!-- /.tab-content -->
-						</div><!-- /.col -->
-					</div><!-- /.row -->
-				</div><!-- /.product-tabs -->
-
-				<!-- ============================================== UPSELL PRODUCTS ============================================== -->
+<!-- ============================================== UPSELL PRODUCTS ============================================== -->
 <section class="section featured-product wow fadeInUp">
 	<h3 class="section-title">@lang('languages.related_products')</h3>
 	<div class="owl-carousel home-owl-carousel upsell-product custom-carousel owl-theme outer-top-xs" data-item="5">
 	    	
             
             <?php if(!empty($relatedcount)){?>
-                        <?php 
-						$ij=1;
-						foreach($relatedproduct as $product){
-								
-								
-								$prod_id = $product->prod_token; 
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
-								?>
+            <?php 
+			$ij=1;
+			foreach($relatedproduct as $product){
+										
+				$prod_id = $product->prod_token; 
+				 $product_img_count = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+							->count();
+		?>
 		<div class="item item-carousel">
 			<div class="products">
 				
@@ -1018,18 +882,17 @@
 				
                 
                 <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
-                                 <?php 
-                                        if(!empty($product_img_count)){					
-														$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
+                        <?php 
+                        if(!empty($product_img_count)){					
+				$product_img = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+							->orderBy('prod_img_id','asc')
+							->get();
 																			
-																			->orderBy('prod_img_id','asc')
-																			->get();
-																			
-										if(!empty($product_img[0]->image))
-										{								
-										?>
-                                        <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
+				if(!empty($product_img[0]->image))
+				{								
+			?>
+                                       <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
                                         <?php } } ?>
@@ -1040,28 +903,22 @@
 			           <?php if($ij==1){?>
                           <div class="tag new"><span>@lang('languages.new')</span></div>
                           <?php } ?>          		   
-		</div><!-- /.product-image -->
-			
+		</div><!-- /.product-image -->	
             
              <?php
-							
-							
-					
-		
-							
-								
+									
           $review_count_03 = DB::table('product_rating')
 				->where('prod_id', '=', $product->prod_id)
 				->count();
 				
-				if(!empty($review_count_03))
-				{
+		if(!empty($review_count_03))
+		{
 				$review_value_03 = DB::table('product_rating')
 				               ->where('prod_id', '=', $product->prod_id)
 				               ->get();
 				
 				
-				$over_03 = 0;
+			$over_03 = 0;
 		        $fine_value_03 = 0;
 				foreach($review_value_03 as $review){
 				if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
@@ -1072,27 +929,19 @@
 		
 		$fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
 		
-
       $over_03 +=$review->rating;
-	  
-	  
-	  
-				}
-				if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
+	  	    
+			}
+			if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
 		  $roundeding_03 = 0; }	
 				
-				
 				}
-				
-				
-				
-				
-				
-				if(!empty($review_count_03))
-				                               {
-	                                           if(!empty($roundeding_03)){
+						
+		if(!empty($review_count_03))
+		    {
+	                if(!empty($roundeding_03)){
 	
-	                                           if($roundeding_03==1){ $rateus_new_03 ='
+                            if($roundeding_03==1){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -1103,8 +952,8 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												if($roundeding_03==2){ $rateus_new_03 ='
+					}
+				if($roundeding_03==2){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -1115,9 +964,9 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
-												
-												if($roundeding_03==3){ $rateus_new_03 ='
+					}
+									
+				if($roundeding_03==3){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -1129,9 +978,9 @@
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
+					}
 												
-												if($roundeding_03==4){ $rateus_new_03 ='
+				if($roundeding_03==4){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -1143,9 +992,9 @@
                                                     
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-												}
+					}
 												
-												if($roundeding_03==5){ $rateus_new_03 ='
+				if($roundeding_03==5){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                     <span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -1155,11 +1004,11 @@
 													 <i class="fa fa-star" aria-hidden="true"></i>
                                                     </span>
 											    </p>';
-												}
+					}
 												
 												
-												}
-											    else if(empty($roundeding_03)){  $rateus_new_03 = '
+					}
+				    else if(empty($roundeding_03)){  $rateus_new_03 = '
 												<p class="review-icon">
                                                     <span>
                                                     
@@ -1170,14 +1019,14 @@
 													<i class="fa fa-star" aria-hidden="true"></i>
 													 <i class="fa fa-star" aria-hidden="true"></i>
 											    </p>';
-												}
+						}
+									
+					}
 												
-												}
 												
 												
-												
-												$rateus_empty_03 = '
-												<p class="review-icon">
+					$rateus_empty_03 = '
+						<p class="review-icon">
                                                     <span>
                                                     
                                                     </span>
@@ -1188,14 +1037,8 @@
 													 <i class="fa fa-star" aria-hidden="true"></i>
 											    </p>';
 												
-												
-				
-				
-				
-			
-				
-				?>                       
-                         
+						
+				?>                           
 
                          	<?php
                             // Consulta as Marcas dos produtos 
@@ -1241,9 +1084,7 @@
                                 }else{
                                     $brand_product[] = "N/A";
                                 } 
-
                               }
-
 
                             }else{
                               $brand_product[] = "N/A";
@@ -1266,9 +1107,7 @@
                               $view_store_name = "N/A";
                             }    
                             // -> fim               
-                          ?>
-
-                         
+                          ?>                         
 		
 		<div class="product-info text-center">
 			<h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
@@ -1283,10 +1122,7 @@
             <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
             <!-- /.product-price -->
 			
-		</div><!-- /.product-info -->
-        
-        
-        
+		</div><!-- /.product-info -->         
         
 					<div class="cart clearfix animate-effect">
                           <div class="action">
@@ -1305,25 +1141,21 @@
                                                 
                                                 <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
                                                 <?php
-														} else { 
+					} else { 
 														
-														if(Auth::user()->id!=$product->user_id)
-														{
-														?>
+					if(Auth::user()->id!=$product->user_id)
+						{
+						?>
                               
                               <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> 
                               
                                
-                                                         <?php } } ?>
+                                <?php } } ?>
                               
                               </li>
-                              <!--
-                              
+                              <!--                              
                               <li class="lnk">
-                              <?php if(Auth::guest()) { ?>
-                                                
-                                            
-                              
+                              <?php if(Auth::guest()) { ?>                                  
                               
                              <!-- <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Compare"> <i class="fa fa-signal" aria-hidden="true"></i> </a>
                               <?php } else {?>
@@ -1341,34 +1173,22 @@
 			</div><!-- /.product -->
       
 			</div><!-- /.products -->
-		</div><!-- /.item -->
-	
+		</div><!-- /.item -->	
 		
         <?php $ij++;} ?>
-        <?php } ?>  
-        
+        <?php } ?>          
         
 			</div><!-- /.home-owl-carousel -->
 </section><!-- /.section -->
 <!-- ============================================== UPSELL PRODUCTS : END ============================================== -->
 			
-			</div>
-            
-            
-            
-            <?php } ?>
-            
-            
-            
-            
+			</div>               
+            <?php } ?>             
             
             <div class='col-md-3 sidebar'>
 				<div class="sidebar-module-container">
 						
-  
-    
-    
-    	
+     	
 <div class="sidebar-widget hot-deals wow fadeInUp outer-top-vs">
 	<h3 class="section-title">@lang('languages.latest_products')</h3>
 	<div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-xs">
@@ -1378,32 +1198,31 @@
 		$ii=1;
 		foreach($latest_product as $product){
 											
-											$prod_id = $product->prod_token; 
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
-											?>
+			$prod_id = $product->prod_token; 
+			 $product_img_count = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+                        				->count();
+			?>
 					<div class="item">
 					<div class="products">
 						<div class="hot-deal-wrapper">
 							<div class="image">
                              <?php
                             $prod_id = $product->prod_token; 
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
-													?>
-								<a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
+			 $product_img_count = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+							->count();
+			?>
+				<a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
                                  <?php 
                                         if(!empty($product_img_count)){					
-														$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
+					$product_img = DB::table('product_images')
+							->where('prod_token','=',$prod_id)
+                                			->orderBy('prod_img_id','asc')
+							->get();
 																			
-																			->orderBy('prod_img_id','asc')
-																			->get();
-																			
-										if(!empty($product_img[0]->image))
-										{								
+						if(!empty($product_img[0]->image))
+						{								
 										?>
                                         <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
@@ -1413,12 +1232,7 @@
 							</div>
 							<!--<div class="sale-offer-tag"><span>35%<br>off</span>sara</div>-->
                             
-                            <?php
-							
-							
-					
-		
-							
+                            <?php								
 								
           $review_count_03 = DB::table('product_rating')
 				->where('prod_id', '=', $product->prod_id)
@@ -1443,20 +1257,13 @@
 		$fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
 		
 
-      $over_03 +=$review->rating;
-	  
-	  
+      $over_03 +=$review->rating;   
 	  
 				}
 				if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } else {
 		  $roundeding_03 = 0; }	
 				
-				
-				}
-				
-				
-				
-				
+				}			
 				
 				if(!empty($review_count_03))
 				                               {
@@ -1670,16 +1477,7 @@
                                                                 
 							</div><!-- /.action -->
 						</div>
-                        
-                        
-                        
-
-						
-                        
-                        
-                        
-                        
-                        
+                                    
 					</div>	
 					</div>		        
 															        
@@ -1689,8 +1487,6 @@
 	    
     </div>
 </div>
-
-
 
 <?php /*?><div class="sidebar-widget newsletter wow fadeInUp outer-bottom-small outer-top-vs">
 	<h3 class="section-title">Newsletters</h3>
@@ -1705,7 +1501,6 @@
 		</form>
 	</div>
 </div>
-
 
 
 <div class="sidebar-widget  wow fadeInUp outer-top-vs ">
@@ -1733,16 +1528,8 @@
 <?php */?>
 
 
-
-
- 
-
 				</div>
-                
-                
-                
-                
-                
+                        
                 <div class="sidebar-module-container">
                 <?php 
 					
@@ -1753,52 +1540,20 @@
                     </div>
                     <?php } ?>
                 </div>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-			</div>
-            
-            
-            
-            
-            
-            
-            
-            
-			<div class="clearfix"></div>
-		</div><!-- /.row -->
+            </div>
+	<div class="clearfix"></div>
+	</div><!-- /.row -->
 		
 </div><!-- /.body-content -->
 
 @include('footer')
 
 <style type="text/css">
-	@media all and (min-width: 1281px) {
+	@media screen and (min-width: 1281px) {
 	  .select_marca {
-	    width: 100%; max-width: 100%;
+	    height: 35px;
 	  }
 	}
 </style>
-
-
 </body>
 </html>

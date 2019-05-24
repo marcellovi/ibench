@@ -649,7 +649,7 @@ $setid=1;
                 <div class="category-product-inner wow fadeInUp">
                   <div class="products">
                     <div class="product-list product">
-                      <div class="row product-list-row">
+                      <div class="row product-list-row" style="margin-left: 10px !important;">
                         <div class="col col-sm-2 col-lg-2">
                           <div class="product-image">
                             

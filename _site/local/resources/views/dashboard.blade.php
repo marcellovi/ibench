@@ -316,8 +316,9 @@ $headertype = $setts[0]->header_type;
                 <div class="col-md-12">
                         <div class="form-group">
                             <label class="info-title" for="exampleInputName">Valor de Compra M&iacute;nima (valor m&iacute;nimo exigido para cada pedido) </label>
+                            <input type="text" placeholder="0.00" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value; ?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 
-                            <input type="text" placeholder="Valor de Compra M&iacute;nimo" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value; ?>">
+                            <!--<input type="number" placeholder="0.00" name="min_value" class="form-control unicase-form-control" value="<?php echo $editprofile[0]->min_value; ?>" step=".01">-->
 
                         </div>
                 </div>

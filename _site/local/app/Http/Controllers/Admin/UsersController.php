@@ -23,6 +23,7 @@ class UsersController extends Controller
     public function index() {
         $users = DB::table('users')
                 ->where('admin', '=', 0)
+                ->where('delete_status','=','')
                 ->orderBy('id', 'desc')
                 ->get();
 

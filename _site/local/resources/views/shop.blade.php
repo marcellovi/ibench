@@ -620,7 +620,7 @@ $setid=1;
                 <?php } else { ?> 
                             <div class="height100"></div>
                             <div align="center" class="fontsize24 black">@lang('languages.no_data')<br><br>
-                        Nos ajude a melhorar o iBench<br>
+                        Queremos tornar o iBench Market melhor para voc&ecirc;<br>
                         <a href="<?php echo $url;?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                 <?php } ?>
                 </div>
@@ -881,7 +881,7 @@ $setid=1;
                 <?php } else { ?> 
                     <div class="height100"></div>
                     <div align="center" class="fontsize24 black">@lang('languages.no_data')<br><br>
-                        Nos ajude a melhorar o iBench<br>
+                        Queremos tornar o iBench Market melhor para voc&ecirc;<br>
                         <a href="<?php echo $url;?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                 <?php } ?>
                           

@@ -1549,9 +1549,9 @@
 @include('footer')
 
 <style type="text/css">
-	@media screen and (min-width: 1281px) {
+	@media all  and (min-width: 1281px) {
 	  .select_marca {
-	    height: 35px;
+	     width: 100%; max-width: 100%;
 	  }
 	}
 </style>

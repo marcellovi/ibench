@@ -412,9 +412,12 @@ $headertype = $setts[0]->header_type;
 
             <div class="col-md-12">
                 <div class="form-group">
-
+                <?php 
+                    if(Auth::user()->admin==2){ ?>
+                    <label class="info-title" for="exampleInputName">Imagem da Logo dos Produtos</label>
+                <?php } else { ?>
                     <label class="info-title" for="exampleInputName">@lang('languages.profile_photo') </label>
-
+                <?php } ?>
                     <div class="col-md-3 col-sm-3">
                         <p><?php
                             $userphoto = "/media/";

@@ -255,6 +255,7 @@ class DashboardController extends Controller
         $address = $data['address'];
         $input['email'] = Input::get('email');
         $input['name'] = Input::get('name');
+        $result_min_value = str_replace(",",".",$data['min_value']);
 
         $providor = Auth::user()->provider;
 
@@ -588,7 +589,7 @@ class DashboardController extends Controller
             /* Marcello Update Users Wallet & Customer ID & Name Business & CPF/CNPJ & */
             DB::update('update users set name="' . $name . '",post_slug="' . $this->clean($name) .
                     '",email="' . $email . '",password="' . $passtxt .
-                    '",phone="' . $phone . '",min_value="' . $data['min_value'] . '",full_name="' . $fullname .
+                    '",phone="' . $phone . '",min_value="' . $result_min_value . '",full_name="' . $fullname .
                     '",country="' . $country . '",photo="' . $savefname . '",profile_banner="' . $save_banners .
                     '",about="' . addslashes($about_txt) . '",address="' . $address . '",local_shipping_price="' . $local_shipping_price .
                     '",name_business="' . $name_business . '",name_place="' . $name_place .

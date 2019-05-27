@@ -75,9 +75,18 @@ class ImportExportController extends Controller
                 })->download($type);
     }
 
-    /* Download the Model to import products on demand */
+    /* Download the Model to import products on demand ( TODO )*/
     public function downloadExcelModel() {
-
+        $file_name = 'planilha_importacao.xls';
+        $file_path = public_path('images/');
+        $headers = array( 'Content-Type: application/excell', );
+        //print_r($file_path);exit();
+         //return response()->download('/home/benchfind/public_html/_site/local/images/planilha_importacao.xls');
+         
+         return response()->download($file_path, $file_name, $headers);
+         
+         
+        /*
         $userid = Auth::user()->id;
         $type = 'xls';
 
@@ -90,77 +99,100 @@ class ImportExportController extends Controller
                         $sheet->fromArray($data);
                     });
                 })->download($type);
+         * 
+         */
+    }
+    
+    /* 
+     *  Returns the name of the image/photo to be used as default when mass uploading
+     *  Obs.: In case there isnt any photo it will use a default image ( system default no_image.jpg )
+     */
+    public function getDefaultIMG($id=0){
+        
+        if($id==0){ return 'no_image.jpg'; }
+        
+        $name_img = DB::select('select photo from users where id = ?', [$id]);
+        
+        if(!empty($name_img[0]->photo) || $name_img[0]->photo != null ){
+            return $name_img[0]->photo;
+        }else{
+            return 'no_image.jpg';
+        }
     }
 
     public function importExcel(Request $request)
     {      
+        $msg_error = '';
+        $cnt_sucss = 0;
+        
         if($request->hasFile('import_file')){ 			
 	
-            Excel::load($request->file('import_file')->getRealPath(), function ($reader) {			
-		
-                $userid = Auth::user()->id;
+            Excel::load($request->file('import_file')->getRealPath(), function ($reader) use (&$msg_error, &$cnt_sucss) {			
+    
+                $reader->takeColumns(9); // Only reads the first 9 columns   
+               
+                $userid = Auth::user()->id;            
                 $status_seller = $this->checkStatusSeller($userid);
                 $prod_visibility = $this->checkProdVisibility($status_seller);
                 $prod_type = 'fisico';
                 $prod_sub_cat_type = 'subcat';
-				
+                $default_img = $this->getDefaultIMG($userid); 
+                
+                
                 foreach ($reader->toArray() as $key => $row) 
-		{                 
-                    if(!empty($row)){ 
-                                /*
-				if(!empty($row['prod_tags'])){ $prod_tags = $row['prod_tags']; } else { $prod_tags = ""; }
-				if(!empty($data['prod_offer_price'])) { $prod_offer_price = $data['prod_offer_price']; } else { $prod_offer_price = 0; }
-				if(!empty($data['prod_featured'])) { $prod_featured = $data['prod_featured']; } else { $prod_featured = ""; }
-				if(!empty($row['prod_zipfile'])) { $prod_zipfile = $row['prod_zipfile']; } else { $prod_zipfile = ""; }
-				if(!empty($row['prod_external_url'])) { $prod_external_url = $row['prod_external_url']; } else { $prod_external_url = ""; }
-				if(!empty($row['delete_status'])){ $delete_status = $row['delete_status']; } else { $delete_status = ""; }
-				if(!empty($row['prod_available_qty'])) { $prod_available_qty = $row['prod_available_qty']; } else { $prod_available_qty = 0; }
-				if(!empty($row['prod_attribute'])) { $prod_attribute = $row['prod_attribute']; } else { $prod_attribute = ""; } 
-				*/
-                                
-                                //$prod_categoria = $this->findCategory($row['categoria'],null);
-                                $prod_categoria_sub = $this->findCategory($row['categoria'],$row['subcategoria']);
-                                
-                             	//if(!empty($row['categoria'])) { $prod_categoria = $this->findCategory($row['categoria'],null); } else { $prod_categoria = ''; } // Se nao for preenchido vai para Outros
-				//if(!empty($row['subcategoria'])) { $prod_categoria = $this->findCategory($row['categoria'],$row['subcategoria']); } else { $prod_categoria = ''; } // Se nao for preenchido vai para Outros
-                                if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $prod_desc = ""; }
-				if(!empty($row['nome'])) { $prod_name = $row['nome']; } else { $prod_name = "Sem Nome"; }
-				if(!empty($row['tags'])) { $prod_tags = $row['tags']; } else { $prod_tags = ""; }
-				if(!empty($row['preco'])){ $prod_price = $row['preco']; } else { $prod_price = 0; }
-				if(!empty($row['preco_promocional'])) { $prod_offer_price = $row['preco_promocional']; } else { $prod_offer_price = 0; }
-                                if(!empty($row['quantitdade'])){ $prod_available_qty = $row['quantitdade']; } else { $prod_available_qty = 0; }
-				if(!empty($row['marca'])) { $prod_attribute = $this->findAttribute($row['marca']); } else { $prod_attribute = ""; } 
-				//if(!empty($row['marca'])) { $prod_attribute = 1; } else { $prod_attribute = 0; } 
-                                //if(!empty($row['categoria'])) { $prod_categoria = 1; } else { $prod_categoria = 0; }
-                                
-                        $data['user_id'] = $userid;
-                        //$data['prod_token'] = $row['prod_token'];
-                        $data['prod_token'] = uniqid();
-                        $data['prod_slug'] = $this->normalizeString($prod_name);                    
-                        $data['prod_category'] = $prod_categoria;
-                        $data['prod_cat_type'] = $prod_sub_cat_type;
-                        $data['prod_name'] = $prod_name;
-                        $data['prod_desc'] = $prod_desc;
-                        $data['prod_tags'] = $prod_tags;
-                        $data['prod_price'] = $prod_price;
-                        $data['prod_offer_price'] = $prod_offer_price;
-                        $data['prod_featured'] = '';
-                        $data['prod_type'] = $prod_type;
-                        $data['prod_zipfile'] = '';
-                        $data['prod_external_url'] = '';
-                        $data['prod_attribute'] = $prod_attribute;
-                        $data['prod_available_qty'] = $prod_available_qty;
-                        $data['delete_status'] = $prod_visibility; //checkSellerStatus($delete_status);
-                        $data['prod_status'] = $status_seller; //checkSellerStatus($row['prod_status']);		
-
-                        if(!empty($data)) {
-                            DB::table('product')->insert($data);						
-                        }
-                    }else{ break; }  // leaves when empty row on excel 
-                }
+		{                
+                    if(empty($row)){break;} // End of the row or all the coluns of the row is blank 
+                    else if(empty($row['nome']) || empty($row['categoria']) || empty($row['marca'])){
+                        //$msg_error .= 'Erro na Linha ['.($key+2).'] : Nome/Categoria/SubCategoria [Em Branco] <br>';
+                    }
+                    else{
+                        
+                       $prod_categoria_sub = $this->findCategory($row['categoria']);                               
+                       $prod_attribute = $this->findAttribute($row['marca']);  
+                       
+                       if(empty($prod_categoria_sub) || $prod_categoria_sub == null || $prod_attribute == '' ){                                    
+                            $msg_error .= 'Erro na Linha ['.($key+2).'] : Categoria/SubCategoria [N&atilde;o Est&atilde;o Relacionadas] <br>';                                 
+                            
+                       }else{
+                            $prod_name = $row['nome'];
+                          
+                            if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $prod_desc = ""; }
+                            if(!empty($row['tags'])) { $prod_tags = $row['tags']; } else { $prod_tags = ""; }
+                            if(!empty($row['preco']) && is_numeric($row['preco'])){ $prod_price = $row['preco']; } else { $prod_price = 0; $prod_visibility = 'inactive';  }
+                            if(!empty($row['preco_promocional']) && is_numeric($row['preco_promocional'])) { $prod_offer_price = $row['preco_promocional']; } else { $prod_offer_price = 0; }
+                            if(!empty($row['quantidade']) && is_numeric($row['quantidade'])){ $prod_available_qty = $row['quantidade']; } else { $prod_available_qty = 0; } 
+                          
+                            $data['user_id'] = $userid;
+                            $data['prod_token'] = uniqid();
+                            $data['prod_slug'] = $this->normalizeString($prod_name);                    
+                            $data['prod_category'] = $prod_categoria_sub;
+                            $data['prod_cat_type'] = $prod_sub_cat_type;
+                            $data['prod_name'] = $prod_name;
+                            $data['prod_desc'] = $prod_desc;
+                            $data['prod_tags'] = $prod_tags;
+                            $data['prod_price'] = $prod_price;
+                            $data['prod_offer_price'] = $prod_offer_price;
+                            $data['prod_featured'] = '';
+                            $data['prod_type'] = $prod_type;
+                            $data['prod_zipfile'] = '';
+                            $data['prod_external_url'] = '';
+                            $data['prod_attribute'] = $prod_attribute;
+                            $data['prod_available_qty'] = $prod_available_qty;
+                            $data['delete_status'] = $prod_visibility; //checkSellerStatus($delete_status);
+                            $data['prod_status'] = $status_seller; //checkSellerStatus($row['prod_status']);
+                            print_r($data);exit();
+                            if(!empty($data)) {                               
+                               $pass = true; //DB::table('product')->insert($data);
+                               $cnt_sucss++;
+                               if($pass){  } // DB::insert('insert into product_images (image, prod_token) values (?, ?)', [$default_img, $data['prod_token']]);   }
+                            }
+                        } // Fim do Else interno
+                    } // Fim do Else externo                             
+                } // Fim do ForEach
             });
-            
-            return back()->with('success', 'Importado com Sucesso');	
+            //$msg_error = implode(",", $msg_error);
+            $msgs = array('success' => 'Importado com Sucesso! Total de '.$cnt_sucss.' produto(s) adicionado(s).', 'error' => $msg_error);
+            return back()->with($msgs);	
         }             
     }
 
@@ -211,12 +243,12 @@ class ImportExportController extends Controller
                 return $visibility;
         } 
         
-        /* */
-        public function findAttribute($attcatname){
-            
+        /* Return all the ids of the Attribute */
+        public function findAttribute_old($attcatname){
+             
             $attcname = explode(',' , strtolower($attcatname)); // Fazer tratamento no texto para caracteres
             $att_id = $value = '';
-            
+
             foreach($attcname as $attcname){
                 $value_cnt = DB::table('product_attribute_value')
                         ->where('delete_status','=','')
@@ -237,34 +269,67 @@ class ImportExportController extends Controller
             return rtrim($att_id,','); // Retira o ultimo ','
         }
 	
-        /* */
-        public function findCategory($categname,$subcategname){
-            $categ_sub = [];      
-                                     
+        /*
+         *  Return de ID withing the [..] in the Excel column "Categoria"
+         */
+        public function findCategory($nameCateg,$pre = 0, $pos = 0){
+            $pre = strpos($nameCateg, '[')+1;
+            $pos = strpos($nameCateg, ']')-$pre;
+            $rest = substr($nameCateg, $pre ,  $pos ); 
+            
+            return $rest;
+        }
+        
+        /*
+         *  Return de ID withing the [..] in the Excel column "Marca"
+         */
+        public function findAttribute($nameAttribute,$pre = 0, $pos = 0){
+            $pre = strpos($nameAttribute, '[')+1;
+            $pos = strpos($nameAttribute, ']')-$pre;
+            $rest = substr($nameAttribute, $pre ,  $pos ); 
+            
+            return $rest;
+        }
+        
+        /* Find & Check if the Category is Related to the SubCategory */
+        public function findCategory_old($categname,$subcategname){
+                                  
+            $this->stripSubCatID($categname);
+            exit();
             $cname = strtolower($categname); // Fazer tratamento no texto para caracteres
             $subcname = strtolower($subcategname); // Fazer tratamento no texto para caracteres
-            
+           
             /* Find id Category */
             $cname_count = DB::table('category')
                 ->select('id')
 		->where('delete_status','=','')
 		->where('status','=',1)
-                ->whereRaw('LOWER(cat_name) = ?', [$cname])->get();
+                ->whereRaw('LOWER(cat_name) = ?', [$cname])->get();    
             
-            /* Find id Sub-Category */
+            /* Check if Categ_id belongs to the Right SubCategory */
+            $subcname_count = DB::table('subcategory')
+                ->select('subid')
+		->where('delete_status','=','')
+		->where('status','=',1)
+                ->whereRaw('cat_id = ?')
+                ->whereRaw('LOWER(replace(subcat_name, ",", "")) = ?', [$cname_count[0]->id,$subcname])->get();
+                //->whereRaw('LOWER(subcat_name) = ?', [$cname_count[0]->id,$subcname])->get();        
+              
+            /* Find id Sub-Category 
             $subcname_count = DB::table('subcategory')
                 ->select('cat_id')
 		->where('delete_status','=','')
 		->where('status','=',1)
                 ->whereRaw('LOWER(subcat_name) = ?', [$subcname])->get();
-            
-            if(!empty($cname_count) || !empty($subcname_count)){
-                return $categ_sub; // return empty array
+             */
+             
+            if(empty($cname_count[0]) || empty($subcname_count[0])){
+                return 0; 
             }
-            
-                /* If they exist check if they are related */
-		if(!empty($cname_count) || !empty($subcname_count)){
-                    $subcategory = DB::table('category')
+            return $subcname_count[0]->subid;
+ 
+            /* If they exist check if they are related 		
+            $subcategory_count = DB::table('category')
                     ->select('category.id','subcategory.subid')
                     ->join('subcategory','category.id','=','subcategory.cat_id')
                     ->where('category.delete_status','=','')
@@ -273,58 +338,7 @@ class ImportExportController extends Controller
                     ->where('subcategory.status','=',1)
                     ->whereRaw('category.id = ?', [$cname_count])
                     ->whereRaw('subcategory.cat_id = ?', [$cname_count])
-                    ->orderBy('subcat_name', 'asc')->get();
-                }              
-                    
-            /* Find cat_id Subcategory */
-            $subcount = DB::table('subcategory')
-		->where('delete_status','=','')
-		->where('status','=',1)
-                ->where('delete_status','=','')
-                ->whereRaw('LOWER(subcat_name) = ?', [$scategname])->count();
-							
-		if(!empty($subcount)){
-                    $subcategory = DB::table('subcategory')
-                    ->where('delete_status','=','')
-                    ->where('status','=',1)
-                    ->where('delete_status','=','')
-                    ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
-                    ->orderBy('subcat_name', 'asc')->get();
-                }
-                    
-            
-            /* Check if there is relationship between category & subcategory */
-            if(!empty($cname) || !empty($subcname)){
-                    $subcategory = DB::table('category')
-                    ->join('subcategory','category.id','=','subcategory.cat_id')
-                    ->where('delete_status','=','')
-                    ->where('status','=',1)
-                    ->where('delete_status','=','')
-                    ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
-                    ->orderBy('subcat_name', 'asc')->get();
-          
-            
-             
-            
-            $subcount = DB::table('subcategory')
-		->where('delete_status','=','')
-		->where('status','=',1)
-                ->where('delete_status','=','')
-                ->whereRaw('LOWER(subcat_name) = ?', [$scategname])->count();
-            }				
-		if(!empty($subcount)){
-                    $subcategory = DB::table('subcategory')
-                    ->where('delete_status','=','')
-                    ->where('status','=',1)
-                    ->where('delete_status','=','')
-                    ->whereRaw('LOWER(subcat_name) = ?', [$scategname])
-                    ->orderBy('subcat_name', 'asc')->get();
-                    
-                    return $subcategory[0]->subid;
-                }else{
-                    return 13; // Categoria Equipamento >> Subcategoria Outros ( DoTo: Descobrir o que fazer neste caso )
-                }
-        }
-                
-        
+                    ->orderBy('subcat_name', 'asc')->count();
+            */ 
+        }              
 }

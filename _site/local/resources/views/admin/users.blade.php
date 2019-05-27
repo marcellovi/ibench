@@ -115,7 +115,11 @@
 						  <td><?php echo $user->phone;?></td>
                           
                           
-                          <?php if($user->delete_status=="") { $logintype = "ativo"; } else { $logintype = "N/A"; } ?>
+                          <?php if($user->delete_status=="" && $user->confirmation == 1){
+                              $logintype = "ativo";                               
+                          } else if($user->delete_status !="deleted" && $user->confirmation == 0){ $logintype = "N/C"; } 
+                            else{  $logintype = "N/A"; }
+                          ?>
                           
                           
 						  <?php /*?><td><?php echo $user->earning;?> <?php echo $setts[0]->site_currency;?></td><?php */?>

@@ -249,13 +249,19 @@ class DashboardController extends Controller
         ]);
 
         $data = $request->all();
+        
+        if (isset($data['min_value'])){
+            $set_min_value = $data['min_value'];
+        }else{
+            $set_min_value = "";
+        }
 
         $id = $data['id'];
         $fullname = $data['fullname'];
         $address = $data['address'];
         $input['email'] = Input::get('email');
         $input['name'] = Input::get('name');
-        $result_min_value = str_replace(",",".",$data['min_value']);
+        $result_min_value = str_replace(",",".",$set_min_value);
 
         $providor = Auth::user()->provider;
 

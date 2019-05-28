@@ -516,7 +516,7 @@
                                 </div>
 						<div class="mtop10">
 						<?php if($view_sold_min_value > 0) {?>                               
-                                    <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>--><?php echo utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que: ') ?><strong>R$ <?= $view_sold_min_value ?></strong> </span>
+                                    <span> <!--<strong><?#= utf8_decode('Observação') ?> </strong>--><?php echo utf8_decode('Esse fornecedor possui um mínimo de compra em sua loja maior que: ') ?><strong>R$ <?= number_format($view_sold_min_value, 2, ',', '.'); ?></strong> </span>
 								<?php }?>
                                 <!-- fim -->
                                 

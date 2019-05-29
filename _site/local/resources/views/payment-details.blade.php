@@ -77,7 +77,8 @@ $headertype = $setts[0]->header_type;
                     <input type="hidden" name="amount" value="<?php echo $amount; ?>"/>
                     <input type="hidden" name="currency" value="<?php echo $currency; ?>"/>                   
                     <input type="hidden" name="address" value="<?php echo $user_details[0]->address;?>">
-                    <input type="hidden" name="order_id" value="<?php echo $order_no;?>"/>   
+                    <input type="hidden" name="order_id" value="<?php echo $order_no;?>"/> 
+                    <input type="hidden" name="tipopagto" value="<?php echo $tipopagto;?>"/> 
                     
         <?php if($check_qty_ord == 1){ ?> 
             <p style="color:red;">*There are products without enough stock in your cart!</p>
@@ -331,6 +332,7 @@ $headertype = $setts[0]->header_type;
                     </h3>
                 </div>
                 <div class="panel-body">
+                    <input type="hidden" name="tipopagto" value="'.$tipopagto.'"/> 
                     <input type="hidden" name="order_no" value="'.$order_no.'">
                     <input type="hidden" name="amount" value="'.$amount.'">
                     <input type="hidden" name="listcompanies" value="'.$listcompanies.'">

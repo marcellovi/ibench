@@ -289,19 +289,39 @@ class WirecardController extends Controller
      * @param Holder|null $holder
      * @param null|array $error
      */
-    protected function create_order(Moip $moipMerchant, Multiorders &$multiorder = null, Customer &$customer = null, Holder &$holder = null, &$error = null) {
+    protected function create_order(Moip $moipMerchant, Multiorders &$multiorder = null, Customer &$customer = null, Holder &$holder = null, &$error = null, $tipopagto =1) {
         
         $user = Auth::user();
         try {
-            // Creating an object customer to orders
-            $customer->setOwnId(uniqid())
+            
+            // Pessoa Juridica
+            if($tipopagto==2){
+                
+                 // Creating an object customer to orders
+                    $customer->setOwnId(uniqid())
                     // ->setFullname($user->name)
-                    ->setFullname(@$_POST['bill_firstname'] . " " . @$_POST['bill_lastname'])
+                    ->setFullname(@$_POST['bill_firstname'])
                     ->setEmail(@$_POST['bill_email'])
-                    ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']))
+                    ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']),'CNPJ')
                     ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'])
                     ->addAddress('BILLING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country'])
                     ->addAddress('SHIPPING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country']);
+            
+            }else{
+                
+                // Creating an object customer to orders
+                    $customer->setOwnId(uniqid())
+                    // ->setFullname($user->name)
+                    ->setFullname(@$_POST['bill_firstname'] . " " . @$_POST['bill_lastname'])
+                    ->setEmail(@$_POST['bill_email'])
+                    ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']),'CPF')
+                    ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'])
+                    ->addAddress('BILLING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country'])
+                    ->addAddress('SHIPPING', @$_POST['bill_address'], null, @$_POST['bill_district'], @$_POST['bill_city'], @$_POST['bill_state'], @$_POST['bill_postcode'], null, @$_POST['bill_country']);
+            
+            }
+           
+            
             // Creating an object customer to orders
             $holder
                     ->setFullname(@$_POST['cc_holder'])
@@ -425,7 +445,8 @@ class WirecardController extends Controller
                     }
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
                     $this->clearCheckoutBlankOrder($user,$order_id);
-                    $errors[] = $e->__toString();                
+                    $errors[] = $e->__toString();  
+                    
                 } catch (ValidationException $e) {
                     $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
@@ -536,6 +557,8 @@ class WirecardController extends Controller
             $third_line_boleto = $this->custom_Boleto($_POST['order_no']);
             $third_line_boleto = substr($third_line_boleto, 0,140);    // limit to 140 characteres
             $user = Auth::user();
+            
+            $tipopagto = $_POST['tipopagto']; // 1 = Pessoa Fisica ; 2 = Pessoa Juridica
             $wirecard_payment_token = "";
             $wirecard_boleto_href = "";
             $wirecard_boleto_print_href = "";
@@ -564,7 +587,7 @@ class WirecardController extends Controller
                     $holder = $moipMerchant->holders();
                     $multiorder = $moipMerchant->multiorders();
      
-                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error); 
+                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error,$tipopagto); 
                     // Creating multipayment to multiorder
                     $multipayment = $multiorder->multipayments()
                             ->setBoleto(

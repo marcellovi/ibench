@@ -114,6 +114,9 @@
 <!-- Marcello validacao cpf e cnpj do register -->
 <script src="<?php echo $url;?>/local/resources/views/theme/js/valida_cpf_cnpj.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.maskedinput.min.js" type="text/javascript" charset="utf-8"></script>
+
+
 
 <?php /* menu */?>
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/toggle_menu/menu.css">
@@ -7088,9 +7091,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .list_prodss ul li a {
-	padding: 3px 9px 2px;
+	padding: 10px 10px 6px 10px;
 	background:#22313F !important;
 	color: #fff;
+        position: relative;
+        top: 5px;
 }
 
 .list_prodss ul li.on a {
@@ -7099,7 +7104,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .list_prodss ul li span span {
-	    color: #fff;
+    color: #fff;
     padding: 10px 10px 6px 10px;
     background: #454545;
    

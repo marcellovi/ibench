@@ -153,7 +153,7 @@ $headertype = $setts[0]->header_type;
         <div class="form-group">
 
             <label class="info-title" for="exampleInputName">@lang('languages.phone') </label>
-            <input type="text" placeholder="Phone" class="form-control unicase-form-control" name="phone" value="<?php echo $editprofile[0]->phone;?>">
+            <input type="text" placeholder="Phone" id="phone" class="form-control unicase-form-control" name="phone" value="<?php echo $editprofile[0]->phone;?>">
             @if ($errors->has('phone'))
             <p class="help-block red">
                 {{ $errors->first('phone') }}
@@ -676,5 +676,12 @@ $headertype = $setts[0]->header_type;
 
 <div class="height30"></div>
  @include('footer')
+ <script>
+       // Input Mask
+     $(function() {
+        $.mask.definitions['~'] = "[+-]";
+        $("#phone").mask("(99) 9999-99999");
+    });
+</script>
 </body>
 </html>

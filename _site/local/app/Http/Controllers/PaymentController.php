@@ -38,6 +38,7 @@ class PaymentController extends Controller
         $data = $request->all();
         
         $log_id = Auth::user()->id;   
+        $tipopagto = $data['tipopagto'];
 
         if (!empty($data['bill_firstname'])) {
             $bill_firstname = $data['bill_firstname'];
@@ -385,6 +386,7 @@ class PaymentController extends Controller
             'json_value' => $json_value,
             'raw_data' => serialize($data),
             'check_qty_ord' => $check_qty,
+            'tipopagto' => $tipopagto,
             'listcompanies' => $data['listcompanies']
             );
         

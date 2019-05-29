@@ -79,15 +79,22 @@ $headertype = $setts[0]->header_type;
 
 	<div class="col-md-6 contact-form">
 	<div class="col-md-12 contact-title">
-		<h3 class="marB20 marT20 fontsize20">@lang('languages.billing_details')</h3>
+            <h3 class="marB20 marT20 fontsize20">@lang('languages.billing_details')</h3>
+           
+                <input type="radio" name="tipopagto" id="tipopagto" value="1" checked onclick="tpagto(1)">
+                    <label for="ps">Pessoa Fisica</label>  
+                </input>&nbsp;&nbsp;
+                <input type="radio" name="tipopagto" id="tipopagto" value="2" onclick="tpagto(2)">
+                    <label for="pj">Pessoa Juridica</label>
+                </input> <br>
 	</div>
-
+            
         <div class="clearfix height20"></div>
 
 	<div class="col-md-6 ">
 
 	<div class="form-group">
-		    <label class="info-title" for="exampleInputName">@lang('languages.first_name') <span>*</span></label>
+            <label class="info-title" for="exampleInputName" id="bill_name">@lang('languages.first_name') <span>*</span></label>
 
             <!--<input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="<?php //echo utf8_decode($nameFull[0]); ?>">-->
             <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="">
@@ -97,7 +104,7 @@ $headertype = $setts[0]->header_type;
 	<div class="col-md-6">
 
 	<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">@lang('languages.last_name') <span>*</span></label>
+		    <label class="info-title" for="exampleInputEmail1" id="bill_ins_name">@lang('languages.last_name') <span>*</span></label>
 
             <!--<input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php //if($sum>1){echo utf8_decode($nameFull[1]); }?>">--> <!-- Marcello {{@$nameFull[1]}} -->
 
@@ -107,9 +114,9 @@ $headertype = $setts[0]->header_type;
         
 	<div class="col-md-6">
 	<div class="form-group">
-		    <label class="info-title" for="exampleInputTitle">CPF <span>*</span></label>
+		    <label class="info-title" for="tipopessoa" id="tipopessoa">CPF <span>*</span></label>
         <!--<input type="text" name="bill_companyname" autocomplete="nope" id="bill_companyname" class="form-control unicase-form-control" value="{{Auth::user()->name_business}}">-->
-        <input type="text" name="cpf_cnpj" autocomplete="nope" id="cpf_cnpj" class="form-control unicase-form-control validate[required]" value="">
+                    <input type="text" name="cpf_cnpj" autocomplete="nope" id="cpf_cnpj" class="form-control unicase-form-control validate[required]" value="" minlength="11" maxlength="16" pattern="[0-9]+$" placeholder="Apenas N&uacute;meros">
 	</div>
 	</div>
         
@@ -125,10 +132,10 @@ $headertype = $setts[0]->header_type;
         <div class="col-md-6">
 
 	<div class="form-group">
-		    <label class="info-title" for="exampleInputComments">@lang('languages.phone') <span>*</span></label>
+		    <label class="info-title" for="exampleInputComments">@lang('languages.phone') / Celular <span>*</span></label>
 
         <!--<input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->phone}}">-->
-        <input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="">
+                    <input type="tel"  name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="" placeholder="(XX) XXXX-XXXXX">
 	</div>
 	</div> 
 
@@ -137,7 +144,7 @@ $headertype = $setts[0]->header_type;
 	<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.address') <span>*</span></label> <!-- onkeypress="return blockSpecialChar(event)" -->
         <!--<input type="text" name="bill_address" autocomplete="nope" id="bill_address" placeholder="@lang('languages.address')" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->address}}">-->
-        <input type="text" name="bill_address" autocomplete="nope" id="bill_address" class="form-control unicase-form-control validate[required]" value=""  oncopy="return false" onpaste="return false">
+                    <input type="text" name="bill_address" autocomplete="nope" id="bill_address" class="form-control unicase-form-control validate[required]" value=""  oncopy="return false" onpaste="return false" min="8">
 
 	</div>
 	</div>
@@ -148,7 +155,7 @@ $headertype = $setts[0]->header_type;
 		    <label class="info-title" for="exampleInputComments">@lang('languages.postcode')  <span>*</span></label>
 
              <!--<input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" placeholder="@lang('languages.postcode')" class="form-control unicase-form-control validate[required]" value="">-->
-             <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" class="form-control unicase-form-control validate[required]" value="">
+                    <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" class="form-control unicase-form-control validate[required]" value=""  >
         </div>
 	</div>
 
@@ -191,6 +198,7 @@ $headertype = $setts[0]->header_type;
                               -->
                     </select>
 		  </div>
+        * campos de preenchimento obrigat&oacute;rio
 	</div>
 </div>
 
@@ -445,5 +453,32 @@ $headertype = $setts[0]->header_type;
 
 <div class="height30"></div>
  @include('footer')
+
+<script>                
+    function tpagto(id)
+    { 
+        var r = document.getElementById("tipopessoa");
+        var n = document.getElementById("bill_name");
+        var p = document.getElementById("bill_ins_name");
+        
+        //alert(r.innerHTML);
+        if(id==1){
+            r.innerHTML = "CPF *";
+            n.innerHTML = "Primeiro Nome *";
+            p.innerHTML = "Sobre Nome *";
+        }if(id==2){
+            r.innerHTML = "CNPJ *";
+            n.innerHTML = "Raz&atilde;o Social *";
+            p.innerHTML = "Inscri&ccedil;&atilde;o Estadual *";
+        }
+    }
+    
+    // Input Mask
+     $(function() {
+        $.mask.definitions['~'] = "[+-]";
+        $("#bill_phone").mask("(99) 9999-99999");
+        $("#bill_postcode").mask("99999-999");
+    });
+</script>
  </body> 
 </html>

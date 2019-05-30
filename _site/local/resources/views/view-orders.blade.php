@@ -275,13 +275,13 @@ $setid=1;
      <div class="height20 clearfix"></div>
 	<div class="col-md-6 ">
             <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.first_name'): </strong> <?php echo $bill_firstname;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>Nome / Raz&atilde;o Social: </strong> <?php echo $bill_firstname;?></label>
             </div>		
 	</div>
     
      <div class="col-md-6 ">
 	<div class="form-group">
-            <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php echo $bill_lastname;?></label>
+            <label class="fontnromal" for="exampleInputName"><strong>Sobre Nome / Inscri&ccedil;&atilde;o Estadual:</strong> <?php echo $bill_lastname;?></label>
 	</div>
     </div> 
     

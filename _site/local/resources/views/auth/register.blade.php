@@ -43,7 +43,7 @@
                 <div class="panel-heading"><b>Cadastro</b>
                 </div>                 
 				<div class="panel-body">
-                                    <form class="register-form" role="form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" accept-charset="utf-8">
+                                    <form class="register-form" id="ccSelectForm"  role="form" method="POST" action="{{ route('register') }}" enctype="multipart/form-data" accept-charset="utf-8">
                                         {{ csrf_field() }}
 
 
@@ -223,7 +223,7 @@
 
                                         <div class="form-group">
                                             <div class="col-md-6 col-md-offset-4">
-                                                <button type="submit" class="btn-upper btn btn-primary">
+                                                <button type="submit" class="btn-upper btn btn-primary" id="btnsub">
                                                     Cadastrar
                                                 </button>
                                             </div>
@@ -282,11 +282,43 @@ $('.cpfcnpj').mask(cpfMascara, cpfOptions);
 </script>
 
 <script>
-       // Input Mask
-     $(function() {
-        $.mask.definitions['~'] = "[+-]";
-        $("#phone").mask("(99) 9999-99999");
+     $(document).ready(function($){
+    var maskBehavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+      },
+      options = {onKeyPress: function(val, e, field, options) {
+              field.mask(maskBehavior.apply({}, arguments), options);
+          }
+      };
+      $('#phone').mask(maskBehavior, options);
     });
+ </script>   
+ <script>
+    // Enable Button After Validation
+   $(document).ready(function () {
+       
+    //$('#btnsub').prop('disabled', true); 
+        
+    $('#ccSelectForm').validate({
+        rules: {
+            full_name: {
+                required: true
+            },
+            country: {
+                required: true
+            }  
+        }
+    });
+
+    $('#ccSelectForm input').on('keyup blur', function () { // fires on every keyup & blur
+        if ($('#ccSelectForm').valid()) {                   // checks form for validity
+            $('#btnsub').prop('disabled', false);        // enables button
+        } else {
+            $('#btnsub').prop('disabled', true);   // disables button
+        }
+    });
+
+});  
 </script>
 </script>
 @endsection

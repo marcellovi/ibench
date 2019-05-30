@@ -473,11 +473,16 @@ $headertype = $setts[0]->header_type;
         }
     }
     
-    // Input Mask
-     $(function() {
-        $.mask.definitions['~'] = "[+-]";
-        $("#bill_phone").mask("(99) 9999-99999");
-        $("#bill_postcode").mask("99999-999");
+   $(document).ready(function($){
+    var maskBehavior = function (val) {
+        return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
+      },
+      options = {onKeyPress: function(val, e, field, options) {
+              field.mask(maskBehavior.apply({}, arguments), options);
+          }
+      };
+      $('#bill_phone').mask(maskBehavior, options);
+      $('#bill_postcode').mask('00000-000');
     });
 </script>
  </body> 

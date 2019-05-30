@@ -48,9 +48,15 @@ echo json_encode([
         ?>
     </title>
      @include('style')
-    <script src="/public/jquery-mask-plugin.js" defer></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js" integrity="sha256-u7MY6EG5ass8JhTuxBek18r5YG6pllB9zLqE4vZyTn4=" crossorigin="anonymous"></script>
+    <!--<script src="/public/jquery-mask-plugin.js" defer></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js" integrity="sha256-u7MY6EG5ass8JhTuxBek18r5YG6pllB9zLqE4vZyTn4=" crossorigin="anonymous"></script>
+    -->
     <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.maskedinput.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.mask.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.validate.min.js" type="text/javascript" charset="utf-8"></script>
+    
 </head>
 <body class="index">
 @include('header')

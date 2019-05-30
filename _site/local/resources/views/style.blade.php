@@ -114,7 +114,7 @@
 <!-- Marcello validacao cpf e cnpj do register -->
 <script src="<?php echo $url;?>/local/resources/views/theme/js/valida_cpf_cnpj.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.maskedinput.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.mask.min.js" type="text/javascript" charset="utf-8"></script>
 
 
 

@@ -25,7 +25,8 @@ $setid=1;
           <?php if(!empty($slide->slide_image)){ $imgurls = $url.'/local/images/media/'.$slide->slide_image; } 
       else { $imgurls = $url.'/local/images/noimage.jpg'; }
       ?>
-            <div class="item" style="background-image: url(<?php echo $imgurls;?>);">
+             
+              <div class="item" style="background-image: url(<?php echo $imgurls;?>);" <?php if(!empty($slide->slide_btn_link)){ ?>  onclick='window.open("<?php echo $slide->slide_btn_link; ?>")' <?php } ?> >
               <div class="container-fluid">
                 <div class="caption bg-color vertical-center text-left">
                 

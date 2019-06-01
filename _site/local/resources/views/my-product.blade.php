@@ -154,16 +154,6 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
         <input value="<?= array_key_exists('maxvalue', $data) ? $data['maxvalue'] : ' ' ?>" type="number" name="maxvalue" id="maxvalue" class="form-control unicase-form-control">
    
     </div>
-    <div class="form-group">
-        <label for="exampleInputName"><?=utf8_decode('Produtos com desconto')?></label>
-        <?php  if (array_key_exists('discount', $data)) { ?>
-            <input checked type="checkbox" name="discount" id="discount" > 
-            <?php } else { ?>
-            <input  type="checkbox" name="discount" id="discount" > 
-            
-            <?php } ?>
-                     
-    </div>
 
     </div>
     </div>
@@ -179,6 +169,7 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
                        // if($editprofile[0]->delete_status == ''){                          
                     ?>
                     <button type="submit" class="btn-upper btn btn-primary">Filtrar</button> 
+                    <a href="<?php echo $url;?>/my-product" class="btn-upper btn btn-primary">Limpar</a>
                         <?php // } ?>
                    <!-- Marcello Add Product
                    <a href="#" class="btn-upper btn btn-primary">@lang('languages.add_product')</a> 
@@ -320,6 +311,59 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
                      <?php }  } ?>
 			</tbody><!-- /tbody -->
 		</table><!-- /table -->
+        <?php
+        $anterior = $pc -1;
+        $proximo = $pc +1;
+        if(!isset($data['pagina'])) {
+            $data['pagina'] = 1;
+        }
+        ?>
+        <div style="text-align: center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+            <?php if(isset($data['pagina']) && $data['pagina'] > 1){?>
+
+                <li>
+                <a href='?pagina=<?php echo($anterior) ?>' aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                </li>
+                <?php } else { ?>
+
+                <li>
+                <a  aria-label="Previous" style="cursor: not-allowed;">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+                </li>
+                <?php } ?>
+
+                <?php for ($i = 0; $i < $tp; ++$i) {?>
+
+                <?php if(isset($data['pagina']) && $data['pagina'] == $i+1 ){?>
+
+                <li class="active"><a href='?pagina=<?php echo($i+1) ?>'><?php echo($i+1) ?></a></li>
+                <?php } else { ?>
+                    <li><a href='?pagina=<?php echo($i+1) ?>'><?php echo($i+1) ?></a></li>
+
+                <?php } }?>
+                <?php if(isset($data['pagina']) && $data['pagina'] < $tp){?>
+                <li>
+                <a href='?pagina=<?php echo($proximo) ?>' aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                </li>
+                <?php } else { ?>
+
+                <li>
+                <a  aria-label="Next" style="cursor: not-allowed;">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+                </li>
+                <?php } ?>
+             
+            </ul>
+        </nav>
+        </div>
 	</div>
 </div>
 

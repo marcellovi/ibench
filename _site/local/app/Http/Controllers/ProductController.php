@@ -307,169 +307,177 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
     }
 
     /** Marcello :: List of all Active & Inactive Products**/
-    public function myProductListActiveInactive(Request $request) {
-	$userid = Auth::user()->id;
-	$req = $request->all();
-	$category = DB::table('category')
-            ->where('delete_status','=','')
-            ->where('status','=',1)
-            ->orderBy('cat_name', 'asc')->get();
+  public function myProductListActiveInactive(Request $request) {
+		
+		$userid = Auth::user()->id;
+		$req = $request->all();
 
+		$category = DB::table('category')
+			->where('delete_status','=','')
+			->where('status','=',1)
+			->orderBy('cat_name', 'asc')->get();
+                   
 
-	$viewcount = DB::table('product')
-			->where('user_id', '=' , $userid)
+		// Condições de Consultas dos Produtos
+		$check_search = 0;
+		$products_ids_result = [];
+
+		// Verifica Categoria
+		if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
+
+			if (isset($req['category'])){
+
+				$check_search = 1;
+				$viewproduct_category = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+               									$query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })->orderBy('prod_id','desc');
+
+				$sub_categories = DB::table('subcategory')->where('subid','=',$req['category'])->get();
+
+				if ($sub_categories[0]->post_slug == "outros") {
+					$result_category = DB::table('subcategory')->where('post_slug','LIKE','%outros%')->pluck('subid')->toArray();
+				} else {
+					$result_category = [$req['category']];
+				}
+
+				$category_prod_ids = $viewproduct_category->whereIn('prod_category', $result_category)->pluck('prod_id')->toArray();
+
+				$products_ids_result = $category_prod_ids;
+			}
+
+		}
+
+		// Verifica Nome
+		if(array_key_exists('name', $req)) {
+			
+			if (isset($req['name'])){
+				
+				$check_search = 1;
+				$viewproduct_name = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+               									$query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })->orderBy('prod_id','desc');
+
+				if (!empty($products_ids_result)){
+					$name_prod_ids = $viewproduct_name->whereIn('prod_id',$products_ids_result)->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%')->pluck('prod_id')->toArray();
+				} else {
+					$name_prod_ids = $viewproduct_name->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%')->pluck('prod_id')->toArray();
+				}
+
+				$products_ids_result = $name_prod_ids;
+
+			}
+			
+		}
+			
+		// Verifica Valor Max. e Min.
+		if(	array_key_exists('minvalue', $req) || array_key_exists('maxvalue', $req) ) {
+
+			if (isset($req['minvalue']) || isset($req['maxvalue']) ) {
+				
+				$check_search = 1;
+
+				$viewproduct_minvalue = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+               									$query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })->orderBy('prod_id','desc');
+				$viewproduct_maxvalue = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+               									$query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })->orderBy('prod_id','desc');
+
+				$value_min = isset($req['minvalue']) ? $req['minvalue'] : 1 ;
+				$value_max = isset($req['maxvalue']) ? $req['maxvalue'] : 1 ;
+			
+				if (!empty($products_ids_result)){
+
+					$viewproduct_offer =	$viewproduct_minvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+				
+					$viewproduct_normal = $viewproduct_maxvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+
+			
+				} else {
+
+					$viewproduct_offer =	$viewproduct_minvalue->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+				
+					$viewproduct_normal = $viewproduct_maxvalue->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+			
+				}
+			
+
+				$uniq_ids = array_unique(array_merge($viewproduct_offer, $viewproduct_normal));
+			
+				$products_ids_result = $uniq_ids;
+
+			}
+			
+		} 
+			               
+
+		//pagination ends
+		$total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
+	
+		if($check_search > 0) {		
+
+			$viewcount = DB::table('product')->whereIn('prod_id', $products_ids_result)->count();
+
+			$tp = $viewcount / $total_reg;			
+
+			$viewproduct = DB::table('product')->whereIn('prod_id', $products_ids_result)->offset($inicio)->limit($total_reg)->get();
+			
+
+		} else {
+
+			$viewcount = DB::table('product')
+				->where('user_id', '=' , $userid)
                         // Retirar abaixo quando for feito o task deletar cliente/seller
-                        ->Where(function ($query) {
-                            $query->where('delete_status','!=','deleted')
-                             ->where('prod_status','!=',0);
-                        })
+                          ->Where(function ($query) {
+                                $query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                          })
                         ->orderBy('prod_id','desc');
 
-	$viewproduct = DB::table('product')
+			$viewproduct = DB::table('product')
                         ->where('user_id', '=' , $userid)
                         // Retirar abaixo quando for feito o task deletar cliente/seller
-                        ->Where(function ($query) {
-                            $query->where('delete_status','!=','deleted')
-                            ->where('prod_status','!=',0);
-                        })
-			->orderBy('prod_id','desc');                    
+                            ->Where(function ($query) {
+                                $query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })
+												->orderBy('prod_id','desc');
 
-	if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
-		$viewcount = $viewcount->where('prod_category', '=' , $req['category'] ? $req['category'] : '');
-		$viewproduct = $viewproduct->where('prod_category', '=' , $req['category'] ? $req['category'] : '');
-	}
+			$viewcount = 	$viewcount->count();
 
-	if(array_key_exists('name', $req)) {
-		$viewcount = $viewcount->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
-		$viewproduct = $viewproduct->where('prod_name', 'LIKE' , utf8_encode($req['name']) ? '%'.utf8_encode($req['name']).'%' : '%'.''.'%');
-	}
+			$tp = $viewcount / $total_reg;
 
-	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-	// 	$viewcount = $viewcount->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+			//$test = $viewproduct->whereBetween('prod_price', [1, 200])->pluck('prod_id')->toArray();
 
-	// 	$viewproduct = $viewproduct->where('prod_offer_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
-	// }
+			//$myfile = fopen("logs_tests.txt", "wr");
+			//$txt = implode(",", $test);
+			//fwrite($myfile, $txt);
+			//fclose($myfile);
 
-	// if(array_key_exists('minvalue', $req) &&  strlen($req['minvalue']) > 0 ) {
-	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
-	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
-	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
-	// 	});
-	// 	// ->where('prod_price', '>=' , $req['minvalue'] ? $req['minvalue'] : '');
+			$viewproduct = $viewproduct->offset($inicio)->limit($total_reg);
+							
+			$viewproduct = $viewproduct->get();	
 
-	// 	$viewproduct =  $viewproduct->where(function ($query) use ($req){
-	// 		$query->where('prod_price', '>', $req['minvalue'] ? $req['minvalue'] : '')
-	// 					->orWhere('prod_offer_price', '>' , $req['minvalue'] ? $req['minvalue'] : '');
-	// 	});
-	// }
-
-	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-	// 	// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	// 	$viewcount = $viewcount->where(function ($query) use ($req) {
-	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
-	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	// 	});
-
-	// 	$viewproduct = $viewproduct->where(function ($query) use ($req){
-	// 		$query->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '')
-	// 					->orWhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	// 	});
-	// 	//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	// }
-
-	if(	array_key_exists('minvalue', $req) && $req['minvalue'] == 0) {
-		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-			$viewcount = $viewcount->where(function ($query) use ($req) {
-				$query->whereBetween('prod_offer_price',  [1, $req['maxvalue']]);
-							// ->orWhereBetween('prod_offer_price',  [1, $req['maxvalue']]);
-			});
-			// $viewproduct = $viewproduct->whereBetween('prod_offer_price',  [0, 0]);
-			
-			if(array_key_exists('discount', $req) ){
-			$viewproducttwo =	$viewproduct->whereBetween('prod_offer_price', [1, $req['maxvalue']])->get();
-
-			} else {
-			$viewproductone = $viewproduct->whereBetween('prod_price', [1, $req['maxvalue']])->whereBetween('prod_offer_price',  [0, 0])->get();
-
-			}
-		
-			// $viewcount = 	$viewcount->count();	
-			// if(isset($viewoffer) && isset($viewprice)) {
-			// 	$viewoffer = $viewoffer->get();				
-			// 	$viewprice = $viewprice->get();
-			// 	$merged = $viewoffer->merge($viewprice);
-			// 	$viewproduct =  	$viewprice
-			// } else {
-			// 	$viewproduct = $viewproduct->get();	
-	
-			// }
+		}
 			
 
-
-			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-		}
-	} else {
-		if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-			// $viewcount = $viewcount->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-			$viewcount = $viewcount->where(function ($query) use ($req) {
-				$query->whereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
-			});
-	
-			$viewproduct = $viewproduct->where(function ($query) use ($req) {
-				$query->whereBetween('prod_offer_price', [$req['minvalue'], $req['maxvalue']]);
-							// ->orWhereBetween('prod_offer_price',  [$req['minvalue'], $req['maxvalue']]);
-			});
-			//  $viewproduct->where('prod_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-		}
-	
-	}
-
-	
-
-	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-	// 	$viewcount = $viewcount->orwhere('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-
-	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<=' , $req['maxvalue'] ? $req['maxvalue'] : '');
-	// }
-
-	
-	// if(array_key_exists('maxvalue', $req) &&  strlen($req['maxvalue']) > 0 ) {
-	// 	$viewcount = $viewcount->where('prod_offer_price', '<', 4);
-
-	// 	$viewproduct = $viewproduct->where('prod_offer_price', '<', 50) ->orWhere('name', 'John');
-	// }
-
-
-	// if(array_key_exists('name', $req)) {
-	// 	$viewproduct = $viewproduct->where('prod_name','LIKE','%'.'Sor'.'%');
-	// }
-		                // ->where('prod_name','LIKE','%'.''.'%')									
-										
-                    //->Where(function ($query) {
-                     //        $query->where('delete_status','=','')
-                       //            ->orwhere('delete_status','=','active');
-                      //    })
-				  // ->where('delete_status','=','')
-                                  // ->orwhere('delete_status','=','inactive')
-			              
-		          
-		$viewcount = 	$viewcount->count();	
-		
-			// $viewcount = 	$viewcount->count();	
-			if(isset($viewproductone) && isset($viewproducttwo)) {
-				// $viewproductone = $viewproductone->get();				
-				// $viewproducttwo = $viewproducttwo->get();
-				// $merged = $viewproductone->merge($viewproducttwo);
-				$viewproduct = $viewproductone;
-			} else {
-				$viewproduct = $viewproduct->get();	
-	
-			}
-			// $viewproduct = $viewproduct->get();	
-
-	 $data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req);
-	 return view('my-product')->with($data);
+ 		$data = array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'category' => $category, 'data' => $req, 'pc' => $pc, 'tp' => $tp);
+ 		
+ 		return view('my-product')->with($data);
 
 	}
 

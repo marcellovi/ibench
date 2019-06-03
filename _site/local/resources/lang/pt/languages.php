@@ -84,7 +84,7 @@ return [
 	"tag_separate" => "Tags (separar tags com ,)",
 	"edit_product" => "Editar Produto",
 	
-	"product_import_export" => "Protudos importa / exporta",
+	"product_import_export" => "Produtos importa / exporta",
 	
 	"goto_import_export" => "Importar Produtos em Massa",
 	

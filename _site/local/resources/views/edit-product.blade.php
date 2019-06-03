@@ -12,16 +12,11 @@ $setid=1;
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-		
-
-   @include('style')
-   
+   @include('style')   
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
    <!-- Marcello UFT8 :: para resolver o problema de enconding 
 <link href="//fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">-->
-
 
  <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=cae5v8ohqq2y45yurx2yqba3ng4rqukel679jhibsfg3gk4r"></script>
  <!-- 
@@ -40,14 +35,8 @@ $setid=1;
 <script> tinymce.init({ selector:'textarea' });</script>
 
 </head>
-<body class="cnt-home">
-
-  
-
-   
+<body class="cnt-home">   
     @include('header')
-
-
 <div class="breadcrumb">
 	<div class="container-fluid">
 		<div class="breadcrumb-inner">
@@ -59,81 +48,54 @@ $setid=1;
 	</div>
 </div>
 
-
-
 <div class="body-content">
 	<div class="container-fluid">
     <div class="contact-page">
     
     <div class="row">
                      <div class="col-md-12 col-sm-12">
-                    @if(Session::has('success'))
-
+        @if(Session::has('success'))
 	    <p class="alert alert-success">
-
 	      {{ Session::get('success') }}
 
 	    </p>
-
-	@endif
-
-
-	
+	@endif	
 	
  	@if(Session::has('error'))
-
 	    <p class="alert alert-danger">
-
 	      {{ Session::get('error') }}
-
 	    </p>
-
 	@endif
     </div>
-    </div>
+    </div>   
     
-    
-    
-    <div class="row">
-                        <div class="col-md-12 col-sm-12">
-                        
-                        
+    <div class="row">                      
+        <div class="col-md-12 col-sm-12">                        
                          
-                               @if (count($errors) > 0)
+        @if (count($errors) > 0)
 	<div class="alert alert-danger">
 		@lang('languages.some_problem')
 		<ul>
-			@foreach ($errors->all() as $error)
-				<li>{{ $error }}</li>
-			@endforeach
+		@foreach ($errors->all() as $error)
+			<li>{{ $error }}</li>
+		@endforeach
             </ul> 
              </div>
-             @endif
-                              
-                  </div>      
-                        
-                    </div>
-    
-		
-			
-            
-            
+        @endif                              
+            </div>   
+          </div>
                    
             <form class="register-form" role="form" method="POST" action="{{ route('edit-product') }}" id="formID" enctype="multipart/form-data" accept-charset="utf-8">
-                    {{ csrf_field() }}
-                    
+                    {{ csrf_field() }}               
             
-            
-				<div class="col-md-6 contact-form">
+		<div class="col-md-6 contact-form">
 	<div class="col-md-12 contact-title">
 		<div class="heading-title" style="border-bottom:none !important;">@lang('languages.edit_product')</div>
 	</div>
     
     <div class="height50 clearfix"></div>
     
-	<div class="col-md-6 ">
-		
-       
+	<div class="col-md-6 ">      
         
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.product_name') <span>*</span></label>
@@ -160,7 +122,7 @@ $setid=1;
 		    <select class="form-control unicase-form-control validate[required]"  name="cat_id">
 						  <option value=""></option>   <!-- Marcello :: foi incluido disabled="true" para a categoria -->                                              
 						  <?php foreach($category as $service){?>
-						  <option value="<?php echo $service->id;?>_cat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_cat_type=='cat'){ if($viewproduct[0]->	prod_category==$service->id){?> selected <?php } } } ?> disabled="true"><?php echo $service->cat_name;?></option>
+                                                  <option value="<?php echo $service->id;?>_cat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_cat_type=='cat'){ if($viewproduct[0]->	prod_category==$service->id){?> selected <?php } } } ?> disabled="true"><?php echo utf8_decode($service->cat_name); ?></option>
                           <?php 
 						  $subcount = DB::table('subcategory')
 							->where('delete_status','=','')
@@ -176,33 +138,22 @@ $setid=1;
 							foreach($subcategory as $subview){
 					      ?>
                           
-                          <option value="<?php echo $subview->subid;?>_subcat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_cat_type=='subcat'){ if($viewproduct[0]->	prod_category==$subview->subid){?> selected <?php } } } ?>> - <?php echo $subview->subcat_name;?></option>
+                                                  <option value="<?php echo $subview->subid;?>_subcat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_cat_type=='subcat'){ if($viewproduct[0]->	prod_category==$subview->subid){?> selected <?php } } } ?>> - <?php echo utf8_decode($subview->subcat_name);?></option>
                           <?php } } ?>
 						  <?php } ?>
-						  </select>
-                          
-                          
-            
-		  </div>
-		
+						  </select>                     
+	  </div>
 	</div>
 	<div class="col-md-12">
 		
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.description') <span>*</span></label>
-		    
-            
-            
+              
              <textarea id="prod_desc" name="prod_desc" rows="6" placeholder="" class="form-control unicase-form-control txteditor validate[required]"><?php if(!empty($viewcount)){ echo utf8_decode($viewproduct[0]->prod_desc); } ?></textarea> 
 		  </div>
-		
 	</div>
-    
-    
-    
-    
+      
     <div class="col-md-6">
-		
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.product_type') <span>*</span></label>
 		    
@@ -217,86 +168,30 @@ $setid=1;
                           <?php //} ?>
                          -->
                           </select>
-            
-              
-		  </div>
-		
+  		  </div>
 	</div>
-    
-    
-    
-    
+     
     <div class="col-md-6" id="price_container" <?php if(!empty($viewcount)){ if(!empty($viewproduct[0]->prod_external_url)){?> style="display:block;" <?php } else {?> style="display:none;" <?php } } ?>>
 		
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@lang('languages.external_url') <span>*</span></label>
 		    
             <input id="prod_external_url" class="form-control unicase-form-control validate[required]"  name="prod_external_url" value="<?php if(!empty($viewcount)){ if(!empty($viewproduct[0]->prod_external_url)){ echo $viewproduct[0]->prod_external_url; } } ?>" type="text">
-		  </div>
-		
-	</div>
-    
-    
-    
-    
-    
-	
-    
-    
-    
-   
-    
+		  </div>		
+	</div>     
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="col-md-6 contact-form">
-
-
 	<div class="col-md-12 contact-title text-right">
 		<a  href="<?php echo $url;?>/my-product" class="btn-upper btn btn-primary">@lang('languages.view_my_products')</a>
-	</div>
-    
-    <div class="height50 clearfix"></div>
-    
+	</div>    
+    <div class="height50 clearfix"></div>    
 	<div class="col-md-6 " id="notzipped" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_type!="digital"){?> style="display:block;" <?php } else { ?> style="display:none;" <?php } } ?>>
-		
-       
-        
-		
-		
-		
-		
-		
-			
-		
-	
-		
-			<div class="form-group">
+
+            <div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@lang('languages.price') (<?php echo $setts[0]->site_currency;?>)<span>*</span></label> <!-- Marcello - Incluido Number Format nos precos -->
 		    <input id="prod_price" class="form-control unicase-form-control validate[required]"  name="prod_price" value="<?php if(!empty($viewcount)){ echo number_format($viewproduct[0]->prod_price,2,",","."); } ?>" type="text">
-            
-		  </div>
+            </div>
 		
-	
 		
 		<div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@lang('languages.offer_price') (<?php echo $setts[0]->site_currency;?>)<span></span></label>
@@ -304,18 +199,13 @@ $setid=1;
              <input id="prod_offer_price" class="form-control unicase-form-control"  name="prod_offer_price" value="<?php if(!empty($viewcount)){ echo number_format($viewproduct[0]->prod_offer_price,2,",","."); } ?>" type="text">
 		  </div>
 		
-		
-		
-		
-			<div class="form-group">
+		<div class="form-group">
 			
 		    <label class="info-title" for="exampleInputName">@lang('languages.available_quantity') <span>*</span></label>
 		    
             <input id="prod_available_qty" class="form-control unicase-form-control validate[required]"  name="prod_available_qty" value="<?php if(!empty($viewcount)){ echo $viewproduct[0]->prod_available_qty; } ?>" type="number">
-		  </div>
-		
-	</div>
-	
+		  </div>		
+	</div>	
     
     <div id="notzipformat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_type!="digital"){?> style="display:block;" <?php } else { ?> style="display:none;" <?php } }?>>
     
@@ -336,7 +226,7 @@ $setid=1;
 				 ?>
                   <div class="col-md-6">
               <div class="form-group">
-             <label class="info-title" for="exampleInputEmail1">@lang('languages.select') <?php echo $type->attr_name;?></label>
+                  <label class="info-title" for="exampleInputEmail1">@lang('languages.select') <?php echo utf8_decode($type->attr_name);?></label>
                 <select multiple class="form-control unicase-form-control" name="attribute[]">
                   <?php if(!empty($value_cnt)){?>
                   <?php foreach($value as $values){?>
@@ -347,7 +237,7 @@ $setid=1;
 				  $sel=explode(",",$viewproduct[0]->prod_attribute);
 				  }
 				   ?>
-                  <option value="<?php echo $values->value_id;?>" <?php if(!empty($viewcount)){ if(in_array($values->value_id,$sel)){?> selected <?php } } ?>><?php echo $values->attr_value;?></option>
+                    <option value="<?php echo $values->value_id;?>" <?php if(!empty($viewcount)){ if(in_array($values->value_id,$sel)){?> selected <?php } } ?>><?php echo utf8_decode($values->attr_value);?></option>
                   <?php } ?>
                   <?php } ?>
                 </select>
@@ -356,29 +246,14 @@ $setid=1;
             </div>
              <?php } } ?>         
                  
-    </div>
+    </div>   
     
-    
-    
-    
-     <?php
-						  $viewimg_counter = DB::table('product_images')
-		                              ->where('prod_token', '=' , $viewproduct[0]->prod_token)
-				                      ->count();
-									  
-						  ?>
-    
-    
-    
-    
-    
-	
-    
+    <?php
+    $viewimg_counter = DB::table('product_images')
+            ->where('prod_token', '=', $viewproduct[0]->prod_token)
+            ->count();
+    ?>    
      <input type="hidden" name="prod_token" value="<?php echo $viewproduct[0]->prod_token;?>">
-    
-    
-	
-    
     
     <div class="col-md-6">
 		
@@ -399,9 +274,7 @@ $setid=1;
 		  </div>
 		
 	</div>
-    
-    
-    
+  
     <div class="col-md-6">
 		
 			<div class="form-group">
@@ -438,8 +311,7 @@ $setid=1;
             
 		  </div>
 		
-	</div>
-    
+	</div>    
     
     
     <div class="col-md-6" id="zipformat" <?php if(!empty($viewcount)){ if($viewproduct[0]->prod_type=="digital"){?> style="display:block;" <?php } else {?> style="display:none;" <?php } } ?>>
@@ -456,14 +328,8 @@ $setid=1;
             
 	<input type="hidden" name="save_zipfile" value="<?php echo $viewproduct[0]->prod_zipfile;?>">
     
-    	  </div>
-		
-	</div>
-    
-    
-    
-    
-    
+    	  </div>		
+	</div>  
     
     <div class="col-md-6">
 		
@@ -475,11 +341,9 @@ $setid=1;
                     <label class="info-title" for="exampleInputComments">@lang('languages.tag_separate')</label>
                    
 				 <input id="prod_tags" class="form-control unicase-form-control"  name="prod_tags" value="<?php echo utf8_decode($viewproduct[0]->prod_tags);?>" type="text" placeholder="palavras-chaves">
-            
-		  </div>
-		
-	</div>
-    
+          
+		  </div>		
+	</div>    
     
     <div class="col-md-12 outer-bottom-small m-t-20">
                                  <?php if(config('global.demosite')=="yes"){?><button type="submit" class="btn-upper btn btn-primary">@lang('languages.submit')</button> 
@@ -487,59 +351,17 @@ $setid=1;
 						  
                             <button id="send" type="submit" class="btn-upper btn btn-primary">@lang('languages.submit')</button>
 								<?php } ?>   
-                               </div>
-                               
-	
-    
+                               </div>                             
     
 </div>
  </form>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
-
-
-			
-		</div>
-		
+  </div>	
 
 </div>
 </div>
-
 <div class="height30"></div>
-
- @include('footer')
- 
+ @include('footer') 
  <!-- Marcello inclusao do tinymce para tratar o UFT-8 enconding 
  <script src="{{ URL::to('vendor/tinymce/js/tinymce/tinymce.min.js')}}"></script>-->
-
  </body>
 </html>

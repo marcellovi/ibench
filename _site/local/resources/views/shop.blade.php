@@ -249,8 +249,8 @@ $setid=1;
               <div class="filter-tabs">
                 <ul id="filter-tabs" class="nav nav-tabs nav-tab-box nav-tab-fa-icon">
                   <li class="active"> 
-                      <a data-toggle="tab" href="#list-container"><i class="icon fa fa-th-list"></i>@lang('languages.list')</a></li>
-                  <li><a data-toggle="tab" href="#grid-container"><i class="icon fa fa-th-large"></i>@lang('languages.grid')</a></li>
+                     <a data-toggle="tab" href="#grid-container"><i class="icon fa fa-th-large"></i>@lang('languages.grid')</a> </li>
+                  <li><a data-toggle="tab" href="#list-container"><i class="icon fa fa-th-list"></i>@lang('languages.list')</a></li>
                 </ul>
               </div>
               <!-- /.filter-tabs --> 
@@ -311,7 +311,7 @@ $setid=1;
         </div>
         <div class="search-result-container ">
           <div id="myTabContent" class="tab-content category-list">
-            <div class="tab-pane " id="grid-container">
+            <div class="tab-pane active " id="grid-container">
               <div class="category-product">
                 <div class="row">
                 
@@ -623,11 +623,11 @@ $setid=1;
                         Queremos tornar o iBench Market melhor para voc&ecirc;<br>
                         <a href="<?php echo $url;?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                 <?php } ?>
-                </div>
-                <div class="grid_prodss mtop20"></div>
+                </div>                
+                 <div class="grid_prodss mtop20"></div>        
+               
+                </div>  
                   
-                </div>
-                                
                 <!-- /.row --> 
               </div>
               <!-- /.category-product --> 
@@ -635,7 +635,7 @@ $setid=1;
             </div>
             <!-- /.tab-pane -->
             
-            <div class="tab-pane active "  id="list-container">
+            <div class="tab-pane "  id="list-container">
             <div class="category-product">
                    
               <?php if(!empty($viewcount)){?>                               
@@ -646,13 +646,13 @@ $setid=1;
 						->where('prod_token','=',$prod_id)
 						->count();
 			?>
-                <div class="category-product-inner wow fadeInUp">
+                <!-- Marcello row list             <div class="row">         <div  class="col-md-12 list_list" >  -->    
+                 <div class="category-product-inner wow fadeInUp">
                   <div class="products">
                     <div class="product-list product">
                       <div class="row product-list-row" style="margin-left: 10px !important;">
                         <div class="col col-sm-2 col-lg-2">
-                          <div class="product-image">
-                            
+                          <div class="product-image">                            
                             
                             <div class="image"> <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
                                  <?php 
@@ -875,8 +875,8 @@ $setid=1;
                       </div>                     
                     </div>                    
                   </div>                   
-                </div>               
-               
+                </div>                 
+              <!--   </div></div> fim Marcello list -->
                 <?php } ?>  
                 <?php } else { ?> 
                     <div class="height100"></div>
@@ -885,8 +885,8 @@ $setid=1;
                         <a href="<?php echo $url;?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                 <?php } ?>
                           
-                    
-              </div>
+               <!--  <div class="list_prodss mtop20"></div>   -->
+              </div>    
               <!-- /.category-product --> 
             </div>
             <!-- /.tab-pane #list-container --> 

@@ -35,7 +35,7 @@ class PaymentController extends Controller
     public function avigher_checkout_details(Request $request)
     {
         $url = URL::to("/");
-        $data = $request->all();
+        $data = $request->all();  
         
         $log_id = Auth::user()->id;   
         $tipopagto = $data['tipopagto'];

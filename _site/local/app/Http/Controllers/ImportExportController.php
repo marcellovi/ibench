@@ -129,39 +129,43 @@ class ImportExportController extends Controller
 	
             Excel::load($request->file('import_file')->getRealPath(), function ($reader) use (&$msg_error, &$cnt_sucss) {			
     
-                $reader->takeColumns(9); // Only reads the first 9 columns   
-               
+                $reader->takeColumns(9); // Only reads the first 9 columns                  
+                
                 $userid = Auth::user()->id;            
-                $status_seller = $this->checkStatusSeller($userid);
+                $status_seller = $this->checkStatusSeller($userid);              
                 $prod_visibility = $this->checkProdVisibility($status_seller);
                 $prod_type = 'fisico';
                 $prod_sub_cat_type = 'subcat';
-                $default_img = $this->getDefaultIMG($userid); 
-                
-                
+                $default_img = $this->getDefaultIMG($userid);                  
+            
                 foreach ($reader->toArray() as $key => $row) 
-		{                
-                    if(empty($row)){break;} // End of the row or all the coluns of the row is blank 
-                    else if(empty($row['nome']) || empty($row['categoria']) || empty($row['marca'])){
-                        //$msg_error .= 'Erro na Linha ['.($key+2).'] : Nome/Categoria/SubCategoria [Em Branco] <br>';
-                    }
-                    else{
-                        
-                       $prod_categoria_sub = $this->findCategory($row['categoria']);                               
-                       $prod_attribute = $this->findAttribute($row['marca']);  
+		{   
+                    $local_err = "";                    
+                    $err_rows  = 'Linha ['.($key+2).']  <br>';
+                   
+                    $prod_categoria_sub = $this->findCategory($row['categoria']);                               
+                    $prod_attribute = $this->findAttribute($row['marca']);
                        
-                       if(empty($prod_categoria_sub) || $prod_categoria_sub == null || $prod_attribute == '' ){                                    
-                            $msg_error .= 'Erro na Linha ['.($key+2).'] : Categoria/SubCategoria [N&atilde;o Est&atilde;o Relacionadas] <br>';                                 
-                            
-                       }else{
-                            $prod_name = $row['nome'];
+                    //if(empty($row)){  break;} // End of the row or all the coluns of the row is blank 
+                    if(empty($row['nome']) && empty($row['categoria']) && empty($row['marca'])&& empty($row['descricao'])){
+                        break; // If all 3 are empty than leave foreach
+                    }
+                                      
+                    if(empty($row['nome']) || empty($row['categoria']) || empty($row['marca']) || empty($row['descricao'])){                       
+                       $local_err .= 'Campo(s) obrigat&oacute;rio(s) Nome, Categoria, Marca ou Descri&ccedil;&atilde;o n&atilde;o foram preenchido(s).<br> ';
+                    }                             
+  //print_r("Erro: ".$local_err);exit();
+                    if(empty($local_err)){
+                        
+                        $prod_name = $row['nome'];
                           
-                            if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $prod_desc = ""; }
-                            if(!empty($row['tags'])) { $prod_tags = $row['tags']; } else { $prod_tags = ""; }
-                            if(!empty($row['preco']) && is_numeric($row['preco'])){ $prod_price = $row['preco']; } else { $prod_price = 0; $prod_visibility = 'inactive';  }
-                            if(!empty($row['preco_promocional']) && is_numeric($row['preco_promocional'])) { $prod_offer_price = $row['preco_promocional']; } else { $prod_offer_price = 0; }
-                            if(!empty($row['quantidade']) && is_numeric($row['quantidade'])){ $prod_available_qty = $row['quantidade']; } else { $prod_available_qty = 0; } 
-                          
+                        if(!empty($row['descricao'])) { $prod_desc = $this->formatDescription($row['descricao']); } else { $local_err .= "[ Descri&ccedil;&atilde;o : Campo n&atilde;o pode estar vazio ] <br>"; }
+                        if(!empty($row['tags'])) { $prod_tags = $row['tags']; } else { $prod_tags = ""; }
+                        if(!empty($row['preco']) && is_numeric($row['preco'])){ $prod_price = $row['preco']; } else { $local_err .= "[ Pre&ccedil;o : N&atilde;o &eacute; um n&uacute;mero ou Campo Vazio ] <br>";   }
+                        if(!empty($row['preco_promocional']) && is_numeric($row['preco_promocional'])) { $prod_offer_price = $row['preco_promocional']; } else { $prod_offer_price = 0; }
+                        if(!empty($row['quantidade']) && is_numeric($row['quantidade'])){ $prod_available_qty = $row['quantidade']; } else { $local_err .= "[ Quantidade : N&atilde;o &eacute; um n&uacute;mero ou Campo Vazio ] <br>"; } 
+                        
+                        if(empty($local_err)){
                             $data['user_id'] = $userid;
                             $data['prod_token'] = uniqid();
                             $data['prod_slug'] = $this->normalizeString($prod_name);                    
@@ -180,18 +184,30 @@ class ImportExportController extends Controller
                             $data['prod_available_qty'] = $prod_available_qty;
                             $data['delete_status'] = $prod_visibility; //checkSellerStatus($delete_status);
                             $data['prod_status'] = $status_seller; //checkSellerStatus($row['prod_status']);
-                            print_r($data);exit();
+
                             if(!empty($data)) {                               
-                               $pass = true; //DB::table('product')->insert($data);
-                               $cnt_sucss++;
-                               if($pass){  } // DB::insert('insert into product_images (image, prod_token) values (?, ?)', [$default_img, $data['prod_token']]);   }
-                            }
-                        } // Fim do Else interno
-                    } // Fim do Else externo                             
-                } // Fim do ForEach
-            });
-            //$msg_error = implode(",", $msg_error);
-            $msgs = array('success' => 'Importado com Sucesso! Total de '.$cnt_sucss.' produto(s) adicionado(s).', 'error' => $msg_error);
+                                $pass = DB::table('product')->insert($data); //true; //
+                                $cnt_sucss++;
+                                if($pass){ DB::insert('insert into product_images (image, prod_token) values (?, ?)', [$default_img, $data['prod_token']]);   }
+                            } 
+                        } // Fim do empty ($local_err) interno                            
+                    } // Fim do empty($local_err)
+                    
+                    if(!empty($local_err)){
+                        $msg_error .=  $err_rows.$local_err;
+                    }
+                   
+                }// Fim do ForEach 
+            }); // Fim da Leitura //print_r($msg_error);exit();
+            
+            if(empty($msg_error)){
+                $msgs = array('success' => 'Total de '.$cnt_sucss.' produto(s) adicionado(s).');
+            }else{
+                $err_full = '<b>N&atilde;o foi poss&iacute;vel importar os registros das linhas abaixo : </b><br>';
+                $err_full .= $msg_error;
+                $msgs = array('success' => 'Total de '.$cnt_sucss.' produto(s) adicionado(s).', 'error' => $err_full);
+            }
+            
             return back()->with($msgs);	
         }             
     }
@@ -201,10 +217,11 @@ class ImportExportController extends Controller
                 $newTxt = str_replace(' ', '',mb_strtolower($normalizeTxt)); // Retirando espacos em Branco
                 $newTxt = str_replace("'", "", $newTxt); // Retirando Aspas simples
                 $newTxt = str_replace('"', "", $newTxt); // Retirando Aspas duplas
-                //$newTxt = preg_replace('/[^A-Za-z0-9-]/', '', $data['product_name']); // Marcello - Retirando o (automatico agora e caracteres especiais )
-
+                
                 $search = explode(",","ç,æ,œ,á,ã,é,í,ó,õ,ú,à,è,ì,ò,ù,â,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
                 $replace = explode(",","c,ae,oe,a,a,e,i,o,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
+                $newTxt = preg_replace('/[^A-Za-z0-9-]/', '', $newTxt); // Marcello - Retirando o (automatico agora e caracteres especiais )
+
                 
                 return str_replace($search, $replace, $newTxt);
         }
@@ -223,7 +240,7 @@ class ImportExportController extends Controller
                 $seller = DB::table('users')->where('id', $id)->get();
                 $prod_status = 0;
                 
-                if($seller[0]->delete_status == 'blocked' || $seller[0]->delete_status == 'inactive' || $seller[0]->delete_status == 'deleted' ){
+                if($seller[0]->delete_status == 'blocked' || $seller[0]->delete_status == 'deleted' ){
                     $prod_status = 0;
                 }else{
                     $prod_status = 1;

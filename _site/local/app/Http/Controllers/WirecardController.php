@@ -300,7 +300,7 @@ class WirecardController extends Controller
                  // Creating an object customer to orders
                     $customer->setOwnId(uniqid())
                     // ->setFullname($user->name)
-                    ->setFullname(@$_POST['bill_firstname'])
+                    ->setFullname(utf8_decode(@$_POST['bill_firstname']))
                     ->setEmail(@$_POST['bill_email'])
                     ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']),'CNPJ')
                     ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'])
@@ -312,7 +312,7 @@ class WirecardController extends Controller
                 // Creating an object customer to orders
                     $customer->setOwnId(uniqid())
                     // ->setFullname($user->name)
-                    ->setFullname(@$_POST['bill_firstname'] . " " . @$_POST['bill_lastname'])
+                    ->setFullname(utf8_decode(@$_POST['bill_firstname'] . " " . @$_POST['bill_lastname']))
                     ->setEmail(@$_POST['bill_email'])
                     ->setTaxDocument(@str_replace("-", "", @$_POST['cpf_cnpj']),'CPF')
                     ->setPhone(substr(@$_POST['bill_phone'], 0, 2), @$_POST['bill_phone'])
@@ -531,7 +531,7 @@ class WirecardController extends Controller
                     . ' and product_orders.prod_user_id = users.id group by name_business', [$ord]);            
             
             foreach($custm_boleto as $bol){
-                $t_line .= $bol->name_business.' : R$ '.number_format($bol->total,2,",",".").' | ';
+                $t_line .= utf8_decode($bol->name_business).' : R$ '.number_format($bol->total,2,",",".").' | ';
             }
             $t_line = rtrim($t_line," | ");
 

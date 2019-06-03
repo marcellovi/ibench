@@ -415,7 +415,7 @@ $headertype = $setts[0]->header_type;
                 <div class="form-group">
                 <?php 
                     if(Auth::user()->admin==2){ ?>
-                    <label class="info-title" for="exampleInputName">Imagem da Logo dos Produtos</label>
+                    <label class="info-title" for="exampleInputName">Imagem da sua Logo</label>
                 <?php } else { ?>
                     <label class="info-title" for="exampleInputName">@lang('languages.profile_photo') </label>
                 <?php } ?>

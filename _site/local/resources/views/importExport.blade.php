@@ -81,60 +81,49 @@ $headertype = $setts[0]->header_type;
            <table> <!--  Get all -->
            <tr>
            <td style="vertical-align:top;">
-               <table class="table-bordered" id="datatable-responsive">
-              <thead>
-                <tr>
-                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Categorias</th>
-                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Subcategorias</th>
-		<!--<th>Lista de Marcas</th>
-                <th>Observacoes Sobre a Importacao</th> -->
-                </tr>
-              </thead>      
-              <?php //if(!empty($hreport_cnt)){
-		 // $i=1;
-		 // foreach ($hreport as $user) { $sta=$user->h_type_user; if($sta==1){ $viewst="Admin"; } else if($sta==2) { $viewst="Fornecedor"; } else if($sta==0) { $viewst="Comprador"; }?>
-                <?php foreach($category as $cat){ ?>
-                <tr>   
-                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
-                    <?php  echo utf8_decode($cat->cat_name); ?>     
-                    </td>                    
-                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
-                    <?php echo utf8_decode($cat->subcat_name);?></td>                      
-                </tr>
-                <?php } ?>                 
-               </td>           
-            </table>  
-               
-             <td style="vertical-align:top;">   
                <table class="table-bordered" id="datatable-responsive" >
               <thead>
                 <tr>
-		<th style="vertical-align:top;padding: 10px 25px 5px 25px;">Lista de Marcas</th>
+                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Informa&ccedil;&otilde;es &amp; Regras sobre Importa&ccedil;&atilde;o de Produtos em Massa</th>
+                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Passo a Passo no nosso Canal no <a href="https://www.youtube.com/channel/UCn8tLRoAciBslD-vhSa72cw" target="_blank" title="iBench - Youtube">YouTube</a></th>
+		 <!--<th>Lista de Marcas</th>
+                <th>Observacoes Sobre a Importacao</th> -->
                 </tr>
-              </thead>
-              <?php foreach($type as $value){ ?>
-              <tr>   
+              </thead>      
+                <tr>   
                     <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
-                     <?php echo utf8_decode($value->attr_value); ?>    
+                        <br />
+                        <b> 1.</b> Campos Obrigat&oacute;rios: Nome | Categoria | Marca | Descri&ccedil;&atilde;o | Quantidade | Pre&ccedil;o <br /><br />
+                         <b> 2. </b>Preencha os campos Pre&ccedil;o &amp; Quantidade com valores n&uacute;mericos.<br /><br />
+                         <b> 3.</b> Pre&ccedil;o Oferecido deve ser preenchido caso o produto esteja sendo vendido com desconto. <br /><br />
+                         <b> 4. </b>Os produtos cadastrados em massa ter&atilde;o como imagem a logo da sua empresa (Minha Conta &gt;&gt; Meu Perfil &gt;&gt; Campo &quot;Imagem da Logo&quot;). Caso a logo n&atilde;o esteja cadastrada, ser&aacute; utilizada uma imagem padr&atilde;o do iBench Market.<br /> <br />
+                         <b> 5.</b> Cada produto deve ser preenchido em uma linha da planilha modelo. <u>N&Atilde;O DEIXE LINHAS EM BRANCO ENTRE OS PRODUTOS</u>. Caso haja alguma linha em branco, o sistema interromper&aacute; a leitura e os produtos  abaixo da linha em branco n&atilde;o ser&atilde;o cadastrados.<br /><br />
+                         <b>6.</b> Ao final da importa&ccedil;&atilde;o ser&aacute; exibido o n&uacute;mero total de produtos cadastrados. Verifique se corresponde ao n&uacute;mero de produtos listados na planilha importada. Caso n&atilde;o corresponda, &eacute; poss&iacute;vel que algum dos produtos n&atilde;o tenha sido cadastrado com sucesso.<br /><br />
+                         <b>7.</b> Caso seja identificado algum erro no preenchimento da planilha, ser&aacute; exibido o n&uacute;mero da linha onde o erro se encontra e qual erro foi identificado para auxiliar na corre&ccedil;&atilde;o. IMPORTANTE: produto desta linha n&atilde;o ser&aacute; cadastrado.<br /><br />
+                        <b>8.</b> Esteja atento para n&atilde;o cadastrar o mesmo produto mais de uma vez!<br /><br />
+                        <b>9.</b> Caso tenha alguma d&uacute;vida, assista ao v&iacute;deo ao lado ou entre em contato conosco: <a href="mailto:ibench@ibench.com.br " target="_blank" title="iBench"><b>ibench@ibench.com.br</b></a> ou whatsapp (21) 98271-0963. <br /><br />
+                        <b>10.</b> Regras para a formata&ccedil;&atilde;o do texto de Descri&ccedil;&atilde;o : <br /><br />
+                          &lt;strong&gt; Texto &lt;/strong&gt; : Ficar em Negrito.<br />
+                          &lt;p&gt; Texto &lt;/p&gt; : Criar um paragrafo. <br />
+                          Texto &lt;br&gt; : Pula uma linha ap&oacute;s o texto. <br />
+                          &lt;em&gt; Texto &lt;/em&gt; : Ficar em It&aacute;lico.<br />
+                          &lt;h1&gt; Texto &lt;/h1&gt; : Maior tamanho poss&iacute;vel para um texto. <br />
+                          &lt;h2&gt; Texto &lt;/h2&gt; : Segundo maior tamanho para um texto.<br />
+                          &lt;h3&gt;&lt;h4&gt; : O mesmo que acima em menor escala. <br />
+                          <br />
+                          *Observa&ccedil;&atilde;o : N&atilde;o &eacute; necess&aacute;rio  nenhum dessas TAGS para atualizar a descri&ccedil;&atilde;o, mas para ter uma formata&ccedil;&atilde;o clara &eacute; recomend&aacute;vel  utilizar o paragrafo &lt;p&gt; ou pulo de linha &lt;br&gt; para separar os textos. 
+                          <p>** Para ficar mais em evidencia recomendamos as TAGS &lt;strong&gt; ou &lt;h1&gt;&lt;h2&gt; para destacar t&iacute;tulos  ou palavras. <br />
+
+                    </td>
+                    
+                    <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
+                        <iframe width="600" height="406" src="https://www.youtube.com/embed/s2fhqwPtrXE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>  
-              </tr>
-              <?php } ?>
-            </table>    
-            </td>
-            
-            <td style="vertical-align:top;">   
-               <table class="table-bordered" id="datatable-responsive">
-              <thead>
-                <tr>
-                <th style="vertical-align:top;padding: 10px 25px 5px 25px;">Observacoes Sobre a Importacao</th>
-                </tr>
-              </thead>
-              <tr>                   
-                <td style="vertical-align:top;padding: 10px 25px 5px 25px;"></td>                      
-              </tr>
-            </table>    
-            </td>
+                </tr>                         
+            </table> 
+           </td>
         </tr>
+        
         </table>
           </div>  
         

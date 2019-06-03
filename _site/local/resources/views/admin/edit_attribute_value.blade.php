@@ -47,7 +47,7 @@
                         <option value="">Selecione</option>
                         <?php if (!empty($type_count)) { ?>
                             <?php foreach ($attribute_type as $type) { ?>
-                                <option value="<?php echo $type->attr_id; ?>" <?php if ($attribute[0]->attr_id == $type->attr_id) { ?> selected <?php } ?>><?php echo $type->attr_name; ?></option>
+                        <option value="<?php echo $type->attr_id; ?>" <?php if ($attribute[0]->attr_id == $type->attr_id) { ?> selected <?php } ?>><?php echo utf8_decode($type->attr_name); ?></option>
                             <?php } ?>
                         <?php } ?>
                     </select>      
@@ -57,7 +57,7 @@
               <div class="control-group">
                 <label class="control-label">Valor/Nome <span class="required">*</span></label> 
                 <div class="controls">                      
-                    <input id="attribute_value" class="validate[required] span8"  name="attribute_value" value="<?php echo $attribute[0]->attr_value; ?>" type="text">
+                    <input id="attribute_value" class="validate[required] span8"  name="attribute_value" value="<?php echo utf8_decode($attribute[0]->attr_value); ?>" type="text">
                 </div>
               </div>             
               

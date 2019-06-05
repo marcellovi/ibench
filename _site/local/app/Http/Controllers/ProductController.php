@@ -322,32 +322,6 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		$check_search = 0;
 		$products_ids_result = [];
 
-		// Verifica Categoria
-		if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
-
-			if (isset($req['category'])){
-
-				$check_search = 1;
-				$viewproduct_category = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
-               									$query->where('delete_status','!=','deleted')
-                                ->where('prod_status','!=',0);
-                            })->orderBy('prod_id','desc');
-
-				$sub_categories = DB::table('subcategory')->where('subid','=',$req['category'])->get();
-
-				if ($sub_categories[0]->post_slug == "outros") {
-					$result_category = DB::table('subcategory')->where('post_slug','LIKE','%outros%')->pluck('subid')->toArray();
-				} else {
-					$result_category = [$req['category']];
-				}
-
-				$category_prod_ids = $viewproduct_category->whereIn('prod_category', $result_category)->pluck('prod_id')->toArray();
-
-				$products_ids_result = $category_prod_ids;
-			}
-
-		}
-
 		// Verifica Nome
 		if(array_key_exists('name', $req)) {
 			
@@ -370,6 +344,37 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 			}
 			
 		}
+
+
+		// Verifica Categoria
+		if(array_key_exists('category', $req) &&  strlen($req['category']) > 0 ) {
+
+			if (isset($req['category'])){
+
+				$check_search = 1;
+				$viewproduct_category = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+               									$query->where('delete_status','!=','deleted')
+                                ->where('prod_status','!=',0);
+                            })->orderBy('prod_id','desc');
+
+				$sub_categories = DB::table('subcategory')->where('subid','=',$req['category'])->get();
+
+				if ($sub_categories[0]->post_slug == "outros") {
+					$result_category = DB::table('subcategory')->where('post_slug','LIKE','%outros%')->pluck('subid')->toArray();
+				} else {
+					$result_category = [$req['category']];
+				}
+
+				if (!empty($products_ids_result)){
+					$category_prod_ids = $viewproduct_category->whereIn('prod_id',$products_ids_result)->whereIn('prod_category', $result_category)->pluck('prod_id')->toArray();
+				}else{
+					$category_prod_ids = $viewproduct_category->whereIn('prod_category', $result_category)->pluck('prod_id')->toArray();
+				}
+
+				$products_ids_result = $category_prod_ids;
+			}
+
+		}
 			
 		// Verifica Valor Max. e Min.
 		if(	array_key_exists('minvalue', $req) || array_key_exists('maxvalue', $req) ) {
@@ -388,18 +393,18 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
                             })->orderBy('prod_id','desc');
 
 				$value_min = isset($req['minvalue']) ? $req['minvalue'] : 1 ;
-				$value_max = isset($req['maxvalue']) ? $req['maxvalue'] : 1 ;
+				$value_max = isset($req['maxvalue']) ? $req['maxvalue'] : 9999999 ;
 			
 				if (!empty($products_ids_result)){
 
-					$viewproduct_offer =	$viewproduct_minvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+					$viewproduct_offer = $viewproduct_minvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
 				
 					$viewproduct_normal = $viewproduct_maxvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
 
 			
 				} else {
 
-					$viewproduct_offer =	$viewproduct_minvalue->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+					$viewproduct_offer = $viewproduct_minvalue->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
 				
 					$viewproduct_normal = $viewproduct_maxvalue->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
 			

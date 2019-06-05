@@ -383,35 +383,68 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 				
 				$check_search = 1;
 
-				$viewproduct_minvalue = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+				$viewproduct_filtered = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
                									$query->where('delete_status','!=','deleted')
                                 ->where('prod_status','!=',0);
                             })->orderBy('prod_id','desc');
-				$viewproduct_maxvalue = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
+
+				$viewproduct_filtered_get = DB::table('product')->where('user_id', '=' , $userid)->Where(function ($query) {
                									$query->where('delete_status','!=','deleted')
                                 ->where('prod_status','!=',0);
-                            })->orderBy('prod_id','desc');
+                            })->orderBy('prod_id','desc')->get();
 
 				$value_min = isset($req['minvalue']) ? $req['minvalue'] : 1 ;
 				$value_max = isset($req['maxvalue']) ? $req['maxvalue'] : 9999999 ;
+
+				$result_array = [];
 			
 				if (!empty($products_ids_result)){
 
-					$viewproduct_offer = $viewproduct_minvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+					$products_filtered = $viewproduct_filtered->whereIn('prod_id',$products_ids_result)->get();
 				
-					$viewproduct_normal = $viewproduct_maxvalue->whereIn('prod_id',$products_ids_result)->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
+					foreach ($products_filtered as $product_result) {
+
+						if ($product_result->prod_offer_price > 0){
+
+							if ( ($value_min <= $product_result->prod_offer_price) && ($product_result->prod_offer_price <= $value_max) ) {
+								array_push($result_array,$product_result->prod_id);
+							}
+
+						} else {
+
+							if ( ($value_min <= $product_result->prod_price) && ($product_result->prod_price <= $value_max) ){
+								array_push($result_array,$product_result->prod_id);
+							}
+
+						}
+
+					}
 
 			
 				} else {
 
-					$viewproduct_offer = $viewproduct_minvalue->whereBetween('prod_offer_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
-				
-					$viewproduct_normal = $viewproduct_maxvalue->whereBetween('prod_price', [$value_min, $value_max])->pluck('prod_id')->toArray();
-			
-				}
-			
+					foreach ($viewproduct_filtered_get as $product_result) {
 
-				$uniq_ids = array_unique(array_merge($viewproduct_offer, $viewproduct_normal));
+						if ($product_result->prod_offer_price > 0){
+
+							if ( ($value_min <= $product_result->prod_offer_price) && ($product_result->prod_offer_price <= $value_max) ) {
+								array_push($result_array,$product_result->prod_id);
+							}
+
+						} else {
+
+							if ( ($value_min <= $product_result->prod_price) && ($product_result->prod_price <= $value_max) ){
+								array_push($result_array,$product_result->prod_id);
+							}
+
+						}
+
+					}
+
+				}
+				
+
+				$uniq_ids = array_unique($result_array);
 			
 				$products_ids_result = $uniq_ids;
 
@@ -462,7 +495,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
                             })
 												->orderBy('prod_id','desc');
 
-			$viewcount = 	$viewcount->count();
+			$viewcount = $viewcount->count();
 
 			$tp = $viewcount / $total_reg;
 

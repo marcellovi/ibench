@@ -94,7 +94,7 @@ $headertype = $setts[0]->header_type;
                     <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
                         <br />
                         <b> 1.</b> Campos Obrigat&oacute;rios: Nome | Categoria | Marca | Descri&ccedil;&atilde;o | Quantidade | Pre&ccedil;o <br /><br />
-                         <b> 2. </b>Preencha os campos Pre&ccedil;o &amp; Quantidade com valores n&uacute;mericos.<br /><br />
+                         <b> 2. </b>Preencha os campos Pre&ccedil;o, Pre&ccedil;o Promocional &amp; Quantidade com valores n&uacute;mericos. O valor decimal deve ser separado por &quot;.&quot; ponto ao inv&eacute;s de v&iacute;rgula.<br /><br />
                          <b> 3.</b> Pre&ccedil;o Oferecido deve ser preenchido caso o produto esteja sendo vendido com desconto. <br /><br />
                          <b> 4. </b>Os produtos cadastrados em massa ter&atilde;o como imagem a logo da sua empresa (Minha Conta &gt;&gt; Meu Perfil &gt;&gt; Campo &quot;Imagem da Logo&quot;). Caso a logo n&atilde;o esteja cadastrada, ser&aacute; utilizada uma imagem padr&atilde;o do iBench Market.<br /> <br />
                          <b> 5.</b> Cada produto deve ser preenchido em uma linha da planilha modelo. <u>N&Atilde;O DEIXE LINHAS EM BRANCO ENTRE OS PRODUTOS</u>. Caso haja alguma linha em branco, o sistema interromper&aacute; a leitura e os produtos  abaixo da linha em branco n&atilde;o ser&atilde;o cadastrados.<br /><br />

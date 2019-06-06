@@ -1,0 +1,17 @@
+**************************************************************************************************
+***************** INFORMAÇÕES DAS ATUALIZAÇÕES DO IBENCH EM PRODUÇÃO *****************************
+******************                  ( VERSÕES )                      *****************************
+**************************************************************************************************
+
+- Versão iBench_V2 :: 06/03/2019 -
+
+1. Inclusão do Feature Importação
+ 	a. Regras para importação
+	b. Arquivo modelo para baixar
+	c. Validações e Mensagens de erro para serem exibidas
+2. Ajustes No Filtro do Fornecedor ( Pagina Produto )
+3. Inclusão de Mascaras nos formularios ( telefone, cep, cpf e cnpj )
+4. Acerto de Erros com o Valor Minimo
+5. Criar a opção de pagar como Pessoa Juridica ou Fisica no Checkout
+6. Acertos de exibição de valores em formatos correto no checkout & cart
+7. Acertos gerais de caracteres especiais.

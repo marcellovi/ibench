@@ -190,6 +190,7 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
 					<th class="item">@lang('languages.product_name')</th>
 					<th class="item">@lang('languages.category')</th>
 					<th class="item">@lang('languages.price')</th>
+                                        <th class="item">Qtd. Dispon&iacute;vel</th> 
 					<th class="item">@lang('languages.featured')</th>
 					<th class="item">Situa&ccedil;&atilde;o</th>
                     <th class="item">@lang('languages.status')</th>
@@ -201,15 +202,22 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
 			<tbody>
             
             <?php if(!empty($viewcount)){
-                  foreach($viewproduct as $product){
+                  foreach($viewproduct as $key=>$product){
 						
 			$prod_id = $product->prod_token; 
 			$product_img_count = DB::table('product_images')
 				->where('prod_token','=',$prod_id)
 				->count();					
 	    ?>
-            <tr>
-                <td class="cart-image">
+            <?php 
+            // Changes the color of the row
+            if($key % 2){ ?>
+                <tr bgcolor="#eee" > 
+            <?php }else{ ?>
+                <tr>
+            <?php } ?>
+                
+                <td>
                 <?php
                 if(!empty($product_img_count)){					
 			$product_img = DB::table('product_images')
@@ -217,11 +225,10 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
 				->orderBy('prod_img_id','asc')
 				->get();
 		?>                       
-            <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>" class="entry-thumbnail"><img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt="" class="img_responsive"></a>
+            <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>" class="entry-thumbnail"><img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt="" width="55"></a>
             <?php } else { ?>
-            <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>" class="entry-thumbnail"><img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt="" class="img_responsive"></a>
-            <?php } ?>
-                        
+            <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>" class="entry-thumbnail"><img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt="" width="55"></a>
+            <?php } ?>                        
 		</td>
             <?php
                 if($product->prod_cat_type=="cat"){
@@ -262,6 +269,7 @@ $editprofile = DB::select('select * from users where id = ?', [$userid]);
                     <?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span><?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?><?php } else { ?><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?><?php } ?>
                     </div>
 		 </td>
+                 <td class="cart-product-edit"><?php echo $product->prod_available_qty;?></td>
                 <?php 
                     if($product->prod_status==1){ 
                             $status_txt = __('languages.approved'); 

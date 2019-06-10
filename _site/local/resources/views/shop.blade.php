@@ -49,7 +49,7 @@ $setid=1;
     
     <div class='row'>
       <div class='col-md-3 sidebar'> 
-       
+       <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}
         <div class="sidebar-module-container">
           <div class="sidebar-filter"> 
             <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
@@ -59,7 +59,7 @@ $setid=1;
                 <h4 class="widget-title">@lang('languages.category')</h4>
               </div>
               <div class="sidebar-widget-body">
-                <select onChange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-control unicase-form-control">
+                <select name="inside_category" onChange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-control unicase-form-control">
                     <?php if(!empty($category_cnt)){?>
                         <option value="<?php echo $url;?>/shop">@lang('languages.all_category')</option>
                         <?php foreach($category as $catery){
@@ -133,7 +133,7 @@ $setid=1;
             <!-- ============================================== MANUFACTURES============================================== -->
             <div class="sidebar-widget wow fadeInUp">
               
-               <!-- Macello Hidde Bar 
+               <!-- Macello Hidde Bar  -->
               <div class="sidebar-widget-body">
                 <?php if(!empty($typers_count)){?>
                  <?php foreach($typers as $type){
@@ -152,7 +152,7 @@ $setid=1;
                     ?><div>
                          <h4 class="widget-title"><?php echo utf8_decode($type->attr_name);?></h4>
                          </div>
-                         <!--//==Product Price List Start==// 
+                         <!--//==Product Price List Start==// -->
                                    
                              <ul class="list">
                          <?php if(!empty($value_cnt)){?>
@@ -164,9 +164,9 @@ $setid=1;
                                   
                          <?php } } ?> 
               </div>
-                Fim Marcello -->
+                <!-- Fim Marcello -->
                 
-                 <!-- Marcello Alterando a posicao do Preco -->
+                 <!-- Marcello Alterando a posicao do Preco 
             <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}
             <!-- Retirado o <div class="sidebar-widget wow fadeInUp"> -->
                 <div class="widget-header">

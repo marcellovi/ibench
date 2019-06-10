@@ -129,7 +129,7 @@ class CategoryController extends Controller {
         } 
 
 	public function avigher_search_data( Request $request ) {
-
+            
 		$category_cnt = DB::table( 'category' )
 		                  ->where( 'delete_status', '=', '' )
 		                  ->where( 'status', '=', 1 )
@@ -158,10 +158,9 @@ class CategoryController extends Controller {
 		$type  = "";
 		$id    = "";
 
-		$data = $request->all();                                          
+		$data = $request->all();   //print_r($data['inside_category']);exit();                                       
                 
-		if ( ! empty( $data['category'] ) ) {
-
+		if ( ! empty( $data['category'] ) ) { print_r("categoria nao vazia");exit();
 
 			if ( $data['category'] == "all" ) {
 				$category_field = $data['category'];
@@ -297,7 +296,7 @@ class CategoryController extends Controller {
 		}
 
                 // Marcello :: Inclusao de mais paramentros no search
-		if ( ! empty( $data['search_text'] ) ) {
+		if ( ! empty( $data['search_text'] ) ) { print_r("search nao vazio");exit();
 			$search_txt = $this->remove_accent($data['search_text']);
                         
 			$viewcount   = DB::table( 'product' )
@@ -324,7 +323,7 @@ class CategoryController extends Controller {
 
 		if ( ! empty( $data['category'] ) && ! empty( $data['search_text'] ) ) {
                         
-                   
+                   print_r("search e categoria  nao vazio");exit();
                         // Marcello :: inclusao do desc e tags
 			if ( $data['category'] == "all" ) {
 				$category_field = $data['category'];
@@ -459,13 +458,34 @@ class CategoryController extends Controller {
 		if ( ! empty( $data['attribute'] ) ) {
 
 			$array = $data['attribute'];
+                        //print_r($array);exit();
 
 			$val = "";
 			foreach ( $array as $key => $value ) {
 				$val .= $value . ',';
-			}
-			$name = rtrim( $val, ',' );
-
+                                
+                                $viewcount = DB::table( 'product' )		               
+			               ->join( 'product_attribute_value','product_attribute_value.value_id','=',DB::raw('FIND_IN_SET("'.$value.'",product.prod_attribute)') )
+			               ->where( 'product.delete_status', '=', '' )
+			               ->where( 'product.prod_status', '=', 1 )
+                                       ->orderBy( 'product.prod_id', 'desc' )
+			               ->count();
+                                /*
+                              SELECT product.prod_id,product.prod_name,product.prod_attribute from product 
+                                 * join  product_attribute_value on product_attribute_value.value_id = 
+                                 * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
+                                 */
+                                
+                                $viewproduct = DB::table( 'product' )		               
+			               ->join( 'product_attribute_value','product_attribute_value.value_id','=',DB::raw('FIND_IN_SET("'.$value.'",product.prod_attribute)') )
+			               ->where( 'product.delete_status', '=', '' )
+			               ->where( 'product.prod_status', '=', 1 )
+                                       ->orderBy( 'product.prod_id', 'desc' )
+			               ->get();                                
+			}                        
+                         $name = rtrim( $val, ',' );  
+                         /*
+			$name = rtrim( $val, ',' );                      
 
 			$viewcount = DB::table( 'product' )
 			               ->where( 'delete_status', '=', '' )
@@ -477,16 +497,16 @@ class CategoryController extends Controller {
 			$viewproduct = DB::table( 'product' )
 			                 ->where( 'delete_status', '=', '' )
 			                 ->where( 'prod_status', '=', 1 )
-			                 ->whereRaw( 'FIND_IN_SET(prod_attribute,"' . $name . '")' )
+			                 ->whereRaw( 'FIND_IN_SET(SUBSTR (prod_attribute, ",") ,"' . $name . '")' )
 			                 ->orderBy( 'prod_id', 'desc' )
 			                 ->get();
-
+                                */
 		} else {
 			$name = "";
 		}
 
 
-		if ( ! empty( $data['price'] ) ) {
+		if ( ! empty( $data['price'] ) ) {  
 
 			$prices = $data['price'];
 			$price  = explode( "_", $prices );
@@ -510,12 +530,10 @@ class CategoryController extends Controller {
 
 		}
 
-
+/*
 		if ( ! empty( $data['price'] ) && ! empty( $data['attribute'] ) ) {
 
-
 			$array = $data['attribute'];
-
 			$val = "";
 			foreach ( $array as $key => $value ) {
 				$val .= $value . ',';
@@ -548,7 +566,10 @@ class CategoryController extends Controller {
 			                 ->get();
 
 
-		} else if ( empty( $data['price'] ) && empty( $data['attribute'] ) && empty( $data['category'] ) && empty( $data['search_text'] ) ) {
+		} 
+        */
+       /*         
+                else if ( empty( $data['price'] ) && empty( $data['attribute'] ) && empty( $data['category'] ) && empty( $data['search_text'] ) ) {
 
 			$viewcount = DB::table( 'product' )
 			               ->where( 'delete_status', '=', '' )
@@ -564,8 +585,22 @@ class CategoryController extends Controller {
 
 
 		}
+*/
 
-
+                $teste =  array('category'       => $category,
+		                       'category_cnt'   => $category_cnt,
+		                       'id'             => $id,
+		                       'viewproduct'    => $viewproduct,
+		                       'viewcount'      => $viewcount,
+		                       'pager'          => $pager,
+		                       'type'           => $type,
+		                       'typers'         => $typers,
+		                       'typers_count'   => $typers_count,
+		                       'name'           => $name,
+		                       'category_field' => $category_field,
+		                       'search_txt'     => $search_txt);
+                
+               // print_r(json_encode($viewproduct));exit();
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
 		                       'id'             => $id,

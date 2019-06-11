@@ -29,10 +29,7 @@ class IndexController extends Controller
 	 
     public function confirmation($it)
     {
-        date_default_timezone_set('America/Sao_Paulo');
-        $date = date('Y-m-d h:i:s', time());
-
-        DB::update('update users set confirmation="1", created_at="'.$date.'" where confirm_key="'.$it.'"');
+        DB::update('update users set confirmation="1" where confirm_key="'.$it.'"');
         // DB::update('update users set confirmation="1", created_at="'.date('Y-m-d H:i:s').'" where confirm_key="'.$it.'"');
 
         return view('confirmemail');		

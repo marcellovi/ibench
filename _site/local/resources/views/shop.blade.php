@@ -49,7 +49,7 @@ $setid=1;
     
     <div class='row'>
       <div class='col-md-3 sidebar'> 
-       <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}
+       <form class="register-form" role="form" method="POST" action="{{ route('shoping') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}
         <div class="sidebar-module-container">
           <div class="sidebar-filter"> 
             <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
@@ -59,9 +59,9 @@ $setid=1;
                 <h4 class="widget-title">@lang('languages.category')</h4>
               </div>
               <div class="sidebar-widget-body">
-                <select name="inside_category" onChange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);" class="form-control unicase-form-control">
+                <select name="inside_category" class="form-control unicase-form-control">
                     <?php if(!empty($category_cnt)){?>
-                        <option value="<?php echo $url;?>/shop">@lang('languages.all_category')</option>
+                        <option value="all">@lang('languages.all_category')</option>
                         <?php foreach($category as $catery){
 				$total_sub_cnt = 0;
 				$wellcount = DB::table('product')
@@ -97,7 +97,7 @@ $setid=1;
                                         }                                        
                                     }
 									?>
-                                    <option value="<?php echo $url;?>/shop/cat/<?php echo $catery->id;?>/<?php echo $catery->post_slug;?>" <?php if($id==$catery->id){?> selected <?php } ?>><?php echo utf8_decode($catery->cat_name);?> [<?php echo $total_sub_cnt;?>]
+                                    <option value="<?php echo $catery->id;?>_cat" <?php if($id==$catery->id){?> selected <?php } ?>><?php echo utf8_decode($catery->cat_name);?> [<?php echo $total_sub_cnt;?>]
                                     
                 <?php
                                     if(!empty($subcat_cnt)){
@@ -116,7 +116,7 @@ $setid=1;
 							   ->where('prod_cat_type','=','subcat')
 					                   ->count();
 		?>
-                                    <option value="<?php echo $url;?>/shop/subcat/<?php echo $subcat->subid;?>/<?php echo $subcat->post_slug;?>" <?php if($id==$subcat->subid){?> selected <?php } ?>>  - <?php echo utf8_decode($subcat->subcat_name);?> [<?php echo $wellcount_two;?>]</option>
+                                    <option value="<?php echo $subcat->subid;?>_subcat" <?php if($id==$subcat->subid){?> selected <?php } ?>>  - <?php echo utf8_decode($subcat->subcat_name);?> [<?php echo $wellcount_two;?>]</option>
                                     
                                 <?php } } ?>
                                                
@@ -178,6 +178,7 @@ $setid=1;
                   <input type="text" class="price-slider" value="" >
                 </div><?php */?>
                 <ul class="list">
+                    <li><input id="checkbox5" type="radio" name="price" class="unicase-form-control" value="all" checked=""><label class="radio-label" for="checkbox5">Todos<span class="pull-right"></span></label><span class=""></span></li>
                     <li><input id="checkbox5" type="radio" name="price" class="unicase-form-control" value="0_50"><label class="radio-label" for="checkbox5">@lang('languages.under') <?php echo $setts[0]->site_currency;?> 50 <span class="pull-right"></span></label><span class=""></span></li>
                     <li><input id="checkbox7" type="radio" name="price" class="unicase-form-control" value="50_100"><label class="radio-label" for="checkbox7"><?php echo $setts[0]->site_currency;?> 50 - <?php echo $setts[0]->site_currency;?> 100<span class="pull-right"></span></label><span class=""></span></li>
                     <li><input id="checkbox8" type="radio" name="price" class="unicase-form-control" value="100_200"><label class="radio-label" for="checkbox8"><?php echo $setts[0]->site_currency;?> 100 - <?php echo $setts[0]->site_currency;?> 200 <span class="pull-right"></span></label><span class=""></span></li>

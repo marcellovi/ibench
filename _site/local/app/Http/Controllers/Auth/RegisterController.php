@@ -74,18 +74,6 @@ class RegisterController extends Controller
         
         return $validator;
 
-        /** Marcello - Testes que eu fiz - Desconsiderar
-        $validator->after(function ($validator) {
-            if ($this->somethingElseIsInvalid()) {
-                $validator->errors()->add('name', 'Something is wrong with this field!');
-            }
-        });
-        
-        if ($validator->fails()) {
-    
-            }
-         * 
-         */
     }
     
     public function checagem_cpf_cnpj(){
@@ -181,8 +169,6 @@ class RegisterController extends Controller
                     // CPF inválido
                     $validou = false;
                 }
-
-
             }
              /** fim pesquisador **/ 
             
@@ -191,11 +177,7 @@ class RegisterController extends Controller
             
                /** Inicio fornecedor **/    
 
-                     $cnpj = $cpf_cnpj;
-                     echo $cnpj;
-                     exit();
-                     
-
+                     $cnpj = $cpf_cnpj;  
 
                               // Deixa o CNPJ com apenas números
                               $cnpj = preg_replace( '/[^0-9]/', '', $cnpj );
@@ -267,8 +249,7 @@ class RegisterController extends Controller
             
         }else {
            $validou = false;
-        }
-       
+        }       
         
        if($validou){
            // Usado para informar que o cpf/cnpj validou e retira todos os caracteres
@@ -285,22 +266,14 @@ class RegisterController extends Controller
      *
      * @param  array  $data
      * @return User
-     */
-	 
-	public function clean($string) 
-	{
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
-
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
-
-    
-    $string =  trim($string,'-');
-
-    return mb_strtolower($string);
-	}  
-	 
+     */	 
+    public function clean($string) 
+    {    
+        $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);    
+        $string = preg_replace("/[\/_|+ -]+/", '-', $string);    
+        $string =  trim($string,'-');
+        return mb_strtolower($string);
+    }  	 
         
     /**
      * Verify if CPF is Valid.
@@ -309,23 +282,19 @@ class RegisterController extends Controller
      * @return User
      */
     public function checkCPF($ckcpf) 
-    {
-        
+    {        
         /**  Marcello - Variaveis Customizaveis     */
         $validou = false;
 
         /** somente fica com os numeros **/
-        $cpf = preg_replace( '/[^0-9]/is', '', $ckcpf );
-        
+        $cpf = preg_replace( '/[^0-9]/is', '', $ckcpf );        
         
         /** Caso for 11 numeros CPF ; Se for 14 CNPJ 
          *  && 
          *  O Usuario Pesquisador "0" - CPF
          *  O usuario Fornecedor "2" - CNPJ 
          **/
-        //if ( strlen( $cpf_cnpj ) == 11 && $dataVal['usertype'] == 0) {
-            
- 
+        //if ( strlen( $cpf_cnpj ) == 11 && $dataVal['usertype'] == 0) {  
 
             if ( ! function_exists('calc_digitos_posicoes') ) {
                 function calc_digitos_posicoes( $digitos, $posicoes = 10, $soma_digitos = 0 ) {
@@ -399,17 +368,10 @@ class RegisterController extends Controller
 
                 return $validou;
             //}
-             /** fim pesquisador **/ 
+             /** fim pesquisador **/           
             
-            
-       // } 
-        
-        
-    
-    //$string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);    
-    //$string = preg_replace("/[\/_|+ -]+/", '-', $string);    
-    //$string =  trim($string,'-');   
-    //return mb_strtolower($string);
+       // }         
+
    }  
    
     /**
@@ -419,18 +381,13 @@ class RegisterController extends Controller
      * @return User
      */
     public function checkCNPJ($string) 
-    {
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
-    
-    $string =  trim($string,'-');   
+    {    
+        $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);    
+        $string = preg_replace("/[\/_|+ -]+/", '-', $string);    
+        $string =  trim($string,'-');   
 
-    return mb_strtolower($string);
-   }  
-   
-   
+        return mb_strtolower($string);
+   }        
    
    protected function validaCPF($cpf) {
  
@@ -456,7 +413,6 @@ class RegisterController extends Controller
             }
         }
         return true;
-
     }
 
    protected function validar_cnpj($cnpj)
@@ -486,29 +442,12 @@ class RegisterController extends Controller
    
    protected function register(Request $request)
     {
+       date_default_timezone_set('America/Sao_Paulo');
+       $date = date('Y-m-d h:i:s', time());
        
        /** Marcello Verificar CPF & CNPJ **/
         $data = $request->all();
-	$validou = $this->checkCPF($data['cpf_cnpj']);
-         
-        /*
-        if($data['cktermuse'] ==3){
-            echo "marcou";
-        }else{
-            echo "nao marcou";
-        }
-        exit();
-         * 
-         */
-         
-       /* 
-       if($validou){
-           // Usado para informar que o cpf/cnpj validou e retira todos os caracteres
-          $dataVal['cpf_cnpj'] = preg_replace( '/[^0-9]/is', '', $dataVal['cpf_cnpj'] );
-       }else{
-           $dataVal['cpf_cnpj'] = false; //"Favor verificar os campos CPF/CNPJ & Perfil Usuario";
-       }
-       */
+	$validou = $this->checkCPF($data['cpf_cnpj']);       
        
        /* Marcello - Adicionei o cpf_cnpj e o checkbox do termo de uso*/
         $validator = Validator::make($request->all(), [
@@ -524,25 +463,12 @@ class RegisterController extends Controller
         ]);
 
         $data = $request->all();
-		 $post_slugs = $this->clean($data['name']);
-             
-        /*
-        $validacao = $this->checkCPF($data['cpf_cnpj']);
-        if($validacao)
-            echo "validacao: correta";
-        else 
-            echo "validacao: invalida";
-        
-        
-        exit();
-         * 
-         */
+		 $post_slugs = $this->clean($data['name']);       
 
          $cpfvalid = $this->validaCPF($data['cpf_cnpj']);
          $cnpjvalid = $this->validar_cnpj($data['cpf_cnpj']);
 
-         $cpfok = false;
-         
+         $cpfok = false;         
 
          if( $cpfvalid == true || $cnpjvalid == true  ) {
              $cpfok = true;
@@ -580,7 +506,7 @@ class RegisterController extends Controller
 			$confirmation = 0;
 			
 			// Marcello ( gender ) DB::insert('insert into users (name,post_slug,email,password,confirm_key,confirmation,gender,phone,admin,country) values (?, ?, ?, ?, ?, ?,?, ?,?,?)', [$name,$post_slug,$email,$pass,$keyval,$confirmation,$gender,$phoneno,$usertype,$country]);
-			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj,delete_status) values (?, ?, ?, ?, ?,?, ?,?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj,$delete_status]);
+			DB::insert('insert into users (name,full_name,post_slug,email,password,confirm_key,confirmation,phone,admin,country,cpf_cnpj,delete_status,created_at) values (?, ?, ?, ?, ?,?, ?,?,?,?,?,?,?)', [$name,$full_name,$post_slug,$email,$pass,$keyval,$confirmation,$phoneno,$usertype,$country,$cpf_cnpj,$delete_status,$date]);
 	
 			$admin_idd=1;
 		
@@ -619,26 +545,26 @@ class RegisterController extends Controller
             return back()->withErrors($validator);
         /*return redirect('login')->with('error', 'Invalid input fields. Please try again');*/
         }
-	
-	
     }   
 
     protected function create(array $data)
     {		
+            date_default_timezone_set('America/Sao_Paulo');
+            $date = date('Y-m-d h:i:s', time());
+     
 		$setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
 		->get();		
-		
 		
 		$name = $data['name'];
                 $full_name = $data['full_name'];
 		$email = $data['email'];
 		$keyval = uniqid();
 		$pass = bcrypt($data['password']);
-			$phoneno = $data['phoneno'];
-			//$gender = $data['gender'];
-			$usertype = $data['usertype'];
+		$phoneno = $data['phoneno'];
+		//$gender = $data['gender'];
+		$usertype = $data['usertype'];
 		
 		
 		$temp_id = uniqid();
@@ -657,7 +583,8 @@ class RegisterController extends Controller
                              'country' => $data['country'],
                              'admin' => $data['usertype'],
                              'delete_status' => '',  // Marcello :: Add blocked when register
-                             'confirm_key' => $keyval,		
+                             'confirm_key' => $keyval,
+                             'created_at' => $date,
              ]); 
         }
         if($data['usertype']==2){
@@ -675,10 +602,10 @@ class RegisterController extends Controller
                             'country' => $data['country'],
                             'admin' => $data['usertype'],
                             'delete_status' => 'blocked',  // Marcello :: Add blocked when register
-                            'confirm_key' => $keyval,		
+                            'confirm_key' => $keyval,	
+                            'created_at' => $date,
             ]);
-        }
-        			
+        }        			
 		$admin_idd=1;
 		
 		$admin_email = DB::table('users')
@@ -691,15 +618,12 @@ class RegisterController extends Controller
 		$adminemail = $admin_email[0]->email;		
 		$adminname = $admin_email[0]->name;		
 		
-		
 		$datas = [
             'name' => $name, 'email' => $email, 'keyval' => $keyval, 'site_logo' => $site_logo,
 			'site_name' => $site_name, 'url' => $url
-        ];
-		
+        ];		
 		Mail::send('confirm_mail', $datas , function ($message) use ($adminemail,$adminname,$email)
-        {
-			
+        {			
 	    // Marcello :: Email Confirmation for Registration
             $message->subject('Confirma&ccedil;&atilde;o do Cadastro - iBench');			
             $message->from($adminemail,$adminname);

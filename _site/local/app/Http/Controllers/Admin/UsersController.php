@@ -189,7 +189,6 @@ class UsersController extends Controller
         DB::update($sql_product, [$id]);
         //DB::update('update product set prod_status=1 and delete_status = "inactive" where user_id!=1 and user_id = ?',[$id]);
         //DB::update('update users set delete_status="" where id!=1 and id = ?',[$id]);
-        // print_r($sql_product);exit();
 
         return back();
     }

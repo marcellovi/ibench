@@ -153,6 +153,18 @@ class CategoryController extends Controller {
 		            ->where( 'status', '=', 1 )
 		            ->where( 'search', '=', 1 )
 		            ->orderBy( 'attr_name', 'asc' )->get();
+                
+                $sellers_count = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->count(); 
+
+		$sellers = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->get();
 
 
 		$pager = "";
@@ -325,7 +337,9 @@ class CategoryController extends Controller {
 		                       'typers_count'   => $typers_count,
 		                       'name'           => $name,
 		                       'category_field' => $category_field,
-		                       'search_txt'     => $search_txt
+		                       'search_txt'     => $search_txt,
+                                       'sellers_count'  => $sellers_count,
+                                       'sellers'        => $sellers                         
 		] );
 	}
 
@@ -399,6 +413,23 @@ class CategoryController extends Controller {
                     $search_where .= ' and product.prod_price >'. $price1.' and product.prod_price <'. $price2;  
                 }
                 
+                /* check Seller */
+                if ( ! empty( $data['seller'] ) ) {
+                   
+                    $array = $data['seller'];
+                    $val = "";
+                    $sel_id = "";    
+			foreach ( $array as $value ) {
+				$sel_id .= $value . ',';                                
+                                $val .= ' product.user_id='.$value.' ||';
+                               }   
+                        $sellers_id =  rtrim( $sel_id, ',' ); 
+                        $search_sql_sellers = rtrim( $val, '||' ); 
+              
+                    $search_where .= ' and ( '.$search_sql_sellers.' ) ';    
+              }
+              
+                
                 /* check attribute Marca */
                 if ( ! empty( $data['attribute'] ) ) {
                    
@@ -421,6 +452,8 @@ class CategoryController extends Controller {
                      * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
                      */
               }
+              
+              
               /* SAFE AGAINST SQL INJECTION
                * 
                * $someVariable = Input::get("some_variable");
@@ -433,7 +466,7 @@ class CategoryController extends Controller {
               
               $final_sql = $search_sql.$search_where.$search_order;  
               $final_sql_cnt = $search_sql_cnt.$search_where.$search_order; 
-              
+              //print_r($final_sql);exit();
               
               $viewproduct = DB::select( DB::raw($final_sql));   
               $viewcount = DB::select( DB::raw($final_sql_cnt));
@@ -462,6 +495,18 @@ class CategoryController extends Controller {
 		            ->where( 'status', '=', 1 )
 		            ->where( 'search', '=', 1 )
 		            ->orderBy( 'attr_name', 'asc' )->get();
+                
+                $sellers_count = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->count(); 
+
+		$sellers = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->get();
    		
                 
 		return view( 'shop', [ 'category'       => $category,
@@ -475,7 +520,9 @@ class CategoryController extends Controller {
 		                       'typers_count'   => $typers_count,
 		                       'name'           => $name,
 		                       'category_field' => $category_field,
-                                       'search_txt'     => $search_txt
+                                       'search_txt'     => $search_txt,
+                                       'sellers_count'  => $sellers_count,
+                                       'sellers'     => $sellers
 		] );
 	}
         

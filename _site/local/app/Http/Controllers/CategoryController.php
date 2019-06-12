@@ -130,7 +130,7 @@ class CategoryController extends Controller {
 
         /* Upper Search Box on the Shop Blade */
 	public function avigher_search_data( Request $request ) {
-            
+       
 		$category_cnt = DB::table( 'category' )
 		                  ->where( 'delete_status', '=', '' )
 		                  ->where( 'status', '=', 1 )
@@ -158,12 +158,13 @@ class CategoryController extends Controller {
 		$pager = "";
 		$type  = "";
 		$id    = "";
+                $name = "";
 
 		$data = $request->all();                                        
                 
 		if ( ! empty( $data['category'] ) ) { 
 
-			if ( $data['category'] == "all" ) {
+			if ( $data['category'] == "all" && empty( $data['search_text'] ) ) { 
 				$category_field = $data['category'];
 				$viewcount      = DB::table( 'product' )
 				                    ->where( 'delete_status', '=', '' )
@@ -178,73 +179,15 @@ class CategoryController extends Controller {
 				                 ->get();
 
 
-			} else{
+			} else if ( $data['category'] != "all" && empty( $data['search_text'] ) ) {
+                            
 				$pieces         = explode( "_", $data['category'] );
 				$id             = $pieces[0];
 				$type           = $pieces[1];
-				$category_field = $data['category'];
+				$category_field = $data['category'];                             
+                      
                                 
-                                /* Marcello :: Checando a categoria Pai Cat                                
-                                if($type=="cat"){
-                                    
-                                $viewcount      = DB::table( 'product' )
-                                                    //->join('subcategory', 'product.prod_category', '=', 'subcategory.subid')
-                                                    ->join('subcategory', function($join) use ($id)
-                                                    {
-                                                        $join->on('product.prod_category', '=', 'subcategory.subid')
-                                                             ->where('subcategory.cat_id', '=', $id);
-                                                    })
-				                    ->where( 'product.delete_status', '=', '' )
-				                    ->where( 'prod_status', '=', 1 )
-				                    //->where( 'prod_category', '=', $id )
-				                    //->where( 'prod_cat_type', '=', $type )
-				                    ->orderBy( 'prod_id', 'desc' )
-				                    ->count();
-
-				$viewproduct = DB::table( 'product' )
-                                                ->join('subcategory', function($join) use ($id)
-                                                    {
-                                                        $join->on('product.prod_category', '=', 'subcategory.subid')
-                                                             ->where('subcategory.cat_id', '=', $id);
-                                                    })
-				                 ->where( 'product.delete_status', '=', '' )
-				                 ->where( 'prod_status', '=', 1 )
-				                // ->where( 'prod_category', '=', $id )
-				                 //->where( 'prod_cat_type', '=', $type )
-				                 ->orderBy( 'prod_id', 'desc' )
-				                 ->get();
-                                                 //->toSql();
-                                      
-                                                    $search_txt = 'padrao';
-                                                    $name = 'nome';
-                                                    
-                                                    print_r($viewproduct." id: ".$id." type:".$type);
-                                                    
-                                                    
-                                      return view( 'shop', [ 'category'       => $category,
-		                       'category_cnt'   => $category_cnt,
-		                       'id'             => $id,
-		                       'viewproduct'    => $viewproduct,
-		                       'viewcount'      => $viewcount,
-		                       'pager'          => $pager,
-		                       'type'           => $type,
-		                       'typers'         => $typers,
-		                       'typers_count'   => $typers_count,
-		                       'name'           => $name,
-		                       'category_field' => $category_field,
-		                       'search_txt'     => $search_txt
-		] );
-                                      
-                                   print_r($viewproduct." id: ".$id." type:".$type);
-                                    exit();
-                                }else if($type=="subcat"){
-                                    
-                                    print_r($type);
-                                    exit();
-                                }
-                                */
-                                
-                              if($type=='cat'){
+                              if($type=='cat'){ 
                                   
                                   $viewcount = DB::select("select count(*) as count from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
                                         //DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
@@ -253,7 +196,7 @@ class CategoryController extends Controller {
                                   $viewproduct = DB::select("select * from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
                              
                                   
-                              }else if($type=='subcat'){
+                              }else if($type=='subcat'){ 
                                  
                                   $viewcount = DB::select("select count(*) as count from product where product.delete_status = '' and prod_status = 1 and prod_category = $id order by prod_id desc");
                                         //DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
@@ -267,78 +210,24 @@ class CategoryController extends Controller {
                                   $viewcount = $viewcount[0]->count;
                                   
                                   $viewproduct = DB::select("select * from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
-                              }
-                             //$viewproduct = DB::select("SELECT * FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
-			
-                                
-                                /* original
-				$viewcount      = DB::table( 'product' )
-				                    ->where( 'delete_status', '=', '' )
-				                    ->where( 'prod_status', '=', 1 )
-				                    ->where( 'prod_category', '=', $id )
-				                    ->where( 'prod_cat_type', '=', $type )
-				                    ->orderBy( 'prod_id', 'desc' )
-				                    ->count();
-
-				$viewproduct = DB::table( 'product' )
-				                 ->where( 'delete_status', '=', '' )
-				                 ->where( 'prod_status', '=', 1 )
-				                 ->where( 'prod_category', '=', $id )
-				                 ->where( 'prod_cat_type', '=', $type )
-				                 ->orderBy( 'prod_id', 'desc' )
-				                 ->get();
-                                 * 
-                                 */
-                                
+                              }     
 			}
 
 		} else {
 			$category_field = "";
 		}
-
-                // Marcello :: Inclusao de mais paramentros no search
-		if ( ! empty( $data['search_text'] ) ) { 
-			$search_txt = $this->remove_accent($data['search_text']);
-                        
-			$viewcount   = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->where( "prod_name", "LIKE", "%$search_txt%" )
-                                         ->where( "prod_desc", "LIKE", "%$search_txt%" )
-                                         ->where( "prod_tags", "LIKE", "%$search_txt%" )
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->count();
-			$viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->where( "prod_name", "LIKE", "%$search_txt%" )
-                                         ->where( "prod_desc", "LIKE", "%$search_txt%" )
-                                         ->where( "prod_tags", "LIKE", "%$search_txt%" )    
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->get();
-
-		} else {
-			$search_txt = "";
-		}
+               
 
 
-		if ( ! empty( $data['category'] ) && ! empty( $data['search_text'] ) ) {
-                        
-                   ;
+		if ( ! empty( $data['category'] ) && ! empty( $data['search_text'] ) ) {                        
+                
                         // Marcello :: inclusao do desc e tags
-			if ( $data['category'] == "all" ) {
+			if ( $data['category'] == "all" ) { 
 				$category_field = $data['category'];
                                 
                                 // Marcello :: Retira o acento sem retirar a letra
                                 $search_txt     = $this->remove_accent($data['search_text']);    
-                                $search_accent = htmlentities($data['search_text'], ENT_COMPAT, "UTF-8");
-                        
-                       // var_dump (" <br> ". $data['search_text']." - ".$search_accent." -> ");
-                        //print_r($data['search_text']." - ".$search_accent);
-                       
-                        //$rep = print_r($data['search_text'], true);
-                        //echo '<pre>' . htmlentities($rep) . '</pre>';
-                       // exit();
+                                $search_accent = htmlentities($data['search_text'], ENT_COMPAT, "UTF-8");                       
 
                                                                        
                                 $viewcount      = DB::table( 'product' )
@@ -374,7 +263,7 @@ class CategoryController extends Controller {
 				$id             = $pieces[0];
 				$type           = $pieces[1];
 
-                                if($type=='cat'){
+                                if($type=='cat'){  
                                   
                                   $viewcount = DB::select("select count(*) as count from product inner join subcategory on"
                                           . " product.prod_category = subcategory.subid and subcategory.cat_id = $id "
@@ -399,7 +288,7 @@ class CategoryController extends Controller {
                                           . "order by prod_id desc");
                              
                                   
-                              }else if($type=='subcat'){                                     
+                              }else if($type=='subcat'){                                    
                                   
                                   $viewcount = DB::select("select count(*) as count from product "
                                           . "where product.delete_status = '' and prod_status = 1 and "
@@ -416,186 +305,14 @@ class CategoryController extends Controller {
                                           . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
                                           . "prod_tags LIKE '%$search_txt%') and "
-                                          . "prod_category = $id order by prod_id desc");
-                      
-                              }
-                              
-                                /* original 
-				$viewcount   = DB::table( 'product' )
-				                 ->where( 'delete_status', '=', '' )
-				                 ->where( 'prod_status', '=', 1 )
-				                 ->where( "prod_name", "LIKE", "%$search_txt%" )
-                                                 ->where( "prod_desc", "LIKE", "%$search_txt%" )
-                                                 ->where( "prod_tags", "LIKE", "%$search_txt%" )  
-                                                 
-				                 ->where( 'prod_category', '=', $id )
-				                 ->where( 'prod_cat_type', '=', $type )
-				                 ->orderBy( 'prod_id', 'desc' )
-				                 ->count();
-				$viewproduct = DB::table( 'product' )
-				                 ->where( 'delete_status', '=', '' )
-				                 ->where( 'prod_status', '=', 1 )
-				                 ->where( "prod_name", "LIKE", "%$search_txt%" )
-                                                 ->where( "prod_desc", "LIKE", "%$search_txt%" )
-                                                 ->where( "prod_tags", "LIKE", "%$search_txt%" ) 
-				                 ->where( 'prod_category', '=', $id )
-				                 ->where( 'prod_cat_type', '=', $type )
-				                 ->orderBy( 'prod_id', 'desc' )
-				                 ->get();
-                                 * 
-                                 */
+                                          . "prod_category = $id order by prod_id desc");                      
+                              }                              
 			}
-
 
 		} else {
 			$category_field = "";
 			$search_txt     = "";
 		}
-
-
-		if ( ! empty( $data['attribute'] ) ) {
-
-			$array = $data['attribute'];
-                       
-			$val = "";
-			foreach ( $array as $key => $value ) {
-				$val .= $value . ',';
-                                
-                                $viewcount = DB::table( 'product' )		               
-			               ->join( 'product_attribute_value','product_attribute_value.value_id','=',DB::raw('FIND_IN_SET("'.$value.'",product.prod_attribute)') )
-			               ->where( 'product.delete_status', '=', '' )
-			               ->where( 'product.prod_status', '=', 1 )
-                                       ->orderBy( 'product.prod_id', 'desc' )
-			               ->count();
-                                /*
-                              SELECT product.prod_id,product.prod_name,product.prod_attribute from product 
-                                 * join  product_attribute_value on product_attribute_value.value_id = 
-                                 * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
-                                 */
-                                
-                                $viewproduct = DB::table( 'product' )		               
-			               ->join( 'product_attribute_value','product_attribute_value.value_id','=',DB::raw('FIND_IN_SET("'.$value.'",product.prod_attribute)') )
-			               ->where( 'product.delete_status', '=', '' )
-			               ->where( 'product.prod_status', '=', 1 )
-                                       ->orderBy( 'product.prod_id', 'desc' )
-			               ->get();                                
-			}                        
-                         $name = rtrim( $val, ',' );  
-                         /*
-			$name = rtrim( $val, ',' );                      
-
-			$viewcount = DB::table( 'product' )
-			               ->where( 'delete_status', '=', '' )
-			               ->where( 'prod_status', '=', 1 )
-			               ->whereRaw( 'FIND_IN_SET(prod_attribute,"' . $name . '")' )
-			               ->orderBy( 'prod_id', 'desc' )
-			               ->count();
-
-			$viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->whereRaw( 'FIND_IN_SET(SUBSTR (prod_attribute, ",") ,"' . $name . '")' )
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->get();
-                                */
-		} else {
-                    
-                    $viewcount = DB::table( 'product' )
-			               ->where( 'delete_status', '=', '' )
-			               ->where( 'prod_status', '=', 1 )
-			               ->orderBy( 'prod_id', 'desc' )
-			               ->count();
-                    
-                    $viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->get();
-                    
-			$name = "";
-		}
-
-
-		if ( ! empty( $data['price'] ) ) {  
-
-			$prices = $data['price'];
-			$price  = explode( "_", $prices );
-			$price1 = $price[0];
-			$price2 = $price[1];
-
-			$viewcount = DB::table( 'product' )
-			               ->where( 'delete_status', '=', '' )
-			               ->where( 'prod_status', '=', 1 )
-			               ->where( 'prod_price', '>', $price1 )
-			               ->where( 'prod_price', '<', $price2 )
-			               ->count();
-
-			$viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->where( 'prod_price', '>', $price1 )
-			                 ->where( 'prod_price', '<', $price2 )
-			                 ->get();
-
-
-		}
-
-/*
-		if ( ! empty( $data['price'] ) && ! empty( $data['attribute'] ) ) {
-
-			$array = $data['attribute'];
-			$val = "";
-			foreach ( $array as $key => $value ) {
-				$val .= $value . ',';
-			}
-			$name = rtrim( $val, ',' );
-
-
-			$prices = $data['price'];
-			$price  = explode( "_", $prices );
-			$price1 = $price[0];
-			$price2 = $price[1];
-
-
-			$viewcount = DB::table( 'product' )
-			               ->where( 'delete_status', '=', '' )
-			               ->where( 'prod_status', '=', 1 )
-			               ->where( 'prod_price', '>', $price1 )
-			               ->where( 'prod_price', '<', $price2 )
-			               ->whereRaw( 'FIND_IN_SET(prod_attribute,"' . $name . '")' )
-			               ->orderBy( 'prod_id', 'desc' )
-			               ->count();
-
-			$viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->where( 'prod_price', '>', $price1 )
-			                 ->where( 'prod_price', '<', $price2 )
-			                 ->whereRaw( 'FIND_IN_SET(prod_attribute,"' . $name . '")' )
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->get();
-
-
-		} 
-        */
-       /*         
-                else if ( empty( $data['price'] ) && empty( $data['attribute'] ) && empty( $data['category'] ) && empty( $data['search_text'] ) ) {
-
-			$viewcount = DB::table( 'product' )
-			               ->where( 'delete_status', '=', '' )
-			               ->where( 'prod_status', '=', 1 )
-			               ->orderBy( 'prod_id', 'desc' )
-			               ->count();
-
-			$viewproduct = DB::table( 'product' )
-			                 ->where( 'delete_status', '=', '' )
-			                 ->where( 'prod_status', '=', 1 )
-			                 ->orderBy( 'prod_id', 'desc' )
-			                 ->get();
-
-
-		}
-*/
                 
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
@@ -610,8 +327,6 @@ class CategoryController extends Controller {
 		                       'category_field' => $category_field,
 		                       'search_txt'     => $search_txt
 		] );
-
-
 	}
 
          /* Right Specific Search Attibutes on the Shop Blade */
@@ -621,6 +336,7 @@ class CategoryController extends Controller {
 		$type  = "";
 		$id    = "";
                 $search_txt = "";
+                $name = "";
                 
                 $search_sql = "";
                 $search_sql_cnt = "";
@@ -637,7 +353,7 @@ class CategoryController extends Controller {
                             
                             /* basic sql */
                             $search_sql = ' Select * from product ';
-                            $search_sql_cnt = ' Select count(*) from product ';
+                            $search_sql_cnt = ' Select count(*) as count from product ';
                             $search_where = ' where product.delete_status="" and product.prod_status=1 ';                        
                             
 			} 
@@ -652,19 +368,19 @@ class CategoryController extends Controller {
                               if($type=='cat'){
                                   
                                   $search_sql = 'Select * from product join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id ='.$id ;
-                                  $search_sql_cnt = 'Select count(*) from product join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id ='.$id ;
+                                  $search_sql_cnt = 'Select count(*) as count from product join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id ='.$id ;
                                   $search_where = ' where product.delete_status="" and product.prod_status=1 '; 
                                   
                               }else if($type=='subcat'){
                                  
                                   $search_sql = ' select * from product ';
-                                  $search_sql_cnt = ' select count(*) from product ';
+                                  $search_sql_cnt = ' select count(*) as count from product ';
                                   $search_where = ' where product.delete_status="" and product.prod_status=1 and product.prod_category ='.$id ; 
                                      
                               }else{
                                   
                                   $search_sql = ' Select * from product ';
-                                  $search_sql_cnt = ' Select count(*) from product ';
+                                  $search_sql_cnt = ' Select count(*) as count from product ';
                                   $search_where = ' where product.delete_status="" and product.prod_status=1 ';   
                               }              
 			}
@@ -718,12 +434,10 @@ class CategoryController extends Controller {
               $final_sql = $search_sql.$search_where.$search_order;  
               $final_sql_cnt = $search_sql_cnt.$search_where.$search_order; 
               
-             // print_r($final_sql);
-              //print_r("<br><br>");
-             // print_r($final_sql_cnt);exit();
               
-              $viewproduct = DB::select( DB::raw($final_sql));
+              $viewproduct = DB::select( DB::raw($final_sql));   
               $viewcount = DB::select( DB::raw($final_sql_cnt));
+              $viewcount = $viewcount[0]->count; // 
               
                     
 		$category_cnt = DB::table( 'category' )
@@ -748,21 +462,7 @@ class CategoryController extends Controller {
 		            ->where( 'status', '=', 1 )
 		            ->where( 'search', '=', 1 )
 		            ->orderBy( 'attr_name', 'asc' )->get();
-
-                               
-                               /*
-                                $viewcount = DB::table( 'product' )		               
-			               ->join( 'product_attribute_value','product_attribute_value.value_id','=',DB::raw('FIND_IN_SET("'.$value.'",product.prod_attribute)') )
-			               ->where( 'product.delete_status', '=', '' )
-			               ->where( 'product.prod_status', '=', 1 )
-                                       ->orderBy( 'product.prod_id', 'desc' )
-			               ->count();
-                               
-                              SELECT product.prod_id,product.prod_name,product.prod_attribute from product 
-                                 * join  product_attribute_value on product_attribute_value.value_id = 
-                                 * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
-                                 */   
-		
+   		
                 
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
@@ -777,9 +477,8 @@ class CategoryController extends Controller {
 		                       'category_field' => $category_field,
                                        'search_txt'     => $search_txt
 		] );
-
-
 	}
+        
 
 	public function avigher_category( $type, $id, $slug ) {
 

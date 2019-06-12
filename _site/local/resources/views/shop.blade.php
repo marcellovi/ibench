@@ -133,7 +133,7 @@ $setid=1;
             <!-- ============================================== MANUFACTURES============================================== -->
             <div class="sidebar-widget wow fadeInUp">
               
-               <!-- Macello Hidde Bar  -->
+               <!-- Macello Attribute Type Bar  -->
               <div class="sidebar-widget-body">
                 <?php if(!empty($typers_count)){?>
                  <?php foreach($typers as $type){
@@ -165,6 +165,45 @@ $setid=1;
                          <?php } } ?> 
               </div>
                 <!-- Fim Marcello -->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                 <!-- Sellers Bar  -->
+              <div class="sidebar-widget-body">
+                <?php if(!empty($sellers_count)){?>
+                   <div>
+                         <h4 class="widget-title">Fornecedores</h4>
+                   </div>
+                        <ul class="list">  
+                    <?php foreach($sellers as $user){ ?>                       
+                               <li><input id="checkbox2" type="checkbox" name="seller[]" class="unicase-form-control" value="<?php echo $user->id;?>"><label class="radio-label" for="checkbox2"><?php echo utf8_decode($user->name_business);?> <span class="pull-right"></span></label><span class=""></span></li>
+                    <?php } ?>
+                         </ul>
+                                  
+                <?php }  ?> 
+              </div>
+                <!-- Fim Marcello -->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                  <!-- Marcello Alterando a posicao do Preco 
             <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formID" enctype="multipart/form-data">{{ csrf_field() }}
@@ -240,7 +279,7 @@ $setid=1;
         <!-- ========================================== SECTION – HERO ========================================= -->
         
         <div class="row">
-        <div class="col-md-12"><div class="heading-title" style="border-bottom:none !important;">@lang('languages.shop')</div></div>
+            <div class="col-md-12"><div class="heading-title" style="border-bottom:none !important;">@lang('languages.shop') </div></div>
         </div>
             
         <div class="clearfix filters-container m-t-10">
@@ -251,7 +290,7 @@ $setid=1;
                 <ul id="filter-tabs" class="nav nav-tabs nav-tab-box nav-tab-fa-icon">
                   <li class="active"> 
                      <a data-toggle="tab" href="#grid-container"><i class="icon fa fa-th-large"></i>@lang('languages.grid')</a> </li>
-                  <li><a data-toggle="tab" href="#list-container"><i class="icon fa fa-th-list"></i>@lang('languages.list')</a></li>
+                  <li><a data-toggle="tab" href="#list-container"><i class="icon fa fa-th-list"></i>@lang('languages.list')</a></li>                 
                 </ul>
               </div>
               <!-- /.filter-tabs --> 
@@ -259,6 +298,7 @@ $setid=1;
             <!-- /.col -->
             
             <div class="col col-sm-10 col-md-10 text-right">
+                <i class="fa fa-flask"></i>&nbsp;&nbsp;<?php if(isset($category)){ echo 'Total de '.$viewcount.'  Produtos'; } ?>
             <!-- Marcello :: Hide Organize Por 
               <div class="col col-sm-6 col-md-6">
                 <div class="lbl-cnt"> <span class="lbl">@lang('languages.sort_by')</span>

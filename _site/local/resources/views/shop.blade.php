@@ -1,13 +1,15 @@
 <?php
-	use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();	
+
+use Illuminate\Support\Facades\Route;
+
+$currentPaths = Route::getFacadeRoot()->current()->uri();
 $url = URL::to("/");
-$setid=1;
-		$setts = DB::table('settings')
-		->where('id', '=', $setid)
-		->get();
-		$headertype = $setts[0]->header_type;
-	?>
+$setid = 1;
+$setts = DB::table('settings')
+        ->where('id', '=', $setid)
+        ->get();
+$headertype = $setts[0]->header_type;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +24,9 @@ $setid=1;
         <ul class="list-inline list-unstyled">
           <li> <a href="<?php echo $url;?>">@lang('languages.home')</a></li>
           <li class='active'>@lang('languages.shop')</li>
+          <?php if(!empty($search_txt)){ ?>
+           <li class='active'><?php echo utf8_decode($search_txt); ?></li>
+          <?php } ?>
         </ul>
       </div>
     </div>
@@ -231,7 +236,10 @@ $setid=1;
 
             <!-- ============================================== PRICE SILDER : END ============================================== --> 
             
-              <div class="clearfix height20"></div>
+            <div class="clearfix height20"></div>
+               
+            <input type="hidden" name="search_txt" value="<?php echo $search_txt; ?>" >
+            
               <div>
                <input type="submit" name="search" class="lnk btn btn-primary" value="@lang('languages.filter')">
                </div>

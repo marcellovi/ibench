@@ -171,7 +171,8 @@ class CategoryController extends Controller {
 		$type  = "";
 		$id    = "";
                 $name = "";
-
+                $sellers_id = "";
+                
 		$data = $request->all();                                        
                 
 		if ( ! empty( $data['category'] ) ) { 
@@ -339,7 +340,8 @@ class CategoryController extends Controller {
 		                       'category_field' => $category_field,
 		                       'search_txt'     => $search_txt,
                                        'sellers_count'  => $sellers_count,
-                                       'sellers'        => $sellers                         
+                                       'sellers'        => $sellers,
+                                       'sellers_id'    => $sellers_id
 		] );
 	}
 
@@ -454,8 +456,7 @@ class CategoryController extends Controller {
                      * join  product_attribute_value on product_attribute_value.value_id = 
                      * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
                      */
-              }
-              
+              }              
               
                /* check Seach Text */
                 if ( ! empty( $data['search_txt'] ) ) {
@@ -482,11 +483,11 @@ class CategoryController extends Controller {
               
               $final_sql = $search_sql.$search_where.$search_order;  
               $final_sql_cnt = $search_sql_cnt.$search_where.$search_order; 
-              //print_r($final_sql);exit();
+     
               
               $viewproduct = DB::select( DB::raw($final_sql));   
               $viewcount = DB::select( DB::raw($final_sql_cnt));
-              $viewcount = $viewcount[0]->count; // 
+              $viewcount = $viewcount[0]->count; 
               
                     
 		$category_cnt = DB::table( 'category' )
@@ -538,7 +539,8 @@ class CategoryController extends Controller {
 		                       'category_field' => $category_field,
                                        'search_txt'     => $search_txt,
                                        'sellers_count'  => $sellers_count,
-                                       'sellers'     => $sellers
+                                       'sellers'        => $sellers,
+                                       'sellers_id'    => $sellers_id
 		] );
 	}
         

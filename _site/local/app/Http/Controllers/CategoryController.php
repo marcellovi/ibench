@@ -349,15 +349,18 @@ class CategoryController extends Controller {
 		$pager = "";
 		$type  = "";
 		$id    = "";
-                $search_txt = "";
-                $name = "";
-                
+              
+                $name = "";                
+                 
                 $search_sql = "";
                 $search_sql_cnt = "";
                 $search_where = "";      
                 $search_order = '  ORDER BY prod_id ASC';
                         
-		$data = $request->all();                                          
+		$data = $request->all();       
+                
+                $search_txt = $data['search_txt'];
+               
                 
 		if ( ! empty( $data['inside_category'] ) ) { 
 
@@ -452,6 +455,19 @@ class CategoryController extends Controller {
                      * FIND_IN_SET('8',product.prod_attribute) ORDER BY `prod_id`  ASC                                  
                      */
               }
+              
+              
+               /* check Seach Text */
+                if ( ! empty( $data['search_txt'] ) ) {
+                   
+                    $search_txt     = $this->remove_accent($data['search_txt']);
+                    $search_accent = htmlentities($data['search_txt'], ENT_COMPAT, "UTF-8");
+                                
+                       $search_where .=  " and (prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_accent%' or "
+                                          . "prod_tags LIKE '%$search_txt%') ";  
+              }                         
               
               
               /* SAFE AGAINST SQL INJECTION

@@ -783,7 +783,7 @@ $setid=1;
                         <div class="product-info text-center product_names">
                           <h3 class="name"><a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>"><?php echo utf8_decode($product->prod_name);?></a></h3>
                           <p><b>Marca(s): </b> <?php echo implode(", ", $brand_product); ?></p>
-                          <p><b>Fornecedor: </b> <?php echo $view_store_name; ?></p>
+                          <p><b>Fornecedor: </b> <?php echo utf8_decode($view_store_name); ?></p>
                           
                           <div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
                           <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>

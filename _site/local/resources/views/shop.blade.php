@@ -161,22 +161,41 @@ $headertype = $setts[0]->header_type;
                                    
                              <ul class="list">
                          <?php if(!empty($value_cnt)){?>
-                         <?php foreach($value as $values){?>
-                                 <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>"><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li>
+                         <?php foreach($value as $values){?>                                 
+                                
+                            <?php 
+                                 // Mark the attribute from Marca
+                                 if(!empty($name)){ 
+                                    $valcheck = explode(",", $name); // Separate all ids in to an array
+                                    $flag = false;
+                                    foreach($valcheck as $marked){ 
+                                        if($marked == $values->value_id){
+                                ?>
+                                    <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" checked="true"><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
+                                <?php 
+                                    $flag = true; // found it
+                                    break; }                                    
+                                ?>
+                                   
+                                 <?php  } // end foreach
+                                if(!$flag){ // if not found ?>
+                                    <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li>   
+                                <?php } ?>
+                                 
+                                      
+                                <?php   
+                                    }else{ ?>
+                                 <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
+                                <?php } // End Marking Attribute Marca ?>  
+                                 
+                                 
                              <?php } ?>
                          <?php } ?>
                              </ul>
                                   
                          <?php } } ?> 
               </div>
-                <!-- Fim Marcello -->
-                
-                
-                
-                
-                
-                
-                
+                <!-- Fim Marcello -->                    
                 
                 
                  <!-- Sellers Bar  -->
@@ -193,20 +212,7 @@ $headertype = $setts[0]->header_type;
                                   
                 <?php }  ?> 
               </div>
-                <!-- Fim Marcello -->
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                <!-- Fim Marcello -->    
                 
                 
                 

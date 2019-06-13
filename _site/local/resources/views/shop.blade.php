@@ -205,8 +205,43 @@ $headertype = $setts[0]->header_type;
                          <h4 class="widget-title">Fornecedores</h4>
                    </div>
                         <ul class="list">  
-                    <?php foreach($sellers as $user){ ?>                       
-                               <li><input id="checkbox2" type="checkbox" name="seller[]" class="unicase-form-control" value="<?php echo $user->id;?>"><label class="radio-label" for="checkbox2"><?php echo utf8_decode($user->name_business);?> <span class="pull-right"></span></label><span class=""></span></li>
+                    <?php foreach($sellers as $user){ ?>  
+                            
+                            <?php 
+                                 // Mark the checkbox Fornecedores
+                                 if(!empty($sellers_id)){ 
+                                    $valcheck = explode(",", $sellers_id); // Separate all ids in to an array
+                                    $flag = false;
+                                    foreach($valcheck as $marked){ 
+                                        if($marked == $user->id){
+                                ?>
+                                   <li>    
+                                    <input id="checkbox2" type="checkbox" name="seller[]" class="unicase-form-control" value="<?php echo $user->id;?>" checked="true">
+                                   <label class="radio-label" for="checkbox2"><?php echo utf8_decode(mb_convert_case($user->name_business, MB_CASE_TITLE, "UTF-8"));?> <span class="pull-right"></span></label><span class=""></span>
+                                  </li>
+                             <?php 
+                                    $flag = true; // found it
+                                    break; }                                    
+                                ?>
+                                   
+                                 <?php  } // end foreach
+                                if(!$flag){ // if not found ?>
+                                 <li>    
+                                   <input id="checkbox2" type="checkbox" name="seller[]" class="unicase-form-control" value="<?php echo $user->id;?>">
+                                   <label class="radio-label" for="checkbox2"><?php echo utf8_decode(mb_convert_case($user->name_business, MB_CASE_TITLE, "UTF-8"));?> <span class="pull-right"></span></label><span class=""></span>
+                               </li>
+                                <?php } ?>
+                                 
+                                      
+                                <?php   
+                                    }else{ ?>
+                                  <li>    
+                                   <input id="checkbox2" type="checkbox" name="seller[]" class="unicase-form-control" value="<?php echo $user->id;?>">
+                                   <label class="radio-label" for="checkbox2"><?php echo utf8_decode(mb_convert_case($user->name_business, MB_CASE_TITLE, "UTF-8"));?> <span class="pull-right"></span></label><span class=""></span>
+                               </li>
+                              <?php } // End Marking Attribute Fornecedor  ?> 
+                                   
+                                
                     <?php } ?>
                          </ul>
                                   

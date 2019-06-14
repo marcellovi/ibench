@@ -172,7 +172,8 @@ class CategoryController extends Controller {
 		$id    = "";
                 $name = "";
                 $sellers_id = "";
-                $prices = "";
+                $prices = "all";
+                $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
                 
 		$data = $request->all();                                        
                 
@@ -343,6 +344,7 @@ class CategoryController extends Controller {
                                        'sellers_count'  => $sellers_count,
                                        'sellers'        => $sellers,
                                        'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
                                        'price'          => $prices
 		] );
 	}
@@ -356,14 +358,16 @@ class CategoryController extends Controller {
               
                 $name = "";   
                 $sellers_id = ""; 
-                $prices = "";
+                
+                $prices = "all";
+                $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
                  
                 $search_sql = "";
                 $search_sql_cnt = "";
                 $search_where = "";      
                 $search_order = '  ORDER BY prod_id ASC';
                         
-		$data = $request->all();       
+		$data = $request->all();      
                 
                 $search_txt = $data['search_txt'];
                
@@ -545,6 +549,7 @@ class CategoryController extends Controller {
                                        'sellers_count'  => $sellers_count,
                                        'sellers'        => $sellers,
                                        'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
                                        'price'          => $prices
 		] );
 	}

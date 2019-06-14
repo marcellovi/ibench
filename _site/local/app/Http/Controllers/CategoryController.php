@@ -422,7 +422,7 @@ class CategoryController extends Controller {
                     $price  = explode( "_", $prices );
                     $price1 = $price[0];
                     $price2 = $price[1];
-
+//TODO : CHECK OFFER PRICE 0.0 IF NOT CHECK IT.
                     $search_where .= ' and product.prod_price >'. $price1.' and product.prod_price <'. $price2;  
                 }
                 
@@ -632,7 +632,8 @@ class CategoryController extends Controller {
 
 		$pager = "";
 		$type  = "";
-
+                $prices = "";
+                $search_txt = "";
 
 		return view( 'shop', [ 'category'     => $category,
 		                       'category_cnt' => $category_cnt,
@@ -642,7 +643,9 @@ class CategoryController extends Controller {
 		                       'pager'        => $pager,
 		                       'type'         => $type,
 		                       'typers'       => $typers,
-		                       'typers_count' => $typers_count
+		                       'typers_count' => $typers_count,
+                                       'price'          => $prices,
+                                       'search_txt'     => $search_txt
 		] );
 
 	}

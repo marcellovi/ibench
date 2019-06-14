@@ -422,9 +422,15 @@ class CategoryController extends Controller {
                     $price  = explode( "_", $prices );
                     $price1 = $price[0];
                     $price2 = $price[1];
-//TODO : CHECK OFFER PRICE 0.0 IF NOT CHECK IT.
-                    $search_where .= ' and product.prod_price >'. $price1.' and product.prod_price <'. $price2;  
-                }
+                    
+                    // Check only for products without discount
+                    $search_where .= ' and ( (product.prod_price >'. $price1.' and product.prod_price <'. $price2.') '
+                            . ' and product.prod_offer_price = 0) '; 
+                    
+                    // Check only for products with discount
+                    $search_where .= ' and ( (product.prod_offer_price >'. $price1.' and product.prod_offer_price <'. $price2.') '
+                            . ' and product.prod_offer_price != 0) '; 
+                } 
                 
                 /* check Seller */
                 if ( ! empty( $data['seller'] ) ) {
@@ -455,9 +461,8 @@ class CategoryController extends Controller {
                                }   
                         $name =  rtrim( $nom, ',' ); 
                         $val_att = rtrim( $val, '||' ); 
-              
-                    $search_sql .= ' join  product_attribute_value on product_attribute_value.value_id = ('.$val_att.')';     
-                    $search_sql_cnt .= ' join  product_attribute_value on product_attribute_value.value_id = ('.$val_att.')';                                
+                        
+                        $search_where .= ' and ('.$val_att.')';     
                              
                        /*
                       SELECT product.prod_id,product.prod_name,product.prod_attribute from product
@@ -491,7 +496,7 @@ class CategoryController extends Controller {
               
               $final_sql = $search_sql.$search_where.$search_order;  
               $final_sql_cnt = $search_sql_cnt.$search_where.$search_order; 
-     
+              //print_r($final_sql); exit();
               
               $viewproduct = DB::select( DB::raw($final_sql));   
               $viewcount = DB::select( DB::raw($final_sql_cnt));

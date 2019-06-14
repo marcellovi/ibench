@@ -14,7 +14,13 @@ $headertype = $setts[0]->header_type;
 <html lang="en">
 <head>
   @include('style')
+<style>
+#optionMarca {
+  cursor: pointer;
+}
+</style>
 </head>
+
 <body class="cnt-home">
   @include('header')
 
@@ -138,6 +144,7 @@ $headertype = $setts[0]->header_type;
             <!-- ============================================== MANUFACTURES============================================== -->
             <div class="sidebar-widget wow fadeInUp">
               
+                
                <!-- Macello Attribute Type Bar  -->
               <div class="sidebar-widget-body">
                 <?php if(!empty($typers_count)){?>
@@ -155,11 +162,11 @@ $headertype = $setts[0]->header_type;
 					->where('attr_id','=',$type->attr_id)
 					->orderBy('attr_value', 'asc')->get();	
                     ?><div>
-                         <h4 class="widget-title"><?php echo utf8_decode($type->attr_name);?></h4>
+                         <h4 class="widget-title-marca" title="Clique para Expandir/Esconder"  onclick="expandirSideMenu()"><?php echo utf8_decode($type->attr_name);?></h4>
                          </div>
                          <!--//==Product Price List Start==// -->
                                    
-                             <ul class="list">
+                         <ul class="list-marca" id="optionMarca"  >
                          <?php if(!empty($value_cnt)){?>
                          <?php foreach($value as $values){?>                                 
                                 
@@ -171,7 +178,7 @@ $headertype = $setts[0]->header_type;
                                     foreach($valcheck as $marked){ 
                                         if($marked == $values->value_id){
                                 ?>
-                                    <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" checked="true"><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
+                                    <li style="display: block;"><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" checked="true"><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
                                 <?php 
                                     $flag = true; // found it
                                     break; }                                    
@@ -179,13 +186,13 @@ $headertype = $setts[0]->header_type;
                                    
                                  <?php  } // end foreach
                                 if(!$flag){ // if not found ?>
-                                    <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li>   
+                                    <li style="display: block;"><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li>   
                                 <?php } ?>
                                  
                                       
                                 <?php   
                                     }else{ ?>
-                                 <li><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
+                                 <li style="display: block;"><input id="checkbox1" type="checkbox" name="attribute[]" class="unicase-form-control" value="<?php echo $values->value_id;?>" ><label class="radio-label" for="checkbox1"><?php echo utf8_decode($values->attr_value);?> <span class="pull-right"></span></label><span class=""></span></li> 
                                 <?php } // End Marking Attribute Marca ?>  
                                  
                                  
@@ -995,5 +1002,15 @@ $headertype = $setts[0]->header_type;
 </div>
 <div class="height20"></div>
 @include('footer')
+<script>
+function expandirSideMenu() {
+  var x = document.getElementById("optionMarca");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 </body>
 </html>

@@ -424,12 +424,12 @@ class CategoryController extends Controller {
                     $price2 = $price[1];
                     
                     // Check only for products without discount
-                    $search_where .= ' and ( (product.prod_price >'. $price1.' and product.prod_price <'. $price2.') '
+                    $search_where .= ' and ( ( (product.prod_price >'. $price1.' and product.prod_price <'. $price2.') '
                             . ' and product.prod_offer_price = 0) '; 
                     
                     // Check only for products with discount
-                    $search_where .= ' and ( (product.prod_offer_price >'. $price1.' and product.prod_offer_price <'. $price2.') '
-                            . ' and product.prod_offer_price != 0) '; 
+                    $search_where .= ' || ( (product.prod_offer_price >'. $price1.' and product.prod_offer_price <'. $price2.') '
+                            . ' and product.prod_offer_price != 0) )'; 
                 } 
                 
                 /* check Seller */

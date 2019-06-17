@@ -117,7 +117,7 @@ $headertype = $setts[0]->header_type;
                     </td>
                     
                     <td style="vertical-align:top;padding: 10px 25px 5px 25px;">
-                        <iframe width="600" height="406" src="https://www.youtube.com/embed/s2fhqwPtrXE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="600" height="406" src="https://www.youtube.com/embed/V8dlHf7Rj34" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </td>  
                 </tr>                         
             </table> 

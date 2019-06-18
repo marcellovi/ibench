@@ -415,10 +415,13 @@ class CategoryController extends Controller {
 			$category_field = "";
 		}
                 
+                if(empty($data['price'])){  $prices = 'all'; }
+                else{  $prices = $data['price']; }         
+                
                  /* check price  if not all than check price range */
-                if(!($data['price'] == 'all')){
-
-                    $prices = $data['price'];
+                if(!($prices == 'all')){
+                  
+                    //$prices = $data['price'];
                     $price  = explode( "_", $prices );
                     $price1 = $price[0];
                     $price2 = $price[1];
@@ -430,7 +433,7 @@ class CategoryController extends Controller {
                     // Check only for products with discount
                     $search_where .= ' || ( (product.prod_offer_price >'. $price1.' and product.prod_offer_price <'. $price2.') '
                             . ' and product.prod_offer_price != 0) )'; 
-                } 
+                }
                 
                 /* check Seller */
                 if ( ! empty( $data['seller'] ) ) {

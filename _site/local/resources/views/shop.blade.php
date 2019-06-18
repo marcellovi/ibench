@@ -279,11 +279,11 @@ $headertype = $setts[0]->header_type;
             
             <div class="clearfix height20"></div>
                
-            <input type="hidden" name="search_txt" value="<?php echo $search_txt; ?>" >
+            <input type="hidden" id="search_txt" name="search_txt" value="<?php echo $search_txt; ?>" >
             
               <div>
                <input type="submit" name="search" class="lnk btn btn-primary" value="@lang('languages.filter')">
-               <input type="button" onclick="myFunction()" class="lnk btn btn-primary" value="Limpar Filtro">
+               <input type="button" id="resetar" class="lnk btn btn-primary" value="Limpar Filtro">
                </div>
               <!-- /.sidebar-widget-body --> 
             </div>
@@ -995,11 +995,18 @@ $headertype = $setts[0]->header_type;
        
 </div>
 <div class="height20"></div>
+
 @include('footer')
+
 <script>
-function myFunction() {
-  document.getElementById("formID").reset();
-}
+
+//$(document).ready(function() {  
+$(function(){      
+    $('#resetar').click(function() {        
+         $('.unicase-form-control').attr('checked', this.checked);           
+    }); 
+      
+}); 
 </script>
 </body>
 </html>

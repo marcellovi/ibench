@@ -271,7 +271,7 @@ $setid=1;
     
     <div class="height20 clearfix"></div>
     
-    <div class="col-md-12"><h4>@lang('languages.billing_details')</h4></div>
+    <div class="col-md-12"><h4>@lang('languages.billing_details') - cpf/cnpj : <?php if(strlen($viewproduct[0]->cpf_cnpj)==11){ echo mask($viewproduct[0]->cpf_cnpj,'###.###.###-##'); }else{ echo mask($viewproduct[0]->cpf_cnpj,'##.###.###/####-##'); };?></h4> </div>
      <div class="height20 clearfix"></div>
 	<div class="col-md-6 ">
             <div class="form-group">
@@ -427,6 +427,26 @@ $setid=1;
 <div class="height30"></div>
 
  @include('footer')
- 
+ <?php
+ function mask($val, $mask)
+{
+ $maskared = '';
+ $k = 0;
+ for($i = 0; $i<=strlen($mask)-1; $i++)
+ {
+ if($mask[$i] == '#')
+ {
+ if(isset($val[$k]))
+ $maskared .= $val[$k++];
+ }
+ else
+ {
+ if(isset($mask[$i]))
+ $maskared .= $mask[$i];
+ }
+ }
+ return $maskared;
+}
+ ?>
  </body>
 </html>

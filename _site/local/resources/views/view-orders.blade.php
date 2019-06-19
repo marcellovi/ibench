@@ -230,6 +230,7 @@ $setid=1;
             <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.name'): </strong> <a href="<?php echo $url;?>/profile/<?php echo $viewproduct[0]->user_id;?>/<?php echo $customer_slug;?>" class="theme_color"><?php echo $customer_name;?></a></label>
         </div>
     </div>
+    
 	
     <div class="col-md-6 ">
 	<div class="form-group">
@@ -271,7 +272,7 @@ $setid=1;
     
     <div class="height20 clearfix"></div>
     
-    <div class="col-md-12"><h4>@lang('languages.billing_details') - cpf/cnpj : <?php if(strlen($viewproduct[0]->cpf_cnpj)==11){ echo mask($viewproduct[0]->cpf_cnpj,'###.###.###-##'); }else{ echo mask($viewproduct[0]->cpf_cnpj,'##.###.###/####-##'); };?></h4> </div>
+    <div class="col-md-12"><h4>@lang('languages.billing_details') </h4> </div>
      <div class="height20 clearfix"></div>
 	<div class="col-md-6 ">
             <div class="form-group">
@@ -284,6 +285,13 @@ $setid=1;
             <label class="fontnromal" for="exampleInputName"><strong>Sobre Nome / Inscri&ccedil;&atilde;o Estadual:</strong> <?php echo $bill_lastname;?></label>
 	</div>
     </div> 
+     
+      <div class="col-md-6 ">
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>CPF / CNPJ:</strong> <?php if(strlen($viewproduct[0]->cpf_cnpj)==11){ echo mask($viewproduct[0]->cpf_cnpj,'###.###.###-##'); }else if(strlen($viewproduct[0]->cpf_cnpj)==14){ echo mask($viewproduct[0]->cpf_cnpj,'##.###.###/####-##'); }else{  echo $viewproduct[0]->cpf_cnpj; }?></label>
+	</div>
+    </div> 
+    
     
     <div class="col-md-6 ">
 	<div class="form-group">

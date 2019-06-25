@@ -50,7 +50,7 @@
 <div class="widget-box">          
 
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Compradores</h5>
+            <h5>Compradores - ( <?php echo $users_cnt; ?> Total )</h5>
           </div>          
           
           <div class="widget-content nopadding">         
@@ -66,7 +66,7 @@
                   <th>Email</th>
                   <th>CPF</th>
 		  <th>Telefone</th>
-                  <th>Data m/d/aa</th>
+                  <th>Data</th>
                   <!--<th>Earning Balance</th>-->
                   <th>Status</th>
                   <th>A&ccedil;&atilde;o</th>
@@ -100,7 +100,7 @@
                           
                           <?php if($user->delete_status=="" && $user->confirmation == 1){
                               $logintype = "ativo";                               
-                          } else if($user->delete_status !="deleted" && $user->confirmation == 0){ $logintype = "N/C"; } 
+                          } else if($user->delete_status =="" && $user->confirmation == 0){ $logintype = "N/C"; } 
                             else{  $logintype = "N/A"; }
                           ?>                          
                           

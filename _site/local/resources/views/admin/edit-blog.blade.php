@@ -156,7 +156,7 @@
                 <label class="control-label">Tags</label>
                 <div class="controls">                 
                   
-                  <input id="tags" class="span8" value="<?php echo $blog[0]->post_tags;?>"  name="tags"  type="text" data-role="tagsinput" required="required">
+                    <input id="tags" class="span8" value="<?php echo utf8_decode($blog[0]->post_tags);?>"  name="tags"  type="text" data-role="tagsinput" required="required">
                   <p>(Example : blog post,latest post,popular blog,trending,social media )</p>   
                 </div>
               </div>	 

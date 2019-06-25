@@ -60,6 +60,7 @@
             <?php /* ?> <th>Vendors Amount<br/>(subtotal + shipping)</th>
                       <th>Admin Amount<br/>(processing fee + commission)</th><?php */?>
             <th>@lang('languages.total')</th>
+            <th>Data Pagto.</th>
             <th>@lang('languages.payment_type')</th>
             <th>@lang('languages.payment_id')</th>
             <!--<th>Payment Approve?</th>-->
@@ -146,6 +147,8 @@
 	<?php */?>
 						 
         <td><?php echo $setts[0]->site_currency.' '.number_format($product->total,2);?></td>
+        
+        <td><?php echo date("d/m/Y", strtotime($product->payment_date));?></td>
               
         <td><?php if($product->payment_type=="cash-on-delivery"){ ?>@lang('languages.type_cash_on_delivery') <?php } else{ echo $product->payment_type;}?></td>
                           

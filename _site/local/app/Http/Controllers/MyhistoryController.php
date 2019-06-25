@@ -106,30 +106,18 @@ class MyhistoryController extends Controller
             $message->to($admin_email);
 			
 
-        }); 
+        }); 		
 			
-			
-			
-			
-			
-			
-			return back()->with('success', 'Your withdraw request has been sent');
-			
-			}
-			else
-			{
-			   return back()->with('error', 'Your withdraw amount is high. Please check available balance');
-			}
-			 
-		}
-	
-	
-	
-		return back();		  
-	
-	
+            return back()->with('success', 'Your withdraw request has been sent');
+
+            }
+            else
+            {
+               return back()->with('error', 'Your withdraw amount is high. Please check available balance');
+            }			 
+    }	
+    return back();		
 	}
-	
 	
 	
 	
@@ -209,84 +197,69 @@ class MyhistoryController extends Controller
 		 ->where('id', '=', $aid)
 		 ->get();
 		
-		$admin_email = $admindetails[0]->email;
+		$admin_email = $admindetails[0]->email;	
 		
-		
-		
-		
-		$datas = [
+            $datas = [
             'prod_id' => $prod_id, 'prod_name' => $prod_name, 'prod_slug' => $prod_slug, 'purchase_token' => $purchase_token, 'order_id' => $order_id, 'payment_date' => $payment_date, 'currency' => $currency, 'site_logo' => $site_logo, 'site_name' => $site_name, 'buyer_id' => $buyer_id, 'buyer_name' => $buyer_name, 'buyer_email' => $buyer_email, 'buyer_slug' => $buyer_slug, 'vendor_id' => $vendor_id, 'vendor_email' => $vendor_email, 'vendor_name' => $vendor_name, 'vendor_slug' => $vendor_slug, 'payment' => $payment, 'subjected' => $subjected, 'messaged' => $messaged, 'payment_type' => $payment_type, 'url' => $url
         ];
 			
 		/* vendor email */
 		
 			
-			Mail::send('refund_email', $datas , function ($message) use ($admin_email,$vendor_email)
-        {
-            $message->subject('Cancellation & Refund Request');
-			
-            $message->from($admin_email,'Admin');
-
-            $message->to($vendor_email);
-			
-
-        });    
-		
-		
-		/* vendor email */  
-		
-		
-		
-		
-		/* admin email */
-		
 		Mail::send('refund_email', $datas , function ($message) use ($admin_email,$vendor_email)
         {
             $message->subject('Cancellation & Refund Request');
 			
             $message->from($admin_email,'Admin');
 
-            $message->to($admin_email);
+            $message->to($vendor_email);
+        });    		
+		
+		/* vendor email */  		
+		
+		
+		
+		/* admin email */
+		
+            Mail::send('refund_email', $datas , function ($message) use ($admin_email,$vendor_email)
+        {
+            $message->subject('Cancellation & Refund Request');
 			
+            $message->from($admin_email,'Admin');
 
-        });    
+            $message->to($admin_email);			
+
+        });    	
 		
-		
-		/* admin email */ 
-		   
+		/* admin email */ 		   
 		  
 	    return back()->with('success', 'Your cancellation & refund request has been sent');
 		
-		}
-		else
-		{
-		
-		 return back()->with('error', 'Your request already sent. Please wait admin will send the confirmation');
-		
-		}		  
-				  
-		 
-		 	
-	
-	}
-	
+            }
+            else
+            {
+
+             return back()->with('error', 'Your request already sent. Please wait admin will send the confirmation');
+
+            }	
+	}	
 	
 	
 	public function avigher_review_data(Request $request) 
 	{
-		 $data = $request->all();
-	     $rating = $data['rating'];
-		 $review = $data['review'];
+		$data = $request->all();
+                $rating = $data['rating'];
+		$review = $data['review'];
 		 
-		 $user_id = $data['user_id'];
-		 $prod_id = $data['prod_id'];
-		 $product_order_id = $data['product_order_id'];
+		$user_id = $data['user_id'];
+		$prod_id = $data['prod_id'];
+		$product_order_id = $data['product_order_id'];
 		 
-		 $check = DB::table('product_rating')
-		          ->where('user_id','=', $user_id)
-				  ->where('prod_id','=', $prod_id)
-				  ->where('product_order_id','=', $product_order_id)
-				  ->count();
+		$check = DB::table('product_rating')
+                            ->where('user_id','=', $user_id)
+                            ->where('prod_id','=', $prod_id)
+                            ->where('product_order_id','=', $product_order_id)
+                            ->count();
 				  
 		if(empty($check))
 		{
@@ -296,43 +269,31 @@ class MyhistoryController extends Controller
 		else
 		{
 		   DB::update('update product_rating set rating="'.$rating.'",review="'.$review.'" where user_id="'.$user_id.'" and product_order_id="'.$product_order_id.'" and prod_id = ?', [$prod_id]);
-		}
-				  
-		
+		}	
 		 
-		 return back()->with('success', 'Your rating & review has been updated');
-		 
-		 
-		 
-	
+		return back()->with('success', 'Sua avalia&ccedil;&atilde;o foi registrada');	
 	}
-	
-	
 	
 	
 	public function avigher_view_orderdetails($ord_id,$user_id)
 	{
 	
 	    $set_id=1;
-		$setting = DB::table('settings')->where('id', $set_id)->get();
+            $setting = DB::table('settings')->where('id', $set_id)->get();
 		
 		
 		$viewcount = DB::table('product_orders')
-		                 ->where('ord_id', '=', $ord_id)
-						 ->count();
+		                ->where('ord_id', '=', $ord_id)
+				->count();
 		
         $viewproduct = DB::table('product_orders')
-		                 ->where('ord_id', '=', $ord_id)
-						 ->get();
+		                ->where('ord_id', '=', $ord_id)
+				->get();
 						 
 		$data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting);				 
 		
-	    return view('view-orders')->with($data);
-	
-	}
-	
-	
-	
+	    return view('view-orders')->with($data);	
+	}	
 	
 	
 	public function avigher_view_myorders() {
@@ -565,11 +526,7 @@ class MyhistoryController extends Controller
 		{
 			$sumvalue_third = 0;
 			$shopping_id = "";
-		}
-		
-		
-		
-		
+		}		
 		
 		
 		$withdraw_count = DB::table('withdraw')
@@ -630,12 +587,8 @@ class MyhistoryController extends Controller
 		$data=array('site_setting' => $site_setting, 'sumvalue' => $sumvalue, 'balance_count' => $balance_count, 'sumvalue_two' => $sumvalue_two, 'balance_count_two' => $balance_count_two, 'sumvalue_third' => $sumvalue_third, 'balance_count_third' => $balance_count_third, 'amount' => $amount, 'withdraw_count' => $withdraw_count, 'withdraw' => $withdraw, 'pending_withdraw_cnt' => $pending_withdraw_cnt, 'pending_withdraw'=> $pending_withdraw, 'complete_withdraw_cnt' => $complete_withdraw_cnt, 'complete_withdraw' => $complete_withdraw);
 		 
 		
-      return view('my-balance')->with($data);
-   
-   
-   }
-   
-   
+      return view('my-balance')->with($data);   
+   }  
    
    
    public function avigher_myshopping($token)
@@ -644,28 +597,23 @@ class MyhistoryController extends Controller
       $logged = Auth::user()->id;
 		 
 		 
-		 $set_id=1;
-		$setting = DB::table('settings')->where('id', $set_id)->get();
-		
-		
+		$set_id=1;
+		$setting = DB::table('settings')->where('id', $set_id)->get();	
 		
 		$viewcount = DB::table('product_orders')
-		                 ->where('user_id', '=', $logged)
-						 ->where('purchase_token', '=', $token)
-						 
-						 ->count();
+		                ->where('user_id', '=', $logged)
+				->where('purchase_token', '=', $token)
+				->count();
 		
         $viewproduct = DB::table('product_orders')
-		                 ->where('user_id', '=', $logged)
-						 ->where('purchase_token', '=', $token)
-						 
-						 ->get();
+		                ->where('user_id', '=', $logged)
+				->where('purchase_token', '=', $token)
+				->get();
 				 
    $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
 	   
 	   return view('view-shopping')->with($data);
-   }
-       
+   }       
    
    
    public function avigher_view_myshopping()
@@ -692,24 +640,9 @@ class MyhistoryController extends Controller
    
    
    
-   
-  public function avigher_destroy($id) {
-		
-		
+  public function avigher_destroy($id) {	
 	  
-      DB::delete('delete from booking where book_id = ?',[$id]);
-	   
-      return back();
-      
-   }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+      DB::delete('delete from booking where book_id = ?',[$id]);	   
+      return back();      
+   }	
 }

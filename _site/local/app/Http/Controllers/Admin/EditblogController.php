@@ -58,6 +58,9 @@ class EditblogController extends Controller
         $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
         $string = preg_replace("/[\/_|+ -]+/", '-', $string);
         $string =  trim($string,'-');
+        $string = preg_replace('/[^A-Za-z0-9-]/', '', $string); // Marcello - Retirando o (automatico agora e caracteres especiais ) $url_slug = $data['url_slug'];
+	$string = str_replace("'", "", $string); // Retirando Aspas simples
+        $string = str_replace('"', "", $string); // Retirando Aspas duplas
         
         return mb_strtolower($string);
     } 
@@ -159,6 +162,10 @@ class EditblogController extends Controller
 		$post_title=$data['post_title'];
 		
 		$post_desc=$data['post_desc'];
+                $post_desc = str_replace('"','&quot;',$post_desc);
+                $post_desc = str_replace("'",'&apos;',$post_desc);
+                $post_desc = str_replace("&",'&amp;',$post_desc);
+                
 		$post_type = $data['post_type'];
 		$media_type = $data['media_type'];
 		

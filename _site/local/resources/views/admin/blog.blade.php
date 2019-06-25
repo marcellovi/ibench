@@ -8,7 +8,6 @@
 
 <body>
 @include('admin.top')
-
 @include('admin.menu')
 <?php $url = URL::to("/"); ?>
  

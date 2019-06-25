@@ -23,14 +23,13 @@ class UsersController extends Controller
     public function index() {
         $users = DB::table('users')
                 ->where('admin', '=', 0)
-                ->where('delete_status','=','')
                 ->orderBy('id', 'desc')
                 ->get();
 
         $users_cnt = DB::table('users')
                 ->where('admin', '=', 0)
                 ->orderBy('id', 'desc')
-                ->get();
+                ->count();
 
         $setid = 1;
         $setts = DB::table('settings')

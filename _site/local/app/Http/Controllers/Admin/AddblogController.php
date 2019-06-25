@@ -59,67 +59,41 @@ class AddblogController extends Controller
 	 
 	 /* protected $fillable = ['name', 'email','password','phone']; */
 	 
-	public function clean($string) 
-	{
-    
-     $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
+    public function clean($string) 
+    {    
+        $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);    
+        $string = preg_replace("/[\/_|+ -]+/", '-', $string);
+        $string =  trim($string,'-');
+        $string = preg_replace('/[^A-Za-z0-9-]/', '', $string); // Marcello - Retirando o (automatico agora e caracteres especiais ) $url_slug = $data['url_slug'];
+	$string = str_replace("'", "", $string); // Retirando Aspas simples
+        $string = str_replace('"', "", $string); // Retirando Aspas duplas
 
-    
-    $string = preg_replace("/[\/_|+ -]+/", '-', $string);
-
-    
-    $string =  trim($string,'-');
-
-    return mb_strtolower($string);
-	} 
-	 
-	 
-	 
+        return mb_strtolower($string);
+    } 
+ 
 	 
     protected function addblogdata(Request $request)
     {
-        
-		
-		
-		 $this->validate($request, [
-
-        		'post_title' => 'required'
-
-        		
-				
-				
-
-        	]);
-         
+	$this->validate($request, [
+        		'post_title' => 'required'    	
+            ]);         
 		 
 				
-		$input['post_title'] = Input::get('post_title');
-       $settings = DB::select('select * from settings where id = ?',[1]);
-	      $imgsize = $settings[0]->image_size;
-		 $imagetype = $settings[0]->image_type;
-		  $mp3size = $settings[0]->mp3_size;
+	$input['post_title'] = Input::get('post_title');
+        $settings = DB::select('select * from settings where id = ?',[1]);
+	$imgsize = $settings[0]->image_size;
+	$imagetype = $settings[0]->image_type;
+	$mp3size = $settings[0]->mp3_size;
 		
-		$rules = array(
-		
-		'post_title' => 'unique:post,post_title',
-		
+	$rules = array(		
+		'post_title' => 'unique:post,post_title',		
 		'photo' => 'max:'.$imgsize.'|mimes:'.$imagetype,
-		'audio_file' => 'max:'.$mp3size.'|mimes:mpga',
+		'audio_file' => 'max:'.$mp3size.'|mimes:mpga',	
+		);		
 		
-		
-		);
-		
-		
-		$messages = array(
-            
-            
-			
-        );
+	$messages = array();
 
-		$validator = Validator::make(Input::all(), $rules, $messages);
-		
-		
-		 
+	$validator = Validator::make(Input::all(), $rules, $messages); 
 		 
 		if ($validator->fails())
 		{
@@ -127,20 +101,14 @@ class AddblogController extends Controller
 			return back()->withErrors($validator);
 		}
 		else
-		{  
-		 
-
-		
-	
-	
-	     $image = Input::file('photo');
+		{  	
+                    $image = Input::file('photo');
 		 if($image!="")
 		 {
-            $filename  = time() . '.' . $image->getClientOriginalExtension();
-            $testimonialphoto="/media/";
-            $path = base_path('images'.$testimonialphoto.$filename);
-			$destinationPath=base_path('images'.$testimonialphoto);
- 
+                    $filename  = time() . '.' . $image->getClientOriginalExtension();
+                    $testimonialphoto="/media/";
+                    $path = base_path('images'.$testimonialphoto.$filename);
+                    $destinationPath=base_path('images'.$testimonialphoto); 
         
                Image::make($image->getRealPath())->resize(800, 533)->save($path);
 				 /*Input::file('photo')->move($destinationPath, $filename);*/
@@ -167,11 +135,7 @@ class AddblogController extends Controller
 		    $mp3name = "";
 		 }
 	
-	
-	
-	
-	
-		  $data = $request->all();
+		$data = $request->all();
 
 			/*User::create([
             'name' => $data['name'],
@@ -184,6 +148,9 @@ class AddblogController extends Controller
 		$post_title=$data['post_title'];
 		
 		$post_desc=$data['post_desc'];
+                $post_desc = str_replace('"','&quot;',$post_desc);
+                $post_desc = str_replace("'",'&apos;',$post_desc);
+                $post_desc = str_replace("&",'&amp;',$post_desc);
 		$post_type = $data['post_type'];
 		$media_type = $data['media_type'];
 		
@@ -207,19 +174,11 @@ class AddblogController extends Controller
 		else
 		{
 		  $post_tags="";
-		}
-		
-		
-		
+		}		
 		
 		DB::insert('insert into post (post_title,post_slug,post_desc,post_tags,post_type,post_media_type,post_image,post_audio,post_video,post_date,post_status) values (?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?)', [$post_title,$this->clean($post_title),$post_desc,$post_tags,$post_type,$media_type,$namef,$mp3name,$videourl,$post_date,$post_status]);
-		
-		
-			return redirect('admin/blog')->with('success', 'Post has been created');
-        }
-		
-		
-		
-		
+				
+		return redirect('admin/blog')->with('success', 'Post has been created');
+        }	
     }
 }

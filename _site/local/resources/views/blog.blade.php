@@ -42,7 +42,7 @@ $headertype = $setts[0]->header_type;
 				<li><a href="<?php echo $url;?>">@lang('languages.home')</a></li>
 				<li class='<?php if(!empty($blog_count)){?>active<?php } ?>'>@lang('languages.blog')</li>
                 <?php if(!empty($post_count)){?>
-                                    <li  class="<?php if(!empty($post_count)){?>active<?php } ?>"><?php echo substr($post[0]->post_title,0,100); ?></li>
+                                <li  class="<?php if(!empty($post_count)){?>active<?php } ?>"><?php echo substr(utf8_decode($post[0]->post_title),0,100); ?></li>
                                     <?php } ?>
 			</ul>
 		</div>

@@ -1189,9 +1189,8 @@
 				<div class="sidebar-module-container">
 						
      	
-<div class="sidebar-widget hot-deals wow fadeInUp outer-top-vs">
-	<h3 class="section-title">IBENCH - MARKETING</h3>
-        
+        <div class="sidebar-widget hot-deals wow fadeInUp outer-top-vs" style="box-shadow: none;">
+	        
         <!-- Inicio Carrossel -->
 	<div class="owl-carousel sidebar-carousel custom-carousel owl-theme outer-top-xs">
 

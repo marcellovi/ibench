@@ -367,7 +367,8 @@ $setid=1;
     <div class="col-md-6">
 		
 			<div class="form-group">
-		    <label class="info-title" for="exampleInputTitle">@lang('languages.images')  (1024Kb Max)<span>*</span></label>
+		    <label class="info-title" for="exampleInputTitle">@lang('languages.images')  (1024Kb Max)<span>*</span>
+                        <br><h6 style="color: red">* N&atilde;o use imagens com caracteres especiais no nome.</h6></label>
 		    <input type="file" placeholder="" name="image[]" class="form-control unicase-form-control validate[required]" accept="image/*" multiple>
 						  @if ($errors->has('image'))
                                     <span class="help-block" style="color:red;">

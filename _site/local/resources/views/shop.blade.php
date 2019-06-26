@@ -42,7 +42,7 @@ $headertype = $setts[0]->header_type;
               {{ Session::get('success') }}
             </p>
           @endif
- 	        
+          
           @if(Session::has('error'))
             <p class="alert alert-danger">
               {{ Session::get('error') }}
@@ -68,13 +68,13 @@ $headertype = $setts[0]->header_type;
                     <?php if(!empty($category_cnt)){?>
                         <option value="all">@lang('languages.all_category')</option>
                         <?php foreach($category as $catery){
-				$total_sub_cnt = 0;
-				$wellcount = DB::table('product')
-					->where('delete_status','=','')
+        $total_sub_cnt = 0;
+        $wellcount = DB::table('product')
+          ->where('delete_status','=','')
                                         ->where('prod_status','=',1)
-					->where('prod_category','=',$catery->id)
-					->where('prod_cat_type','=','cat')
-					->count();
+          ->where('prod_category','=',$catery->id)
+          ->where('prod_cat_type','=','cat')
+          ->count();
                                     
                                 $total_sub_cnt += $wellcount;
                                 $subcat_cnt = DB::table('subcategory')
@@ -101,26 +101,26 @@ $headertype = $setts[0]->header_type;
                                                 ->count();
                                         }                                        
                                     }
-									?>
+                  ?>
                                     <option value="<?php echo $catery->id;?>_cat" <?php if($id==$catery->id){?> selected <?php } ?>><?php echo utf8_decode($catery->cat_name);?> [<?php echo $total_sub_cnt;?>]
                                     
                 <?php
                                     if(!empty($subcat_cnt)){
                                         $subcat_get = DB::table('subcategory')
-							 ->where('delete_status','=','')
-							 ->where('status','=',1)
-							 ->where('cat_id','=',$catery->id)
-							 ->orderBy('subcat_name','asc')
-							 ->get();
-					foreach($subcat_get as $subcat)
-					{ 
+               ->where('delete_status','=','')
+               ->where('status','=',1)
+               ->where('cat_id','=',$catery->id)
+               ->orderBy('subcat_name','asc')
+               ->get();
+          foreach($subcat_get as $subcat)
+          { 
                                             $wellcount_two = DB::table('product')
-							  ->where('delete_status','=','')
-							   ->where('prod_status','=',1)
-							   ->where('prod_category','=',$subcat->subid)
-							   ->where('prod_cat_type','=','subcat')
-					                   ->count();
-		?>
+                ->where('delete_status','=','')
+                 ->where('prod_status','=',1)
+                 ->where('prod_category','=',$subcat->subid)
+                 ->where('prod_cat_type','=','subcat')
+                             ->count();
+    ?>
                                     <option value="<?php echo $subcat->subid;?>_subcat" <?php if($id==$subcat->subid){?> selected <?php } ?>>  - <?php echo utf8_decode($subcat->subcat_name);?> [<?php echo $wellcount_two;?>]</option>
                                     
                                 <?php } } ?>
@@ -142,18 +142,18 @@ $headertype = $setts[0]->header_type;
               <div class="sidebar-widget-body">
                 <?php if(!empty($typers_count)){?>
                  <?php foreach($typers as $type){
-				 
-			$value_cnt = DB::table('product_attribute_value')
+         
+      $value_cnt = DB::table('product_attribute_value')
                                         ->where('delete_status','=','')
-					->where('status','=',1)
-					->where('attr_id','=',$type->attr_id)
-					->orderBy('attr_value', 'asc')->count();
-				 
-			$value = DB::table('product_attribute_value')
+          ->where('status','=',1)
+          ->where('attr_id','=',$type->attr_id)
+          ->orderBy('attr_value', 'asc')->count();
+         
+      $value = DB::table('product_attribute_value')
                                         ->where('delete_status','=','')
-					->where('status','=',1)
-					->where('attr_id','=',$type->attr_id)
-					->orderBy('attr_value', 'asc')->get();	
+          ->where('status','=',1)
+          ->where('attr_id','=',$type->attr_id)
+          ->orderBy('attr_value', 'asc')->get();  
                     ?><div>
                          <h4 class="widget-title"><?php echo utf8_decode($type->attr_name);?></h4>
                          </div>
@@ -410,7 +410,7 @@ $headertype = $setts[0]->header_type;
 
                 <?php if(!empty($viewcount)){?>                               
                  <?php 
-			$ii = 1;
+      $ii = 1;
 
                 if (is_array($viewproduct)){
                   $result_each = array_chunk($viewproduct, 6);
@@ -418,7 +418,7 @@ $headertype = $setts[0]->header_type;
                   $result_each = $viewproduct->chunk(6);
                 }
 
-		foreach($result_each as $grid){
+    foreach($result_each as $grid){
           
                 ?>
 
@@ -426,27 +426,27 @@ $headertype = $setts[0]->header_type;
 
                 <?php
                   foreach ($grid as $product) {
-								
-			$prod_id = $product->prod_token; 
-                	$product_img_count = DB::table('product_images')
-				->where('prod_token','=',$prod_id)
-				->count();
-		?>
+                
+      $prod_id = $product->prod_token; 
+                  $product_img_count = DB::table('product_images')
+        ->where('prod_token','=',$prod_id)
+        ->count();
+    ?>
                   <div class="col-sm-6 col-md-2 wow fadeInUp">
                     <div class="products">
                       <div class="product">
                         <div class="product-image">
                           <div class="image"> <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
                                  <?php 
-                                        if(!empty($product_img_count)){					
-						$product_img = DB::table('product_images')
-								->where('prod_token','=',$prod_id)
-								->orderBy('prod_img_id','asc')
-								->get();
-																		
-								if(!empty($product_img[0]->image))
-								{								
-								?>
+                                        if(!empty($product_img_count)){         
+            $product_img = DB::table('product_images')
+                ->where('prod_token','=',$prod_id)
+                ->orderBy('prod_img_id','asc')
+                ->get();
+                                    
+                if(!empty($product_img[0]->image))
+                {               
+                ?>
                                         <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                         <?php } else { ?>
                                         <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
@@ -461,39 +461,39 @@ $headertype = $setts[0]->header_type;
                         </div>
                         
         <?php
-								
+                
           $review_count_03 = DB::table('product_rating')
-				->where('prod_id', '=', $product->prod_id)
-				->count();
-				
-		if(!empty($review_count_03))
-		{
-		$review_value_03 = DB::table('product_rating')
+        ->where('prod_id', '=', $product->prod_id)
+        ->count();
+        
+    if(!empty($review_count_03))
+    {
+    $review_value_03 = DB::table('product_rating')
                                    ->where('prod_id', '=', $product->prod_id)
                                    ->get();
-			
-			$over_03 = 0;
-		        $fine_value_03 = 0;
-				foreach($review_value_03 as $review){
-				if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
-		if($review->rating==2){$value2 = $review->rating*2;} else { $value2 = 0; }
-		if($review->rating==3){$value3 = $review->rating*3;} else { $value3 = 0; }
-		if($review->rating==4){$value4 = $review->rating*4;} else { $value4 = 0; }
-		if($review->rating==5){$value5 = $review->rating*5;} else { $value5 = 0; }
-		
-		$fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
-		
+      
+      $over_03 = 0;
+            $fine_value_03 = 0;
+        foreach($review_value_03 as $review){
+        if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
+    if($review->rating==2){$value2 = $review->rating*2;} else { $value2 = 0; }
+    if($review->rating==3){$value3 = $review->rating*3;} else { $value3 = 0; }
+    if($review->rating==4){$value4 = $review->rating*4;} else { $value4 = 0; }
+    if($review->rating==5){$value5 = $review->rating*5;} else { $value5 = 0; }
+    
+    $fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
+    
                 $over_03 +=$review->rating;
-	   
-		}
-		if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } 
-                else {  $roundeding_03 = 0; }	
-				
+     
+    }
+    if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } 
+                else {  $roundeding_03 = 0; } 
+        
             }
-		if(!empty($review_count_03))
-	        {
-	            if(!empty($roundeding_03)){
-	                if($roundeding_03==1){ $rateus_new_03 ='
+    if(!empty($review_count_03))
+          {
+              if(!empty($roundeding_03)){
+                  if($roundeding_03==1){ $rateus_new_03 ='
                             <p class="review-icon">
                             <span>
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -503,20 +503,20 @@ $headertype = $setts[0]->header_type;
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </p>';
-		}
+    }
                     if($roundeding_03==2){ $rateus_new_03 ='
                             <p class="review-icon">
                             <span>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </span>
-													
+                          
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </p>';
-		}
-												
+    }
+                        
                     if($roundeding_03==3){ $rateus_new_03 ='
                             <p class="review-icon">
                             <span>
@@ -524,12 +524,12 @@ $headertype = $setts[0]->header_type;
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </span>
-													
+                          
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </p>';
-		}
-												
+    }
+                        
                     if($roundeding_03==4){ $rateus_new_03 ='
                             <p class="review-icon">
                             <span>
@@ -538,11 +538,11 @@ $headertype = $setts[0]->header_type;
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </span>
-				                           
+                                   
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </p>';
                 }
-						
+            
                     if($roundeding_03==5){ $rateus_new_03 ='
                             <p class="review-icon">
                             <span>
@@ -553,9 +553,9 @@ $headertype = $setts[0]->header_type;
                             <i class="fa fa-star" aria-hidden="true"></i>
                             </span>
                             </p>';
-		}
-			
-		}else if(empty($roundeding_03)){  $rateus_new_03 = '
+    }
+      
+    }else if(empty($roundeding_03)){  $rateus_new_03 = '
                             <p class="review-icon">
                             <span></span>
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -563,21 +563,21 @@ $headertype = $setts[0]->header_type;
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <i class="fa fa-star" aria-hidden="true"></i>
-			    </p>';
-		}
+          </p>';
+    }
             }
-					
-		$rateus_empty_03 = '
-		<p class="review-icon">
+          
+    $rateus_empty_03 = '
+    <p class="review-icon">
                 <span></span>
-		<i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
                 <i class="fa fa-star" aria-hidden="true"></i>
-		<i class="fa fa-star" aria-hidden="true"></i>
-		<i class="fa fa-star" aria-hidden="true"></i>
-		<i class="fa fa-star" aria-hidden="true"></i>
-		</p>';
-												
-	?>                       
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
+    <i class="fa fa-star" aria-hidden="true"></i>
+    </p>';
+                        
+  ?>                       
                             
         <?php
             // Consulta as Marcas dos produtos 
@@ -731,12 +731,12 @@ $headertype = $setts[0]->header_type;
                    
               <?php if(!empty($viewcount)){?>                               
                 <?php foreach($viewproduct as $product){
-								
-			$prod_id = $product->prod_token; 
+                
+      $prod_id = $product->prod_token; 
                         $product_img_count = DB::table('product_images')
-						->where('prod_token','=',$prod_id)
-						->count();
-			?>
+            ->where('prod_token','=',$prod_id)
+            ->count();
+      ?>
                 <!-- Marcello row list             <div class="row">         <div  class="col-md-12 list_list" >  -->    
                  <div class="category-product-inner wow fadeInUp">
                   <div class="products">
@@ -747,15 +747,15 @@ $headertype = $setts[0]->header_type;
                             
                             <div class="image"> <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>">
                                  <?php 
-                                        if(!empty($product_img_count)){					
-						$product_img = DB::table('product_images')
-								->where('prod_token','=',$prod_id)
-								->orderBy('prod_img_id','asc')
-								->get();
-																
-					if(!empty($product_img[0]->image))
-					{								
-				?>
+                                        if(!empty($product_img_count)){         
+            $product_img = DB::table('product_images')
+                ->where('prod_token','=',$prod_id)
+                ->orderBy('prod_img_id','asc')
+                ->get();
+                                
+          if(!empty($product_img[0]->image))
+          {               
+        ?>
                                 <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt=""/>
                                 <?php } else { ?>
                                 <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt=""/>
@@ -768,64 +768,64 @@ $headertype = $setts[0]->header_type;
                         </div>
                         
                     <?php
-							
-		/************** STAR RATING *************/
-		
-		$review_count_03 = DB::table('product_rating')
-				->where('prod_id', '=', $product->prod_id)
-				->count();
-				
-		if(!empty($review_count_03))
-		{
+              
+    /************** STAR RATING *************/
+    
+    $review_count_03 = DB::table('product_rating')
+        ->where('prod_id', '=', $product->prod_id)
+        ->count();
+        
+    if(!empty($review_count_03))
+    {
                     $review_value_03 = DB::table('product_rating')
-				               ->where('prod_id', '=', $product->prod_id)
-				               ->get();
-				
-		    $over_03 = 0;
-		    $fine_value_03 = 0;
+                       ->where('prod_id', '=', $product->prod_id)
+                       ->get();
+        
+        $over_03 = 0;
+        $fine_value_03 = 0;
                     foreach($review_value_03 as $review){
                             if($review->rating==1){$value1 = $review->rating*1;} else { $value1 = 0; }
                             if($review->rating==2){$value2 = $review->rating*2;} else { $value2 = 0; }
                             if($review->rating==3){$value3 = $review->rating*3;} else { $value3 = 0; }
                             if($review->rating==4){$value4 = $review->rating*4;} else { $value4 = 0; }
                             if($review->rating==5){$value5 = $review->rating*5;} else { $value5 = 0; }
-		
+    
                     $fine_value_03 += $value1 + $value2 + $value3 + $value4 + $value5;
-		
+    
                     $over_03 +=$review->rating;
-	  
-	  	}
-		if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } 
-                else {  $roundeding_03 = 0; }	
+    
+      }
+    if(!empty(round($fine_value_03/$over_03))){ $roundeding_03 = round($fine_value_03/$over_03); } 
+                else {  $roundeding_03 = 0; } 
             }
-	
+  
                 if(!empty($review_count_03))
-		{
-	                if(!empty($roundeding_03)){
-	
+    {
+                  if(!empty($roundeding_03)){
+  
                             if($roundeding_03==1){ 
                                 $rateus_new_03 ='<p class="review-icon">
                                                 <span>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 </span>
-						<i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 </p>';
-					}
+          }
                             if($roundeding_03==2){ $rateus_new_03 ='
                                         <p class="review-icon">
                                         <span>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         </span>
-			                <i class="fa fa-star" aria-hidden="true"></i>
+                      <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         </p>';
-				}
-												
+        }
+                        
                             if($roundeding_03==3){ $rateus_new_03 ='
                                             <p class="review-icon">
                                             <span>
@@ -833,11 +833,11 @@ $headertype = $setts[0]->header_type;
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             </span>
-					    <i class="fa fa-star" aria-hidden="true"></i>
+              <i class="fa fa-star" aria-hidden="true"></i>
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             </p>';
-				}
-												
+        }
+                        
                             if($roundeding_03==4){ $rateus_new_03 ='
                                             <p class="review-icon">
                                             <span>
@@ -848,21 +848,21 @@ $headertype = $setts[0]->header_type;
                                             </span>
                                             <i class="fa fa-star" aria-hidden="true"></i>
                                             </p>';
-				}
-												
+        }
+                        
                             if($roundeding_03==5){ $rateus_new_03 ='
                                                 <p class="review-icon">
                                                 <span>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
-						<i class="fa fa-star" aria-hidden="true"></i>
-                                            	<i class="fa fa-star" aria-hidden="true"></i>
+            <i class="fa fa-star" aria-hidden="true"></i>
+                                              <i class="fa fa-star" aria-hidden="true"></i>
                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                 </span>
-						</p>';
-				}
-			}
-			else if(empty($roundeding_03)){  $rateus_new_03 = '
+            </p>';
+        }
+      }
+      else if(empty($roundeding_03)){  $rateus_new_03 = '
                                                     <p class="review-icon">
                                                     <span></span>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
@@ -870,23 +870,23 @@ $headertype = $setts[0]->header_type;
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
                                                     <i class="fa fa-star" aria-hidden="true"></i>
-						    </p>';
-						}
-					}
-										
-					$rateus_empty_03 = '
-					<p class="review-icon">
+                </p>';
+            }
+          }
+                    
+          $rateus_empty_03 = '
+          <p class="review-icon">
                                         <span></span>
-					<i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
-					<i class="fa fa-star" aria-hidden="true"></i>
-					<i class="fa fa-star" aria-hidden="true"></i>
-					<i class="fa fa-star" aria-hidden="true"></i>
-					</p>';
-							
-				
-				/************** STAR RATING *************/
-			?>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          <i class="fa fa-star" aria-hidden="true"></i>
+          </p>';
+              
+        
+        /************** STAR RATING *************/
+      ?>
                         <!-- /.col -->
                         <div class="col col-sm-10 col-lg-10">
                           <div class="product-info">
@@ -909,10 +909,10 @@ $headertype = $setts[0]->header_type;
                                                         <span>@lang('languages.shop_now')</span>
                                                         </a>
                                                         <?php
-							} else { 
+              } else { 
                                                         if(Auth::user()->id==$product->user_id)
-							{
-							?>
+              {
+              ?>
                                                         
                                                         <a href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo utf8_decode($product->prod_slug);?>" class="btn btn-primary cart-btn">
                                                         <span>@lang('languages.shop_now')</span>
@@ -934,10 +934,10 @@ $headertype = $setts[0]->header_type;
                                   
                                             <li class="lnk wishlist"><a href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" class="add-to-cart"><i class="icon fa fa-heart"></i></a></li>
                                             <?php
-						} else { 
-											
-						if(Auth::user()->id!=$product->user_id)
-						{
+            } else { 
+                      
+            if(Auth::user()->id!=$product->user_id)
+            {
                                             ?>
                                             <li class="lnk wishlist"> <a href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>"><i class="icon fa fa-heart"></i></a></li>
                                             <?php } } ?>

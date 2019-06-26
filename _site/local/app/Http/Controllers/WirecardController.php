@@ -155,6 +155,7 @@ class WirecardController extends Controller
      * @param array $params
      */
     protected function complete_order($params = array()){
+       
         $params = array_merge(
             array(
                 'order_id' => '',
@@ -178,12 +179,16 @@ class WirecardController extends Controller
         $multipayment_id = $params['multipayment_id'];
         $multipayments = $params['multipayments'];
         $escrow = $params['escrow'];
-
+   
+        $view_checkout = DB::table('product_checkout')
+            ->where('purchase_token', '=', $purchase_token)
+            ->get();
+        $cpf_cnpj = $view_checkout[0]->cpf_cnpj;
 
         $orderupdate = DB::table('product_orders')
             ->where('purchase_token', '=', $purchase_token)
             ->where('order_status', '=', 'pending')
-            ->update(array('order_status' => 'completed', 'payment_status' => $status, 'payment_token' => $wirecard_payment_token, 'payment_type' => 'wirecard'));
+            ->update(array('order_status' => 'completed', 'cpf_cnpj' => $cpf_cnpj,  'payment_status' => $status, 'payment_token' => $wirecard_payment_token, 'payment_type' => 'wirecard'));
 
         $checkoutupdate = DB::table('product_checkout')
             ->where('purchase_token', '=', $purchase_token)
@@ -200,10 +205,10 @@ class WirecardController extends Controller
         $view_orders = DB::table('product_orders')
             ->where('purchase_token', '=', $purchase_token)
             ->where('order_status', '=', 'completed')
-            ->get();
-
-        //print_r($view_orders);exit();
-        foreach ($view_orders as $key => $views) {
+            ->get();      
+        
+      
+        foreach ($view_orders as $key => $views) {  
             $ord_id = $views->ord_id;
             $subtotal = $views->quantity * $views->price;
             $total = $subtotal + $views->shipping_price;

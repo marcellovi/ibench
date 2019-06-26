@@ -172,6 +172,8 @@ class CategoryController extends Controller {
 		$id    = "";
                 $name = "";
                 $sellers_id = "";
+                $prices = "all";
+                $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
                 
 		$data = $request->all();                                        
                 
@@ -341,7 +343,9 @@ class CategoryController extends Controller {
 		                       'search_txt'     => $search_txt,
                                        'sellers_count'  => $sellers_count,
                                        'sellers'        => $sellers,
-                                       'sellers_id'    => $sellers_id
+                                       'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
+                                       'price'          => $prices
 		] );
 	}
 
@@ -352,14 +356,18 @@ class CategoryController extends Controller {
 		$type  = "";
 		$id    = "";
               
-                $name = "";                
+                $name = "";   
+                $sellers_id = ""; 
+                
+                $prices = "all";
+                $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
                  
                 $search_sql = "";
                 $search_sql_cnt = "";
                 $search_where = "";      
                 $search_order = '  ORDER BY prod_id ASC';
                         
-		$data = $request->all();       
+		$data = $request->all();      
                 
                 $search_txt = $data['search_txt'];
                
@@ -407,15 +415,24 @@ class CategoryController extends Controller {
 			$category_field = "";
 		}
                 
+                if(empty($data['price'])){  $prices = 'all'; }
+                else{  $prices = $data['price']; }         
+                
                  /* check price  if not all than check price range */
-                if(!($data['price'] == 'all')){
-
-                    $prices = $data['price'];
+                if(!($prices == 'all')){
+                  
+                    //$prices = $data['price'];
                     $price  = explode( "_", $prices );
                     $price1 = $price[0];
                     $price2 = $price[1];
-
-                    $search_where .= ' and product.prod_price >'. $price1.' and product.prod_price <'. $price2;  
+                    
+                    // Check only for products without discount
+                    $search_where .= ' and ( ( (product.prod_price >'. $price1.' and product.prod_price <'. $price2.') '
+                            . ' and product.prod_offer_price = 0) '; 
+                    
+                    // Check only for products with discount
+                    $search_where .= ' || ( (product.prod_offer_price >'. $price1.' and product.prod_offer_price <'. $price2.') '
+                            . ' and product.prod_offer_price != 0) )'; 
                 }
                 
                 /* check Seller */
@@ -447,9 +464,8 @@ class CategoryController extends Controller {
                                }   
                         $name =  rtrim( $nom, ',' ); 
                         $val_att = rtrim( $val, '||' ); 
-              
-                    $search_sql .= ' join  product_attribute_value on product_attribute_value.value_id = ('.$val_att.')';     
-                    $search_sql_cnt .= ' join  product_attribute_value on product_attribute_value.value_id = ('.$val_att.')';                                
+                        
+                        $search_where .= ' and ('.$val_att.')';     
                              
                        /*
                       SELECT product.prod_id,product.prod_name,product.prod_attribute from product
@@ -483,7 +499,7 @@ class CategoryController extends Controller {
               
               $final_sql = $search_sql.$search_where.$search_order;  
               $final_sql_cnt = $search_sql_cnt.$search_where.$search_order; 
-     
+              //print_r($final_sql); exit();
               
               $viewproduct = DB::select( DB::raw($final_sql));   
               $viewcount = DB::select( DB::raw($final_sql_cnt));
@@ -540,7 +556,9 @@ class CategoryController extends Controller {
                                        'search_txt'     => $search_txt,
                                        'sellers_count'  => $sellers_count,
                                        'sellers'        => $sellers,
-                                       'sellers_id'    => $sellers_id
+                                       'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
+                                       'price'          => $prices
 		] );
 	}
         
@@ -622,7 +640,8 @@ class CategoryController extends Controller {
 
 		$pager = "";
 		$type  = "";
-
+                $prices = "";
+                $search_txt = "";
 
 		return view( 'shop', [ 'category'     => $category,
 		                       'category_cnt' => $category_cnt,
@@ -632,7 +651,9 @@ class CategoryController extends Controller {
 		                       'pager'        => $pager,
 		                       'type'         => $type,
 		                       'typers'       => $typers,
-		                       'typers_count' => $typers_count
+		                       'typers_count' => $typers_count,
+                                       'price'          => $prices,
+                                       'search_txt'     => $search_txt
 		] );
 
 	}

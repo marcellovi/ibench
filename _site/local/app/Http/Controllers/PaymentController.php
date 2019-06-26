@@ -241,7 +241,7 @@ class PaymentController extends Controller
 
         if (empty($check_checkout)) {
             //print_r("entrou no empty");
-            DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_district,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_district,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone,$bill_district, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone,$ship_district, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending']);
+            DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_district,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_district,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status,cpf_cnpj) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone,$bill_district, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone,$ship_district, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending', $cpf_cnpj]);
         } else {
            // print_r("entrou no else");
             DB::update('update product_checkout set purchase_token="' . $purchase_token . '",
@@ -250,6 +250,7 @@ class PaymentController extends Controller
                     order_id_shipping ="' . $trimer . '",
                     subtotal="' . $sub_total . '",
                     total="' . $total . '",
+                    cpf_cnpj="' . $cpf_cnpj . '",
                     shipping_price="' . $shipping_fee . '",
                     payment_type="' . $payment_type . '",
                     payment_date="' . $payment_date . '",

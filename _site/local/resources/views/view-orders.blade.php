@@ -230,6 +230,7 @@ $setid=1;
             <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.name'): </strong> <a href="<?php echo $url;?>/profile/<?php echo $viewproduct[0]->user_id;?>/<?php echo $customer_slug;?>" class="theme_color"><?php echo $customer_name;?></a></label>
         </div>
     </div>
+    
 	
     <div class="col-md-6 ">
 	<div class="form-group">
@@ -271,7 +272,7 @@ $setid=1;
     
     <div class="height20 clearfix"></div>
     
-    <div class="col-md-12"><h4>@lang('languages.billing_details')</h4></div>
+    <div class="col-md-12"><h4>@lang('languages.billing_details') </h4> </div>
      <div class="height20 clearfix"></div>
 	<div class="col-md-6 ">
             <div class="form-group">
@@ -284,6 +285,13 @@ $setid=1;
             <label class="fontnromal" for="exampleInputName"><strong>Sobre Nome / Inscri&ccedil;&atilde;o Estadual:</strong> <?php echo $bill_lastname;?></label>
 	</div>
     </div> 
+     
+      <div class="col-md-6 ">
+	<div class="form-group">
+            <label class="fontnromal" for="exampleInputName"><strong>CPF / CNPJ:</strong> <?php if(strlen($viewproduct[0]->cpf_cnpj)==11){ echo mask($viewproduct[0]->cpf_cnpj,'###.###.###-##'); }else if(strlen($viewproduct[0]->cpf_cnpj)==14){ echo mask($viewproduct[0]->cpf_cnpj,'##.###.###/####-##'); }else{  echo $viewproduct[0]->cpf_cnpj; }?></label>
+	</div>
+    </div> 
+    
     
     <div class="col-md-6 ">
 	<div class="form-group">
@@ -333,7 +341,7 @@ $setid=1;
 	</div>
 	</div>
 </div>
-        
+ 
 <div class="col-md-6 contact-form">
     
     <div class="height20 clearfix"></div>
@@ -344,61 +352,61 @@ $setid=1;
 	
     <div class="col-md-6 ">
 	<div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.first_name'): </strong> <?php echo $ship_firstname;?></label>
+                    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.first_name'): </strong> <?php if(!empty($ship_firstname)){echo $ship_firstname;}else{ echo $bill_firstname; } ?></label>
 	</div>
     </div>
 	
     <div class="col-md-6 ">
     <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php echo $ship_lastname;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.last_name'): </strong> <?php if(!empty($ship_lastname)){echo $ship_lastname;}else{ echo $bill_lastname; }  ?></label>
     </div>
     </div>   
     
     <div class="col-md-6 ">
     <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php echo $ship_email;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.email'): </strong> <?php if(!empty($ship_email)){echo $ship_email;}else{ echo $bill_email; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php echo $ship_phone;?></label>
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.phone'): </strong> <?php if(!empty($ship_phone)){echo $ship_phone;}else{ echo $bill_phone; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php echo $ship_country;?></label>
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.country'): </strong> <?php if(!empty($ship_country)){echo $ship_country;}else{ echo $bill_country; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php echo $ship_address;?></label>
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.address'): </strong> <?php if(!empty($ship_address)){echo $ship_address;}else{ echo $bill_address; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.city'): </strong> <?php echo $ship_city;?></label>
+	<label class="fontnromal" for="exampleInputName"><strong>@lang('languages.city'): </strong> <?php if(!empty($ship_city)){echo $ship_city;}else{ echo $bill_city; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>Bairro: </strong> <?php echo $ship_district;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>Bairro: </strong> <?php if(!empty($ship_district)){echo $ship_district;}else{ echo $bill_district; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.state'): </strong> <?php echo $ship_state;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.state'): </strong> <?php if(!empty($ship_state)){echo $ship_state;}else{ echo $bill_state; }  ?></label>
     </div>
     </div>
     
     <div class="col-md-6 ">
     <div class="form-group">
-		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.postcode'): </strong> <?php echo $ship_postcode;?></label>
+		    <label class="fontnromal" for="exampleInputName"><strong>@lang('languages.postcode'): </strong> <?php if(!empty($ship_postcode)){echo $ship_postcode;}else{ echo $bill_postcode; }  ?></label>
     </div>
     </div>    
 </div>
@@ -427,6 +435,26 @@ $setid=1;
 <div class="height30"></div>
 
  @include('footer')
- 
+ <?php
+ function mask($val, $mask)
+{
+ $maskared = '';
+ $k = 0;
+ for($i = 0; $i<=strlen($mask)-1; $i++)
+ {
+ if($mask[$i] == '#')
+ {
+ if(isset($val[$k]))
+ $maskared .= $val[$k++];
+ }
+ else
+ {
+ if(isset($mask[$i]))
+ $maskared .= $mask[$i];
+ }
+ }
+ return $maskared;
+}
+ ?>
  </body>
 </html>

@@ -651,8 +651,10 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	$prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
 	$prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
         // $prod_desc = $mysqli->real_escape_string($city); // Marcello - Tratando o erro de texto que utiliza aspas
-        $prod_desc = str_replace('"','\"',$prod_desc);
-
+        $prod_desc = str_replace('"','&quot;',$prod_desc);
+        $prod_desc = str_replace("'",'&apos;',$prod_desc);
+        $prod_desc = str_replace("&",'&amp;',$prod_desc);
+        
         $prod_type = $data['prod_type'];
         $prod_price = str_replace(".", "", $data['prod_price']); // Marcello - retira o Mil "." em portugues
 	$prod_price = str_replace(",", ".", $prod_price); // Marcello - Trocando o "," pelo "." para salvar como centavos
@@ -873,7 +875,10 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 
 	   $prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
 	   $prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
-           $prod_desc = str_replace('"','\"',$prod_desc);
+           $prod_desc = str_replace('"','&quot;',$prod_desc);
+           $prod_desc = str_replace("'",'&apos;',$prod_desc);
+           $prod_desc = str_replace("&",'&amp;',$prod_desc);
+           
 
 	   $prod_type = $data['prod_type'];
 	   $prod_price = str_replace(",", ".", $data['prod_price']); // Marcello - Trocando o "," pelo "."

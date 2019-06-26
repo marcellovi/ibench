@@ -42,7 +42,7 @@ $headertype = $setts[0]->header_type;
 				<li><a href="<?php echo $url;?>">@lang('languages.home')</a></li>
 				<li class='<?php if(!empty($blog_count)){?>active<?php } ?>'>@lang('languages.blog')</li>
                 <?php if(!empty($post_count)){?>
-                                    <li  class="<?php if(!empty($post_count)){?>active<?php } ?>"><?php echo substr($post[0]->post_title,0,100); ?></li>
+                                <li  class="<?php if(!empty($post_count)){?>active<?php } ?>"><?php echo substr(utf8_decode($post[0]->post_title),0,100); ?></li>
                                     <?php } ?>
 			</ul>
 		</div>
@@ -259,7 +259,7 @@ $headertype = $setts[0]->header_type;
         
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.your_name') <span>*</span></label>
-		    <input type="text" placeholder="Your Name" class="form-control unicase-form-control validate[required]" id="name" name="name" />
+		    <input type="text" placeholder="Seu Nome" class="form-control unicase-form-control validate[required]" id="name" name="name" />
             	  </div>		
 	</div>                     
               <div class="col-md-12"> 
@@ -267,7 +267,7 @@ $headertype = $setts[0]->header_type;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.your_email') <span>*</span></label>
             
-             <input type="text" placeholder="Your Email" value="<?php echo Auth::user()->email;?>" class="form-control unicase-form-control validate[required,custom[email]]" id="email" name="email" readonly />
+             <input type="text" placeholder="Seu Email" value="<?php echo Auth::user()->email;?>" class="form-control unicase-form-control validate[required,custom[email]]" id="email" name="email" readonly />
                        </div>
                       <input type="hidden" name="post_comment_type" value="blog">          
            <input type="hidden" name="post_type" value="comment">           
@@ -281,7 +281,7 @@ $headertype = $setts[0]->header_type;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.your_message') <span>*</span></label>
 		    
-             <textarea  placeholder="Your Message" rows="9" class="form-control unicase-form-control validate[required]"  id="msg" name="msg"></textarea>
+             <textarea  placeholder="Sua Mensagem" rows="9" class="form-control unicase-form-control validate[required]"  id="msg" name="msg"></textarea>
 		  </div>		
 	</div>                     
             <div class="col-md-12">                                                   
@@ -321,27 +321,27 @@ $headertype = $setts[0]->header_type;
                                     <?php if($popular->post_media_type=="image"){ ?>
                                      <figure>
     				<?php if(!empty($popular->post_image)){ ?>
-          			<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url.'/local/images/media/'.$popular->post_image;?>" class="img-responsive blogpost"></a>
+                                         <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url.'/local/images/media/'.$popular->post_image;?>" class="img-responsive blogpost"></a>
         			<?php } else {?>
-       				<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/noimage.jpg" class="img-responsive blogpost"></a>
+                                         <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/noimage.jpg" class="img-responsive blogpost"></a>
         			<?php } ?>
                     </figure>
                     <?php } ?>
                     
                     <?php if($popular->post_media_type=="mp3"){ ?>
                     <figure>
-                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/blogaudio.png" class="img-responsive blogpost"></a>
+                        <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/blogaudio.png" class="img-responsive blogpost"></a>
                    </figure>
                     <?php } ?>
                     <?php if($popular->post_media_type=="video"){?>
                     <figure>
-                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/blogvideo.png" class="img-responsive blogpost"></a>
+                        <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/blogvideo.png" class="img-responsive blogpost"></a>
                     </figure>
                     <?php } ?>                                                    
                                                     
                     </div>
                     <div class="col-md-8 col-sm-8 col-xs-8 padL0 text-left">
-                        <h4 class="sidehead"><a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><?php echo $popular->post_title;?></a></h4>
+                        <h4 class="sidehead"><a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><?php echo utf8_decode($popular->post_title);?></a></h4>
                         <p class="ash_color"><?php echo date("d M Y h:i:s a",strtotime($popular->post_date));?></p>
                             <p><a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" class="theme-text-color theme_color"> @lang('languages.read_more')</a>
                         </p>
@@ -529,27 +529,27 @@ $headertype = $setts[0]->header_type;
                                                     <figure>
     				<?php if(!empty($popular->post_image)){ ?>
                     
-          			<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url.'/local/images/media/'.$popular->post_image;?>" class="img-responsive blogpost"></a>
+          			<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url.'/local/images/media/'.$popular->post_image;?>" class="img-responsive blogpost"></a>
         			<?php } else {?>
-       				<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/noimage.jpg" class="img-responsive blogpost"></a>
+       				<a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/noimage.jpg" class="img-responsive blogpost"></a>
         			<?php } ?>
                     </figure>
                     <?php } ?>
                     
                     <?php if($popular->post_media_type=="mp3"){ ?>
                      <figure>
-                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/blogaudio.png" class="img-responsive blogpost"></a>
+                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/blogaudio.png" class="img-responsive blogpost"></a>
                    </figure>
                     <?php } ?>
                     <?php if($popular->post_media_type=="video"){?>
                      <figure>
-                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><img src="<?php echo $url;?>/local/images/blogvideo.png" class="img-responsive blogpost"></a>
+                    <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><img src="<?php echo $url;?>/local/images/blogvideo.png" class="img-responsive blogpost"></a>
                     </figure>
                     <?php } ?>
                                                     
                             </div>
                             <div class="col-md-8 col-sm-8 col-xs-8 padL0 text-left">
-                                <h4 class="sidehead"><a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo $popular->post_title;?>"><?php echo $popular->post_title;?></a></h4> <p class="ash_color"><?php echo date("d M Y h:i:s a",strtotime($popular->post_date));?></p>
+                                <h4 class="sidehead"><a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" title="<?php echo utf8_decode($popular->post_title);?>"><?php echo utf8_decode($popular->post_title);?></a></h4> <p class="ash_color"><?php echo date("d M Y h:i:s a",strtotime($popular->post_date));?></p>
                                 <p>
                                     <a href="<?php echo $url;?>/blog/<?php echo $popular->post_slug;?>" class="theme_color under_line"> @lang('languages.read_more')</a>
                                 </p>

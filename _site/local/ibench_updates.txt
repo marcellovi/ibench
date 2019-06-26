@@ -1,17 +1,32 @@
 **************************************************************************************************
-***************** INFORMAÇÕES DAS ATUALIZAÇÕES DO IBENCH EM PRODUÇÃO *****************************
-******************                  ( VERSÕES )                      *****************************
+***************** INFORMAï¿½ï¿½ES DAS ATUALIZACOES DO IBENCH EM PRODUCAO *****************************
+******************                  ( VERSOES )                      *****************************
 **************************************************************************************************
 
-- Versão iBench_V2 :: 06/03/2019 -
+- Versao iBench_V3 :: 06/18/2019 -
 
-1. Inclusão do Feature Importação
- 	a. Regras para importação
+1. Criar Filtro de Busca para Fornecedores
+2. Criar Filtro de Busca para Marca
+3. Acertar o Filtro por Preco
+4. Manter o que o Usuario Marcou apos o Filtro
+5. Utilizar a Palavra-Chave na Busca Geral no Filtro
+6. Botao Limpar Filtro
+7. Inclusao da Data Criada para o Pre-Cadastro e Incluir na Coluna do Admin
+8. Exibir Quantidade Disponivel no Admin do Fornecedor
+9. Pequenas Correcoes de Layout e outros
+
+
+
+- Versao iBench_V2 :: 06/03/2019 -
+
+1. Inclusao do Feature Importacao
+ 	a. Regras para importacao
 	b. Arquivo modelo para baixar
-	c. Validações e Mensagens de erro para serem exibidas
+	c. Validacoes e Mensagens de erro para serem exibidas
 2. Ajustes No Filtro do Fornecedor ( Pagina Produto )
-3. Inclusão de Mascaras nos formularios ( telefone, cep, cpf e cnpj )
+3. Inclusao de Mascaras nos formularios ( telefone, cep, cpf e cnpj )
 4. Acerto de Erros com o Valor Minimo
-5. Criar a opção de pagar como Pessoa Juridica ou Fisica no Checkout
-6. Acertos de exibição de valores em formatos correto no checkout & cart
+5. Criar a opcao de pagar como Pessoa Juridica ou Fisica no Checkout
+6. Acertos de exibicao de valores em formatos correto no checkout & cart
 7. Acertos gerais de caracteres especiais.
+

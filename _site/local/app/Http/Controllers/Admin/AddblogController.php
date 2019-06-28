@@ -150,7 +150,7 @@ class AddblogController extends Controller
 		$post_desc=$data['post_desc'];
                 $post_desc = str_replace('"','&quot;',$post_desc);
                 $post_desc = str_replace("'",'&apos;',$post_desc);
-                $post_desc = str_replace("&",'&amp;',$post_desc);
+                //$post_desc = str_replace("&",'&amp;',$post_desc);
 		$post_type = $data['post_type'];
 		$media_type = $data['media_type'];
 		

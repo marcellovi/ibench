@@ -32,14 +32,14 @@ class CategoryController extends Controller {
 
 
 		$viewcount = DB::table( 'product' )
-		               //->where( 'delete_status', '=', '' )
-		               //->where( 'prod_status', '=', 1 )
+		               ->where( 'delete_status', '=', '' )
+		               ->where( 'prod_status', '=', 1 )
 		               ->where( 'prod_id', '=', $prod_id )
 		               ->count();
 
 		$viewproduct = DB::table( 'product' )
-		                // ->where( 'delete_status', '=', '' )
-		                // ->where( 'prod_status', '=', 1 )
+		                 ->where( 'delete_status', '=', '' )
+		                 ->where( 'prod_status', '=', 1 )
 		                 ->where( 'prod_id', '=', $prod_id )
 		                 ->get();
 
@@ -130,6 +130,20 @@ class CategoryController extends Controller {
 
         /* Upper Search Box on the Shop Blade */
 	public function avigher_search_data( Request $request ) {
+
+		$req = $request->all();
+
+		$total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
        
 		$category_cnt = DB::table( 'category' )
 		                  ->where( 'delete_status', '=', '' )
@@ -184,13 +198,16 @@ class CategoryController extends Controller {
 				$viewcount      = DB::table( 'product' )
 				                    ->where( 'delete_status', '=', '' )
 				                    ->where( 'prod_status', '=', 1 )
-				                    ->orderBy( 'prod_id', 'desc' )
+									->orderBy( 'prod_id', 'desc' )
+							
 				                    ->count();
 
 				$viewproduct = DB::table( 'product' )
 				                 ->where( 'delete_status', '=', '' )
 				                 ->where( 'prod_status', '=', 1 )
-				                 ->orderBy( 'prod_id', 'desc' )
+								 ->orderBy( 'prod_id', 'desc' )
+								 ->offset($inicio)
+								 ->limit($total_reg)
 				                 ->get();
 
 
@@ -254,7 +271,8 @@ class CategoryController extends Controller {
                                                         ->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
                                                         ->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
                                                      })
-				                    ->orderBy( 'prod_id', 'desc' )
+									->orderBy( 'prod_id', 'desc' )
+							
 				                    ->count();
 				$viewproduct    = DB::table( 'product' )
 				                    ->where( 'delete_status', '=', '' )
@@ -265,7 +283,9 @@ class CategoryController extends Controller {
                                                         ->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
                                                         ->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
                                                      })
-				                    ->orderBy( 'prod_id', 'desc' )
+									->orderBy( 'prod_id', 'desc' )
+									->offset($inicio)
+									->limit($total_reg)
 				                    ->get();
 			} else {
 
@@ -312,7 +332,8 @@ class CategoryController extends Controller {
                                           . "prod_desc LIKE '%$search_accent%' or "
                                           . "prod_tags LIKE '%$search_txt%') and "
                                           . "prod_category = $id order by prod_id desc");
-                                  $viewcount = $viewcount[0]->count;
+                                  $viewcount = $viewcount[0]->offset($inicio)
+								  ->limit($total_reg)->count;
                                   
                                   $viewproduct = DB::select("select * from product "
                                           . "where product.delete_status = '' and prod_status = 1 and "
@@ -328,7 +349,9 @@ class CategoryController extends Controller {
 			$category_field = "";
 			$search_txt     = "";
 		}
-                
+
+		$tp = $viewcount / $total_reg;
+	
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
 		                       'id'             => $id,
@@ -339,7 +362,10 @@ class CategoryController extends Controller {
 		                       'typers'         => $typers,
 		                       'typers_count'   => $typers_count,
 		                       'name'           => $name,
-		                       'category_field' => $category_field,
+							   'category_field' => $category_field,
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp,
 		                       'search_txt'     => $search_txt,
                                        'sellers_count'  => $sellers_count,
                                        'sellers'        => $sellers,
@@ -351,7 +377,20 @@ class CategoryController extends Controller {
 
          /* Right Specific Search Attibutes on the Shop Blade */
 	public function avigher_search_all_data( Request $request ) { 
-            
+			
+		$req = $request->all();
+
+		$total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
 		$pager = "";
 		$type  = "";
 		$id    = "";
@@ -541,6 +580,7 @@ class CategoryController extends Controller {
 		                  ->where( 'admin', '=', 2 )
 		                  ->orderBy( 'name', 'asc' )->get();
    		
+		$tp = $viewcount / $total_reg;
                 
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
@@ -550,7 +590,10 @@ class CategoryController extends Controller {
 		                       'pager'          => $pager,
 		                       'type'           => $type,
 		                       'typers'         => $typers,
-		                       'typers_count'   => $typers_count,
+							   'typers_count'   => $typers_count,
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp,
 		                       'name'           => $name,
 		                       'category_field' => $category_field,
                                        'search_txt'     => $search_txt,
@@ -590,7 +633,8 @@ class CategoryController extends Controller {
 			                 ->where( 'prod_status', '=', 1 )
 			                 ->where( 'prod_category', '=', $id )
 			                 ->where( 'prod_cat_type', '=', $type )
-			                 ->orderBy( 'prod_id', 'desc' )
+							 ->orderBy( 'prod_id', 'desc' )
+							 
 			                 ->get();
 		}
 		if ( $type == 'cat' ) {
@@ -650,7 +694,8 @@ class CategoryController extends Controller {
 		                       'viewcount'    => $viewcount,
 		                       'pager'        => $pager,
 		                       'type'         => $type,
-		                       'typers'       => $typers,
+							   'typers'       => $typers,
+						
 		                       'typers_count' => $typers_count,
                                        'price'          => $prices,
                                        'search_txt'     => $search_txt
@@ -659,7 +704,21 @@ class CategoryController extends Controller {
 	}
 
 
-	public function avigher_all_category() {
+	public function avigher_all_category(Request $request) {
+
+		$req = $request->all();
+
+		$total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
 
 		$category_cnt = DB::table( 'category' )
 		                  ->where( 'delete_status', '=', '' )
@@ -676,7 +735,8 @@ class CategoryController extends Controller {
 
 		$viewcount = DB::table( 'product' )
 		               ->where( 'delete_status', '=', '' )
-		               ->where( 'prod_status', '=', 1 )
+					   ->where( 'prod_status', '=', 1 )
+
 		               ->count();
 
 		/** Marcello - Foi adicionado ->orderBy('prod_featured','desc')  para ordenar tambem por feature (yes) **/
@@ -684,7 +744,9 @@ class CategoryController extends Controller {
 		                 ->where( 'delete_status', '=', '' )
 		                 ->where( 'prod_status', '=', 1 )
 		                 ->orderBy( 'prod_featured', 'desc' )
-		                 ->orderBy( 'prod_id', 'desc' )
+						 ->orderBy( 'prod_id', 'desc' )
+						 ->offset($inicio)
+						 ->limit($total_reg)
 		                 ->get();
 
 
@@ -703,7 +765,8 @@ class CategoryController extends Controller {
 
 		$pager = "";
 		$type  = "";
-
+		$tp = $viewcount / $total_reg;
+		
 		return view( 'shop', [ 'category'     => $category,
 		                       'category_cnt' => $category_cnt,
 		                       'id'           => $id,
@@ -711,8 +774,13 @@ class CategoryController extends Controller {
 		                       'viewcount'    => $viewcount,
 		                       'pager'        => $pager,
 		                       'type'         => $type,
-		                       'typers'       => $typers,
-		                       'typers_count' => $typers_count
+							   'typers'       => $typers,
+							   'price'          => 'all',
+							   'typers_count' => $typers_count,
+							   'search_txt' => "",
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp
 		] );
 
 

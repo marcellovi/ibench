@@ -1077,7 +1077,6 @@ $headertype = $setts[0]->header_type;
 
   <div class="height20"></div>
   @include('footer')
-
   <script>
     //$(document).ready(function() {
     $(function() {
@@ -1087,5 +1086,4 @@ $headertype = $setts[0]->header_type;
     });
   </script>
 </body>
-
 </html>

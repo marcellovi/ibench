@@ -193,9 +193,9 @@
                                             <label for="usertype" class="col-md-4 control-label para black">Perfil Usu&aacute;rio</label>
 
                                             <div class="col-md-6">
-                                                <select name="usertype" class="form-control unicase-form-control" required>
+                                                <select id="usertype" name="usertype" class="form-control unicase-form-control" required>
 
-                                                    <option value=""></option>
+                                                    <option>Preencha o CPF/CNPJ</option>
                                                     <option value="0">Comprador</option>
                                                     <option value="2">Fornecedor</option> 
                                                 </select>
@@ -271,6 +271,41 @@ $("input#name").on({
 });
 
 var cpfMascara = function (val) {
+        if(val.length == 14){
+           // $('#usertype').removeAttr('disabled');
+           // $("#usertype option[value=0]").attr('selected', 'selected');
+           // $("#usertype option[value=2]").attr('selected', false);
+           $('#usertype')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="0" selected>Comprador</option>')
+                .val('0')
+            ;
+        }else if(val.length == 18){
+           // $('#usertype').removeAttr('disabled');
+           // $("#usertype option[value=2]").attr('selected', 'selected');
+            //$("#usertype option[value=0]").attr('selected', false);
+            $('#usertype')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="2" selected>Fornecedor</option>')
+                .val('2')
+            ;
+        }else{
+           // $("#usertype option[value=2]").attr('selected', 'selected');
+            //$("#usertype").attr("readonly", true);
+            //$("#usertype option[value=0]").attr('selected', false);
+            //$("#usertype option[value=2]").attr('selected', false);
+            $('#usertype')
+                .find('option')
+                .remove()
+                .end()
+                .append('<option value="">Preencha o Campo CPF/CNPJ</option>')
+                .val('')
+            ;
+        }
    return val.replace(/\D/g, '').length > 11 ? '00.000.000/0000-00' : '000.000.000-009';
 },
 cpfOptions = {
@@ -292,34 +327,7 @@ $('.cpfcnpj').mask(cpfMascara, cpfOptions);
       };
       $('#phone').mask(maskBehavior, options);
     });
- </script>   
- <script>
-    // Enable Button After Validation
-   $(document).ready(function () {
-       
-    //$('#btnsub').prop('disabled', true); 
-        
-    $('#ccSelectForm').validate({
-        rules: {
-            full_name: {
-                required: true
-            },
-            country: {
-                required: true
-            }  
-        }
-    });
+ </script> 
 
-    $('#ccSelectForm input').on('keyup blur', function () { // fires on every keyup & blur
-        if ($('#ccSelectForm').valid()) {                   // checks form for validity
-            $('#btnsub').prop('disabled', false);        // enables button
-        } else {
-            $('#btnsub').prop('disabled', true);   // disables button
-        }
-    });
-
-});  
-</script>
-</script>
 @endsection
 

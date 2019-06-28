@@ -132,6 +132,7 @@ Route::get('/shop/{pager}', 'CategoryController@avigher_pager_category');
 Route::get('/shop/{sort}/{type}', 'CategoryController@avigher_sort_category');
 Route::post('/shop', ['as'=>'shop','uses'=>'CategoryController@avigher_search_data']);
 Route::post('/shoping', ['as'=>'shoping','uses'=>'CategoryController@avigher_search_all_data']);
+Route::get('/shoping', ['as'=>'shoping','uses'=>'CategoryController@avigher_all_category']);
 
 /************ SHOP ***********/
 

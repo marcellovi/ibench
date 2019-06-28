@@ -326,9 +326,9 @@ $headertype = $setts[0]->header_type;
                         $ii = 1;
 
                         if (is_array($viewproduct)) {
-                          $result_each = array_chunk($viewproduct, 6);
+                          $result_each = array_chunk($viewproduct, 3);
                         } else {
-                          $result_each = $viewproduct->chunk(6);
+                          $result_each = $viewproduct->chunk(3);
                         }
 
                         foreach ($result_each as $grid) {
@@ -345,7 +345,7 @@ $headertype = $setts[0]->header_type;
                                 ->where('prod_token', '=', $prod_id)
                                 ->count();
                               ?>
-                              <div class="col-sm-6 col-md-2 wow fadeInUp">
+                              <div class="col-sm-4 col-md-4 wow fadeInUp">
                                 <div class="products">
                                   <div class="product">
                                     <div class="product-image">

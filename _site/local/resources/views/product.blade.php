@@ -273,15 +273,26 @@
 							<span class="label">@lang('languages.availability') :</span>
 							</div>	
 							</div>
+                                                <!-- if product doesnt exist or is invisible -->
+                                                <?php if( $viewproduct[0]->delete_status != '' || $viewproduct[0]->prod_status == 0){ ?>
+                                                <div class="col-sm-9">
+                                                <div class="stock-box">                                                  
+                                                <span class="value"> <b>Produto Indispon&iacute;vel</b></span>                                                 
+						</div>	
+						</div>
+                                                <?php }else{ ?>
+                                                <!-- End if -->
 						<div class="col-sm-9">
-					<div class="stock-box">
-                                         <?php if(!empty($viewproduct[0]->prod_available_qty)){?>
-						<span class="value">@lang('languages.in_stock') (<?php echo $viewproduct[0]->prod_available_qty;?>)</span>
-                                            <?php } else { ?>
-                                     <span class="value"> <b>@lang('languages.out_of_stock')</b></span>
-                                      <?php } ?>
-								</div>	
-							</div>
+                                                <div class="stock-box">
+                                                    <?php if(!empty($viewproduct[0]->prod_available_qty)){?>
+                                                           <span class="value">@lang('languages.in_stock') (<?php echo $viewproduct[0]->prod_available_qty;?>)</span>
+                                                       <?php } else { ?>
+                                                <span class="value"> <b>@lang('languages.out_of_stock')</b></span>
+                                                 <?php } ?>
+						</div>	
+						</div>
+                                                <?php } ?>
+                                                
 						</div><!-- /.row -->	
 					</div><!-- /.stock-container -->
                             <?php } ?>
@@ -293,6 +304,9 @@
                                                     <b>Entrega somente na cidade do Rio de Janeiro.</b>
 					</div>
                             
+                                        
+                                        
+                                        
                             <?php
 				  $sold_id = $viewproduct[0]->user_id;
 				  $sold = DB::table('users')
@@ -321,55 +335,39 @@
 				}						
 															
 			  ?>
-                            
-					<div class="price-container info-container m-t-20">
-						<div class="row">
-								<div class="col-sm-8">
-								<div class="price-box">
-			                                          
-                                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
-                                            
-										</div>
-									</div>
+                            <!-- if product doesnt exist or is invisible -->
+                            <?php if( $viewproduct[0]->delete_status == '' && $viewproduct[0]->prod_status == 1){ ?>    
+			
+                                        <div class="price-container info-container m-t-20">
+                                            <div class="row">
+						<div class="col-sm-8">
+						<div class="price-box">
+			                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
+                                            	</div>
+						</div>
 
 						<div class="col-sm-4">
 						<div class="favorite-button m-t-10">
-                                        <?php if(Auth::guest()) { ?>
-								<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
-								    <i class="fa fa-heart"></i>
-								</a>
-                                            <?php
-						} else { 
-													
-						if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
-						{
+                                                <?php if(Auth::guest()) { ?>
+							<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
+							    <i class="fa fa-heart"></i>
+							</a>
+                                                <?php
+                                                    } else { 
+                                                        if(Auth::user()->id!=$viewproduct[0]->user_id && Auth::user()->id!=1)
+                                                        {
 						?>
-                                            <a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>">
-					    <i class="fa fa-heart"></i>
-					</a>
-                                        <?php } } ?>
-                                                        
-                                        <?php if(Auth::guest()) { ?>
-                                                                                    <!-- Marcello Compare
-											<a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');">
-											   <i class="fa fa-signal"></i>
-											</a>
-                                                                                    -->
-                                            
-                                             <?php } else {?>
-											<!-- Marcello Compare
-                                                                                    <a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Add to Compare" href="<?php echo $url;?>/compare/<?php echo $viewproduct[0]->prod_token;?>">
-											   <i class="fa fa-signal"></i>
-											</a>
-                                                                                       -->
-                                            
-                                            <?php } ?>
-										</div>
-									</div>
+                                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Wishlist" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $viewproduct[0]->prod_token;?>">
+                                                <i class="fa fa-heart"></i>
+                                                </a>
+                                                <?php } } ?>                                                       
+                                                </div>
+						</div>
 
-								</div><!-- /.row -->
-							</div><!-- /.price-container -->
-                            
+                                            </div><!-- /.row -->
+					</div><!-- /.price-container -->
+                                        
+                            <?php } ?> <!-- End if for invisible or inactive products -->
                             
                             <?php
 				  $sold_id = $viewproduct[0]->user_id;
@@ -399,7 +397,9 @@
 															
 				 ?>
                                 
-                            
+<!-- if product doesnt exist or is invisible -->
+<?php if( $viewproduct[0]->delete_status == '' && $viewproduct[0]->prod_status == 1){ ?>       
+
  <form class="register-form" role="form" method="POST" action="{{ route('product') }}" id="formID" enctype="multipart/form-data">
  {{ csrf_field() }}
 						<div class="quantity-container info-container">
@@ -632,7 +632,9 @@
                                             
 		</div><!-- /.quantity-container -->
 	</form>
-								
+<?php } ?> <!-- End If product Invisible -->	
+                                                        
+                                                        
 		</div><!-- /.product-info -->
 		</div><!-- /.col-sm-7 -->
 		</div><!-- /.row -->
@@ -1201,8 +1203,8 @@
                 <div class="hot-deal-wrapper">
                     <div class="image">
 
-                            <a href="https://www.benchfind.com/_site/redirect_banner/2">
-                            <img src="https://www.benchfind.com/_site/local/images/media/1537201913.1530931457.png" alt=""/>
+                            <a href="https://www.ibench.com.br/_site/redirect_banner/6">
+                            <img src="https://www.ibench.com.br/_site/local/images/media/1561494924.5AB5B036-6931-4C09-A838-AD3760509D5F.jpeg" alt=""/>
                             </a>
                     </div>
 		</div>        

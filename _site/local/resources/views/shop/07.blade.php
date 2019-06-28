@@ -1,1 +1,0 @@
-<input type="hidden" id="search_txt" name="search_txt" value="<?php echo $search_txt; ?>">

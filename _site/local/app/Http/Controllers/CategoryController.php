@@ -32,14 +32,14 @@ class CategoryController extends Controller {
 
 
 		$viewcount = DB::table( 'product' )
-		               ->where( 'delete_status', '=', '' )
-		               ->where( 'prod_status', '=', 1 )
+		              // ->where( 'delete_status', '=', '' )
+		              // ->where( 'prod_status', '=', 1 )
 		               ->where( 'prod_id', '=', $prod_id )
 		               ->count();
 
 		$viewproduct = DB::table( 'product' )
-		                 ->where( 'delete_status', '=', '' )
-		                 ->where( 'prod_status', '=', 1 )
+		              //   ->where( 'delete_status', '=', '' )
+		               //  ->where( 'prod_status', '=', 1 )
 		                 ->where( 'prod_id', '=', $prod_id )
 		                 ->get();
 

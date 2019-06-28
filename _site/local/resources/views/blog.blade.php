@@ -129,7 +129,7 @@ $headertype = $setts[0]->header_type;
                                         
                         </div>
                         <div class="blog-detail marB30">
-                            <h3><?php echo $post[0]->post_title;?></h3>
+                            <h3><?php echo utf8_decode($post[0]->post_title);?></h3>
                             <p class="ash_color">
 
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i><?php echo $dateonly;?></span>
@@ -482,8 +482,8 @@ $headertype = $setts[0]->header_type;
                                                                     
                         </div>
                         <div class="blog-detail marB30">
-                            <h3><a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>" title="<?php echo $blog->post_title;?>">
-                                                                    <?php echo $blog->post_title;?></a></h3>
+                            <h3><a href="<?php echo $url;?>/blog/<?php echo $blog->post_slug;?>" title="<?php echo utf8_decode($blog->post_title);?>">
+                                                                    <?php echo utf8_decode($blog->post_title);?></a></h3>
                             <p class="ash_color">
 
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i><?php echo $dateonly;?></span>

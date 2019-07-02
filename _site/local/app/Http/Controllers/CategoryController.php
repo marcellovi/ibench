@@ -32,14 +32,14 @@ class CategoryController extends Controller {
 
 
 		$viewcount = DB::table( 'product' )
-		              // ->where( 'delete_status', '=', '' )
-		              // ->where( 'prod_status', '=', 1 )
+		               ->where( 'delete_status', '=', '' )
+		               ->where( 'prod_status', '=', 1 )
 		               ->where( 'prod_id', '=', $prod_id )
 		               ->count();
 
 		$viewproduct = DB::table( 'product' )
-		              //   ->where( 'delete_status', '=', '' )
-		               //  ->where( 'prod_status', '=', 1 )
+		                 ->where( 'delete_status', '=', '' )
+		                 ->where( 'prod_status', '=', 1 )
 		                 ->where( 'prod_id', '=', $prod_id )
 		                 ->get();
 
@@ -606,7 +606,21 @@ class CategoryController extends Controller {
 	}
         
 
-	public function avigher_category( $type, $id, $slug ) {
+	public function avigher_category( $type, $id, $slug, Request $request ) {
+
+		$req = $request->all();
+
+		$total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
 
 			$category_cnt = DB::table( 'category' )
 			                  ->where( 'delete_status', '=', '' )
@@ -634,8 +648,10 @@ class CategoryController extends Controller {
 			                 ->where( 'prod_category', '=', $id )
 			                 ->where( 'prod_cat_type', '=', $type )
 							 ->orderBy( 'prod_id', 'desc' )
+							 ->offset($inicio)
+							 ->limit($total_reg)
+							 ->get();
 							 
-			                 ->get();
 		}
 		if ( $type == 'cat' ) {
 			$sub_category_cnt = DB::table( 'subcategory' )
@@ -682,8 +698,11 @@ class CategoryController extends Controller {
 		            ->orderBy( 'attr_name', 'asc' )->get();
 
 
-		$pager = "";
-		$type  = "";
+	
+					$pager = "";
+					$type  = "";
+					$tp = $viewcount / $total_reg;
+					
                 $prices = "";
                 $search_txt = "";
 
@@ -695,7 +714,9 @@ class CategoryController extends Controller {
 		                       'pager'        => $pager,
 		                       'type'         => $type,
 							   'typers'       => $typers,
-						
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp,
 		                       'typers_count' => $typers_count,
                                        'price'          => $prices,
                                        'search_txt'     => $search_txt

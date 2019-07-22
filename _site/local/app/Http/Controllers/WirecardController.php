@@ -1187,6 +1187,8 @@ class WirecardController extends Controller
 
         $wirecard_app_data_array = $this->wirecard_app_data();
         $token = $wirecard_app_data_array['accessToken'];
+        @file_put_contents(dirname(__FILE__).'/log_token.txt',print_r($token,true));
+        @file_put_contents(dirname(__FILE__).'/log_escrows.txt',print_r($id,true));
 
         $data = array(
             'headers' => array(
@@ -1196,6 +1198,7 @@ class WirecardController extends Controller
             'data' => json_encode(array()),
             'url' => $this->gateway_url() . 'escrows/'.$id.'/release'
         );
+        @file_put_contents(dirname(__FILE__).'/log_request.txt',print_r($data,true));
         if ($this->http_post_form_curl($data, $response, $error) == 0) {
             $response = json_decode($response,true);
             @file_put_contents(dirname(__FILE__).'/log4.txt',print_r($response,true));

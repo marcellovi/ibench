@@ -155,7 +155,7 @@ $setid=1;
 	</div>
 	<div class="clearfix phone-no">
 		<span class="contact-i"><i class="fa fa-mobile"></i></span>
-		<span class="contact-span" style="margin-top: 7px;">+55 21 98271-0963</span>
+		<span class="contact-span" style="margin-top: 7px;">(21) 98271-0963</span>
 	</div>
 
     <!-- Marcello Phone retirado temporariamente 

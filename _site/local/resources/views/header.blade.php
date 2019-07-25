@@ -468,7 +468,7 @@ if(Auth::check()) {
 					  foreach($viewsub as $subs){			
 					  ?>
                       
-                     <option value="<?php echo $subs->subid;?>_subcat" <?php if(!empty($category_field)){?> <?php if($category_field==$subs->subid.'_subcat'){?> selected="selected" <?php } } ?>>&nbsp; - <?php echo $subs->subcat_name;?></option>
+                     <option value="<?php echo $subs->subid;?>_subcat" <?php if(!empty($category_field)){?> <?php if($category_field==$subs->subid.'_subcat'){?> selected="selected" <?php } } ?>>&nbsp; - <?php echo utf8_decode($subs->subcat_name);?></option>
                       
                       
                       

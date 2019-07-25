@@ -168,9 +168,12 @@ body {
         text-align: center;
         color: white;
         background-color: #4b4b4b;
-        font-size: 1.5rem;
-        text-align: center;
-        padding-bottom: 30px;
+            font-size: 40px;
+    text-align: center;
+    padding-bottom: 70px;
+    padding-top: 50px;
+    padding-left: 45px;
+    padding-right: 45px;
       }
 
       #btnFale {

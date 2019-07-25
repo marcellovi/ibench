@@ -89,7 +89,7 @@ $headertype = $setts[0]->header_type;
 						?>
 					
 						<div class="row col-md-6">
-							<div class="heading-title" style="border-bottom: 1px #4E4D4C solid !important;">@lang('languages.products'): <?= $company_slug ?> </div>
+							<div class="heading-title" style="border-bottom: 1px #4E4D4C solid !important;">@lang('languages.products'): <?= utf8_decode($company_slug) ?> </div>
 						</div>
 					<div class="table-responsive">
 						<table class="table">

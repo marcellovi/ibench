@@ -313,7 +313,7 @@ if(Auth::check()) {
                                                         <li><a href="<?php echo $url;?>/my-balance">@lang('languages.my_balance')</a></li>
                                                     -->    
                                                         <?php } ?>
-                                                    <li><a href="https://wa.me/5521980774859?text=Envie%20sua%20pergunta%20ao%20Suporte%20iBench." target="_blank"> Suporte Chat</a></li>
+                                                    <li><a href="https://wa.me/5521982710963?text=Envie%20sua%20pergunta%20ao%20Suporte%20iBench." target="_blank"> Suporte Chat</a></li>
                                                         <li><a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> @lang('languages.logout')</a></li>
                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}

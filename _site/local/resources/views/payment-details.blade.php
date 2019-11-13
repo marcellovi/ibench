@@ -335,7 +335,7 @@ $headertype = $setts[0]->header_type;
                     <input type="hidden" name="tipopagto" value="'.$tipopagto.'"/> 
                     <input type="hidden" name="order_no" value="'.$order_no.'">
                     <input type="hidden" name="amount" value="'.$amount.'">
-                    <input type="hidden" name="listcompanies" value="'.$listcompanies.'">
+                    <input type="hidden" name="listcompanies" value="'.utf8_decode($listcompanies).'">
                     <input type="hidden" name="currency" value="'.$currency.'">
                     '.$extra_data.'
 

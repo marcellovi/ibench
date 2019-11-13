@@ -388,7 +388,7 @@ $setid=1;
                               
                               <?php if(Auth::guest()) { ?>
                                                 
-                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
+                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a>
                                                 <?php
                             } else { 
                             
@@ -396,7 +396,7 @@ $setid=1;
                             {
                             ?>
                               
-                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> 
+                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a> 
                               
                                
                                                          <?php } } ?>
@@ -806,7 +806,7 @@ $setid=1;
                               
                               <?php if(Auth::guest()) { ?>
                                                 
-                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
+                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a>
                                                 <?php
                             } else { 
                             
@@ -814,10 +814,10 @@ $setid=1;
                             {
                             ?>
                               
-                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> 
+                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a> 
                               
                                
-                                                         <?php } } ?>
+                             <?php } } ?>
                               
                               </li>
                             
@@ -1097,7 +1097,7 @@ $setid=1;
                               
                               <?php if(Auth::guest()) { ?>
                                                 
-                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="Wishlist"> <i class="icon fa fa-heart"></i> </a>
+                                                <a data-toggle="tooltip" class="add-to-cart" href="javascript:void(0);" onClick="alert('@lang('languages.login_user')');" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a>
                                                 <?php
                             } else { 
                             
@@ -1105,7 +1105,7 @@ $setid=1;
                             {
                             ?>
                               
-                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="Wishlist"> <i class="icon fa fa-heart"></i> </a> 
+                              <a data-toggle="tooltip" class="add-to-cart" href="<?php echo $url;?>/wishlist/<?php echo Auth::user()->id;?>/<?php echo $product->prod_token;?>" title="@lang('languages.wish_list')"> <i class="icon fa fa-heart"></i> </a> 
                               
                                
                                                          <?php } } ?>

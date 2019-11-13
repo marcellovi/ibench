@@ -200,7 +200,7 @@ return [
 	"in_stock" => "Em Estoque",
 	"out_of_stock" => "Sem Estoque",
 	"add_to_cart" => "Adicionar ao Carrinho",
-	"add_to_wishlist" => "Adicionar a Favoritos",
+	"add_to_wishlist" => "Adicionar a Lista de desejos",
 	
 	/* compare */
 	
@@ -246,7 +246,7 @@ return [
 	
 	"quick_links" => "Links R&aacute;pidos",
 	"all_vendors" => "Todos Fornecedores",
-	"wish_list" => "Lista de Favoritos",
+	"wish_list" => "Lista de desejos",
 	"follow_us" => "Nos Siga",
 	"copyright" => "Copyright",
 	"all_right_reserved" => "Todos os direitos reservados",
@@ -291,7 +291,7 @@ return [
 	"my_balance" => "Meu Financeiro",
 	"logout" => "Logout",
 	"compare" => "Compare",
-	"wishlist" => "Favoritos",
+	"wishlist" => "Lista de desejos",
 	"search_here" => "Pesquise aqui...",
 	"all" => "Todos",
 	"pages" => "empresa",
@@ -379,7 +379,7 @@ return [
 	
 	/* my wishlist */
 	
-	"my_wishlist" => "Meus Favoritos",
+	"my_wishlist" => "Minha Lista de desejos",
 	"payment_confirmation" => "Confirma&ccedil;&atilde;o de Pagamento",
 	
 	
@@ -534,7 +534,7 @@ return [
         "tooledit" => "Editar",
         "tooldelete" => "Excluir",
         "add_cart" => "Adicionar ao Carrinho",
-        "wishlist" => "Favoritos",
+        "wishlist" => "Lista de desejos",
         "compare" => "compare",
     
         /* Marcello - Funcoes Basicas */

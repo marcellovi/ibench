@@ -390,7 +390,7 @@ if(Auth::check()) {
 
             <?php if(!empty($setts[0]->site_logo)){?>
 
-            <a href="<?php echo $url;?>/.."><img src="<?php echo $url.'/local/images/media/'.$setts[0]->site_logo;?>"
+            <a href="<?php echo $url;?>"><img src="<?php echo $url.'/local/images/media/'.$setts[0]->site_logo;?>"
                 alt="<?php echo $setts[0]->site_name;?>" /></a>
             <?php } else {?>
             <a href="<?php echo $url;?>"><?php echo $setts[0]->site_name;?></a>
@@ -695,7 +695,7 @@ if(Auth::check()) {
           <div class="navbar-collapse collapse" id="mc-horizontal-menu-collapse">
             <div class="nav-outer">
               <ul class="nav navbar-nav">
-                <li class="active dropdown yamm-fw"> <a href="<?php echo $url;?>/.." data-hover="dropdown"
+                <li class="active dropdown yamm-fw"> <a href="<?php echo $url;?>" data-hover="dropdown"
                     class="dropdown-toggle disabled" data-toggle="dropdown">@lang('languages.home')</a> </li>
                 <!-- Marcello Aba All.
                 <li>

@@ -76,6 +76,7 @@
                             <th>N. Prod Inativo</th>
                             <th>Status</th>
                             <th>Wirecard</th>
+                            <th>Data de Cria&ccedil;&atilde;o</th>
                             <th>A&ccedil;&atilde;o</th>
                         </tr>
                     </thead>
@@ -144,6 +145,8 @@
                                 } else {
                                     echo "N/A";
                                 } ?></td>
+
+                                <td><?php echo $user->created_at;?></td>
 
                                     <td>
         <?php if ($user->provider == "") { ?>

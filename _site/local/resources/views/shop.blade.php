@@ -639,13 +639,14 @@ $headertype = $setts[0]->header_type;
                           <a href="<?php echo $url; ?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                       <?php } ?>
                     </div>
+                     <div class="grid_prodss mtop20"></div>  
                     <?php
                     $anterior = $pc - 1;
                     $proximo = $pc + 1;
                     if (!isset($data['pagina'])) {
                       $data['pagina'] = 1;
                     }
-                    ?>
+                    ?><!-- paginacao original 
                     <div style="text-align: center">
                       <nav aria-label="Page navigation">
                         <ul class="pagination">
@@ -693,14 +694,16 @@ $headertype = $setts[0]->header_type;
                         </ul>
                       </nav>
                     </div>
+                    Fim da paginacao original -->
                   </div>
                 </div>
               </div>
 
               <div class="tab-pane " id="list-container">
                 <div class="category-product">
-
+                
                   <?php if (!empty($viewcount)) { ?>
+                  <div class="row">
                     <?php foreach ($viewproduct as $product) {
 
                       $prod_id = $product->prod_token;
@@ -1000,6 +1003,7 @@ $headertype = $setts[0]->header_type;
                         </div>
                       </div>
                     <?php } ?>
+                    </div>
                     <?php
                     $anterior = $pc - 1;
                     $proximo = $pc + 1;
@@ -1007,6 +1011,8 @@ $headertype = $setts[0]->header_type;
                       $data['pagina'] = 1;
                     }
                     ?>
+                    <div class="list_prodss mtop20"></div>   
+                    <!-- Paginacao da lista
                     <div style="text-align: center">
                       <nav aria-label="Page navigation">
                         <ul class="pagination">
@@ -1054,7 +1060,7 @@ $headertype = $setts[0]->header_type;
                         </ul>
                       </nav>
                     </div>
-
+                fim da paginacao lista -->
                   <?php } else { ?>
                     <div class="height100"></div>
                     <div align="center" class="fontsize24 black">@lang('languages.no_data')<br><br>

@@ -82,11 +82,11 @@ $setid=1;
         <div class="col-md-6"><div class="heading-title" style="border-bottom:none !important;">@lang('languages.contact_us')</div></div>
                 <div class="col-md-6 text-right"></div>
         </div>
-                    
+                    <!--
                     <?php if(!empty($setting[0]->site_address)){?>
 			<iframe src="https://www.google.com/maps/embed/v1/place?key=<?php echo $setting[0]->site_map_api;?>&q=<?php echo $setting[0]->site_address;?>" style="border:0" height="400"  allowfullscreen></iframe>
 		<?php } ?>
-                    
+                   --> 
 				</div>
                  <form class="register-form" role="form" method="POST" action="{{ route('contact-us') }}" id="formID" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -155,7 +155,7 @@ $setid=1;
 	</div>
 	<div class="clearfix phone-no">
 		<span class="contact-i"><i class="fa fa-mobile"></i></span>
-		<span class="contact-span" style="margin-top: 7px;">(21) 98271-0963</span>
+		<span class="contact-span" style="margin-top: 7px;">+55 21 98271-0963</span>
 	</div>
 
     <!-- Marcello Phone retirado temporariamente 

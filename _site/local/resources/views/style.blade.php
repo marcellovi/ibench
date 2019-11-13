@@ -111,8 +111,9 @@
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/css/font-awesome.css">
 <link rel="stylesheet" href="<?php echo $url;?>/local/resources/views/theme/popup_image/lumos.css">
 
-<!-- Marcello validacao cpf e cnpj do register -->
+<!-- Marcello validacao cpf e cnpj do register
 <script src="<?php echo $url;?>/local/resources/views/theme/js/valida_cpf_cnpj.js" type="text/javascript" charset="utf-8"></script>
+ -->
 <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery-1.11.1.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<?php echo $url;?>/local/resources/views/theme/js/jquery.mask.min.js" type="text/javascript" charset="utf-8"></script>
 
@@ -4333,7 +4334,7 @@ age-container #owl-main .owl-next {
   font-size: 12px;
   line-height: 24px;
   margin-left: 9px;
-  margin-right: -4px;
+  margin-right: 4px;
   padding: 0px;
 }
 .breadcrumb ul li:last-child:after {

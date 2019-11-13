@@ -81,15 +81,15 @@ $headertype = $setts[0]->header_type;
 						$check_company = DB::table('users')
 						->where('id', '=', $company)
 						->get();
-						$company_slug = $check_company[0]->name_business;
+						$company_slug = utf8_decode($check_company[0]->name_business);
 						$company_min_value = $check_company[0]->min_value;
 						$total_shipping_by_company += $check_company[0]->local_shipping_price;
                                                 
-                                                $listcompanies .= $check_company[0]->name_business.",";
+                                                $listcompanies .= utf8_decode($check_company[0]->name_business).",";
 						?>
 					
 						<div class="row col-md-6">
-							<div class="heading-title" style="border-bottom: 1px #4E4D4C solid !important;">@lang('languages.products'): <?= utf8_decode($company_slug) ?> </div>
+                                                    <div class="heading-title" style="border-bottom: 1px #4E4D4C solid !important;">@lang('languages.products'): <?php echo $company_slug; ?> </div>
 						</div>
 					<div class="table-responsive">
 						<table class="table">

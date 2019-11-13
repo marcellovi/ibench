@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 $currentPaths= Route::getFacadeRoot()->current()->uri();
 $url = URL::to("/");
 $headertype = $settings->header_type;
+
+header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html>
 <html class="no-js"  lang="en">

@@ -105,6 +105,9 @@ Route::post('/profile', ['as'=>'profile','uses'=>'DashboardController@avigher_co
 
 /************* MY PROFILE *********/
 
+/************* WAITING-LIST *********/
+Route::get('/waiting-list/delete/{id}', 'ProductController@deleteWaitingListProduct'); //Cristiano -  Deletar produto waiting-list
+/************* END WAITING-LIST *********/
 
 
 //Route::get('/my-product', 'ProductController@avigher_product');
@@ -128,6 +131,8 @@ Route::post('/edit-product', ['as'=>'edit-product','uses'=>'ProductController@av
 Route::get('/shop', 'CategoryController@avigher_all_category');
 Route::get('/shop/{type}/{id}/{slug}', 'CategoryController@avigher_category');
 Route::get('/shop/{pager}', 'CategoryController@avigher_pager_category');
+
+Route::get('/searched/{param}', 'CategoryController@searched_index_page');
 
 Route::get('/shop/{sort}/{type}', 'CategoryController@avigher_sort_category');
 Route::post('/shop', ['as'=>'shop','uses'=>'CategoryController@avigher_search_data']);
@@ -712,6 +717,9 @@ Route::get('dashboard/{idUser}/{idType}','ProductController@manageProducts');
 
 /* Alterar status dos produtos retirando o inactive */
 //Route::get('dashboard/{idUser}/{idEnable}','ProductController@enableProducts');
+
+/* Autocomplete */
+Route::get('autocomplete','SearchController@search');
 
 // Clear all 
 Route::get('/clear-all', function() {

@@ -1,5 +1,7 @@
 body {
     background-color: #fff;
+    font-family: 'Nunito', sans-serif;
+ 
 }
 
 #navbarNav {
@@ -8,7 +10,21 @@ body {
 }
 
 .image-bg {
-  
+  width: 100%;
+  height: 400px;
+  background-color: #fc901b;
+  text-align: center;
+  color: #fff;
+}
+
+.image-bg h1 {
+    font-size: 7rem;
+    padding-top: 110px;
+}
+
+.image-bg p {
+    font-size: 22px;
+    letter-spacing: 5px;
 }
 
 #infoTxt {
@@ -18,18 +34,21 @@ body {
   color: white;
   background-color: #4b4b4b;
   font-size: 1.5rem;
-  padding-top: 26px;
+  padding-top:26px;
   position: relative;
   bottom: 5px;
-  
+}
+
+#infoTxt p {
+    margin-top: 30px;
 }
 
 .col {
 
     text-align: center;
     background-color: #fff;
-    height: 200px;
-    padding-top: 0px;
+    height: 150px;
+    margin-top: 30px;
 }
 
 .col:first-child {
@@ -58,44 +77,103 @@ body {
 
 #list a{
   
-  color: black;
+  color: #fff;
   font-size: 1.2rem;
   margin-top: 500px;
 }
 
+.form-control{
+    border-color: #fc901b;
+    border: solid 3px #fc901b;
+    margin-left: 100px;
+}
+
+.btn-search {
+    border-color: #fc901b;
+    background-color: #fc901b;
+    color: #fff;
+}
+
+.btn-search:hover{
+    background-color: white;
+    border-color: #fc901b;
+    border-bottom-width: solid 3px #fc901b;
+
+    color: #fc901b;
+}
+
+
+
+
+
 
 #btnPrecisa {
-    background-color: #fe8f18; 
-    width:500px;
-    height:80px;
-    font-size: 28px;
-    position: relative;
-    bottom: 50px;
-    border-radius: 40px 40px !important;
+    
+    margin-left: 190px;
 }
+
+
+
+
 
 #row1  {
     margin-top: 50px;
+    
 }
+
+
+/*_-------------EQUIPE------------------------*/
+
 
 #equipe {
     margin-top: 100px;
     text-align: center;
+    background-color: #959595;
+    height: 450px;
+    color: #fff;
+}
+
+#equipe>.h1 {
+    padding-top: 20px;
 }
 
 #equipe img {
     border-radius: 100%;
     max-width: 85%;
 }
+/*-------------------------------------------------------*/
 
-#parceirosBar {
+/*-------------------PARCEIROS--------------------------*/
+
+#parceiros {
+    width: 100%;
     margin-top: 50px;
+    text-align: center;
+    color: #fc901b;
+    height: auto;
 }
 
 #parceiros img {
     max-width: 80%;
     text-align: center;
+    margin-top: 80px;
 
+
+}
+
+#parceiros2 {
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    background-color: #959595;
+    color: #fff;
+}
+
+#parceiros2 img {
+    max-width: 15%;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
 
 }
 
@@ -112,14 +190,15 @@ body {
         margin-left: 10%;
     }
 
-    #equipeBar {
-        max-width: 100%;
-    }
+    /*_-------------EQUIPE------------------------*/
 
+  
     #equipe {
-        margin-top: 10px;
+        position: relative;
+        
         text-align: center;
     }
+
 
     #equipe img {
         margin-top: 20px;
@@ -129,14 +208,174 @@ body {
         margin-top: 20px;
     }
 
-    #parceirosBar {
-        max-width: 100%;
-    }
+
 
     #parceiros img {
         max-width: 50%;
         text-align: center;
-        margin-left: 20%;
+        margin-left: 26%;
+        margin-top: 60px;
+    
+    }
+
+    .w-100 {
+        padding-top: 140px;
+    }
+    
+    #btnPrecisa {    
+    
+        
+    }
+
+    #search-button {
+        position: relative;
+        right: 50px;
+        background-color: #fc901b;
+    }
+
+    .btn-outline-secondary {
+        background-color: #fc901b;
+
+    }
+
+   
+    #row1 .col-sm {
+       margin-top: 5px;
+    }
+    
+
+}
+@media (max-width: 718px) {
+    .image-bg h1 {
+        font-size: 4rem;
+        padding-top: 110px;
+    }
+    
+    .image-bg p {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+}
+
+@media (max-width: 600px) {
+    .image-bg h1 {
+        font-size: 4rem;
+        padding-top: 110px;
+    }
+    
+    .image-bg p {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    #infoTxt {
+        background-color: #4c4c4c;
+        padding-bottom: 30px;
+        font-size: 18px;
+    }
+
+    #infoTxt p {
+        max-width: 80%;
+        margin-left: 10%;
+    }
+
+    /*_-------------EQUIPE------------------------*/
+
+    #equipe {
+        max-width: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+
+    #equipe img {
+        margin-top: 20px;
+    }
+
+    #equipe p {
+        margin-top: 20px;
+    }
+
+    #parceiros img {
+        max-width: 30%;
+        text-align: center;
+        margin-left: 1%;
+        margin-top: 60px;
+    
+    }
+
+    .w-100 {
+        padding-top: 140px;
+    }
+    
+   #btnPrecisa {
+       
+   }
+
+    #search-input {
+        position: relative;
+        right: 110px;
+    }
+
+    #search-button {
+        position: relative;
+        right: 110px;
+    }
+    .form-control{
+        border-color: #fc901b;
+        border: solid 3px #fc901b;
+        margin-left: 0px;
+    }
+
+    #row1 .col-sm {
+       margin-top: 5px;
+    }
+
+    #parceiros2 {
+        padding-top: 20px;
+        width: 100%;
+        margin-top: 50px;
+        text-align: center;
+        background-color: #959595;
+        color: #fff;
+        height:auto;
+    }
+
+    #parceiros2 img {
+        max-width: 50%;
+        text-align: center;
+        margin-top: 40px;
+    
+    
+    }
+
+}
+    
+
+
+/* @media (min-width: 500px) {
+
+    #equipe {
+        position: relative;
+        
+        text-align: center;
+    }
+
+
+    #equipe img {
+        margin-top: 20px;
+    }
+
+    #equipe p {
+        margin-top: 20px;
+    }
+  
+
+    #parceiros img {
+        max-width: 50%;
+        text-align: center;
+        margin-left: 26%;
+        margin-top: 60px;
     
     }
 
@@ -145,38 +384,114 @@ body {
     }
     
     #btnPrecisa {
-        background-color: #fe8f18; 
-        width:230px;
-        height:50px;
-        font-size: 1.2rem;
+        max-width: 62%;
+    }
+ 
+     #search-input {
+         position: relative;
+         right: 80px;
+     }
+ 
+     #search-button {
+         position: relative;
+         right: 80px;
+     }
+ 
+
+    #row1 .col-sm {
+       margin-top: 5px;
+    }
+
+} */
+/*
+@media (min-width: 767.9px){
+    div.titulo div{
+        margin-top: 180px;
+        padding-top: 14px;
+        background-color: #4b4b4b;;
+        color: #fff;
+        width: 40%;
+        height: 50px;
+        margin-left: 31%;
         position: relative;
-       top: 15px;
-    }
-
-    #row1  {
-        margin-top: 20px;
-    }
+        bottom:22px;
+        padding-top: 10px;
+        font-size: 1.2rem;
+        -webkit-border-radius: 100px;
+        -moz-border-radius: 100px;
+        border-radius: 100px;
+      }
     
-
+      div .titulo div p {
+          margin-top: 3px;
+      }
+    
+        #equipe {
+            position: relative;
+            
+            text-align: center;
+        }
+    
+    
+        #equipe img {
+            margin-top: 20px;
+        }
+    
+        #equipe p {
+            margin-top: 20px;
+        }
+    
+        div.titulo2 div{
+            background-color: #4b4b4b;;
+            color: #fc901b;
+            width: 60%;
+            height: 50px;
+            margin-left:20%;
+            position: relative;
+            bottom:22px;
+            padding-top: 8px;
+            font-size: 1rem;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+          }
+        
+    
+        #parceiros img {
+            max-width: 50%;
+            text-align: center;
+            margin-left: 26%;
+            margin-top: 60px;
+        
+        }
+    
+        .w-100 {
+            padding-top: 140px;
+        }
+        
+        #btnPrecisa {
+            margin-left: 300px;
+        }
+     
+         #search-input {
+             position: relative;
+             right: 80px;
+         }
+     
+         #search-button {
+             position: relative;
+             right: 80px;
+         }
+     
+    
+        #row1 .col-sm {
+           margin-top: 5px;
+        }
+    
 }
 
-@media (min-width: 500px) {
-    #infoTxt {
-        width: 100%;
-        height: 20px;
-        height: auto;
-        text-align: center;
-        color: white;
-        background-color: #4b4b4b;
-            font-size: 40px;
-    text-align: center;
-    padding-bottom: 70px;
-    padding-top: 50px;
-    padding-left: 45px;
-    padding-right: 45px;
-      }
-
-      #btnFale {
-         
-      }
+@media (min-width: 1200px) {
+    #btnPrecisa {
+        margin-left:400px;
+    }
 }

@@ -146,11 +146,16 @@ class LoginController extends Controller
 						return redirect('/admin');
 
 					}else{	
-
+                                          
 						$id= auth()->user()->id;
-	          /* Marcello :: Limpando o carrinho ao fazer o login */
+                                                 // print_r('delete from product_orders where user_id="'.$id.'" and purchase_token ="'.'" and '
+	                                       // . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');exit();
+	          /* Marcello :: Limpando o carrinho ao fazer o login 
 	          DB::delete('delete from product_orders where user_id="'.$id.'" and purchase_token ="'.'" and '
-	                                        . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');		
+	                                        . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');	*/
+                  DB::delete('delete from product_orders where user_id="'.$id.'" and payment_id ="'.'" and '
+	                                        . 'payment_token ="'.'" and payment_type ="'.'" and payment_status ="'.'"');  
+                  DB::delete('delete from product_checkout where user_id="'.$id.'" and payment_token ="'.'"');   
 	          //Storage::put('log.txt', $input['url_prev']);
 	          /* Verifica se o params com URL Previous é de algum detalhar de produto e retorna para pagina quando logar */
 	          if (strpos($input['url_prev'], 'product') !== false) 

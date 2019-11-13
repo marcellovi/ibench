@@ -86,7 +86,7 @@ class CheckoutController extends Controller
 		       $world_shipping_separate .= '0,';
                }              
                
-           } //print_r($view_prod_user); exit();
+           } 
            
            /* Original
 	   foreach($prod_user_id as $id)
@@ -105,12 +105,9 @@ class CheckoutController extends Controller
            **/
 	   
 	   if($shipping_charge == "local_shipping")
-	   {//print_r("*** local_shipping ****<br> ");
+	   {
 	      $ship_price = $local_shipping_price;
 		  $ship_separate = rtrim($local_shipping_separate,',');
-                 //  print_r("ship_price: ".$ship_price);
-                 //  print_r(" ship_separate: ".$ship_separate);
-                 // exit();
 	   }
 	   else if($shipping_charge == "world_shipping")
 	   {
@@ -170,13 +167,12 @@ class CheckoutController extends Controller
 		$order_ids = $data['order_ids'];  
 		
 		$product_names = $data['product_names'];
-		//print_r("<br><br>");
                 
                 // Will be used on the Boleto Payment
                 $listcompanies = $data['companies'];
                 
                 $data = array('listcompanies' => $listcompanies,'ship_price' => $ship_price, 'ship_separate' => $ship_separate, 'setts' => $setts, 'login_user_count' => $login_user_count, 'login_user' => $login_user,  'countries' => $countries, 'processing_fee' => $processing_fee, 'cart_total' => $cart_total, 'order_ids' => $order_ids, 'product_names' => $product_names,'check_qty_ord' => $check_qty);
-	  // print_r($data);exit();
+	 
 	   return view('checkout')->with($data);
 	   
 	   /*return redirect()->back()->with(['data' => $data]);*/ 

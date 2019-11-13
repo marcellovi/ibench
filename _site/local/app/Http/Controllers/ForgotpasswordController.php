@@ -118,10 +118,20 @@ class ForgotpasswordController extends Controller
 		$getpassword = DB::table('users')
 		->where('email', '=', $email)
 		->get();
+                
+                if(!empty($getpassword[0]->remember_token)){
+                    $token = $getpassword[0]->remember_token;
+                }else{
+                    
+                    $token = str_random(10);
+                    //$txt = "update users set remember_token ='.$token.' where email =.".$email."'";
+                 
+                    DB::update('update users set remember_token = ? where email = ?', [$token,$email]);
+                }
 		
 		$password = $getpassword[0]->password;
 		
-		$token = $getpassword[0]->remember_token;
+		//$token = $getpassword[0]->remember_token;
 		
 		
 		$datas = [

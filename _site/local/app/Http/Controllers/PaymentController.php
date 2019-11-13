@@ -33,7 +33,7 @@ class PaymentController extends Controller
 
 
     public function avigher_checkout_details(Request $request)
-    {
+    { 
         $url = URL::to("/");
         $data = $request->all();  
         
@@ -170,7 +170,7 @@ class PaymentController extends Controller
         } else {
             $payment_type = "";
         }
-
+       
         $viewcount = DB::table('product_billing_shipping')
             ->where('user_id', '=', $log_id)
             ->count();
@@ -226,24 +226,27 @@ class PaymentController extends Controller
             ->where('token', '=', $token)
             ->where('payment_status', '=', 'pending')
             ->where('payment_token', '=', '')
+            ->where('user_id', '=', Auth::user()->id)
             ->count();
 
-        //print_r("checkout: ".$check_checkout." | token: ".$token. " | order_id: ".$order_id." | purchase_token: ".$purchase_token); exit();
                 
         $codes = explode(",", $order_id);
         $names = explode(",", $shipping_fee_separate);
         $weldone = "";
         foreach ($codes as $index => $code) {
             $weldone .= $code . '_' . $names[$index] . ',';
-            DB::update('update product_orders set shipping_price="' . $names[$index] . '" where order_status="pending" and ord_id = ?', [$code]);
+            DB::update('update product_orders set shipping_price="' . $names[$index] . '",
+                    cpf_cnpj="' . $cpf_cnpj . '" 
+                    where order_status="pending" and ord_id = ?', [$code]);
         }
         $trimer = rtrim($weldone, ',');
 
         if (empty($check_checkout)) {
-            //print_r("entrou no empty");
+         
             DB::insert('insert into product_checkout (purchase_token,token,ord_id,shipping_separate,order_id_shipping,user_id,shipping_price,processing_fee,subtotal,total,payment_type,payment_date,bill_firstname,bill_lastname,bill_companyname,bill_email,bill_phone,bill_district,bill_country,bill_address,bill_city,bill_state,	bill_postcode,	enable_ship,ship_firstname,ship_lastname,ship_companyname,ship_email,ship_phone,ship_district,ship_country,ship_address,ship_city,ship_state,ship_postcode,other_notes,payment_status,cpf_cnpj) values (?,?,?,?,?,?, ?,?,?,?,?,?,?, ?,?,?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?)', [$purchase_token, $token, $order_id, $shipping_fee_separate, $trimer, $log_id, $shipping_fee, $processing_fee, $sub_total, $total, $payment_type, $payment_date, $bill_firstname, $bill_lastname, $bill_companyname, $bill_email, $bill_phone,$bill_district, $bill_country, $bill_address, $bill_city, $bill_state, $bill_postcode, $enable_ship, $ship_firstname, $ship_lastname, $ship_companyname, $ship_email, $ship_phone,$ship_district, $ship_country, $ship_address, $ship_city, $ship_state, $ship_postcode, $order_comments, 'pending', $cpf_cnpj]);
+       
         } else {
-           // print_r("entrou no else");
+           
             DB::update('update product_checkout set purchase_token="' . $purchase_token . '",
                     ord_id="' . $order_id . '",
                     shipping_separate ="' . $shipping_fee_separate . '",
@@ -278,7 +281,7 @@ class PaymentController extends Controller
                             ship_state="' . $ship_state . '",
                             ship_postcode="' . $ship_postcode . '",
                             other_notes="' . $order_comments . '"
-                    where ="pending" and token = ?', [$token]);
+                    where payment_status="pending" and payment_token="" and token = ?', [$token]);
 
         }
 
@@ -287,9 +290,8 @@ class PaymentController extends Controller
             DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and payment_token="" and ord_id = ?', [$code]);
             //DB::update('update product_orders set purchase_token="' . $purchase_token . '" where order_status="pending" and user_id = ?', [$log_id]);
         }        
-        
-        //print_r("logid : ". $log_id." | token: ".$token." | purchase token : ".$purchase_token); exit();
-
+      
+       
         $setid = 1;
         $setts = DB::table('settings')
             ->where('id', '=', $setid)
@@ -390,7 +392,7 @@ class PaymentController extends Controller
             'tipopagto' => $tipopagto,
             'listcompanies' => $data['listcompanies']
             );
-        
+
         return view('payment-details')->with($ddata);
     }
 

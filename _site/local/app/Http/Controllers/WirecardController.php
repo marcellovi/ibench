@@ -16,6 +16,9 @@ use Moip\Resource\Customer;
 use Moip\Resource\Holder;
 use Moip\Resource\Multiorders;
 use Responsive\Http\Requests;
+use Datetime;
+use DateInterval;
+
 
 /**
  * This Include the wirecard SDK to Wirecard laravel Controller
@@ -180,12 +183,16 @@ class WirecardController extends Controller
         $multipayments = $params['multipayments'];
         $escrow = $params['escrow'];
    
-        $view_checkout = DB::table('product_checkout')
+        $view_checkout = DB::table('product_checkout')  // SEra possivel nao encontrar ? Todo check
             ->where('purchase_token', '=', $purchase_token)
             ->get();
         $cpf_cnpj = $view_checkout[0]->cpf_cnpj;
+        
 
-        $orderupdate = DB::table('product_orders')
+        
+       // if(!empty($view_checkout) || $view_checkout!=null){
+            
+            $orderupdate = DB::table('product_orders')
             ->where('purchase_token', '=', $purchase_token)
             ->where('order_status', '=', 'pending')
             ->update(array('order_status' => 'completed', 'cpf_cnpj' => $cpf_cnpj,  'payment_status' => $status, 'payment_token' => $wirecard_payment_token, 'payment_type' => 'wirecard'));
@@ -195,26 +202,56 @@ class WirecardController extends Controller
             ->where('payment_status', '=', 'pending')
             ->update(array('payment_status' => $status, 'payment_token' => $wirecard_payment_token,'wirecard_boleto_href' => $wirecard_boleto_href,'wirecard_boleto_print_href' => $wirecard_boleto_print_href));
 
+        /** }else{
+            
+            $orderupdate = DB::table('product_orders')
+            ->where('purchase_token', '=', $purchase_token)
+            ->where('order_status', '=', 'pending')
+            ->update(array('order_status' => 'completed', 'payment_status' => $status, 'payment_token' => $wirecard_payment_token, 'payment_type' => 'wirecard'));
+
+        $checkoutupdate = DB::table('product_checkout')
+            ->where('purchase_token', '=', $purchase_token)
+            ->where('payment_status', '=', 'pending')
+            ->update(array('payment_status' => $status, 'payment_token' => $wirecard_payment_token,'wirecard_boleto_href' => $wirecard_boleto_href,'wirecard_boleto_print_href' => $wirecard_boleto_print_href));
+            
+         $view_checkout = DB::table('product_checkout')
+            ->where('purchase_token', '=', $purchase_token)
+            ->get();
+        
+         $cpf_cnpj = $view_checkout[0]->cpf_cnpj; 
+         
+         $orderupdate = DB::table('product_orders')
+            ->where('purchase_token', '=', $purchase_token)
+            ->where('order_status', '=', 'pending')
+            ->update(array('cpf_cnpj' => $cpf_cnpj));       
+        
+        } **/    
+                 
 
         $get_viewr = DB::table('product_orders')
             ->where('purchase_token', '=', $purchase_token)
             ->where('order_status', '=', 'completed')
             ->count();
 
-
         $view_orders = DB::table('product_orders')
             ->where('purchase_token', '=', $purchase_token)
             ->where('order_status', '=', 'completed')
-            ->get();      
-        
+            ->get();    
+         
+        try{
+            foreach ($view_orders as $key => $views) {  
+              
+                $ord_id = $views->ord_id;  
+                $subtotal = $views->quantity * $views->price;
+                $total = $subtotal + $views->shipping_price;
+                
+                DB::update('update product_orders set subtotal="' . $subtotal . '",total="' . $total . '",escrow_id="'.$escrow[$key]['id'].'",payment_id="'.$multipayments[$key]['id'].'" where order_status="completed" and ord_id = ?', [$ord_id]);
+            }
+        } catch (\Exception $e) {  // Erro ocorre quando 1 fornecedor com varios produtos pq o escrow e o multipag sao somente 1 nao varios
+                   // $this->clearCheckoutBlankOrder($user,$order_id);
+                   //$errors[] = $e->__toString();
+                }
       
-        foreach ($view_orders as $key => $views) {  
-            $ord_id = $views->ord_id;
-            $subtotal = $views->quantity * $views->price;
-            $total = $subtotal + $views->shipping_price;
-            DB::update('update product_orders set subtotal="' . $subtotal . '",total="' . $total . '",escrow_id="'.$escrow[$key]['id'].'",payment_id="'.$multipayments[$key]['id'].'" where order_status="completed" and ord_id = ?', [$ord_id]);
-        }
-
         if (!empty($get_viewr)) {
             $get_stock = DB::table('product_orders')
                 ->where('purchase_token', '=', $purchase_token)
@@ -294,7 +331,7 @@ class WirecardController extends Controller
      * @param Holder|null $holder
      * @param null|array $error
      */
-    protected function create_order(Moip $moipMerchant, Multiorders &$multiorder = null, Customer &$customer = null, Holder &$holder = null, &$error = null, $tipopagto =1) {
+    protected function create_order(Moip $moipMerchant, Multiorders &$multiorder = null, Customer &$customer = null, Holder &$holder = null, &$error = null, $tipopagto =1,$countSellers=2) {
         
         $user = Auth::user();
         try {
@@ -338,7 +375,9 @@ class WirecardController extends Controller
 
             $ordersList = explode(',', $_POST['order_id']);
             $shipFeeList = explode(',', $_POST['shipping_fee_separate']);
+            $oneSellerShipping =0; // Shipping for One Seller
 
+            if($countSellers > 1){
             foreach ($ordersList as $key => $item) {
                 $order_details = (array) $this->order($item);
                 $product_details = (array) $this->product($order_details['prod_id']);
@@ -346,9 +385,9 @@ class WirecardController extends Controller
                 if ($user_details['wirecard_app_data'] != null) {
 
                     $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
-                    // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
+                    // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )  @substr(@strip_tags(str_replace('&quot;',"'",$product_details['prod_desc'])), 0, 100)
                     $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token'])
-                            ->addItem($product_details['prod_name'], $order_details['quantity'], @substr(@strip_tags($product_details['prod_desc']), 0, 100), (int)($order_details['price'] * 100), null)
+                            ->addItem(@substr($product_details['prod_name'], 0, 145), $order_details['quantity'], @substr(@strip_tags(str_replace('&quot;',"'",$product_details['prod_desc'])), 0, 100), (int)($order_details['price'] * 100), null)
                             ->setShippingAmount((int) (@$shipFeeList[$key] * 100))
                             ->setCustomer($customer)
                             ->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int) $user_details['comission_percentage'])
@@ -356,7 +395,32 @@ class WirecardController extends Controller
                     $multiorder->addOrder($order);
                 }
             }
-            //print_r("<br>Muilti<br>");print_r(json_encode($multiorder));exit();
+        }else{ 
+            // Marcello - ( Associar o Numero do Pedido do Minhas Compras com a do Dashboard do Wirecard )
+           $purchase_token_flag=''; // check if already exist the $purchase_token
+           foreach ($ordersList as $key => $item) {                
+                $order_details = (array) $this->order($item);
+                $product_details = (array) $this->product($order_details['prod_id']);
+                $user_details = (array) $this->user($order_details['prod_user_id']);
+                if ($user_details['wirecard_app_data'] != null) {
+                    if(empty($purchase_token_flag)){
+                        $order = $moipMerchant->orders()->setOwnId($order_details['purchase_token']);
+                        $purchase_token_flag = $order_details['purchase_token'];
+                    }
+                   $user_wirecard_app_data_array = unserialize($user_details['wirecard_app_data']);
+                   $order->addItem(@substr($product_details['prod_name'], 0, 145), $order_details['quantity'], @substr(@strip_tags(str_replace('&quot;',"'",$product_details['prod_desc'])), 0, 100), (int)($order_details['price'] * 100), null);
+                   $oneSellerShipping += (int) (@$shipFeeList[$key] * 100); 
+                   
+                }
+           }
+           
+           $order->setShippingAmount($oneSellerShipping); // ->setAddition(0)->setDiscount(0)
+           $order->setCustomer($customer);
+           $order->addReceiver($this->settings()->wirecard_acc_id, 'PRIMARY', null, (int) $user_details['comission_percentage']);
+           $order ->addReceiver($user_wirecard_app_data_array['moipAccount']->id, 'SECONDARY', null, (100 - (int) $user_details['comission_percentage']));
+           $multiorder->addOrder($order);
+        }
+            //print_r("<br>Muilti (json) :<br>");print_r(json_encode($multiorder));exit();
             $create_order = $multiorder->create();
         } catch (\Moip\Exceptions\UnautorizedException $e) {
             $error[] = $e->__toString();
@@ -513,12 +577,8 @@ class WirecardController extends Controller
      * 
      */
     public function clearCheckoutBlankOrder($user,$token){
-        //print_r($user->id);
-        //print_r("<br>--<br>");
-       // print_r($token);
         
         DB::delete('delete from product_checkout where user_id = ? and purchase_token = ? and payment_status = "pending" ',[$user->id,$token]);
-        //exit();
     }
     
     
@@ -536,11 +596,23 @@ class WirecardController extends Controller
                     . ' and product_orders.prod_user_id = users.id group by name_business', [$ord]);            
             
             foreach($custm_boleto as $bol){
-                $t_line .= utf8_decode($bol->name_business).' : R$ '.number_format($bol->total,2,",",".").' | ';
+                $t_line .= utf8_encode($bol->name_business).' : R$ '.number_format($bol->total,2,",",".").' | ';               
             }
             $t_line = rtrim($t_line," | ");
-
+            $t_line = utf8_decode($t_line);
             return $t_line;
+    }
+    
+    /**
+     * Check the number of sellers
+     */
+    protected function countSellers($p_token){
+        $tot_sellers = DB::table('product_orders')
+            ->distinct()->select('prod_user_id')
+            ->where('purchase_token', '=', $p_token)
+            ->where('user_id','=',Auth::user()->id)
+            ->get();
+        return count($tot_sellers);
     }
 
 
@@ -551,30 +623,44 @@ class WirecardController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function api_boleto(Request $request) {
-        
+       
         if ($this->is_gateway_ready()) {
             $wirecard_app_data_array = $this->wirecard_app_data();
-
             $token = $wirecard_app_data_array['accessToken'];
+
+            @file_put_contents(dirname(__FILE__).'/log_boleto_token.txt',$token);
+
             $moipMerchant = new Moip(new OAuth($token), $this->is_test_mode() ? Moip::ENDPOINT_SANDBOX : Moip::ENDPOINT_PRODUCTION);
+
+            @file_put_contents(dirname(__FILE__).'/log_boleto_merchant.txt',$moipMerchant);
 
             /* Return String for the third line of the boleto */
             $third_line_boleto = $this->custom_Boleto($_POST['order_no']);
+ 
             $third_line_boleto = substr($third_line_boleto, 0,140);    // limit to 140 characteres
             $user = Auth::user();
+
+            @file_put_contents(dirname(__FILE__).'/log_boleto_line.txt',$third_line_boleto);
             
-            $tipopagto = $_POST['tipopagto']; // 1 = Pessoa Fisica ; 2 = Pessoa Juridica
+            $tipopagto = $_POST['tipopagto']; // 1 = Pessoa Fisica ; 2 = Pessoa Juridica            
             $wirecard_payment_token = "";
             $wirecard_boleto_href = "";
             $wirecard_boleto_print_href = "";
             $purchase_token = $_POST['order_no'];
             $order_id = $_POST['order_id'];
+            
             $payment_type = $_POST['payment_type'];
             $status = 'cancelled';
             $multi_status = 'cancelled';
             $multi_amount = 'cancelled';            
             $success = false;
+            
+            // Count Seller by the Purchase Token
+            $countSellers = $this->countSellers($purchase_token);
+
+            @file_put_contents(dirname(__FILE__).'/log_boleto_attr.txt',$tipopagto." // ".$purchase_token." // ".$order_id." // ".$payment_type);
             if ($this->is_completed($purchase_token) === true) {
+
                 return view('wirecard-shop-success')->with(array_merge(
                                         @$_POST, array(
                             'wirecard_payment_token' => $this->get_payment_id($purchase_token),
@@ -584,6 +670,7 @@ class WirecardController extends Controller
                                         )
                 ));
             } else {
+
                 $errors = array();
                 $escrow = array();
                 $multipayments = array();
@@ -591,32 +678,49 @@ class WirecardController extends Controller
                     $customer = $moipMerchant->customers();
                     $holder = $moipMerchant->holders();
                     $multiorder = $moipMerchant->multiorders();
-     
-                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error,$tipopagto); 
-                    // Creating multipayment to multiorder
-                    $multipayment = $multiorder->multipayments()
-                            ->setBoleto(
-                                    date("Y-m-d", strtotime("+ 1 week")), $this->settings()->wirecard_boleto_logo_uri, array(
-                                $this->settings()->wirecard_boleto_line_1.' '.$this->settings()->wirecard_boleto_line_2,
-                                $this->settings()->wirecard_boleto_line_3,
-                                $third_line_boleto,     
-                                    )
-                            )
-                            ->setEscrow($wirecard_app_data_array['name'])
-                            ->execute();
 
+                    @file_put_contents(dirname(__FILE__).'/log_mult_show.txt',$customer." // \n\n"." // ".$holder." // ".$multiorder);
+
+                    $this->create_order($moipMerchant, $multiorder, $customer, $holder, $error,$tipopagto,$countSellers); 
+                    
+                    // Multipagamento com boleto
+                    $logo_uri = $this->settings()->wirecard_boleto_logo_uri; //'https://cdn.moip.com.br/wp-content/uploads/2016/05/02163352/logo-moip.png';
+                    $expiration_date = new DateTime();
+                    $expiration_date->add(new DateInterval('P10D')); // Add 10 days
+                    $instruction1 = $this->settings()->wirecard_boleto_line_1.' ';$this->settings()->wirecard_boleto_line_2;
+                    $instruction2 = $this->settings()->wirecard_boleto_line_3;
+                    $instruction3 = $third_line_boleto;
+                    $instruction_lines = [$instruction1, $instruction2, $instruction3];
+                   
+                    
+                    // Multipagamento com boleto
+                    //$logo_uri = 'https://cdn.moip.com.br/wp-content/uploads/2016/05/02163352/logo-moip.png';
+                    //$expiration_date = new DateTime();
+                    //$expiration_date->add(new DateInterval('P10D')); // Add 10 days
+                    //$instruction_lines = ['INSTRUÇÃO 1', 'INSTRUÇÃO 2', 'INSTRUÇÃO 3'];
+
+                    try {
+                      $multipayment = $multiorder->multipayments()  
+                        ->setBoleto($expiration_date, $logo_uri, $instruction_lines)
+                        ->setEscrow($wirecard_app_data_array['name'])
+                        ->execute();
+                    } catch (Exception $e) {
+                      printf($e->__toString());
+                      exit();
+                    }                   
+                    
+                    @file_put_contents(dirname(__FILE__).'/log_mult.txt',$multipayment."\n\n");
+                    
                     $wirecard_payment_token = $multipayment->getId();
                     $wirecard_boleto_href = $multipayment->getHrefBoleto();
                     $wirecard_boleto_print_href = $multipayment->getHrefPrintBoleto();
 
                     $multi_status = $multipayment->getStatus();
                     $multi_amount = $multipayment->getAmount()->total;
+                 
+                    @file_put_contents(dirname(__FILE__).'/log_mult.txt',$wirecard_payment_token." // \n\n"." / / ".$wirecard_boleto_href." // ".$wirecard_boleto_print_href." // ".$multi_status." // ".$multi_amount);
                     
-                    //print_r("Multipayment <br>");
-                   // print_r($multipayment);
-                   // print_r("<br><br>MultiOrder <br>");
-                   // print_r($multiorder);
-                   // exit();
+                  
                     if ($multipayment->getStatus() == 'AUTHORIZED') {
                         $status = 'completed';
                         $success = true;
@@ -627,7 +731,7 @@ class WirecardController extends Controller
                         $status = 'pending';
                         $success = true;
                     }
-
+                     
                     foreach ($multipayment->getPayments() as $payment) {
                         $a = array(
                             'id' => $payment->escrows[0]->id,
@@ -645,22 +749,29 @@ class WirecardController extends Controller
 
                     if ($error != null) {
                         $errors = $error;
-                    }
+                    } 
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
-                    //print_r("UnautorizedException <BR><BR>");
+
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    @file_put_contents(dirname(__FILE__).'/log_boleto.txt',$e."\n\n");
                     $errors[] = $e->__toString()." -> UnautorizedException <- ";   
                 } catch (ValidationException $e) {
-                    //print_r("ValidationException  <BR><BR>");
+                     $errors = '';
+                        foreach($e->getErrors() as $key => $value) {
+                           
+                            $errors .= $value[0];
+                        }
+
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
                     $errors[] = $e->__toString()." -> ValidationException <- ";  
+                    @file_put_contents(dirname(__FILE__).'/log_boleto2.txt',$errors);
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
-                    //print_r("UnexpectedException  <BR><BR>");
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
+                    @file_put_contents(dirname(__FILE__).'/log_boleto3.txt',$e."\n\n");
                     $errors[] = $e->__toString()." -> UnexpectedException <- ";  
                 }
 
-                if ($success === true) {
+                if ($success === true) { 
                     $params = array(
                         'order_id' => $order_id,
                         'purchase_token' => $purchase_token,
@@ -676,10 +787,8 @@ class WirecardController extends Controller
                     );
                     
                     $this->complete_order($params);
-                    $this->wirecard_log_pay($params);
-                    
-                    
-                    
+                    $this->wirecard_log_pay($params);                    
+                   
                     // if true complete the order with the above status
                     return view('wirecard-shop-success')->with(array_merge(
                                             @$_POST, array(
@@ -784,9 +893,7 @@ class WirecardController extends Controller
                 )),
                 'url' => $this->gateway_url() . 'channels/'
             );
-           
-           // print_r($data);
-           // exit();            
+                   
             
             $output = array();
             if ($this->http_post_form_curl($data, $response, $error) == 0) {

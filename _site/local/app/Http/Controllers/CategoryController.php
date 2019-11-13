@@ -127,12 +127,362 @@ class CategoryController extends Controller {
           $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o'); 
           return str_replace($a, $b, $str); 
         } 
+        
+        /* Convert URL Data to use on Search - GET */
+        public function convert_search_data($param){
+            return $param;
+        }
+        
+        public function searched_index_page($param, Request $request){    
+       
+            $request->request->add(['category' => 'all']);
+            $request->request->add(['search_text' => $param]);
+            
+            $req = $request->all();
+            $total_reg = "100";
+
+		if (isset($req['pagina'])){
+			$pc = $req['pagina'];
+		} else {
+			$pc = "1";
+		}
+
+		$inicio = $pc - 1;
+		$inicio = $inicio * $total_reg;
+
+       
+		$category_cnt = DB::table( 'category' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'status', '=', 1 )
+		                  ->orderBy( 'cat_name', 'asc' )->count();
+
+
+		$category = DB::table( 'category' )
+		              ->where( 'delete_status', '=', '' )
+		              ->where( 'status', '=', 1 )
+		              ->orderBy( 'cat_name', 'asc' )->get();
+
+		$typers_count = DB::table( 'product_attribute_type' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'status', '=', 1 )
+		                  ->where( 'search', '=', 1 )
+		                  ->orderBy( 'attr_name', 'asc' )->count();
+
+		$typers = DB::table( 'product_attribute_type' )
+		            ->where( 'delete_status', '=', '' )
+		            ->where( 'status', '=', 1 )
+		            ->where( 'search', '=', 1 )
+		            ->orderBy( 'attr_name', 'asc' )->get();
+                
+                $sellers_count = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->count(); 
+
+		$sellers = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'wirecard_app_data', '!=', '' )
+		                  ->where( 'admin', '=', 2 )
+		                  ->orderBy( 'name', 'asc' )->get();
+
+
+		$pager = "";
+		$type  = "";
+		$id    = "";
+                $name = "";
+                $sellers_id = "";
+                $prices = "all";
+                $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
+                
+		$data = $request->all();                                        
+               
+		if ( ! empty( $data['category'] ) ) { 
+
+			if ( $data['category'] == "all" && empty( $data['search_text'] ) ) { 
+				$category_field = $data['category'];
+				$viewcount      = DB::table( 'product' )
+				                    ->where( 'delete_status', '=', '' )
+				                    ->where( 'prod_status', '=', 1 )
+						    ->orderBy( 'prod_id', 'desc' )							
+				                    ->count();
+
+				$viewproduct = DB::table( 'product' )
+				                 ->where( 'delete_status', '=', '' )
+				                 ->where( 'prod_status', '=', 1 )
+						 ->orderBy( 'prod_id', 'desc' )
+						 ->offset($inicio)
+						 ->limit($total_reg)
+				                 ->get();
+
+
+			} else if ( $data['category'] != "all" && empty( $data['search_text'] ) ) {  
+                            
+				$pieces         = explode( "_", $data['category'] );
+				$id             = $pieces[0];
+				$type           = $pieces[1];
+				$category_field = $data['category'];                             
+                      
+                                
+                              if($type=='cat'){ 
+                                  
+                                  $viewcount = DB::select("select count(*) as count from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
+                                        //DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
+                                  $viewcount = $viewcount[0]->count;
+                                  
+                                  $viewproduct = DB::select("select * from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
+                             
+                                  
+                              }else if($type=='subcat'){ 
+                                 
+                                  $viewcount = DB::select("select count(*) as count from product where product.delete_status = '' and prod_status = 1 and prod_category = $id order by prod_id desc");
+                                        //DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
+                                  $viewcount = $viewcount[0]->count;
+                                  
+                                  $viewproduct = DB::select("select * from product where product.delete_status = '' and prod_status = 1 and prod_category = $id order by prod_id desc");
+                             
+                              }else{
+                                  $viewcount = DB::select("select count(*) as count from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
+                                        //DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
+                                  $viewcount = $viewcount[0]->count;
+                                  
+                                  $viewproduct = DB::select("select * from product inner join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id = $id where product.delete_status = '' and prod_status = 1 order by prod_id desc");
+                              }     
+			}
+
+		} else { 
+			$category_field = "";
+		}
+               
+
+
+		if ( ! empty( $data['category'] ) && ! empty( $data['search_text'] ) ) {                        
+                
+                        // Marcello :: inclusao do desc e tags
+			if ( $data['category'] == "all" ) { 
+				$category_field = $data['category'];
+                                
+                                // Marcello :: Retira o acento sem retirar a letra
+                                $search_txt     = $this->remove_accent($data['search_text']);    
+                                $search_accent = htmlentities($data['search_text'], ENT_COMPAT, "UTF-8");                       
+
+                                                                       
+                                $viewcount      = DB::table( 'product' )
+				                    ->where( 'delete_status', '=', '' )
+				                    ->where( 'prod_status', '=', 1 )
+                                                    ->where(function($q) use ($search_txt,$search_accent) { // $search_txt is the search term on the query string
+                                                        $q->where('prod_name', 'LIKE', '%' . $search_txt . '%')
+                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%');
+                                                        //->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
+                                                        //->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
+                                                     })
+									->orderBy( 'prod_id', 'desc' )
+							
+				                    ->count();
+				$viewproduct    = DB::table( 'product' )
+				                    ->where( 'delete_status', '=', '' )
+				                    ->where( 'prod_status', '=', 1 )
+				                    ->where(function($q) use ($search_txt,$search_accent) { // $search_txt is the search term on the query string
+                                                        $q->where('prod_name', 'LIKE', '%' . $search_txt . '%')
+                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%');
+                                                        //->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
+                                                        //->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
+                                                     })
+									->orderBy( 'prod_id', 'desc' )
+									->offset($inicio)
+									->limit($total_reg)
+				                    ->get();
+			} else {
+
+                                // Marcello :: inclusao do desc e tags
+				$category_field = $data['category'];
+				$search_txt     = $this->remove_accent($data['search_text']);
+                                $search_accent = htmlentities($data['search_text'], ENT_COMPAT, "UTF-8");
+                                
+				$pieces         = explode( "_", $data['category'] );
+				$id             = $pieces[0];
+				$type           = $pieces[1];
+
+                                if($type=='cat'){  
+                                 
+                                  $viewcount = DB::select("select count(*) as count from product inner join subcategory on"
+                                          . " product.prod_category = subcategory.subid and subcategory.cat_id = $id "
+                                          . "where product.delete_status = '' and "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_accent%' or "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
+                                          . "prod_status = 1 "
+                                          . "order by prod_id desc");
+                                  
+                                  $viewcount = $viewcount[0]->count;
+                                  
+                                  $viewproduct = DB::select("select * from product inner join subcategory on"
+                                          . " product.prod_category = subcategory.subid and subcategory.cat_id = $id "
+                                          . "where product.delete_status = '' and "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_accent%' or "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
+                                          . "prod_status = 1 "
+                                          . "order by prod_id desc");
+                             
+                                  
+                              }else if($type=='subcat'){                                   
+                                  
+                                  $viewcount = DB::select("select count(*) as count from product "
+                                          . "where product.delete_status = '' and prod_status = 1 and "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_accent%' or "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
+                                          . "prod_category = $id order by prod_id desc");
+                                  $viewcount = $viewcount[0]->offset($inicio)
+								  ->limit($total_reg)->count;
+                                  
+                                  $viewproduct = DB::select("select * from product "
+                                          . "where product.delete_status = '' and prod_status = 1 and "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_accent%' or "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
+                                          . "prod_category = $id order by prod_id desc");                      
+                              }                              
+			}
+
+		} else {
+			$category_field = "";
+			$search_txt     = "";
+		}
+
+		$tp = $viewcount / $total_reg;
+                
+		return view( 'shop', [ 'category'       => $category,
+		                       'category_cnt'   => $category_cnt,
+		                       'id'             => $id,
+		                       'viewproduct'    => $viewproduct,
+		                       'viewcount'      => $viewcount,
+		                       'pager'          => $pager,
+		                       'type'           => $type,
+		                       'typers'         => $typers,
+		                       'typers_count'   => $typers_count,
+		                       'name'           => $name,
+							   'category_field' => $category_field,
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp,
+		                       'search_txt'     => $search_txt,
+                                       'sellers_count'  => $sellers_count,
+                                       'sellers'        => $sellers,
+                                       'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
+                                       'price'          => $prices
+		] );
+            //return view ($this->avigher_search_data($request));
+            //$req = $request->all();
+            //print_r($req); exit();
+            
+            /*
+            $pager = "";
+            $type  = "";
+            $id    = "";
+            $name = "";
+            $sellers_id = "";
+            $prices = "all";
+            $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
+                
+            $sellers_count = "";
+            $sellers = "";
+            $tp = "";    
+            $category_field = "";
+            $typers = "";
+            $typers_count = "";
+ 
+    
+            
+            $total_reg = "100"; 
+            $req = "1";
+            $pc = "1";
+		
+
+            $inicio = $pc - 1;
+            $inicio = $inicio * $total_reg;
+                
+            $search_txt     = $this->remove_accent($param);
+            $search_accent = htmlentities($param, ENT_COMPAT, "UTF-8");
+            
+            $category = DB::table( 'category' )
+		              ->where( 'delete_status', '=', '' )
+		              ->where( 'status', '=', 1 )
+		              ->orderBy( 'cat_name', 'asc' )->get();
+            
+            $category_cnt = DB::table( 'category' )
+		                  ->where( 'delete_status', '=', '' )
+		                  ->where( 'status', '=', 1 )
+		                  ->orderBy( 'cat_name', 'asc' )->count();
+
+            
+            $viewproduct = DB::table( 'product' )
+				    ->where( 'delete_status', '=', '' )
+				    ->where( 'prod_status', '=', 1 )
+                                    ->where( 'prod_name','LIKE', '%$search_txt%' )
+                                    ->orWhere( 'prod_desc','LIKE', '%$search_txt%' )
+                                    ->orWhere( 'prod_desc','LIKE', '%$search_accent%' )
+                                    ->orWhere( 'prod_tags','LIKE', '%$search_txt%' )
+					->orderBy( 'prod_name', 'desc' )
+                                        ->offset($inicio)
+                                        ->limit($total_reg)
+				        ->get();
+            
+            $viewcount = DB::table( 'product' )
+				    ->where( 'delete_status', '=', '' )
+				    ->where( 'prod_status', '=', 1 )
+                                    ->where( 'prod_name','LIKE', '%$search_txt%' )
+                                    ->orWhere( 'prod_desc','LIKE', '%$search_txt%' )
+                                    ->orWhere( 'prod_desc','LIKE', '%$search_accent%' )
+                                    ->orWhere( 'prod_tags','LIKE', '%$search_txt%' )
+					->orderBy( 'prod_name', 'desc' )
+                                        ->offset($inicio)
+                                        ->limit($total_reg)
+				        ->count();
+            
+            return view( 'shop', [ 'category'       => $category,
+		                       'category_cnt'   => $category_cnt,
+		                       'id'             => $id,
+		                       'viewproduct'    => $viewproduct,
+		                       'viewcount'      => $viewcount,
+		                       'pager'          => $pager,
+		                       'type'           => $type,
+		                       'typers'         => $typers,
+		                       'typers_count'   => $typers_count,
+		                       'name'           => $name,
+							   'category_field' => $category_field,
+							   'data' => $req, 
+							   'pc' => $pc, 
+							   'tp' => $tp,
+		                       'search_txt'     => $search_txt,
+                                       'sellers_count'  => $sellers_count,
+                                       'sellers'        => $sellers,
+                                       'sellers_id'     => $sellers_id,
+                                       'list_prices'    => $list_prices,
+                                       'price'          => $prices
+		] );
+        */
+        }
 
         /* Upper Search Box on the Shop Blade */
 	public function avigher_search_data( Request $request ) {
-
+      
 		$req = $request->all();
-
+ 
 		$total_reg = "100";
 
 		if (isset($req['pagina'])){
@@ -190,7 +540,7 @@ class CategoryController extends Controller {
                 $list_prices = array('all','0_50','50_100','100_200','200_500','500_10000');
                 
 		$data = $request->all();                                        
-                
+               
 		if ( ! empty( $data['category'] ) ) { 
 
 			if ( $data['category'] == "all" && empty( $data['search_text'] ) ) { 
@@ -198,20 +548,21 @@ class CategoryController extends Controller {
 				$viewcount      = DB::table( 'product' )
 				                    ->where( 'delete_status', '=', '' )
 				                    ->where( 'prod_status', '=', 1 )
-									->orderBy( 'prod_id', 'desc' )
-							
+						    ->orderBy( 'prod_id', 'desc' )							
 				                    ->count();
 
 				$viewproduct = DB::table( 'product' )
 				                 ->where( 'delete_status', '=', '' )
 				                 ->where( 'prod_status', '=', 1 )
-								 ->orderBy( 'prod_id', 'desc' )
-								 ->offset($inicio)
-								 ->limit($total_reg)
+						// ->orderBy( 'prod_id', 'desc' )
+                                                 ->orderBy( 'prod_id', 'desc' )
+						 ->offset($inicio)
+						 ->limit($total_reg)
 				                 ->get();
+                                
+                              
 
-
-			} else if ( $data['category'] != "all" && empty( $data['search_text'] ) ) {
+			} else if ( $data['category'] != "all" && empty( $data['search_text'] ) ) {  
                             
 				$pieces         = explode( "_", $data['category'] );
 				$id             = $pieces[0];
@@ -245,7 +596,7 @@ class CategoryController extends Controller {
                               }     
 			}
 
-		} else {
+		} else { 
 			$category_field = "";
 		}
                
@@ -267,9 +618,9 @@ class CategoryController extends Controller {
 				                    ->where( 'prod_status', '=', 1 )
                                                     ->where(function($q) use ($search_txt,$search_accent) { // $search_txt is the search term on the query string
                                                         $q->where('prod_name', 'LIKE', '%' . $search_txt . '%')
-                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%')
-                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
-                                                        ->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
+                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%');
+                                                        //->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
+                                                        //->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
                                                      })
 									->orderBy( 'prod_id', 'desc' )
 							
@@ -279,14 +630,29 @@ class CategoryController extends Controller {
 				                    ->where( 'prod_status', '=', 1 )
 				                    ->where(function($q) use ($search_txt,$search_accent) { // $search_txt is the search term on the query string
                                                         $q->where('prod_name', 'LIKE', '%' . $search_txt . '%')
-                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%')
-                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
-                                                        ->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
+                                                        ->orWhere('prod_desc', 'LIKE', '%' . $search_txt . '%');
+                                                        //->orWhere('prod_desc', 'LIKE', '%' . $search_accent . '%')
+                                                        //->orWhere('prod_tags', 'LIKE', '%' . $search_txt . '%');
                                                      })
 									->orderBy( 'prod_id', 'desc' )
 									->offset($inicio)
 									->limit($total_reg)
 				                    ->get();
+                                                     
+                                                  
+                                                    // $viewproduct = $viewproduct->toArray();
+            
+                                                     //print_r(array_column($viewproduct->toArray(),'prod_id'));print_r("<br>***</br>");
+                                /* Ordena a Array Multi pelo prod_nome */
+                                //array_multisort( array_column($viewproduct,'prod_name'), SORT_ASC, $viewproduct );
+                                
+                                // Ordena os dados por volume decrescente, edition crescente.
+                                // Adiciona $data como último parâmetro, para ordenar por uma chave comum.
+                               // array_multisort($viewproduct->toArray(), SORT_DESC, $edition, SORT_ASC, $data);
+                                
+                                //print_r($viewproduct);print_r("<br>***</br>");
+                               // exit();
+                                
 			} else {
 
                                 // Marcello :: inclusao do desc e tags
@@ -299,14 +665,16 @@ class CategoryController extends Controller {
 				$type           = $pieces[1];
 
                                 if($type=='cat'){  
-                                  
+                                 
                                   $viewcount = DB::select("select count(*) as count from product inner join subcategory on"
                                           . " product.prod_category = subcategory.subid and subcategory.cat_id = $id "
                                           . "where product.delete_status = '' and "
-                                          . "(prod_name LIKE '%$search_txt%' or "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
-                                          . "prod_tags LIKE '%$search_txt%') and "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_status = 1 "
                                           . "order by prod_id desc");
                                   
@@ -315,32 +683,37 @@ class CategoryController extends Controller {
                                   $viewproduct = DB::select("select * from product inner join subcategory on"
                                           . " product.prod_category = subcategory.subid and subcategory.cat_id = $id "
                                           . "where product.delete_status = '' and "
-                                          . "(prod_name LIKE '%$search_txt%' or "
-                                          . "prod_desc LIKE '%$search_txt%' or "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                        /*.  . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
-                                          . "prod_tags LIKE '%$search_txt%') and "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_status = 1 "
                                           . "order by prod_id desc");
                              
                                   
-                              }else if($type=='subcat'){                                    
+                              }else if($type=='subcat'){                                   
                                   
                                   $viewcount = DB::select("select count(*) as count from product "
                                           . "where product.delete_status = '' and prod_status = 1 and "
-                                          . "(prod_name LIKE '%$search_txt%' or "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
-                                          . "prod_tags LIKE '%$search_txt%') and "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_category = $id order by prod_id desc");
                                   $viewcount = $viewcount[0]->offset($inicio)
 								  ->limit($total_reg)->count;
                                   
                                   $viewproduct = DB::select("select * from product "
                                           . "where product.delete_status = '' and prod_status = 1 and "
-                                          . "(prod_name LIKE '%$search_txt%' or "
+                                          . "( prod_name LIKE '%$search_txt%' or "
+                                          . "prod_desc LIKE '%$search_txt%' ) and "
+                                          /*. "(prod_name LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
-                                          . "prod_tags LIKE '%$search_txt%') and "
+                                          . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_category = $id order by prod_id desc");                      
                               }                              
 			}
@@ -351,7 +724,7 @@ class CategoryController extends Controller {
 		}
 
 		$tp = $viewcount / $total_reg;
-	
+                
 		return view( 'shop', [ 'category'       => $category,
 		                       'category_cnt'   => $category_cnt,
 		                       'id'             => $id,
@@ -377,7 +750,7 @@ class CategoryController extends Controller {
 
          /* Right Specific Search Attibutes on the Shop Blade */
 	public function avigher_search_all_data( Request $request ) { 
-			
+		//print_r('avigher_search_all_data');exit();	
 		$req = $request->all();
 
 		$total_reg = "100";
@@ -432,7 +805,7 @@ class CategoryController extends Controller {
 				
                                
                               if($type=='cat'){
-                                  
+                              
                                   $search_sql = 'Select * from product join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id ='.$id ;
                                   $search_sql_cnt = 'Select count(*) as count from product join subcategory on product.prod_category = subcategory.subid and subcategory.cat_id ='.$id ;
                                   $search_where = ' where product.delete_status="" and product.prod_status=1 '; 
@@ -518,11 +891,14 @@ class CategoryController extends Controller {
                    
                     $search_txt     = $this->remove_accent($data['search_txt']);
                     $search_accent = htmlentities($data['search_txt'], ENT_COMPAT, "UTF-8");
-                                
-                       $search_where .=  " and (prod_name LIKE '%$search_txt%' or "
+                        
+                        //$search_where .=  " and (prod_name LIKE '%$search_txt%')";
+
+                       /**/$search_where .=  " and (prod_name LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_accent%' or "
                                           . "prod_tags LIKE '%$search_txt%') ";  
+                      
               }                         
               
               
@@ -647,7 +1023,8 @@ class CategoryController extends Controller {
 			                 ->where( 'prod_status', '=', 1 )
 			                 ->where( 'prod_category', '=', $id )
 			                 ->where( 'prod_cat_type', '=', $type )
-							 ->orderBy( 'prod_id', 'desc' )
+							// ->orderBy( 'prod_id', 'desc' )
+                                                         ->orderBy( 'prod_name', 'desc' )
 							 ->offset($inicio)
 							 ->limit($total_reg)
 							 ->get();
@@ -677,7 +1054,7 @@ class CategoryController extends Controller {
 					}
 				}
 			}
-			$params_str = implode(' OR ',$params_arr);
+			$params_str = implode(' OR ',$params_arr);  // Verificar esse $viewproduct por que o order by = ?
 			$viewproduct = DB::select("SELECT * FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
 			$viewcount = DB::select("SELECT count(*) as count FROM product WHERE delete_status = '' AND prod_status = 1 AND (prod_category = $id{$params_str}) ORDER BY prod_id = ?",['desc']);
 			$viewcount = $viewcount[0]->count;
@@ -726,7 +1103,7 @@ class CategoryController extends Controller {
 
 
 	public function avigher_all_category(Request $request) {
-
+        //print_r('avigher_all_category');exit();
 		$req = $request->all();
 
 		$total_reg = "100";

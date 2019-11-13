@@ -191,6 +191,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		DB::insert('insert into waiting_list (user_id,product_id, waiting, prod_user_id) values (?, ?, ?, ?)', [$user_id,$prod_token, true, $prod_user_id]);
 		return back()->with('success', 'Obrigado! Voc&ecirc; ser&aacute; avisado quando o produto retornar ao estoque!');
 	}else{
+                DB::update('update waiting_list set waiting=1 where user_id ='.$user_id.' and prod_user_id='.$prod_user_id.' and product_id="'.$prod_token.'"' );
 		return back()->with('success', 'Obrigado! Voc&ecirc; ser&aacute; avisado quando o produto retornar ao estoque!');
 	}
     }
@@ -209,9 +210,8 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	}else{
 	    return back()->with('error', 'Produto ja foi adicionado!');
 	}
-    }
-
-
+	}
+	
     public function avigher_edit_product($token){
 
     $userid = Auth::user()->id;
@@ -568,7 +568,13 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
     public function deleteProductSeller($token){
         DB::table('product')->where('prod_token', '=', $token)->delete();
         return back()->with('success', 'Produto foi deletado Permanentemente.'); // Marcello - Product has been deleted
-    }
+	}
+	
+	/** Cristiano :: Delete a product waiting-list **/
+	public function deleteWaitingListProduct($id){
+		DB::table('waiting_list')->where('id', '=', $id)->delete();
+		return back()->with('success', 'Produto foi excluido com sucesso.'); // Cristiano - Product has been deleted with success
+	}
 
     /** Marcello :: Hide or make Visible a product by the Seller
      * 0 - Invisible
@@ -587,7 +593,41 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
             // else
             //   return back()->with('error', 'Erro na atualiza&ccedil;&atilde;o.');
         return back();
-    }
+	}
+
+	// A ordem e' importante por que o produto ira permitir aspas que nao e' o caso da url
+	public function productNameUrlFilter($productName,$data) {
+	
+		$productName = preg_replace('/[^A-Za-z0-9-]/', '', $data); // Marcello - Retirando o (automatico agora e caracteres especiais ) $productName = $data['url_slug'];
+		$productName = str_replace("'", "", $productName); // Retirando Aspas simples
+		$productName = str_replace('"', "", $productName); // Retirando Aspas duplas
+		return $productName;
+	}
+	
+	//Cristiano -  Filtro para e-mail e telefone campo descrição
+	public function descriptionFilter($description) {
+		
+		$email_pattern = "/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/";
+		$phone_pattern = "/(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))/";
+		$tag_pattern = "/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i";
+		$filter_pattern = [$email_pattern,$phone_pattern];
+		
+		$description = preg_replace($filter_pattern,str_repeat("*", 10),$description);//Cristiano -  Filtro para e-mail e telefone campo descrição
+		$description = preg_replace($tag_pattern,'<$1$2>', $description );// Marcello - Cristiano - Retirando os atributos dentro das tags
+		
+		// Marcello - Tratando o erro de texto que utiliza aspas
+		$description = str_replace('"','&quot;',$description);
+		$description = str_replace("'",'&apos;',$description); 
+		
+		return $description;
+	}
+	// Marcello - Cristiano - Tratando os Tags que podem ser salvos
+	public function descriptionFilterTag($description,$data) {
+		
+		$description = strip_tags($data,"<strong><p><em><h1><h2><h3><h4><br>"); 
+		
+		return $description;
+	}
 
     public function avigher_edit_data (Request $request) {
 
@@ -633,31 +673,28 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	$failedRules = $validator->failed();
 	return back()->withErrors($validator);
     }else{
-        // A ordem e' importante por que o produto ira permitir aspas que nao e' o caso da url
-        $url_slug = preg_replace('/[^A-Za-z0-9-]/', '', $data['product_name']); // Marcello - Retirando o (automatico agora e caracteres especiais ) $url_slug = $data['url_slug'];
-	$url_slug = str_replace("'", "", $url_slug); // Retirando Aspas simples
-        $url_slug = str_replace('"', "", $url_slug); // Retirando Aspas duplas
+        // A ordem e' importante por que o produto ira permitir aspas que nao e' o caso da url		
+		$url_slug = "";
+		$url_slug = $this->productNameUrlFilter($url_slug,$data['product_name']);
+
         // Marcello - Acertando enconding de acento
-	$product_name = $data['product_name'];
+		$product_name = $data['product_name'];
         //$product_name = str_replace("'", "", $product_name); // Retirando Aspas simples
         //$product_name = str_replace('"', "", $product_name); // Retirando Aspas duplas
         //$product_name = $mysqli->real_escape_string($product_name); // Marcello - Tratando o erro de texto que utiliza aspas
-	$product_name = addslashes($product_name);
+		$product_name = addslashes($product_name);
         $cat_id = $data['cat_id'];
         $pieces = explode("_", $cat_id);
-	$category_id = $pieces[0];
-	$category_type = $pieces[1];
+		$category_id = $pieces[0];
+		$category_type = $pieces[1];
 
-	$prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
-	$prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
-        // $prod_desc = $mysqli->real_escape_string($city); // Marcello - Tratando o erro de texto que utiliza aspas
-        $prod_desc = str_replace('"','&quot;',$prod_desc);
-        $prod_desc = str_replace("'",'&apos;',$prod_desc);
-        //$prod_desc = str_replace("&",'&amp;',$prod_desc);
+		$prod_desc = "";
+		$prod_desc = $this->descriptionFilterTag($prod_desc,$data['prod_desc']);// Marcello - Cristiano - Tratando os Tags que podem ser salvos
+		$prod_desc = $this->descriptionFilter($prod_desc); //Cristiano -  Filtro para palavra reservada campo descrição
         
         $prod_type = $data['prod_type'];
         $prod_price = str_replace(".", "", $data['prod_price']); // Marcello - retira o Mil "." em portugues
-	$prod_price = str_replace(",", ".", $prod_price); // Marcello - Trocando o "," pelo "." para salvar como centavos
+		$prod_price = str_replace(",", ".", $prod_price); // Marcello - Trocando o "," pelo "." para salvar como centavos
 
 	//echo "original : ".$data['prod_price'];
         //echo "<br> alterado : ".$prod_price;
@@ -863,9 +900,8 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	else{
             
 	   /* Marcello - ordem deve ser mantida para retirar aspas do prod_name */
-	   $url_slug = preg_replace('/[^A-Za-z0-9-]/', '', $data['product_name']); // Marcello - Retirando o (automatico agora e caracteres especiais ) $url_slug = $data['url_slug'];
-	   $url_slug = str_replace("'", "", $url_slug); // Retirando Aspas simples
-           $url_slug = str_replace('"', "", $url_slug); // Retirando Aspas duplas
+	   $url_slug = "";
+	   $url_slug = $this->productNameUrlFilter($url_slug,$data['product_name']);
 
 	   $product_name = $data['product_name'];
            $cat_id = $data['cat_id'];
@@ -873,12 +909,9 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	   $category_id = $pieces[0];
 	   $category_type = $pieces[1];
 
-	   $prod_desc = strip_tags($data['prod_desc'],"<strong><p><em><h1><h2><h3><h4><br>"); // Marcello - Tratando os Tags que podem ser salvos
-	   $prod_desc = preg_replace("/<([a-z][a-z0-9]*)[^>]*?(\/?)>/i",'<$1$2>', $prod_desc ); // Marcello - Retirando os atributos dentro das tags
-           $prod_desc = str_replace('"','&quot;',$prod_desc);
-           $prod_desc = str_replace("'",'&apos;',$prod_desc);
-           //$prod_desc = str_replace("&",'&amp;',$prod_desc);
-           
+	   $prod_desc = "";
+	   $prod_desc = $this->descriptionFilterTag($prod_desc,$data['prod_desc']);// Marcello - Cristiano - Tratando os Tags que podem ser salvos
+	   $prod_desc = $this->descriptionFilter($prod_desc); //Cristiano -  Filtro para palavra reservada campo descrição
 
 	   $prod_type = $data['prod_type'];
 	   $prod_price = str_replace(",", ".", $data['prod_price']); // Marcello - Trocando o "," pelo "."

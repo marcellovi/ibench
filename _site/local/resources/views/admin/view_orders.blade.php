@@ -67,7 +67,7 @@
                                             <th>@lang('languages.payment_status')</th>
                                     </thead>
                                     <tbody>
-                                        <?php
+                                        <?php 
                                         if (!empty($productt_count)) {
                                             $i = 1;
                                             foreach ($productt as $product) {
@@ -176,7 +176,11 @@
             </td>
 
             <td>
-            <?php echo $setts[0]->site_currency . ' ' . number_format($product->subtotal, 2); ?>
+                
+            <?php //echo $setts[0]->site_currency . ' ' . number_format($product->subtotal, 2); 
+            ?>
+               
+                <?php echo $setts[0]->site_currency . ' ' . number_format($product->quantity * $product->price , 2); ?>
             </td>
 
             <td>

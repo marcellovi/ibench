@@ -97,7 +97,7 @@ $headertype = $setts[0]->header_type;
             <label class="info-title" for="exampleInputName" id="bill_name">@lang('languages.first_name') <span>*</span></label>
 
             <!--<input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="<?php //echo utf8_decode($nameFull[0]); ?>">-->
-            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="marcello">
+            <input type="text" name="bill_firstname" autocomplete="nope" id="bill_firstname" class="form-control unicase-form-control validate[required]" value="">
 	</div>
 
 	</div>
@@ -108,7 +108,7 @@ $headertype = $setts[0]->header_type;
 
             <!--<input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="<?php //if($sum>1){echo utf8_decode($nameFull[1]); }?>">--> <!-- Marcello {{@$nameFull[1]}} -->
 
-            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="vieira">
+            <input type="text" name="bill_lastname" autocomplete="nope" id="bill_lastname" class="form-control unicase-form-control validate[required]" value="">
 	</div>
 	</div>
         
@@ -116,7 +116,7 @@ $headertype = $setts[0]->header_type;
 	<div class="form-group">
 		    <label class="info-title" for="tipopessoa" id="tipopessoa">CPF <span>*</span></label>
         <!--<input type="text" name="bill_companyname" autocomplete="nope" id="bill_companyname" class="form-control unicase-form-control" value="{{Auth::user()->name_business}}">-->
-                    <input type="text" name="cpf_cnpj" autocomplete="nope" id="cpf_cnpj" class="form-control unicase-form-control validate[required]" value="08588997797" minlength="11" maxlength="16" pattern="[0-9]+$" placeholder="Apenas N&uacute;meros">
+                    <input type="text" name="cpf_cnpj" autocomplete="nope" id="cpf_cnpj" class="form-control unicase-form-control validate[required]" value="" minlength="11" maxlength="16" pattern="[0-9]+$" placeholder="Apenas N&uacute;meros">
 	</div>
 	</div>
         
@@ -125,7 +125,7 @@ $headertype = $setts[0]->header_type;
 	<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.email_address') <span>*</span></label>
         <!--<input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->email}}">-->
-        <input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="marcello.strategy@gmail.com" >
+        <input type="text" name="bill_email" autocomplete="nope" id="bill_email" class="form-control unicase-form-control validate[required]" value="" >
 	</div>
 	</div>
 
@@ -135,7 +135,7 @@ $headertype = $setts[0]->header_type;
 		    <label class="info-title" for="exampleInputComments">@lang('languages.phone') / Celular <span>*</span></label>
 
         <!--<input type="text" name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->phone}}">-->
-                    <input type="tel"  name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="2127101252" placeholder="(XX) XXXX-XXXXX">
+                    <input type="tel"  name="bill_phone" autocomplete="nope" id="bill_phone" class="form-control unicase-form-control validate[required]" value="" placeholder="(XX) XXXX-XXXXX">
 	</div>
 	</div> 
 
@@ -144,7 +144,7 @@ $headertype = $setts[0]->header_type;
 	<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.address') <span>*</span></label> <!-- onkeypress="return blockSpecialChar(event)" -->
         <!--<input type="text" name="bill_address" autocomplete="nope" id="bill_address" placeholder="@lang('languages.address')" class="form-control unicase-form-control validate[required]" value="{{Auth::user()->address}}">-->
-                    <input type="text" name="bill_address" autocomplete="nope" id="bill_address" class="form-control unicase-form-control validate[required]" value="Rua Santa Alexandrina 27"  oncopy="return false" onpaste="return false" min="8">
+                    <input type="text" name="bill_address" autocomplete="nope" id="bill_address" class="form-control unicase-form-control validate[required]" value=""  oncopy="return false" onpaste="return false" min="8">
 
 	</div>
 	</div>
@@ -155,7 +155,7 @@ $headertype = $setts[0]->header_type;
 		    <label class="info-title" for="exampleInputComments">@lang('languages.postcode')  <span>*</span></label>
 
              <!--<input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" placeholder="@lang('languages.postcode')" class="form-control unicase-form-control validate[required]" value="">-->
-                    <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" class="form-control unicase-form-control validate[required]" value="2026135"  >
+                    <input type="text" name="bill_postcode" autocomplete="nope" id="bill_postcode" class="form-control unicase-form-control validate[required]" value=""  >
         </div>
 	</div>
 
@@ -163,7 +163,7 @@ $headertype = $setts[0]->header_type;
 
 	<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">Bairro <span>*</span></label>
-                    <input type="text" name="bill_district" autocomplete="nope" id="bill_district" class="form-control unicase-form-control validate[required]" value="Rio Comprido">
+                    <input type="text" name="bill_district" autocomplete="nope" id="bill_district" class="form-control unicase-form-control validate[required]" value="">
         </div>
 	</div>
 

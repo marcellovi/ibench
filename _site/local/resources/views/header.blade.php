@@ -777,7 +777,7 @@ if(Auth::check()) {
                 
                 <li>
                     <!-- Marcello :: Menu IBENCH NOW -->
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdT_WCuYqI7VRJ74hC6scDi1zXRixU6gpbsQ_jtaMonu1NpLg/viewform">iBench Now</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdT_WCuYqI7VRJ74hC6scDi1zXRixU6gpbsQ_jtaMonu1NpLg/viewform" target="_blank">iBench Now</a>
                 </li>
                 
                 <li>

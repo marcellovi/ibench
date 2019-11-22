@@ -180,7 +180,7 @@ $cates_cnt = DB::table('category')
                   ->orderBy('id', 'asc')
                   ->get();
                 foreach ($cates_get as $viee) { ?>
-                  <li><a href="<?php echo $url; ?>/shop/cat/<?php echo $viee->id; ?>/<?php echo $viee->post_slug; ?>"><?php echo  utf8_decode($viee->cat_name);?></a></li>
+                  <li><a href="<?php echo $url; ?>/shop/cat/<?php echo $viee->id; ?>/<?php echo $viee->post_slug; ?>"><?php echo $viee->cat_name; ?></a></li>
                 <?php }
             } ?>
 
@@ -203,7 +203,7 @@ $cates_cnt = DB::table('category')
               <!-- Marcello Vendedores Wish List -->
               <li><a href="<?php echo $url; ?>/vendors">@lang('languages.all_vendors')</a></li>
 
-              <li><a href="my-wishlist">@lang('languages.wish_list')</a></li>
+              <li><a href="/my-wishlist">@lang('languages.wish_list')</a></li>
               <li><a href="<?php echo $url; ?>/contact-us">@lang('languages.contact_us')</a></li>
               <li><a href="<?php echo $url; ?>/local/images/media/ibench_termos_condicoes.pdf" target="_blank">Termo de Uso</a></li>
             </ul>
@@ -228,7 +228,7 @@ $cates_cnt = DB::table('category')
               <li class="media">
                 <div class="pull-left"> <span class="icon fa-stack fa-lg"> <i class="fa fa-phone fa-stack-1x fa-inverse"></i> </span> </div>
                 <div class="media-body">
-                  <p style="margin-top: 7px;">(21) 98271-0963</p>
+                  <p style="margin-top: 7px;">+55 21 98271-0963</p>
                 </div>
               </li>
               <!--

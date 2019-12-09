@@ -37,21 +37,9 @@
     <form action="{{ route('admin.users') }}" method="post">
 
         {{ csrf_field() }}
-        <div align="right">
-
-            <?php if (config('global.demosite') == "yes") { ?>
-
-                <a href="#" class="btn btn-danger btndisable">Delete All</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-            <?php } else { ?>
-                <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
-            <?php } ?>
-
-
-            <?php if (config('global.demosite') == "yes") { ?>
-                <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a> 
-            <?php } else { ?>
-                <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
-            <?php } ?>
+        <div align="right">            
+            <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
+            <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
         </div>
         <div class="widget-box">
 
@@ -106,7 +94,7 @@
                                         ?>
                                         <td><img src="<?php echo $url . $path; ?>" class="thumb" width="40" align="middle" style="display: block; margin-left: auto; margin-right: auto; z-index: 1;" >
                                         </td>
-                    <?php } else { ?>
+                                    <?php } else { ?>
                                         <td><img src="<?php echo $url . '/local/images/nophoto.jpg'; ?>" class="thumb" width="40" align="middle" style="display: block; margin-left: auto; margin-right: auto; z-index: 1;" >
                                         </td>
                                     <?php } ?>
@@ -122,7 +110,7 @@
                                         } ?>
                                     <td><?php echo $user->earning; ?> <?php echo $setts[0]->site_currency; ?></td>
                                     <td><?php
-                                        //print_r($prod_cnt_inactive); exit();
+                                       
                                         $found = false;
                                         foreach ($prod_cnt_inactive as $user_prod_inactive) {
                                             if ($user->id == $user_prod_inactive->user_id) {
@@ -150,29 +138,37 @@
 
                                     <td>
         <?php if ($user->provider == "") { ?>
-            <?php if (config('global.demosite') == "yes") { ?>
-                  <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-            <?php } else { ?>						  
-                  <a href="<?php echo $url; ?>/admin/edituser/{{ $user->id }}" >
-                      <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar"></a>
-            <?php } ?>
+            <a href="<?php echo $url; ?>/admin/edituser/{{ $user->id }}" >
+            <!--
+            <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar">
+            -->
+            <button type="button" class="btn btn-outline-primary" alt="Editar" title="Editar" ><i class="icon-fixed-width icon-pencil"></i></button>
+            </a>            
         <?php } ?>        
 
-        <?php if (config('global.demosite') == "yes") { ?>
-                 <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-        <?php } else { ?>						  
-                @if($sta!=1)
-                 <a href="<?php echo $url; ?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
-                      <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a> 
+            @if($sta!=1)
+                <a href="<?php echo $url; ?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
+                <!-- <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar">
+                -->
+                <button type="button" class="btn btn-outline-danger" alt="Deletar" title="Deletar"><i class="icon-fixed-width icon-trash"></i></button>
+                </a> 
             <?php if ($user->delete_status == "") { ?> 
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/0"  onClick="return confirm('Tem certeza que quer Bloquear o fornecedor?')">
-                      <img src="<?php echo $url;?>/local/images/user-blocked.png" alt="Bloquear" title="Bloquear"></a> 
+                  <!--
+                  <img src="<?php echo $url;?>/local/images/user-blocked.png" alt="Bloquear" title="Bloquear">
+                  -->
+                  <button type="button" class="btn btn-outline-warning" alt="Bloquear" title="Bloquear"><i class="icon-fixed-width icon-ban-circle"></i></button>
+                  </a> 
             <?php } else { ?>
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/1" onClick="return confirm('Tem certeza que quer liberar o fornecedor?')">
-                      <img src="<?php echo $url;?>/local/images/unlock.png" alt="Liberar" title="Liberar"></a>
+                  <!--
+                  <img src="<?php echo $url;?>/local/images/unlock.png" alt="Liberar" title="Liberar">
+                  -->
+                  <button type="button" class="btn btn-outline-success" alt="Liberar" title="Liberar"><i class="icon-fixed-width icon-unlock"></i></button>
+                  </a>
             <?php } ?>
-                 @endif
-        <?php } ?>
+            @endif
+      
                                 </td>
                             </tr>
         <?php $i++;    }} ?>

@@ -191,5 +191,53 @@ class UsersController extends Controller
 
         return back();
     }
+    
+    /* Save Error Logs */
+    public function saveLogs($id, Request $request){
+        
+        $data = $request->all();
+        $userid = $data['userid'];
+        $ip = $data['ip'];
+        $device = $data['device'];
+        $os = $data['os'];
+        $browser = $data['browser'];
+        $type_error = $data['type_error'];
+        $msg_error = $data['msg_error'];
+        $date = time();
+        
+        /* Saving the Data in the History Table */ 
+        DB::insert('insert into user_logs (id_user, ip, device, os, browser, type_error, msg_error, created_at ) '
+                . 'values (?,?,?,?,?,?,?)', [$userid, $ip, $device, $os, $browser, $type_error, $msg_error, $date]); 
+        
+        return back();      
+        
+    }
+    
+    /* User Logs when an Error occur in the platform */
+    public function userLogs() {
+        
+        //$ip = UserInfo::get_ip();
+        //$device = UserInfo::get_device();
+       // $os = UserInfo::get_os();
+       // $browser = UserInfo::get_browser();  
+        
+        $user_logs  = DB::select(
+                        'select l.id, name, email, phone, ip, device, os, browser, type_error, msg_error, error_created_at from users u, user_logs l '
+                        . 'where u.id = l.user_id order by l.id'
+                            );
+        
+        $user_logs_cnt = DB::select(
+                        'select count(*) from users u, user_logs l '
+                        . 'where u.id = l.user_id order by l.id'
+                            );                        
+
+        $setid = 1;
+        $setts = DB::table('settings')
+                ->where('id', '=', $setid)
+                ->get();
+
+        return view('admin.userlogs', ['user_logs' => $user_logs, 'user_logs_cnt' => $user_logs_cnt, 
+            'setts' => $setts]);
+    }
 
 }

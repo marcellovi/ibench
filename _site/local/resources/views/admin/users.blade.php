@@ -33,19 +33,10 @@
 <form action="{{ route('admin.users') }}" method="post">
                  
                  {{ csrf_field() }}
-                 <div align="right">
-                  <?php if(config('global.demosite')=="yes"){?>					
-                       <a href="#" class="btn btn-danger btndisable">Deletar Todos</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-                      <?php } else { ?>
-                       <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
-                      <?php } ?>
-
-
-                      <?php if(config('global.demosite')=="yes"){?>
-                      <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a> 
-                      <?php } else { ?>
-                      <a href="<?php echo $url;?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
-                      <?php } ?>
+                 <div align="right">                 
+                    <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
+                    <a href="<?php echo $url;?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
+                    <a href="<?php echo $url; ?>/admin/userlogs" class="btn btn-warning"> <i class="icon-flag"></i> Logs</a>  
                  </div>
 <div class="widget-box">          
 

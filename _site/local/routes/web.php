@@ -407,7 +407,8 @@ Route::group(['middleware' => 'admin'], function() {
         
         /* User Logs */
         Route::get('/admin/userlogs','Admin\UsersController@userLogs');
-	
+	Route::get('/admin/users/log/{id}','Admin\UsersController@destroyUserLogs');
+        
 	
 	/* category */
 	Route::get('/admin/category','Admin\CategoryController@index');

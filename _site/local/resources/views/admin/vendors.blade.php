@@ -40,7 +40,7 @@
         <div align="right">            
             <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
             <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
-            <a href="<?php echo $url; ?>/admin/sellerlogs" class="btn btn-warning"> <i class="icon-flag"></i> Logs</a>
+            <a href="<?php echo $url; ?>/admin/userlogs" class="btn btn-warning"> <i class="icon-flag"></i> Logs</a>
         </div>
         <div class="widget-box">
 

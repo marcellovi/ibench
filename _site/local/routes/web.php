@@ -404,6 +404,9 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::post('/admin/users', ['as'=>'admin.users','uses'=>'Admin\UsersController@delete_all']);
 	/* end user */
 		
+        
+        /* User Logs */
+        Route::get('/admin/userlogs','Admin\UsersController@userLogs');
 	
 	
 	/* category */

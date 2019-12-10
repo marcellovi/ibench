@@ -52,11 +52,8 @@
                     <thead>
                         <tr>
                             <th data-orderable="false"><input type="checkbox" id="selectAll" class="main"></th>
-                            <th>Sno</th>
                             <th>Usuario</th>
-                            <th>Email</th>
-                            <th>Data Registrada</th>
-                            <th>Telefone</th>
+                            <th>Dt.Registro</th>
                             <th>Ip</th>
                             <th>Device</th>
                             <th>OS</th>
@@ -74,11 +71,8 @@
                         ?>
                                 <tr class="gradeX">
                                     <td align="center"><input type="checkbox" name="userid[]" value="<?php echo $user_log->id; ?>"/></td>
-                                    <td><?php echo $i; ?></td>    
                                     <td><?php echo $user_log->name; ?></td>
-                                    <td><?php echo $user_log->email; ?></td>
-                                    <td><?php echo $user_log->error_created_at; ?></td>
-                                    <td><?php echo $user_log->phone; ?></td>               
+                                    <td><?php $date = date_create($user_log->error_created_at); echo date_format($date, 'Y-m-d g:i A'); ?></td>
                                     <td><?php echo $user_log->ip; ?></td>
                                     <td><?php echo $user_log->device; ?></td>
                                     <td><?php echo $user_log->os; ?></td>

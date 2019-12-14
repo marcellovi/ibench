@@ -163,17 +163,17 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-		
-		
+
+
 		Collective\Html\HtmlServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
-		
+
 		Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
-		
-		
-		
+
+
+
 		Maatwebsite\Excel\ExcelServiceProvider::class,
-		
+
 
         /*
          * Package Service Providers...
@@ -188,10 +188,13 @@ return [
         // Responsive\Providers\BroadcastServiceProvider::class,
         Responsive\Providers\EventServiceProvider::class,
         Responsive\Providers\RouteServiceProvider::class,
-		
+
 		Laravel\Socialite\SocialiteServiceProvider::class,
-		
-		Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+
+    Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+
+    // reCaptcha service providers
+    Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -245,14 +248,15 @@ return [
       'Html' => Collective\Html\HtmlFacade::class,
 	  'Input'     => Illuminate\Support\Facades\Input::class,
 	  'Image' => Intervention\Image\Facades\Image::class,
-	  
+
 	  'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-	  
+
 	  'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-	  
+
 	  'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-	  
-	  'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
+
+    'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
+    'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
 
 
     ],

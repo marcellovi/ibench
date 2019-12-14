@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>   
-   @include('admin.title')    
+<head>
+   @include('admin.title')
    @include('admin.style')
    @include('admin.table-style')
 </head>
-<body>  
+<body>
    @include('admin.top')
    @include('admin.menu')
 <?php $url = URL::to("/"); ?>
@@ -23,18 +23,18 @@
               {{ Session::get('error') }}
               </div>
     @endif
-      
-    @if(Session::has('success'))	           
+
+    @if(Session::has('success'))
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
               </div>
     @endif
 <form action="{{ route('admin.users') }}" method="post">
-                 
+
                  {{ csrf_field() }}
                  <div align="right">
-                  <?php if(config('global.demosite')=="yes"){?>					
+                  <?php if(config('global.demosite')=="yes"){?>
                        <a href="#" class="btn btn-danger btndisable">Deletar Todos</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
                       <?php } else { ?>
                        <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
@@ -42,18 +42,18 @@
 
 
                       <?php if(config('global.demosite')=="yes"){?>
-                      <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a> 
+                      <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a>
                       <?php } else { ?>
                       <a href="<?php echo $url;?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
                       <?php } ?>
                  </div>
-<div class="widget-box">          
+<div class="widget-box">
 
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Compradores - ( <?php echo $users_cnt; ?> Total )</h5>
-          </div>          
-          
-          <div class="widget-content nopadding">         
+          </div>
+
+          <div class="widget-content nopadding">
             <table class="table table-bordered data-table" id="datatable-responsive">
               <thead>
                 <tr>
@@ -63,6 +63,7 @@
                   <th>Sno</th>
 		  <th>Imagem</th>
                   <th>Usuario</th>
+                  <th>Nome</th>
                   <th>Email</th>
                   <th>CPF</th>
 		  <th>Telefone</th>
@@ -76,12 +77,12 @@
               <?php if(!empty($users_cnt)){
                   $i=1;
                   foreach ($users as $user) { $sta=$user->admin; if($sta==1){ $viewst="Admin"; } else if($sta==2) { $viewst="Vendor"; } else if($sta==0) { $viewst="Customer"; }?>
-   
-                <tr class="gradeX">                        
+
+                <tr class="gradeX">
                          <td align="center"><input type="checkbox" name="userid[]" value="<?php echo $user->id;?>"/></td>
-                        
+
                          <td><?php echo $i;?></td>
-                         <?php 
+                         <?php
                    $userphoto="/media/";
                         $path ='/local/images'.$userphoto.$user->photo;
                         if($user->photo!=""){
@@ -93,51 +94,52 @@
                              </td>
                          <?php } ?>
                           <td><?php echo $user->name;?></td>
+                          <td><?php echo $user->full_name;?></td>
                           <td><?php echo $user->email;?></td>
                           <td><?php echo $user->cpf_cnpj;?></td>
-			  <td><?php echo $user->phone;?></td>
-                          <td><?php if(empty($user->created_at)){ echo "S/D";} else{ echo date("d/m/Y", strtotime($user->created_at));} ?></td>                           
-                          
+			                    <td><?php echo $user->phone;?></td>
+                          <td><?php if(empty($user->created_at)){ echo "S/D";} else{ echo date("d/m/Y", strtotime($user->created_at));} ?></td>
+
                           <?php if($user->delete_status=="" && $user->confirmation == 1){
-                              $logintype = "ativo";                               
-                          } else if($user->delete_status =="" && $user->confirmation == 0){ $logintype = "N/C"; } 
+                              $logintype = "ativo";
+                          } else if($user->delete_status =="" && $user->confirmation == 0){ $logintype = "N/C"; }
                             else{  $logintype = "N/A"; }
-                          ?>                          
-                          
+                          ?>
+
 			  <?php /*?><td><?php echo $user->earning;?> <?php echo $setts[0]->site_currency;?></td><?php */?>
-                          
+
                           <td><?php echo $logintype;?></td>
-                          <td>                          
+                          <td>
                           <?php if($user->provider==""){?>
 						  <?php if(config('global.demosite')=="yes"){?>
 						  <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-				  <?php } else { ?>						 
+				  <?php } else { ?>
 						  <a href="<?php echo $url;?>/admin/edituser/{{ $user->id }}">
                                                       <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar"></a>
 				  <?php } ?>
-                  <?php } ?>                    
-                  
+                  <?php } ?>
+
 				   <?php if(config('global.demosite')=="yes"){?>
 				    <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
 				  <?php } else { ?>
-						  
+
 					@if($sta!=1)<a href="<?php echo $url;?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
-                                                <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a> 
+                                                <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a>
                                         @endif
-						  
+
 				  <?php } ?>
 			</td>
-                        </tr>                
-                <?php $i++; } } ?>                                
+                        </tr>
+                <?php $i++; } } ?>
               </tbody>
-            </table>           
-          </div>          
+            </table>
+          </div>
         </div>
-   </form>  
+   </form>
  	 </div>
          </div>
-         </div>         
-         </div> 
-    @include('admin.footer')	
+         </div>
+         </div>
+    @include('admin.footer')
   </body>
 </html>

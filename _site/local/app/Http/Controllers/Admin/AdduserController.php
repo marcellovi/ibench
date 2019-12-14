@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\DB;
 
 class AdduserController extends Controller
 {
-    
-   
+
+
 
     /**
      * Create a new controller instance.
@@ -31,8 +31,8 @@ class AdduserController extends Controller
     public function formview()
 
     {
-	
-	
+
+
 	$countries = array(
 	'Afghanistan',
 	'Albania',
@@ -274,28 +274,28 @@ class AdduserController extends Controller
 	'Zambia',
 	'Zimbabwe'
 );
-	
+
 
         return view('admin.adduser',['countries' => $countries]);
 
     }
-	
-	
-	public function clean($string) 
+
+
+	public function clean($string)
 	{
-    
+
      $string = preg_replace("/[^\p{L}\/_|+ -]/ui","",$string);
 
-    
+
     $string = preg_replace("/[\/_|+ -]+/", '-', $string);
 
-    
+
     $string =  trim($string,'-');
 
     return mb_strtolower($string);
-	} 
-	
-	
+	}
+
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -306,6 +306,7 @@ class AdduserController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -317,9 +318,9 @@ class AdduserController extends Controller
      * @param  array  $data
      * @return User
      */
-	 
-	  protected $fillable = ['name', 'email','password','phone'];
-	 
+
+	  protected $fillable = ['name', 'full_name', 'email','password','phone','created_at','cpf_cnpj'];
+
     protected function adduserdata(Request $request)
     {
         /*return User::create([
@@ -327,53 +328,62 @@ class AdduserController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);*/
-		
-		
-		
+
+
+
 		 $this->validate($request, [
 
         		'name' => 'required',
 
-        		'email' => 'required|email',
+            'full_name' => 'required',
+
+            'email' => 'required|email',
+            'cpf_cnpj' => 'required|cpf_cnpj',
 
         		'password' => 'required'
-				
-				
+
+
 
         	]);
-         
-		 
-				
+
+
+
 		$input['email'] = Input::get('email');
-		
+
 		$input['name'] = Input::get('name');
        $settings = DB::select('select * from settings where id = ?',[1]);
-	   
+
+    $input['full_name'] = Input::get('full_name');
+
+    $input['cpf_cnpj'] = Input::get('cpf_cnpj');
+
 	   $imgsize = $settings[0]->image_size;
 	   $imgtype = $settings[0]->image_type;
-		
+
 		/* $rules = array('email' => 'unique:users,email');*/
-		
+
 		 $data = $request->all();
 		$rules = array(
-        
-       
-		
+
+
+
         'email'=>'required|email|unique:users,email',
-		'name' => 'required|regex:/^[\w-]*$/|max:255|unique:users,name',
-		'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
-		
-        );
-		
-		
-		$messages = array(
-            
-            'email' => 'The :attribute field is already exists',
-            'name' => 'The :attribute field must only be letters and numbers (no spaces)'
-			
+        'name' => 'required|regex:/^[\w-]*$/|max:255|unique:users,name',
+        'full_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:255|unique:users,full_name',
+        'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
+
         );
 
-		
+
+		$messages = array(
+
+            'email' => 'The :attribute field is already exists',
+            'name' => 'The :attribute field must only be letters and numbers (no spaces)',
+            'full_name' => 'The :attribute field must only be letters'
+
+        );
+
+
 		$validator = Validator::make(Input::all(), $rules, $messages);
 
 		if ($validator->fails())
@@ -382,31 +392,31 @@ class AdduserController extends Controller
 			return back()->withErrors($validator);
 		}
 		else
-		{ 
-		
-		
+		{
+
+
 		$image = Input::file('photo');
 		if($image!="")
 		 {
-		 
+
             $filename  = time() . '.' . $image->getClientOriginalExtension();
             $userphoto="/media/";
             $path = base_path('images'.$userphoto.$filename);
- 
-        
+
+
                 Image::make($image->getRealPath())->resize(200, 200)->save($path);
                /* $user->image = $filename;
                 $user->save();*/
-			$namef=$filename;	
+			$namef=$filename;
 			}
 		 else
 		 {
 			 $namef="";
-		 }	
-		
+		 }
 
-		
-		 
+
+
+
 
 			/*User::create([
             'name' => $data['name'],
@@ -414,16 +424,21 @@ class AdduserController extends Controller
 			'admin' => '0',
             'password' => bcrypt($data['password']),
 			'phone' => $data['phone']
-			
+
         ]);*/
 		$name=$data['name'];
+		$full_name=$data['full_name'];
 		$email=$data['email'];
+		$cpf_cnpj=$data['cpf_cnpj'];
 		$password=bcrypt($data['password']);
 		$phone=$data['phone'];
-		
+
 		$admin=$data['usertype'];
-		$gender='';
-		
+    $gender='';
+
+    date_default_timezone_set('America/Sao_Paulo');
+    $date = date('Y-m-d h:i:s', time());
+
 		if(!empty($data['country']))
 		{
 		    $country = $data['country'];
@@ -432,19 +447,19 @@ class AdduserController extends Controller
 		{
 		   $country = "";
 		}
-		
+
 		$confirmation = 1;
-		
-		
-		
-		DB::insert('insert into users (name,post_slug,email,password,phone,country,photo,admin,gender,confirmation) values (?, ?,?, ?,?,?,?, ?,?, ?)', [$name,$this->clean($name),$email,$password,$phone,$country,$namef,$admin,$gender,$confirmation]);
-		
-		
+
+
+
+		DB::insert('insert into users (name,full_name,post_slug,email,password,phone,country,photo,admin,created_at,cpf_cnpj,gender,confirmation) values (?, ?, ?, ?, ?,?,?,?,?,?, ?,?, ?)', [$name,$full_name,$this->clean($name,$full_name),$email,$password,$phone,$country,$namef,$admin,$date,$cpf_cnpj,$gender,$confirmation]);
+
+
 			return back()->with('success', 'Account has been created');
         }
-		
-		
-		
-		
+
+
+
+
     }
 }

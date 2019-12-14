@@ -16,7 +16,7 @@
                 <div id="breadcrumb">  </div>
                 <h1>Fornecedores</h1>
             </div>
-            
+
             <div class="container-fluid"><hr>
                 <div class="row-fluid">
                     <div class="span12">
@@ -48,7 +48,7 @@
 
 
             <?php if (config('global.demosite') == "yes") { ?>
-                <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a> 
+                <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a>
             <?php } else { ?>
                 <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
             <?php } ?>
@@ -64,11 +64,13 @@
                 <table class="table table-bordered data-table" id="datatable-responsive">
                     <thead>
                         <tr>
-                            <th data-orderable="false"><input type="checkbox" id="selectAll" class="main">
+                            <th data-orderable="false">
+                              <input type="checkbox" id="selectAll" class="main">
                             </th>
                             <th>Sno</th>
                             <th>Imagem</th>
                             <th>Usuario</th>
+                            <th>Nome</th>
                             <th>Email</th>
                             <th>CNPJ</th>
                             <th>Telefone</th>
@@ -111,9 +113,10 @@
                                         </td>
                                     <?php } ?>
                                     <td><?php echo $user->name; ?></td>
+                                    <td><?php echo $user->full_name; ?></td>
                                     <td><?php echo $user->email; ?></td>
                                     <td><?php echo $user->cpf_cnpj; ?></td>
-                                    <td><?php echo $user->phone; ?></td>                          
+                                    <td><?php echo $user->phone; ?></td>
 
                                         <?php if ($user->provider == "") {
                                             $logintype = "normal";
@@ -152,21 +155,21 @@
         <?php if ($user->provider == "") { ?>
             <?php if (config('global.demosite') == "yes") { ?>
                   <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-            <?php } else { ?>						  
+            <?php } else { ?>
                   <a href="<?php echo $url; ?>/admin/edituser/{{ $user->id }}" >
                       <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar"></a>
             <?php } ?>
-        <?php } ?>        
+        <?php } ?>
 
         <?php if (config('global.demosite') == "yes") { ?>
                  <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-        <?php } else { ?>						  
+        <?php } else { ?>
                 @if($sta!=1)
                  <a href="<?php echo $url; ?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
-                      <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a> 
-            <?php if ($user->delete_status == "") { ?> 
+                      <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a>
+            <?php if ($user->delete_status == "") { ?>
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/0"  onClick="return confirm('Tem certeza que quer Bloquear o fornecedor?')">
-                      <img src="<?php echo $url;?>/local/images/user-blocked.png" alt="Bloquear" title="Bloquear"></a> 
+                      <img src="<?php echo $url;?>/local/images/user-blocked.png" alt="Bloquear" title="Bloquear"></a>
             <?php } else { ?>
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/1" onClick="return confirm('Tem certeza que quer liberar o fornecedor?')">
                       <img src="<?php echo $url;?>/local/images/unlock.png" alt="Liberar" title="Liberar"></a>

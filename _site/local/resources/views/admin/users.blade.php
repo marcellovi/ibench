@@ -65,7 +65,7 @@
                   <th>Usuario</th>
                   <th>Nome</th>
                   <th>Email</th>
-                  <th>CPF</th>
+                  <th>@lang('languages.cpf_cnpj')</th>
 		  <th>Telefone</th>
                   <th>Data</th>
                   <!--<th>Earning Balance</th>-->

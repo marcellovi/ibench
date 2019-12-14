@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
    @include('admin.title')
-   @include('admin.style')    
+   @include('admin.style')
   </head>
-<body>  
+<body>
   @include('admin.top')
 <!--close-top-serch-->
 <!--sidebar-menu-->
-@include('admin.menu')  
-  
+@include('admin.menu')
+
   <div id="content">
   <div id="content-header">
     <div id="breadcrumb">  </div>
@@ -24,8 +24,8 @@
               {{ Session::get('error') }}
               </div>
       @endif
-      
-       @if(Session::has('success'))	           
+
+       @if(Session::has('success'))
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
@@ -37,10 +37,10 @@
             <h5>Add User</h5>
           </div>
           <div class="widget-content nopadding">
-          <?php $url = URL::to("/"); ?> 
+          <?php $url = URL::to("/"); ?>
             <form class="form-horizontal" method="post" action="{{ route('admin.adduser') }}" enctype="multipart/form-data" accept-charset="utf-8" name="basic_validate" id="formID" novalidate="novalidate">
-              {{ csrf_field() }}              
-              
+              {{ csrf_field() }}
+
               <div class="control-group">
                 <label class="control-label">Usu&aacute;rio</label>
                 <div class="controls">
@@ -51,8 +51,20 @@
                                     </span>
                         @endif
                 </div>
-              </div>              
-              
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">@lang('languages.fullname')</label>
+                <div class="controls">
+                  <input id="full_name" type="text" class="validate[required] text-input span8" name="full_name">
+                    @if ($errors->has('full_name'))
+                      <span class="help-block">
+                        <strong>{{ $errors->first('full_name') }}</strong>
+                      </span>
+                    @endif
+                </div>
+              </div>
+
               <div class="control-group">
                 <label class="control-label">Email</label>
                 <div class="controls">
@@ -61,24 +73,37 @@
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif                  
+                                @endif
                 </div>
-              </div>              
-              
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">@lang('languages.cpf_cnpj')</label>
+                <div class="controls">
+                 <input id="cpf_cnpj" class="validate[required] text-input span8"  name="cpf_cnpj" value="" type="text" placeholder="( 999.999.999-99 ) / ( 99.999.999/9999-99 )">
+                        @if ($errors->has('cpf_cnpj'))
+                          <span class="help-block" style="color:red;">
+                              <strong>{{ $errors->first('cpf_cnpj') }}</strong>
+                          </span>
+                        @endif
+                </div>
+              </div>
+
+
               <div class="control-group">
                 <label class="control-label">Senha</label>
                 <div class="controls">
-                 <input id="password" type="password" name="password"  class="validate[required] text-input span8">                  
+                 <input id="password" type="password" name="password"  class="validate[required] text-input span8">
                 </div>
-              </div>              
-              
+              </div>
+
               <div class="control-group">
                 <label class="control-label">Telefone</label>
                 <div class="controls">
                 <input type="tel" id="phone" name="phone" data-validate-length-range="8,20" class="validate[required] text-input span8">
                 </div>
-              </div>           
-              
+              </div>
+
             <div class="control-group">
                 <label class="control-label">Pa&iacute;s</label>
             <div class="controls">
@@ -90,7 +115,7 @@
             </select>
             </div>
             </div>
-              
+
               <div class="control-group">
                   <label class="control-label">Foto</label>
                   <div class="controls">
@@ -103,8 +128,8 @@
                       @endif
 
                   </div>
-              </div              
-                        
+                </div>
+
             <div class="control-group">
             <label class="control-label">Tipo Usu&aacute;rio</label>
             <div class="controls">
@@ -116,11 +141,11 @@
                 </select>
 
             </div>
-            </div>    
-               <?php /*?><input type="hidden" name="usertype" value="2">      <?php */?> 
+            </div>
+               <?php /*?><input type="hidden" name="usertype" value="2">      <?php */?>
               <div class="form-actions">
                   <div class="span8">
-                      <?php if (config('global.demosite') == "yes") { ?><button type="button" class="btn btn-success btndisable">Submit</button> 
+                      <?php if (config('global.demosite') == "yes") { ?><button type="button" class="btn btn-success btndisable">Submit</button>
                           <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span><?php } else { ?>
                           <button id="send" type="submit" class="btn btn-success">Submit</button>
                       <?php } ?>
@@ -129,10 +154,10 @@
             </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </div>
 </div>
-    @include('admin.footer')	
+    @include('admin.footer')
 </body>
 </html>

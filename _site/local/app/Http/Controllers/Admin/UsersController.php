@@ -191,5 +191,97 @@ class UsersController extends Controller
 
         return back();
     }
+    
+    /* Save Error Logs */
+    public function saveLogs($id, Request $request){
+        
+        $data = $request->all();
+        $userid = $data['userid'];
+        $ip = $data['ip'];
+        $device = $data['device'];
+        $os = $data['os'];
+        $browser = $data['browser'];
+        $type_error = $data['type_error'];
+        $msg_error = $data['msg_error'];
+        $date = time();
+        
+        /* Saving the Data in the History Table */ 
+        DB::insert('insert into user_logs (id_user, ip, device, os, browser, type_error, msg_error, created_at ) '
+                . 'values (?,?,?,?,?,?,?)', [$userid, $ip, $device, $os, $browser, $type_error, $msg_error, $date]); 
+        
+        return back();      
+        
+    }
+    
+    
+    /* Save Error Message */
+    public function registerErrorLog( \Exception $e, $id, $type_error='default',$custom_msg_error='') {
+        
+           $ip = UserInfo::get_ip();
+           $device = UserInfo::get_device();
+           $os = UserInfo::get_os();
+           $browser = UserInfo::get_browser();            
+        
+           $trace = $e->getTrace(); 
+            
+           $result_error = 'Error Message: '.$e->getMessage().'<br>';
+           $result_error .= 'Error Code: '.$e->getCode().'<br>';
+           $result_error .= 'Error Line: '.$e->getLine().'<br>';
+            
+            
+           $result_error .='Error Trace class: '.$trace[0]['class'].'<br>';
+        
+           $result_error .= 'Error Trace function: '.$trace[0]['function'].'<br>';
+           $result_error .= 'Custom Mensage: '.$custom_msg_error;
+           
+           date_default_timezone_set('America/Sao_Paulo');
+           $date = date('Y-m-d h:i:s', time());       
+        
+        
+         /* Saving the Data in the User_Logs Table */ 
+         DB::insert('insert into user_logs (user_id, ip, device, os, '
+                . 'browser, type_error, msg_error, error_created_at) '
+                . 'values (?,?,?,?,?,?,?,?)', [$id, $ip, $device, $os,
+                    $browser, $type_error, $result_error, $date]); 
+    }
+    
+    /* User Logs when an Error occur in the platform */
+    public function userLogs() { 
+        /* 
+        try{
+            trigger_error("Cannot divide by zero", E_USER_ERROR);
+        } catch (\Exception $ex) {
+            $this->registerErrorLog($ex,135,'titulo erro','msg customizada erro');
+            print_r('passou');//exit();
+        }
+       */
+        
+        $user_logs  = DB::select(
+                        'select l.id, name, email, phone, ip, device, os, browser, type_error, msg_error, error_created_at from users u, user_logs l '
+                        . 'where u.id = l.user_id order by l.id'
+                            );
+        
+        $user_logs_cnt = DB::select(
+                        'select count(*) from users u, user_logs l '
+                        . 'where u.id = l.user_id order by l.id'
+                            );                        
+
+        $setid = 1;
+        $setts = DB::table('settings')
+                ->where('id', '=', $setid)
+                ->get();
+
+        return view('admin.userlogs', ['user_logs' => $user_logs, 'user_logs_cnt' => $user_logs_cnt, 
+            'setts' => $setts]);
+    }
+    
+    /* Delete Logs from Users */
+    public function destroyUserLogs($id) {  
+
+        /** Deletando Logs  * */
+        DB::delete('delete from user_logs where id = ?', [$id]);
+
+        return back();
+    }
 
 }

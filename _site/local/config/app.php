@@ -193,9 +193,6 @@ return [
 
     Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
 
-    // reCaptcha service providers
-    Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
-
     ],
 
     /*
@@ -256,7 +253,6 @@ return [
 	  'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
-    'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
 
 
     ],

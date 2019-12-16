@@ -140,7 +140,7 @@ $setid=1;
     {{-- Google reCaptcha --}}
     <div class="form-group {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
           <div>
-            {!! Recaptcha::render() !!}
+            {!! NoCaptcha::display() !!}
             @if ($errors->has('g-recaptcha-response'))
             <span class="help-block">
                 <strong>@lang('languages.msg_captcha_invalid')</strong>

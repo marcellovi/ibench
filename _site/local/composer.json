@@ -9,7 +9,6 @@
         "anandsiddharth/laravel-paytm-wallet": "^1.0",
         "anhskohbo/no-captcha": "^3.0",
         "geekcom/validator-docs": "^3.3",
-        "greggilbert/recaptcha": "^2.2",
         "intervention/image": "dev-master",
         "laravel/framework": "5.5.*",
         "laravel/socialite": "^3.0",

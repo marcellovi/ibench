@@ -169,9 +169,6 @@ $setid=1;
 
 
 </div>
-
-
  @include('footer')
-
  </body>
 </html>

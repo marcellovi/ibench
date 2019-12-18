@@ -39,19 +39,10 @@
         {{ csrf_field() }}
         <div align="right">
 
-            <?php if (config('global.demosite') == "yes") { ?>
-
-                <a href="#" class="btn btn-danger btndisable">Delete All</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-            <?php } else { ?>
-                <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
-            <?php } ?>
-
-
-            <?php if (config('global.demosite') == "yes") { ?>
-                <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a>
-            <?php } else { ?>
-                <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
-            <?php } ?>
+        <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
+        <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
+        <a href="<?php echo $url;?>/admin/userlogs" class="btn btn-warning">Log Usuarios</a>
+         
         </div>
         <div class="widget-box">
 
@@ -152,30 +143,28 @@
                                 <td><?php echo $user->created_at;?></td>
 
                                     <td>
-        <?php if ($user->provider == "") { ?>
-            <?php if (config('global.demosite') == "yes") { ?>
-                  <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-            <?php } else { ?>
+        <?php if ($user->provider == "") { ?>            
                   <a href="<?php echo $url; ?>/admin/edituser/{{ $user->id }}" >
-                      <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar"></a>
-            <?php } ?>
+                  <button type="button" class="btn btn-outline-info" alt="Editar" title="Editar"><i class="icon-fixed-width icon-pencil"></i></button>    
+                  </a>
+           
         <?php } ?>
 
-        <?php if (config('global.demosite') == "yes") { ?>
-                 <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt'); ?> )</span>
-        <?php } else { ?>
-                @if($sta!=1)
+            @if($sta!=1)
                  <a href="<?php echo $url; ?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
-                      <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a>
+                      <button type="button" class="btn btn-outline-danger" alt="Deletar" title="Deletar"><i class="icon-fixed-width icon-remove-circle"></i></button>
+                 </a>
             <?php if ($user->delete_status == "") { ?>
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/0"  onClick="return confirm('Tem certeza que quer Bloquear o fornecedor?')">
-                      <img src="<?php echo $url;?>/local/images/user-blocked.png" alt="Bloquear" title="Bloquear"></a>
+                      <button type="button" class="btn btn-outline-warning" alt="Bloquear" title="Bloquear"><i class="icon-fixed-width icon-link"></i></button>
+                  </a>
             <?php } else { ?>
                   <a href="<?php echo $url; ?>/admin/authorizeseller/{{ $user->id }}/1" onClick="return confirm('Tem certeza que quer liberar o fornecedor?')">
-                      <img src="<?php echo $url;?>/local/images/unlock.png" alt="Liberar" title="Liberar"></a>
+                      <button type="button" class="btn btn-outline-success" alt="Liberar" title="Liberar"><i class="icon-fixed-width icon-unlock"></i></button>
+                  </a>
             <?php } ?>
                  @endif
-        <?php } ?>
+       
                                 </td>
                             </tr>
         <?php $i++;    }} ?>

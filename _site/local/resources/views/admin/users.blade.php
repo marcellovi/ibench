@@ -33,20 +33,12 @@
 <form action="{{ route('admin.users') }}" method="post">
 
                  {{ csrf_field() }}
-                 <div align="right">
-                  <?php if(config('global.demosite')=="yes"){?>
-                       <a href="#" class="btn btn-danger btndisable">Deletar Todos</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-                      <?php } else { ?>
-                       <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
-                      <?php } ?>
-
-
-                      <?php if(config('global.demosite')=="yes"){?>
-                      <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span> <a href="#" class="btn btn-primary btndisable">Adicionar Usuario</a>
-                      <?php } else { ?>
-                      <a href="<?php echo $url;?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
-                      <?php } ?>
+                 <div align="right">                  
+                    <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
+                    <a href="<?php echo $url;?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
+                    <a href="<?php echo $url;?>/admin/userlogs" class="btn btn-warning">Log Usuarios</a>
                  </div>
+                 
 <div class="widget-box">
 
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
@@ -111,23 +103,15 @@
                           <td><?php echo $logintype;?></td>
                           <td>
                           <?php if($user->provider==""){?>
-						  <?php if(config('global.demosite')=="yes"){?>
-						  <a href="#" class="btn btn-success btndisable">Editar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-				  <?php } else { ?>
-						  <a href="<?php echo $url;?>/admin/edituser/{{ $user->id }}">
-                                                      <img src="<?php echo $url;?>/local/images/editar.png" alt="Editar" title="Editar"></a>
-				  <?php } ?>
-                  <?php } ?>
-
-				   <?php if(config('global.demosite')=="yes"){?>
-				    <a href="#" class="btn btn-danger btndisable">Deletar</a>  <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-				  <?php } else { ?>
-
-					@if($sta!=1)<a href="<?php echo $url;?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
-                                                <img src="<?php echo $url;?>/local/images/deletar.png" alt="Deletar" title="Deletar"></a>
-                                        @endif
-
-				  <?php } ?>
+			   <a href="<?php echo $url;?>/admin/edituser/{{ $user->id }}">
+                            <button type="button" class="btn btn-outline-info" alt="Editar" title="Editar"><i class="icon-fixed-width icon-pencil"></i></button>    
+                           </a>
+                  <?php } ?>			  
+			@if($sta!=1)<a href="<?php echo $url;?>/admin/users/{{ $user->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
+                           <button type="button" class="btn btn-outline-danger" alt="Deletar" title="Deletar"><i class="icon-fixed-width icon-remove-circle"></i></button>
+                        </a>
+                        @endif
+                        
 			</td>
                         </tr>
                 <?php $i++; } } ?>

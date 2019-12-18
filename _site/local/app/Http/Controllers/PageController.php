@@ -4,6 +4,7 @@ namespace Responsive\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Mail;
 use Auth;
@@ -285,36 +286,38 @@ class PageController extends Controller
 	}
 	
 	/** Marcello - Envio do Email **/
-	public function avigher_mailsend(Request $request)
-	{
-		$data = $request->all();
+	public function avigher_mailsend(Request $request)	
+        {	
+            
 		
+                /* Marcello - Validando os campos */
+                $validate = Validator::make($request->all(), [
+                    'g-recaptcha-response' => 'required|captcha',
+                    'email' => 'required|email'
+                ]);                
+            if ($validate->passes()){
+                
+                $data = $request->all();      
 		$name = $data['name'];
 		$email = $data['email'];
 		$phone_no = $data['phone_no'];
-		$msg = $data['msg'];
-		
-		
+		$msg = $data['msg'];	
 		
 		$setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
 		->get();
 		
-		$url = URL::to("/");
-		
-		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;
-		
-		$site_name = $setts[0]->site_name;
-		
+		$url = URL::to("/");		
+		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;		
+		$site_name = $setts[0]->site_name;		
 		
 		$aid=1;
 		$admindetails = DB::table('users')
 		 ->where('id', '=', $aid)
 		 ->first();
 		
-		$admin_email = $admindetails->email;
-		
+		$admin_email = $admindetails->email;		
 		
 		$datas = [
             'name' => $name, 'email' => $email, 'phone_no' => $phone_no, 'msg' => $msg, 'site_logo' => $site_logo, 'site_name' => $site_name
@@ -323,24 +326,16 @@ class PageController extends Controller
 		Mail::send('contactemail', $datas , function ($message) use ($admin_email,$name,$email)
                 
         {
-            $message->subject('Contact Us');
-			
+            $message->subject('Contato - IBench');			
             $message->from($admin_email, $name);
-
-            $message->to($admin_email);            
-            
-
-        });
-		
-		
-		
-		
-		
-		return back()->with('success', 'Your message sent successfully');
-		
+            $message->to($admin_email);  
+        });	
+		return back()->with('success', 'Sua mensagem foi enviada com sucesso!');
+                
+            }else{
+               $failedRules = $validate->failed();			 
+                return back()->withErrors($validate);       
+            } 		
 	}
-	
-	
-	
 	
 }

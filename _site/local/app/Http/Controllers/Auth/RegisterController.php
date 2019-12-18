@@ -458,12 +458,12 @@ class RegisterController extends Controller
             //'myCheck' => 'min:2',
 			//'gender' => 'required|string|max:255',
 			'usertype' => 'required|string|max:255',
-			// 'g-recaptcha-response' => 'required|captcha',
+			'g-recaptcha-response' => 'required|captcha',
 
         ]);
 
         $data = $request->all();
-		 $post_slugs = $this->clean($data['name']);       
+        $post_slugs = $this->clean($data['name']);       
 
          $cpfvalid = $this->validaCPF($data['cpf_cnpj']);
          $cnpjvalid = $this->validar_cnpj($data['cpf_cnpj']);

@@ -25,3 +25,17 @@ bower_components/
 coverage
 
 
+_site/.htaccess
+_site/.user.ini
+_site/benchmark.php
+_site/index.php
+_site/error_log
+_site/php.ini
+_site/robots.txt
+_site/web.config
+_site/local/artisan
+_site/local/composer.lock
+_site/local/package.json
+_site/local/readme.md
+_site/local/server.php
+.gitignore

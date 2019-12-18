@@ -10,7 +10,7 @@
 <!--close-top-serch-->
 <!--sidebar-menu-->
 @include('admin.menu')
-  
+
   <div id="content">
   <div id="content-header">
     <div id="breadcrumb">  </div>
@@ -25,10 +25,10 @@
               {{ Session::get('error') }}
               </div>
       @endif
-      
+
       @if(Session::has('success'))
 
-	           
+
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
@@ -41,11 +41,11 @@
             <h5>Editar Informa&ccedil;&otilde;es</h5>
           </div>
           <div class="widget-content nopadding">
-          <?php $url = URL::to("/"); ?> 
+          <?php $url = URL::to("/"); ?>
             <form class="form-horizontal" method="post" action="{{ route('admin.edituser') }}" enctype="multipart/form-data"  name="basic_validate"  id="formID" novalidate="novalidate">
               {{ csrf_field() }}
-              
-              
+
+
               <div class="control-group">
                 <label class="control-label">Usuario</label>
                 <div class="controls">
@@ -55,53 +55,78 @@
                                         <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
-                  
+
                 </div>
               </div>
-              
-              
+
+              <div class="control-group">
+                <label class="control-label">Nome</label>
+                <div class="controls">
+                 <input id="full_name" class="validate[required] text-input span8"  name="full_name" value="<?php echo $users[0]->full_name; ?>" type="text">
+                         @if ($errors->has('full_name'))
+                                    <span class="help-block" style="color:red;">
+                                        <strong>{{ $errors->first('full_name') }}</strong>
+                                    </span>
+                                @endif
+
+                </div>
+              </div>
+
+
               <div class="control-group">
                 <label class="control-label">Email</label>
                 <div class="controls">
-                 
-                                
+
+
                    <input type="email" id="email" name="email" value="<?php echo $users[0]->email; ?>" class="validate[required,custom[email]] text-input span8">
 						  @if ($errors->has('email'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
-                                @endif             
-                                
-                  
+                                @endif
+
+
                 </div>
               </div>
-              
+
+              <div class="control-group">
+                <label class="control-label">@lang('languages.cpf_cnpj')</label>
+                <div class="controls">
+                 <input id="cpf_cnpj" class="validate[required] text-input span8"  name="cpf_cnpj" value="<?php echo $users[0]->cpf_cnpj; ?>" type="text" placeholder="( 999.999.999-99 ) / ( 99.999.999/9999-99 )">
+                        @if ($errors->has('cpf_cnpj'))
+                          <span class="help-block" style="color:red;">
+                              <strong>{{ $errors->first('cpf_cnpj') }}</strong>
+                          </span>
+                        @endif
+                </div>
+              </div>
+
               <?php if($userid==1) {?>
               <div class="control-group">
                 <label class="control-label">Password</label>
                 <div class="controls">
-                 
+
                   <input id="password" type="text" name="password" value=""  class="span8">
                 </div>
               </div>
               <?php } ?>
                <input type="hidden" name="savepassword" value="<?php echo $users[0]->password;?>">
-              
+
               <div class="control-group">
                 <label class="control-label">Telefone</label>
                 <div class="controls">
-               
-                  <input type="tel" id="phone" name="phone" data-validate-length-range="8,20" class="validate[required] text-input span8" value="<?php echo $users[0]->phone; ?>"> 
+
+                  <input type="tel" id="phone" name="phone" data-validate-length-range="8,20" class="validate[required] text-input span8" value="<?php echo $users[0]->phone; ?>">
                 </div>
               </div>
               <input type="hidden" name="id" value="<?php echo $users[0]->id; ?>">
-              
-              
+
+
               <div class="control-group">
                 <label class="control-label">Pa&iacute;s</label>
                 <div class="controls">
               <select name="country" class="validate[required] span8">
-							  
+
 							  <option value="">Select Country</option>
 							  <?php foreach($countries as $country){?>
                               <option value="<?php echo $country;?>" <?php if($users[0]->country==$country){?> selected <?php } ?>><?php echo $country;?></option>
@@ -109,7 +134,7 @@
 							</select>
                </div>
               </div>
-              
+
                <div class="control-group">
                 <label class="control-label">Foto/Imagem</label>
                 <div class="controls">
@@ -119,11 +144,11 @@
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
                                 @endif
-                  
+
                 </div>
               </div>
               <?php $url = URL::to("/"); ?>
-					  <?php 
+					  <?php
 					   $userphoto="/media/";
 						$path ='/local/images'.$userphoto.$users[0]->photo;
 						if($users[0]->photo!=""){
@@ -144,8 +169,8 @@
 					  </div>
                       </div>
 						<?php } ?>
-              
-  
+
+
               <input type="hidden" name="currentphoto" value="<?php echo $users[0]->photo;?>">
 
 					  <?php if($users[0]->admin!=1){?>
@@ -157,63 +182,63 @@
 							   <option value="0" <?php if($users[0]->admin==0){?> selected="selected" <?php } ?>>Comprador</option>
 							   <option value="2" <?php if($users[0]->admin==2){?> selected="selected" <?php } ?>>Fornecedor</option>
 						</select>
-                          
+
                         </div>
                       </div>
-                      
+
                      <?php /*?> <input type="hidden" name="usertype" value="2"> <?php */?>
-                       
+
 					  <?php } ?>
-					  
-					  
+
+
 					  <?php if($users[0]->admin==1){?>
-					  
+
 					  <input type="hidden" name="usertype" value="1">
-                      
+
                       <?php /*?> <input type="hidden" name="usertype" value="<?php echo $users[0]->admin;?>"><?php */?>
-					  
+
 					  <?php } ?>
-              
-              
-              
+
+
+
               <?php if($users[0]->admin==2){?>
               <div class="control-group">
                 <label class="control-label">Ganhos R$ : </label>
                 <div class="controls">
-						
+
                           <input id="name" class="text-input span8"  name="earning" value="<?php echo $users[0]->earning;?>" type="text">
                         </div>
                       </div>
-                      
-                <?php } ?>      
-              
+
+                <?php } ?>
+
               <div class="form-actions">
                         <div class="span8">
-                         
+
                                <a href="<?php echo $url;?>/admin/users" class="btn btn-primary">Voltar</a>
-						  
-						  
-						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
+
+
+						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button>
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
-                          
-                          
+
+
                           <button id="send" type="submit" class="btn btn-success">Editar</button>
 						  <?php } ?>
-                                
+
                         </div>
-              
+
             </form>
           </div>
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>
 
-</div>  
+</div>
 
   @include('admin.footer')
-	
+
   </body>
 </html>

@@ -19,6 +19,7 @@ use Responsive\Http\Requests;
 use Datetime;
 use DateInterval;
 
+use Responsive\Classes\userLog;
 
 /**
  * This Include the wirecard SDK to Wirecard laravel Controller
@@ -423,12 +424,30 @@ class WirecardController extends Controller
             //print_r("<br>Muilti (json) :<br>");print_r(json_encode($multiorder));exit();
             $create_order = $multiorder->create();
         } catch (\Moip\Exceptions\UnautorizedException $e) {
+            $userLog = new userLog;
+            $userLog->registerErrorLog($e,Auth::id(),'UnautorizedException','WirecardController :: CreateOrder() :: Ln 428');
             $error[] = $e->__toString();
         } catch (ValidationException $e) {
+            $userLog = new userLog;
+            $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: CreateOrder() :: Ln 432');
             $error[] = $e->__toString();
         } catch (\Moip\Exceptions\UnexpectedException $e) {
+            $userLog = new userLog;
+            $userLog->registerErrorLog($e,Auth::id(),'UnexpectedException','WirecardController :: CreateOrder() :: Ln 436');
             $error[] = $e->__toString();
         }
+    }
+    
+    /* Save Error Message */
+    public function registerErrorLog($error) {
+        dd($error);exit();
+        $erro = "texto erro";
+        
+         /* Saving the Data in the User_Logs Table */ 
+        DB::insert('insert into user_logs (user_id, ip, device, os, '
+                . 'browser, type_error, msg_error, error_created_at) '
+                . 'values (?,?,?,?,?,?,?,?)', [$error[0], $error[0]->admin, $error[0]->comission_percentage, $error[0]->created_at,
+                    $date, $tot_product,$tot_complete_order,$tot_incomplete_order,$total_payment,$payment_detais]); 
     }
 
     /**

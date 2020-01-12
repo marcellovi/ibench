@@ -423,14 +423,14 @@ class WirecardController extends Controller
         }
             //print_r("<br>Muilti (json) :<br>");print_r(json_encode($multiorder));exit();
             $create_order = $multiorder->create();
-        } catch (\Moip\Exceptions\UnautorizedException $e) {
+        } catch (\Moip\Exceptions\UnautorizedException $e) { 
             $userLog = new userLog;
             $userLog->registerErrorLog($e,Auth::id(),'UnautorizedException','WirecardController :: CreateOrder() :: Ln 428');
             $error[] = $e->__toString();
-        } catch (ValidationException $e) {
+        } catch (ValidationException $e) {  
             $userLog = new userLog;
             $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: CreateOrder() :: Ln 432');
-            $error[] = $e->__toString();
+            $error[] = $e->__toString();//print_r($e->__toString());exit();
         } catch (\Moip\Exceptions\UnexpectedException $e) {
             $userLog = new userLog;
             $userLog->registerErrorLog($e,Auth::id(),'UnexpectedException','WirecardController :: CreateOrder() :: Ln 436');
@@ -532,16 +532,28 @@ class WirecardController extends Controller
                         $errors = $error;
                     }
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'UnautorizedException','WirecardController :: api_cc() :: Ln 535');
+            
                     $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();  
                     
-                } catch (ValidationException $e) {
+                } catch (ValidationException $e) {  
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: api_cc() :: Ln 543');
+            
                     $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'UnexpectedException','WirecardController :: api_cc() :: Ln 549');
+            
                     $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
                 } catch (\Exception $e) {
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'Exception','WirecardController :: api_cc() :: Ln 555');
+            
                     $this->clearCheckoutBlankOrder($user,$order_id);
                     $errors[] = $e->__toString();
                 }
@@ -724,6 +736,9 @@ class WirecardController extends Controller
                         ->setEscrow($wirecard_app_data_array['name'])
                         ->execute();
                     } catch (Exception $e) {
+                      $userLog = new userLog;
+                      $userLog->registerErrorLog($e,Auth::id(),'Exception','WirecardController :: api_boleto() :: Ln 740');
+            
                       printf($e->__toString());
                       exit();
                     }                   
@@ -770,21 +785,30 @@ class WirecardController extends Controller
                         $errors = $error;
                     } 
                 } catch (\Moip\Exceptions\UnautorizedException $e) {
-
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: api_boleto() :: Ln 791');
+            
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
                     @file_put_contents(dirname(__FILE__).'/log_boleto.txt',$e."\n\n");
                     $errors[] = $e->__toString()." -> UnautorizedException <- ";   
                 } catch (ValidationException $e) {
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: api_boleto() :: Ln 796');
+            
                      $errors = '';
                         foreach($e->getErrors() as $key => $value) {
                            
                             $errors .= $value[0];
                         }
-
+                        
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
                     $errors[] = $e->__toString()." -> ValidationException <- ";  
+                    print_r($errors);print_r('parou');
                     @file_put_contents(dirname(__FILE__).'/log_boleto2.txt',$errors);
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
+                    $userLog = new userLog;
+                    $userLog->registerErrorLog($e,Auth::id(),'UnexpectedException','WirecardController :: api_boleto() :: Ln 810');
+            
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
                     @file_put_contents(dirname(__FILE__).'/log_boleto3.txt',$e."\n\n");
                     $errors[] = $e->__toString()." -> UnexpectedException <- ";  
@@ -1039,6 +1063,9 @@ class WirecardController extends Controller
                     $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard com App ' . $wirecard_app_data['name'] . ' due to ' . $error;
                 }
             } catch (Exception $e) {
+                $userLog = new userLog;
+                $userLog->registerErrorLog($e,Auth::id(),'Exception','WirecardController :: connect_to_app_callback() :: Ln 1067');
+            
                 $add_array['error'] = 'ocorreu um erro ao conectar sua conta Wirecard  com App ' . $wirecard_app_data['name'] . ' due to ' . $e->getMessage() . ' ' . $e->getCode();
             }
         }

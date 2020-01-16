@@ -11,19 +11,21 @@ class userLog{
            $ip = UserInfo::get_ip();
            $device = UserInfo::get_device();
            $os = UserInfo::get_os();
-           $browser = UserInfo::get_browser();            
-        
-           $trace = $e->getTrace(); 
+           $browser = UserInfo::get_browser();  
+           //$error = $e->__toString(); 
+                      
+           /* Convert Array to String */
+           $errors = serialize($e->getErrors());
+                      
+           $trace_error = $e->__toString(); 
             
-           $result_error = 'Error Message: '.$e->getMessage().'<br>';
-           $result_error .= 'Error Code: '.$e->getCode().'<br>';
-           $result_error .= 'Error Line: '.$e->getLine().'<br>';
+           $result_error = '<b>Error Message:</b> '.$e->getMessage().'<br>';
+           $result_error .= '<b>Error Code:</b> '.$e->getCode().'<br>';
+           $result_error .= '<b>Error Line:</b> '.$e->getLine().'<br>';
+           $result_error .= '<b>Trace Errors:</b> '.$errors.'<br>';            
             
-            
-           $result_error .='Error Trace class: '.$trace[0]['class'].'<br>';
-        
-           $result_error .= 'Error Trace function: '.$trace[0]['function'].'<br>';
-           $result_error .= 'Custom Mensage: '.$custom_msg_error;
+           $result_error .='<b>Error Trace class:</b> '.$trace_error.'<br>';        
+           $result_error .= '<b>Custom Mensage:</b> '.$custom_msg_error;
            
            date_default_timezone_set('America/Sao_Paulo');
            $date = date('Y-m-d h:i:s', time());       

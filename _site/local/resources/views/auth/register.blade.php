@@ -53,9 +53,9 @@
                                             <div class="col-md-6">
 
                                                 @if(!empty($name))
-                                                <input id="name" type="text" class="form-control unicase-form-control" name="name" value="{{$name}}" required autofocus>
+                                                <input id="name" type="text" class="form-control unicase-form-control" name="name" onkeypress="validate(event)" value="{{$name}}" required autofocus>
                                                 @else
-                                                <input id="name" type="text" class="form-control unicase-form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                                <input id="name" type="text" class="form-control unicase-form-control" name="name" onkeypress="validate(event)" value="{{ old('name') }}" required autofocus>
                                                 @endif
 
                                                 @if ($errors->has('name'))
@@ -252,7 +252,22 @@
 <!-- Marcello :: Prevenir Espacos em Branco -->
 <script>
 var field = document.querySelector('[name="name"]');
+var alphadigitonly = /[a-zA-Z0-9]/g; 
 
+function validate(e) {
+        var regex = new RegExp(alphadigitonly);
+        var key = e.keyCode || e.which;
+        key = String.fromCharCode(key);
+        
+        if(!regex.test(key)) {
+            e.returnValue = false;
+            if(e.preventDefault) {
+                e.preventDefault();
+            }
+        }
+    }
+    
+/*
 field.addEventListener('keypress', function ( event ) {  
    var key = event.keyCode;
     if (key === 32) {
@@ -269,7 +284,7 @@ $("input#name").on({
     this.value = this.value.replace(/\s/g, "");
   }
 });
-
+*/
 var cpfMascara = function (val) {
         if(val.length == 14){
            // $('#usertype').removeAttr('disabled');

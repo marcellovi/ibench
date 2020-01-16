@@ -151,7 +151,7 @@ $headertype = $setts[0]->header_type;
 					->orderBy('prod_img_id','asc')
 					->get();
         	?>
-                    <img src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt="" class="img-thumbnail">
+                    <img src="<?php echo $url;?>/local/images/media/<?php echo utf8_decode($product_img[0]->image);?>" alt="" class="img-thumbnail">
                 <?php } else { ?>
                     <img src="<?php echo $url;?>/local/images/noimage_box.jpg" alt="" class="img-thumbnail">
                 <?php } ?>                  

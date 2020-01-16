@@ -88,7 +88,7 @@ $setid=1;
 
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputName">@lang('languages.your_name') <span>*</span></label>
-		    <input type="text" name="name" class="form-control unicase-form-control validate[required] text-input" id="exampleInputName">
+		    <input type="text" name="name" class="form-control unicase-form-control validate[required] text-input" id="exampleInputName" value="{{ old('name') }}">
 		  </div>
 
 	</div>
@@ -96,9 +96,9 @@ $setid=1;
 
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">@lang('languages.email_address') <span>*</span></label>
-               
-            <input type="text" placeholder="" name="email" class="form-control unicase-form-control validate[required,custom[email]] text-input">
-            
+
+            <input type="text" placeholder="" name="email" class="form-control unicase-form-control validate[required,custom[email]] text-input" value="{{ old('email') }}">
+
 		  </div>
 
 	</div>
@@ -107,7 +107,7 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputTitle">@lang('languages.phone_no') <span>*</span></label>
 
-            <input type="text" name="phone_no" class="form-control unicase-form-control validate[required] text-input">
+            <input type="text" name="phone_no" class="form-control unicase-form-control validate[required] text-input" value="{{ old('phone_no') }}">
 		  </div>
 
 	</div>
@@ -116,12 +116,12 @@ $setid=1;
 			<div class="form-group">
 		    <label class="info-title" for="exampleInputComments">@lang('languages.your_message') <span>*</span></label>
 
-            <textarea name="msg" rows="10" class="form-control unicase-form-control validate[required] text-input"></textarea>
+            <textarea name="msg" rows="10" class="form-control unicase-form-control validate[required] text-input">{{ old('msg') }}</textarea>
 		  </div>
 
 	</div>
 	<div class="col-md-12 outer-bottom-small m-t-20">
-     <div class="form-group {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">                                            
+     <div class="form-group {{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
 
                                             <div class="col-md-6">
                                                 {!! NoCaptcha::display() !!}

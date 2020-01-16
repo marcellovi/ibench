@@ -124,7 +124,7 @@ return [
         'name' => [
             'unique' => 'O usu&aacute;rio j&aacute; existe.',
             'required' => 'Campo obrigat&oacute;rio.',
-            'regex' => 'Erro no nome - usu&aacute;rio j&aacute; existe.',
+            'regex' => 'Erro no campo Usu&aacute;rio (usu&aacute;rio j&aacute; existe ou possui caracteres especiais).',
         ],
         'myCheck' => [
             'min' => 'Confirme o termo de uso',

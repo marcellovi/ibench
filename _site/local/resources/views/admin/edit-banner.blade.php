@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-   
-  
+
+
      @include('admin.title')
     @include('admin.style')
-	
-    
+
+
   </head>
 
   <body>
@@ -30,10 +30,10 @@
               {{ Session::get('error') }}
               </div>
       @endif
-      
+
       @if(Session::has('success'))
 
-	           
+
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
@@ -45,63 +45,63 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
             <h5>Edit Banner</h5>
           </div>
-          <div class="widget-content nopadding">
-         <?php $url = URL::to("/"); ?>   
-                   <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.edit-banner') }}" enctype="multipart/form-data" accept-charset="utf-8" id="formID">
-                     {{ csrf_field() }}  
-                     
-                     
-                     
-             
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-                     
-                     
-               
-              
+          <div class="widget-content">
+         <?php $url = URL::to("/"); ?>
+                   <form role="form" method="POST" action="{{ route('admin.edit-banner') }}" enctype="multipart/form-data" accept-charset="utf-8" id="formID">
+                     {{ csrf_field() }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
               <input type="hidden" name="id" value="<?php echo $slideshow[0]->id; ?>">
-              
-              
-              
-              
-              <div class="control-group">
+
+
+
+
+              <div class="form-group">
                 <label class="control-label">Image <span class="required">*</span></label>
                 <div class="controls">
-                 
-                 
-                  
-                  
-                  
-                  <input type="file" id="photo" name="photo" class="span8<?php if($slideshow[0]->slide_image==""){?> validate[required]<?php } ?>">
-						  
+
+
+
+
+
+                  <input type="file" id="photo" name="photo" class="form-control<?php if($slideshow[0]->slide_image==""){?> validate[required]<?php } ?>">
+
 						  @if ($errors->has('photo'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
                                 @endif
-                  
-                  
+
+
                 </div>
-                
+
                 <?php $url = URL::to("/"); ?>
-					  <?php 
+					  <?php
 					   $testimonialphoto="/media/";
 						$path ='/local/images'.$testimonialphoto.$slideshow[0]->slide_image;
 						if($slideshow[0]->slide_image!=""){
             ?>
-              <div class="control-group">
-                <label class="control-label">Position </label> 
+              <div class="form-group">
+                <label class="control-label">Position </label>
                 <div class="controls"  style="display: flex">
                 <div style="display: flex; margin-right: 20px">
                 <input type="radio" checked="false" <?php echo ($slideshow[0]->position=='1')?'checked':'' ?>  id="contactChoice1"
@@ -142,98 +142,98 @@
                     <label for="contactChoice6">6</label>
                 </div>
 
-						        
+
                 </div>
             </div>
-					  <div class="control-group">
+					  <div class="form-group">
                       <div class="controls">
-					  <div class="span8">
+					  <div>
 					  <img src="<?php echo $url.$path;?>" class="thumb" width="100">
 					  </div>
 					  </div>
                       </div>
 						<?php } else { ?>
-					  <div class="control-group">
+					  <div class="form-group">
                       <div class="controls">
-					  <div class="span8">
+					  <div>
 					  <img src="<?php echo $url.'/local/images/noimage.jpg';?>" class="thumb" width="100">
 					  </div>
 					  </div>
                       </div>
 						<?php } ?>
-               
-               
-               
-                
-					  
+
+
+
+
+
 					  <input type="hidden" name="currentphoto" value="<?php echo $slideshow[0]->slide_image;?>">
-                     
-               
-     
+
+
+
               </div>
-              
-              
-              
-              
-              
-               <div class="control-group">
-                <label class="control-label">Link </label> 
+
+
+
+
+
+               <div class="form-group">
+                <label class="control-label">Link </label>
                 <div class="controls">
-                 
-                                
-                                
-                    <input id="slide_btn_link" class="span8"  name="slide_btn_link" value="<?php echo $slideshow[0]->slide_btn_link; ?>" type="text">
-						            
-                  
+
+
+
+                    <input id="slide_btn_link" class="form-control"  name="slide_btn_link" value="<?php echo $slideshow[0]->slide_btn_link; ?>" type="text">
+
+
                 </div>
               </div>
-              
-              
-              
-              <div class="control-group">
-                <label class="control-label">Enable? </label> 
+
+
+
+              <div class="form-group">
+                <label class="control-label">Enable? </label>
                 <div class="controls">
-                 
-                                
-                                
+
+
+
                     <input id="slide_status"  name="slide_status" value="1" type="checkbox" <?php if($slideshow[0]->slide_status==1){?> checked <?php } ?>>
-						            
-                  
+
+
                 </div>
               </div>
-              
-             
-              
-              
-              
-              
-              
-              
-              
-              
-              
-                     
+
+
+
+
+
+
+
+
+
+
+
+
               <div class="form-actions">
-                        <div class="span8">
-                         
-                              
+                        <div>
+
+
 						   <a href="<?php echo $url;?>/admin/banners" class="btn btn-primary">Cancel</a>
-						  
-						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
+
+						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button>
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
-                          
+
                            <button id="send" type="submit" class="btn btn-success">Submit</button>
 						  <?php } ?>
-                                
+
                         </div>
                         </div>
-              
+
             </form>
           </div>
         </div>
       </div>
     </div>
-    
+
   </div>
 </div>
 

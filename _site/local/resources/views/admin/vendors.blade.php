@@ -42,7 +42,7 @@
         <input type="submit" value="Deletar Todos" class="btn btn-danger" id="checkBtn" onClick="return confirm('Tem certeza que quer deletar?');">
         <a href="<?php echo $url; ?>/admin/adduser" class="btn btn-primary">Adicionar Usuario</a>
         <a href="<?php echo $url;?>/admin/userlogs" class="btn btn-warning">Log Usuarios</a>
-         
+
         </div>
         <div class="widget-box">
 
@@ -51,7 +51,7 @@
                 <h5>Fornecedores</h5>
             </div>
 
-            <div class="widget-content nopadding">
+            <div class="widget-content nopadding table-responsive">
                 <table class="table table-bordered data-table" id="datatable-responsive">
                     <thead>
                         <tr>
@@ -143,11 +143,11 @@
                                 <td><?php echo $user->created_at;?></td>
 
                                     <td>
-        <?php if ($user->provider == "") { ?>            
+        <?php if ($user->provider == "") { ?>
                   <a href="<?php echo $url; ?>/admin/edituser/{{ $user->id }}" >
-                  <button type="button" class="btn btn-outline-info" alt="Editar" title="Editar"><i class="icon-fixed-width icon-pencil"></i></button>    
+                  <button type="button" class="btn btn-outline-info" alt="Editar" title="Editar"><i class="icon-fixed-width icon-pencil"></i></button>
                   </a>
-           
+
         <?php } ?>
 
             @if($sta!=1)
@@ -164,7 +164,7 @@
                   </a>
             <?php } ?>
                  @endif
-       
+
                                 </td>
                             </tr>
         <?php $i++;    }} ?>

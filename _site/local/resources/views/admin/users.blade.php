@@ -85,7 +85,7 @@
                          <td><img src="<?php echo $url.'/local/images/nophoto.jpg';?>" class="thumb" width="40" align="middle" style="display: block; margin-left: auto; margin-right: auto; z-index: 1;" >
                              </td>
                          <?php } ?>
-                          <td><?php echo $user->name;?></td>
+                             <td><?php echo utf8_decode() $user->name;?></td>
                           <td><?php echo $user->full_name;?></td>
                           <td><?php echo $user->email;?></td>
                           <td><?php echo $user->cpf_cnpj;?></td>

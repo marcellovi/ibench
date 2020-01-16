@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>  
+  <head>
     @include('admin.title')
-    @include('admin.style')    
+    @include('admin.style')
   </head>
 
   <body>
     @include('admin.top')
-    @include('admin.menu')  
-  
+    @include('admin.menu')
+
   <div id="content">
   <div id="content-header">
     <div id="breadcrumb">  </div>
@@ -23,9 +23,9 @@
               {{ Session::get('error') }}
               </div>
       @endif
-      
+
       @if(Session::has('success'))
-	           
+
         <div class="alert alert-success">
               <button class="close" data-dismiss="alert"><i class="icon-off"></i></button>
                {{ Session::get('success') }}
@@ -36,62 +36,62 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
             <h5>Adicionar Valor</h5>
           </div>
-          <div class="widget-content nopadding">
-          
-              
-              <?php $url = URL::to("/"); ?>   
+          <div class="widget-content">
+
+
+              <?php $url = URL::to("/"); ?>
                    <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add_attribute_value') }}"  enctype="multipart/form-data" id="formID" accept-charset="utf-8">
-                     {{ csrf_field() }} 
-                     
-              <div class="control-group">
+                     {{ csrf_field() }}
+
+              <div class="form-group">
                 <label class="control-label">Selecione o Tipo <span class="required">*</span></label>
-                <div class="controls">                 
-                                
-                   <select name="attribute_type" id="attribute_type" class="validate[required] text-input span8">
+                <div class="controls">
+
+                   <select name="attribute_type" id="attribute_type" class="validate[required] text-input form-control">
 			<option value="">Selecionar</option>
                         <?php if(!empty($type_count)){?>
                         <?php foreach($attribute_type as $type){?>
 				<option value="<?php echo $type->attr_id;?>"><?php echo $type->attr_name;?></option>
 				<?php } ?>
                              <?php } ?>
-                                  
-        	    </select>            
-                  
+
+        	    </select>
+
                 </div>
-              </div>    
-              
-              <div class="control-group">
-                <label class="control-label">Valor/Nome <span class="required">*</span></label> 
+              </div>
+
+              <div class="form-group">
+                <label class="control-label">Valor/Nome <span class="required">*</span></label>
                 <div class="controls">
-                        
-                <input id="attribute_value" class="validate[required] span8"  name="attribute_value" value="" type="text">
-                       
+
+                <input id="attribute_value" class="validate[required] form-control"  name="attribute_value" value="" type="text">
+
 		   </div>
                 </div>
-              
-              <div class="control-group">
-					
+
+              <div class="form-group">
+
               <?php $url = URL::to("/"); ?>
               <div class="form-actions">
-                    <div class="span8">
-                         
+                    <div>
+
                     <a href="<?php echo $url;?>/admin/attribute_value" class="btn btn-primary">Cancelar</a>
-                       
-		    <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
+
+		    <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button>
 		    <span class="disabletxt">( <?php echo config('global.demotxt');?> )</span>
-                        <?php } else { ?>                           
+                        <?php } else { ?>
                            <button id="send" type="submit" class="btn btn-success">Submit</button>
 			<?php } ?>
                     </div>
-                    </div>              
+                    </div>
             </form>
           </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </div>
-</div>  
- @include('admin.footer')	
+</div>
+ @include('admin.footer')
 </body>
 </html>

@@ -48,17 +48,17 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
             <h5>Adicionar Banner</h5>
           </div>
-          <div class="widget-content nopadding">
+          <div class="widget-content">
 
 
-              <?php $url = URL::to("/"); ?>   
+              <?php $url = URL::to("/"); ?>
 
 
-               <form class="form-horizontal form-label-left" role="form" method="POST" action="{{ route('admin.add-banner') }}" enctype="multipart/form-data" id="formID" accept-charset="utf-8">
-                     {{ csrf_field() }}       
+               <form role="form" method="POST" action="{{ route('admin.add-banner') }}" enctype="multipart/form-data" id="formID" accept-charset="utf-8">
+                     {{ csrf_field() }}
 
-             <div class="control-group">
-                <label class="control-label">Position </label> 
+             <div class="form-group">
+                <label class="control-label">Position </label>
                 <div class="controls"  style="display: flex">
                 <div style="display: flex; margin-right: 20px">
                 <input type="radio" checked="false"  id="contactChoice1"
@@ -103,11 +103,11 @@
                 </div>
             </div>
 
-              <div class="control-group">
-                <label class="control-label">Link </label> 
+              <div class="form-group">
+                <label class="control-label">Link </label>
                 <div class="controls">
 
-                    <input id="slide_btn_link" class="span8"  name="slide_btn_link" value="" type="text">
+                    <input id="slide_btn_link" class="form-control"  name="slide_btn_link" value="" type="text">
 
                 </div>
               </div>
@@ -115,26 +115,26 @@
 
 
 
-              <div class="control-group">
-                <label class="control-label">Imagem <span class="required">*</span></label>
+              <div class="form-group custom-file col-md-4 mb-3">
+                <label class="custom-file-label">Imagem <span class="required">*</span></label>
                 <div class="controls">
 
 
 
-                  <input type="file" id="photo" name="photo" class="validate[required] span8">
+                  <input type="file" id="photo" name="photo" class="validate[required] custom-file-input">
 
 						  @if ($errors->has('photo'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('photo') }}</strong>
                                     </span>
-                                @endif              
+                                @endif
 
                 </div>
               </div>
 
 
-              <div class="control-group">
-                <label class="control-label">Enable? </label> 
+              <div class="form-group">
+                <label class="control-label">Enable? </label>
                 <div class="controls">
 
 
@@ -154,12 +154,12 @@
 
               <?php $url = URL::to("/"); ?>
               <div class="form-actions">
-                        <div class="span8">
+                        <div>
 
 
                         <a href="<?php echo $url;?>/admin/banners" class="btn btn-primary">Cancel</a>
 
-						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button> 
+						  <?php if(config('global.demosite')=="yes"){?><button type="button" class="btn btn-success btndisable">Submit</button>
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>
 
                             <button id="send" type="submit" class="btn btn-success">Submit</button>

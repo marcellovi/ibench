@@ -71,14 +71,14 @@
                         ?>
                                 <tr class="gradeX">
                                     <td align="center"><input type="checkbox" name="userid[]" value="<?php echo $user_log->id; ?>"/></td>
-                                    <td><?php echo $user_log->name; ?></td>
+                                    <td><?php echo utf8_decode($user_log->name); ?></td>
                                     <td><?php $date = date_create($user_log->error_created_at); echo date_format($date, 'Y-m-d g:i A'); ?></td>
                                     <td><?php echo $user_log->ip; ?></td>
                                     <td><?php echo $user_log->device; ?></td>
                                     <td><?php echo $user_log->os; ?></td>
                                     <td><?php echo $user_log->browser; ?></td>  
                                     <td><?php echo $user_log->type_error;?></td>
-                                    <td><?php echo $user_log->msg_error;?></td>
+                                    <td><?php echo utf8_decode($user_log->msg_error);?></td>
                                     <td>    
                                 <a href="<?php echo $url; ?>/admin/users/log/{{ $user_log->id }}" onClick="return confirm('Tem certeza que quer deletar?')">
                                 <button type="button" class="btn btn-outline-danger" alt="Deletar" title="Deletar"><i class="icon-fixed-width icon-trash"></i></button>

@@ -77,7 +77,7 @@ $url = URL::to("/");
                         <div class="text-center">
                             <div class="clear height50"></div>
                             <div>
-                                <h2>Seu pedido nao pode ser finalizado.</h2>
+                                <h2>Seu pedido n&atilde;o pode ser finalizado.</h2>
                                 <p> Favor tentar novamente ou entre em contato conosco : ibench@ibench.com.br</p>
                                <!-- <p>Due to : @if(@isset($reason)) {{ $reason }} @endif </p> -->
                             </div>

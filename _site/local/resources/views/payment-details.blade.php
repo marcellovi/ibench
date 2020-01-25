@@ -321,7 +321,7 @@ $headertype = $setts[0]->header_type;
             </ul>
            </form>
  </div></div></div>
-    <div class="col-md-2"><div style="vertical-align: middle;align-items: center;font-weight: bold;font-size: xx-large">OR</div></div>
+    <div class="col-md-2"><div style="vertical-align: middle;align-items: center;font-weight: bold;font-size: xx-large">OU</div></div>
     <div class="col-md-5"><div class="row"><div class="col-xs-12 col-md-12 text-center">
                                 <form method="POST" action="'.route("wirecard-boleto-shop-success").'" enctype="multipart/form-data" accept-charset="utf-8">
                                  '.csrf_field().'

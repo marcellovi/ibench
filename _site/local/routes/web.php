@@ -258,7 +258,9 @@ Route::post('/view-refund', ['as'=>'view-refund','uses'=>'MyhistoryController@av
 
 /* MY ORDERS */
 
-Route::get('/my-orders', 'MyhistoryController@avigher_view_myorders');
+//Route::get('/my-orders', 'MyhistoryController@avigher_view_myorders');
+Route::get('/my-orders', 'MyhistoryController@view_seller_orders');
+Route::get('/purchaseorder/{purchase_token}', 'MyhistoryController@view_seller_order');
 Route::get('/view-orders/{ord_id}/{user_id}', 'MyhistoryController@avigher_view_orderdetails');
 
 /* END MY ORDERS */

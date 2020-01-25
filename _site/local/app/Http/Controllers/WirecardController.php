@@ -795,15 +795,18 @@ class WirecardController extends Controller
                     $userLog = new userLog;
                     $userLog->registerErrorLog($e,Auth::id(),'ValidationException','WirecardController :: api_boleto() :: Ln 796');
             
-                     $errors = '';
+                    // $errors = '';
+                      /*  
                         foreach($e->getErrors() as $key => $value) {
                            
                             $errors .= $value[0];
                         }
-                        
+                        */
                     $this->clearCheckoutBlankOrder($user,$purchase_token);
                     $errors[] = $e->__toString()." -> ValidationException <- ";  
-                    print_r($errors);print_r('parou');
+                    //print_r($errors);print_r('parou');
+                    
+                    
                     @file_put_contents(dirname(__FILE__).'/log_boleto2.txt',$errors);
                 } catch (\Moip\Exceptions\UnexpectedException $e) {
                     $userLog = new userLog;

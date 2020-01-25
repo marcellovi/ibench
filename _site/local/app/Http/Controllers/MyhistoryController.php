@@ -325,7 +325,10 @@ class MyhistoryController extends Controller
             
             $logged = Auth::user()->id;	 
             $set_id=1;
-            $setting = DB::table('settings')->where('id', $set_id)->get();		
+            $setting = DB::table('settings')->where('id', $set_id)->get();
+            
+            $user = DB::table('user')
+                    ->where('id','=',$logged);
       
             $viewcount = DB::table('product_orders')
                         ->where('order_status', '=', 'completed')
@@ -340,12 +343,96 @@ class MyhistoryController extends Controller
                         ->orderBy('ord_id','desc')
 			->get();	
 			
-	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
+	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged,'user' => $user);
            
            
       return view('my-orders')->with($data);
    }
    
+   
+        /* See all the information and details of only one purchase */
+	public function view_seller_order($purchase_token) {
+	                           
+            $logged = Auth::user()->id;	 
+            $set_id=1;
+            $setting = DB::table('settings')->where('id', $set_id)->get();
+            
+            $user = DB::table('user')
+                    ->where('id','=',$logged);
+      
+            $viewcount = DB::table('product_orders')
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '=', $purchase_token)
+	                ->where('prod_user_id', '=', $logged)
+                        ->count();
+		
+            $viewproduct = DB::table('product_orders')
+                        ->join('product','product.prod_id', '=', 'product_orders.prod_id')
+                        ->select('ord_id','product_orders.prod_id', 'subtotal','product_orders.user_id',
+                                'prod_name', 'purchase_token', 'quantity','product_orders.price',
+                                'product_orders.prod_attribute',DB::raw('SUM(total) as total'),
+                                DB::raw('SUM(product_orders.shipping_price) as total_shipping')
+                                )
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '=', $purchase_token)
+	                ->where('prod_user_id', '=', $logged)
+                        ->groupBy('ord_id')
+                        ->orderBy('ord_id','desc')
+			->get();
+            
+            
+            $all_costs = DB::table('product_orders')
+                    ->select(DB::raw('SUM(shipping_price) as full_shipping'),
+                            DB::raw('SUM(total) as full_total'),
+                            DB::raw('SUM(subtotal) as full_subtotal'))
+                    ->where('order_status', '=', 'completed')
+                    ->where('purchase_token', '=', $purchase_token)
+	            ->where('prod_user_id', '=', $logged)
+                    ->get();
+                    
+		//dd($all_costs);exit();	
+	   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged,'user' => $user, 'all_costs' => $all_costs);
+           
+           
+      return view('view-seller-order')->with($data);
+   }
+   
+   /* List all the sellers orders by the purchase_token */
+    public function view_seller_orders() {
+		
+            $logged = Auth::user()->id;	 
+            $set_id=1;
+            $setting = DB::table('settings')->where('id', $set_id)->get();		
+     
+            
+            $logged = Auth::user()->id;	 
+            $set_id=1;
+            $setting = DB::table('settings')->where('id', $set_id)->get();
+            
+            $user = DB::table('user')
+                    ->where('id','=',$logged);
+
+            $viewcount = DB::table('product_orders')
+                        ->select(DB::raw('count(distinct(purchase_token)) as total_orders'))
+                        ->where('prod_user_id', '=', $logged)
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')
+                        ->get();                          
+        
+            
+            $viewproduct = DB::table('product_orders')
+                        ->select(DB::raw('purchase_token, SUM(quantity) as quantity , SUM(total) as total , SUM(shipping_price) as shipping_price'))
+                        ->where('prod_user_id', '=', $logged)
+                        ->where('order_status', '=', 'completed')
+                        ->where('purchase_token', '!=', '')	                
+                        ->groupby('purchase_token')
+                        ->orderby('ord_id','DESC')
+                        ->paginate(15);	
+            
+        $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged,'user' => $user);
+           
+      return view('my-orders')->with($data);
+   }
    
    public function avigher_view_mybalance()
    {

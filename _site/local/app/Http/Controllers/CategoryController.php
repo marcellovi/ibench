@@ -703,17 +703,12 @@ class CategoryController extends Controller {
                                           . "prod_desc LIKE '%$search_accent%' or "
                                           . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_category = $id order by prod_id desc");
-                                  $viewcount = $viewcount[0]->offset($inicio)
-								  ->limit($total_reg)->count;
+                                   $viewcount = $viewcount[0]->count;
                                   
                                   $viewproduct = DB::select("select * from product "
                                           . "where product.delete_status = '' and prod_status = 1 and "
                                           . "( prod_name LIKE '%$search_txt%' or "
                                           . "prod_desc LIKE '%$search_txt%' ) and "
-                                          /*. "(prod_name LIKE '%$search_txt%' or "
-                                          . "prod_desc LIKE '%$search_txt%' or "
-                                          . "prod_desc LIKE '%$search_accent%' or "
-                                          . "prod_tags LIKE '%$search_txt%') and "*/
                                           . "prod_category = $id order by prod_id desc");                      
                               }                              
 			}

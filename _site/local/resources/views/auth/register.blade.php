@@ -163,7 +163,7 @@
                                         <div class="height10 clearfix"></div>
 
                                         <?php
-                                        $countries = array('Brazil');
+                                        $countries = array('Brasil');
                                         ?>
 
                                         <div class="form-group">

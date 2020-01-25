@@ -1,23 +1,23 @@
 <?php
 use Illuminate\Support\Facades\Route;
-$currentPaths= Route::getFacadeRoot()->current()->uri();	
+$currentPaths= Route::getFacadeRoot()->current()->uri();
 $url = URL::to("/");
 $setid=1;
 		$setts = DB::table('settings')
 		->where('id', '=', $setid)
 		->get();
-		
+
 if($currentPaths=="/")
  {
  $activemenu = "/";
  }
- else 
+ else
  {
   $activemenu = $currentPaths;
  }
- 
- 
- 
+
+
+
 if($activemenu == "/"){ $active_home = "active"; } else { $active_home =""; }
 if($activemenu == "gallery") { $active_gallery = "active"; } else { $active_gallery = ""; }
 
@@ -32,13 +32,13 @@ $pages_cnt = DB::table('pages')
 		            ->orderBy('page_title','asc')
 					->count();
 if(!empty($pages_cnt))
-{					
+{
 $pages = DB::table('pages')
 					->orderBy('page_title','asc')
 					->get();
-}	
-					
-					
+}
+
+
 $cate_cnt = DB::table('category')
              ->where('delete_status','=','')
 			 ->where('status','=',1)
@@ -46,13 +46,13 @@ $cate_cnt = DB::table('category')
 		     ->orderBy('id','asc')
 			 ->count();
 if(!empty($cate_cnt))
-{			 
+{
 $cate_get = DB::table('category')
              ->where('delete_status','=','')
 			 ->where('status','=',1)
 			 ->take(4)
 		     ->orderBy('id','asc')
-			 ->get();				 					
+			 ->get();
 }
 
 
@@ -61,30 +61,30 @@ $cate_get = DB::table('category')
 
 if(Auth::check()) {
 	   $log_id = Auth::user()->id;
-	   
+
 	   $cart_views_count = DB::table('product_orders')
-		
+
 		->where('user_id', '=', $log_id)
 		->where('order_status', '=', 'pending')
-		
+
 		->count();
-	   
-	   
+
+
 	   $cart_views = DB::table('product_orders')
-		
+
 		->where('user_id', '=', $log_id)
 		->where('order_status', '=', 'pending')
-		
+
 		->get();
-		
+
 		}
 		else
 		{
 		$cart_views_count = 0;
 		$cart_views = "";
-		
+
 		}
-		
+
 ?>
 
 
@@ -135,23 +135,23 @@ if(Auth::check()) {
 								 ->count();
 					if(!empty($cate_cnts))
 					{
-					
+
 					$views_category = DB::table('category')
 								 ->where('delete_status','=','')
 								 ->where('status','=',1)
 								 ->where('display_menu','=',1)
 								 ->orderBy('cat_name','asc')
-								 ->get();	
+								 ->get();
 					foreach($views_category as $views){
-					
+
 					$subcat_cnt = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-									
+
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subid','asc')
-									->count();			 		 
+									->count();
 					?>
               <li> <a href="<?php echo $url;?>/shop/cat/<?php echo $views->id;?>/<?php echo $views->post_slug;?>"
                   class="dropdown-toggle <?php if(empty($subcat_cnt)){?>disabled<?php } ?>"
@@ -159,20 +159,20 @@ if(Auth::check()) {
                     class="fa fa-angle-down" aria-hidden="true"></i><?php } ?></a>
 
                 <?php
-					  
+
 					  if(!empty($subcat_cnt))
-					  {	
-					  
+					  {
+
 					  $viewsub = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-									
+
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subid','asc')
 									->get();
-					  
-					  		
+
+
 					  ?>
 
 
@@ -204,7 +204,7 @@ if(Auth::check()) {
                   <?php if(!empty($pages_cnt)){?>
                   <?php foreach($pages as $page){
 								if($page->page_id==4){ $pagerurl = $url.'/'.'contact-us'; }
-								
+
 								else { $pagerurl = $url.'/page/'.$page->page_id.'/'.$page->post_slug; }
 								?>
 
@@ -219,15 +219,15 @@ if(Auth::check()) {
               </li>
 
 
-              <!-- Marcello Retirada Blog Aba 
+              <!-- Marcello Retirada Blog Aba
 												<li>
-                                                    <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a> 
-                                                     
+                                                    <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a>
+
                                                 </li> -->
               <!-- Marcello Vendedores
                                                 <li>
-                                                    <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a> 
-                                                     
+                                                    <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a>
+
                                                 </li>
                                                 -->
 
@@ -271,7 +271,7 @@ if(Auth::check()) {
               <div class="cnt-block">
                 <ul class="list-unstyled list-inline">
 
-                  <!-- Internacionalizacao Marcello 
+                  <!-- Internacionalizacao Marcello
             <li class="dropdown dropdown-small"> <a href="#" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown"><i class="fa fa-language" aria-hidden="true"></i><span class="value">@lang('languages.english') </span><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="<?php echo $url;?>/<?php echo Lang::get('setlocale/en');?>">@lang('languages.english')</a></li>
@@ -318,7 +318,7 @@ if(Auth::check()) {
                                                             </ul>
                                                         </li>
                                                         -->
-                      <!--   Meu Financeiro - Marcello 
+                      <!--   Meu Financeiro - Marcello
                                                         <li><a href="<?php echo $url;?>/my-balance">@lang('languages.my_balance')</a></li>
                                                     -->
                       <?php } ?>
@@ -353,7 +353,7 @@ if(Auth::check()) {
 
               <div class="cnt-account hider">
                 <ul class="list-unstyled">
-                  <!-- Hid Compare & WishList Marcello 
+                  <!-- Hid Compare & WishList Marcello
            <li><a href="<?php echo $url;?>/compare"><i class="icon fa fa-compress"></i>@lang('languages.compare')</a></li>
             MARCELLO -->
                   <li>
@@ -452,13 +452,13 @@ if(Auth::check()) {
 								 ->count();
 					if(!empty($cate_cnt))
 					{
-					
+
 					$view_category = DB::table('category')
 								 ->where('delete_status','=','')
 								 ->where('status','=',1)
 								 ->orderBy('cat_name','asc')
-								 ->get();	
-					foreach($view_category as $views){			 		 
+								 ->get();
+					foreach($view_category as $views){
 					?>
                     <option value="<?php echo $views->id;?>_cat" <?php if(!empty($category_field)){?>
                       <?php if($category_field==$views->id.'_cat'){?> selected="selected" <?php } } ?>>
@@ -470,21 +470,21 @@ if(Auth::check()) {
 									->where('delete_status','=','')
 									->where('status','=',1)
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subid','asc')
 									->count();
 					  if(!empty($subcat_cnt))
-					  {	
-					  
+					  {
+
 					  $viewsub = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subid','asc')
 									->get();
-					  
-					  foreach($viewsub as $subs){			
+
+					  foreach($viewsub as $subs){
 					  ?>
 
                     <option value="<?php echo $subs->subid;?>_subcat" <?php if(!empty($category_field)){?>
@@ -532,13 +532,13 @@ if(Auth::check()) {
 
 
         <?php if(!empty($cart_views_count)){
-		  
+
 		  $price_val = 0;
 		  foreach($cart_views as $product)
-		  { 
+		  {
 		     $price_val += $product->price * $product->quantity;
-		  } 
-		  $price_values = $price_val; 
+		  }
+		  $price_values = $price_val;
 		  }
 		  else
 		  {
@@ -565,18 +565,18 @@ if(Auth::check()) {
               <?php if(!empty($cart_views_count)){?>
               <li>
 
-                <?php 
+                <?php
 								$price_val = 0;
 								foreach($cart_views as $product){
-								
-								 $prod_id = $product->prod_token; 
+
+								 $prod_id = $product->prod_token;
 								 $product_img_count = DB::table('product_images')
 													->where('prod_token','=',$prod_id)
 													->count();
-													
+
 								$view_product = DB::table('product')
 													->where('prod_token','=',$prod_id)
-													->get();					
+													->get();
 													?>
                 <div class="cart-item product-summary">
                   <div class="row">
@@ -584,13 +584,13 @@ if(Auth::check()) {
                       <div class="image">
 
                         <?php
-														if(!empty($product_img_count)){					
+														if(!empty($product_img_count)){
 														$product_img = DB::table('product_images')
 																			->where('prod_token','=',$prod_id)
 																			->orderBy('prod_img_id','asc')
 																			->get();
-																		
-														
+
+
 														?>
                         <a
                           href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo $view_product[0]->prod_slug;?>"><img
@@ -663,12 +663,12 @@ if(Auth::check()) {
 
 
   </div>
-    
+
     <div class="collapse navbar-collapse justify-content-md-center" style="background-color:#FE8F18">
         <div style="padding-top: 5px">
-           <p style="color: white; text-align: center; padding-top: 5px;font-size: 20px">Temporariamente: entregas s&oacute; podem ser realizadas na cidade do Rio de Janeiro</p> 
+           <p style="color: white; text-align: center; padding-top: 5px;font-size: 20px">Temporariamente: entregas s&oacute; podem ser realizadas na cidade do Rio de Janeiro</p>
         </div>
-        
+
         <!--
     <ul class="navbar-nav">
       <li class="nav-item active">
@@ -699,8 +699,8 @@ if(Auth::check()) {
                     class="dropdown-toggle disabled" data-toggle="dropdown">@lang('languages.home')</a> </li>
                 <!-- Marcello Aba All.
                 <li>
-                                                    <a href="<?php echo $url;?>/shop">@lang('languages.all')</a> 
-                                                     
+                                                    <a href="<?php echo $url;?>/shop">@lang('languages.all')</a>
+
                                                 </li>
                 -->
 
@@ -713,14 +713,14 @@ if(Auth::check()) {
 								 ->count();
 					if(!empty($cate_cnts))
 					{
-					
+
 					$views_category = DB::table('category')
 								 ->where('delete_status','=','')
 								 ->where('status','=',1)
 								 ->where('display_menu','=',1)
 								 ->orderBy('cat_name','asc')
-								 ->get();	
-					foreach($views_category as $views){			 		 
+								 ->get();
+					foreach($views_category as $views){
 					?>
                 <li class="dropdown"> <a
                     href="<?php echo $url;?>/shop/cat/<?php echo $views->id;?>/<?php echo $views->post_slug;?>"
@@ -731,24 +731,24 @@ if(Auth::check()) {
 					  $subcat_cnt = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-									
+
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subcat_name','asc')
 									->count();
 					  if(!empty($subcat_cnt))
-					  {	
-					  
+					  {
+
 					  $viewsub = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-									
+
 									->where('cat_id','=',$views->id)
-									
+
 									->orderBy('subcat_name','asc')
 									->get();
-					  
-					  		
+
+
 					  ?>
                   <ul class="dropdown-menu pages">
                     <li>
@@ -774,21 +774,23 @@ if(Auth::check()) {
                     <!-- Marcello :: Menu Fornecedores -->
                     <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a>
                 </li>
-                
+
                 <li>
                     <!-- Marcello :: Menu IBENCH NOW -->
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdT_WCuYqI7VRJ74hC6scDi1zXRixU6gpbsQ_jtaMonu1NpLg/viewform" target="_blank">iBench Now</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdT_WCuYqI7VRJ74hC6scDi1zXRixU6gpbsQ_jtaMonu1NpLg/viewform" target="_blank">@lang('languages.ibench_now')</a>
                 </li>
-                
+
                 <li>
                     <!-- Marcello :: Menu Fornecedores -->
                     <a href="<?php echo $url;?>/contact-us">fale Conosco</a>
                 </li>
 
+                <li><a href="<?php echo $url; ?>/page/8/faq">D&uacute;vidas Frequentes</a></li>
+
                 <!--
                 <li class="dropdown"> <a href="javascript:void(0)" class="dropdown-toggle  disabled"
                     data-hover="dropdown" data-toggle="dropdown">@lang('languages.pages')</a>
-                
+
 
                   <ul class="dropdown-menu pages">
                     <li>
@@ -799,17 +801,17 @@ if(Auth::check()) {
                               <?php if(!empty($pages_cnt)){?>
                               <?php foreach($pages as $page){
 								if($page->page_id==4){ $pagerurl = $url.'/'.'contact-us'; }
-								
+
 								else { $pagerurl = $url.'/page/'.$page->page_id.'/'.$page->post_slug; }
 								?>
 
                               <li><a href="<?php echo $pagerurl; ?>"><?php echo utf8_decode($page->page_title);?></a>
                               </li>
                               <?php } } ?>
-                             
+
 
                               <li>
-                                <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a>                       
+                                <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a>
                               </li>
                             </ul>
                           </div>
@@ -822,16 +824,16 @@ if(Auth::check()) {
                 </li>
                 -->
                 <!-- Retirada do Blog Marcello
-                                                
+
 												<li>
-                                                    <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a> 
-                                                     
+                                                    <a href="<?php echo $url;?>/blog">@lang('languages.blog')</a>
+
                                                 </li>
                                                -->
                 <!-- Marcello Vendedores
                                                 <li>
-                                                    <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a> 
-                                                     
+                                                    <a href="<?php echo $url;?>/vendors">@lang('languages.vendors')</a>
+
                                                 </li>
                                                 -->
 

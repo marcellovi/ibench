@@ -106,7 +106,7 @@ class EdituserController extends Controller
 		$rules = array(
                     'email'=>'required|email|unique:users,email,'.$id,
                     'name' => 'required|regex:/^[\w-]*$/|max:255|unique:users,name,'.$id,
-                    'full_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:255|unique:users,full_name,'.$id,
+                    'full_name' => 'required|regex:/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/|max:255|unique:users,full_name,'.$id,
                     'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
                  );
 

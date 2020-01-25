@@ -47,7 +47,7 @@
             <div class="widget-content">
               <?php $url = URL::to("/"); ?>
               <form method="post" action="{{ route('admin.edituser') }}"
-                enctype="multipart/form-data" name="basic_validate" id="formID" novalidate="novalidate">
+                enctype="multipart/form-data" name="basic_validate" id="formID" novalidate="novalidate" accept-charset="utf-8">
                 {{ csrf_field() }}
 
 
@@ -69,7 +69,7 @@
                   <label class="control-label">Nome</label>
                   <div class="controls">
                     <input id="full_name" class="validate[required] form-control" name="full_name"
-                      value="<?php echo $users[0]->full_name; ?>" type="text">
+                      value="<?php echo utf8_decode($users[0]->full_name); ?>" type="text">
                     @if ($errors->has('full_name'))
                     <span class="help-block" style="color:red;">
                       <strong>{{ $errors->first('full_name') }}</strong>

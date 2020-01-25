@@ -154,7 +154,7 @@ $cates_cnt = DB::table('category')
 </script>
 
 
-<footer id="footer" class="footer color-bg">
+<footer id="footer" class="footer color-bg" accept-charset="utf-8">
   <div class="footer-bottom">
     <div class="container">
       <div class="row">
@@ -180,7 +180,7 @@ $cates_cnt = DB::table('category')
                   ->orderBy('id', 'asc')
                   ->get();
                 foreach ($cates_get as $viee) { ?>
-                  <li><a href="<?php echo $url; ?>/shop/cat/<?php echo $viee->id; ?>/<?php echo $viee->post_slug; ?>"><?php echo $viee->cat_name; ?></a></li>
+                  <li><a href="<?php echo $url; ?>/shop/cat/<?php echo $viee->id; ?>/<?php echo $viee->post_slug; ?>"><?php echo utf8_decode($viee->cat_name); ?></a></li>
                 <?php }
             } ?>
 
@@ -202,9 +202,8 @@ $cates_cnt = DB::table('category')
               <li><a href="<?php echo $url; ?>/blog">@lang('languages.blog')</a></li> -->
               <!-- Marcello Vendedores Wish List -->
               <li><a href="<?php echo $url; ?>/vendors">@lang('languages.all_vendors')</a></li>
-
-              <li><a href="/my-wishlist">@lang('languages.wish_list')</a></li>
               <li><a href="<?php echo $url; ?>/contact-us">@lang('languages.contact_us')</a></li>
+              <li><a href="<?php echo $url; ?>/page/8/faq">FAQ</a></li>
               <li><a href="<?php echo $url; ?>/local/images/media/ibench_termos_condicoes.pdf" target="_blank">Termo de Uso</a></li>
             </ul>
           </div>
@@ -240,16 +239,16 @@ $cates_cnt = DB::table('category')
               </li>
 							-->
 
-              <!-- 
+              <!--
               <li class="media">
-                <div class="pull-left"> 
+                <div class="pull-left">
                     <span class="icon fa-stack fa-lg"> <i class="fa fa-mobile fa-stack-1x fa-inverse"></i> </span> </div>
-                    Marcello Retirado temporarimante o telefone 
+                    Marcello Retirado temporarimante o telefone
                 <div class="media-body">
-                    
+
                   <p><a href="tel:<?php echo $setts[0]->site_phone; ?>" class="white_ash"> <?php echo $setts[0]->site_phone; ?></a>
                     </p>
-                    
+
                 </div>
               </li>-->
               <li class="media">
@@ -278,10 +277,10 @@ $cates_cnt = DB::table('category')
               <a href="<?php echo $setts[0]->site_facebook; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
               <a href="<?php echo $setts[0]->site_twitter; ?>" target="_blank"><i class="fa fa-linkedin"></i></a>
             <?php } ?>
-            <!-- Marcello Social 
-          <?php if (!empty($setts[0]->site_facebook)) { ?>            
+            <!-- Marcello Social
+          <?php if (!empty($setts[0]->site_facebook)) { ?>
             <a href="<?php echo $setts[0]->site_facebook; ?>" target="_blank"><i class="fa fa-facebook"></i></a><?php } ?>
-                                    
+
                                     <?php if (!empty($setts[0]->site_twitter)) { ?><a href="<?php echo $setts[0]->site_twitter; ?>" target="_blank"><i class="fa fa-twitter"></i></a><?php } ?>
                                     <?php if (!empty($setts[0]->site_gplus)) { ?><a href="<?php echo $setts[0]->site_gplus; ?>" target="_blank"><i class="fa fa-google-plus"></i></a><?php } ?>
 									<?php if (!empty($setts[0]->site_pinterest)) { ?><a href="<?php echo $setts[0]->site_pinterest; ?>" target="_blank"><i class="fa fa-pinterest"></i></a><?php } ?>

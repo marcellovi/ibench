@@ -369,7 +369,7 @@ class AdduserController extends Controller
 
         'email'=>'required|email|unique:users,email',
         'name' => 'required|regex:/^[\w-]*$/|max:255|unique:users,name',
-        'full_name' => 'required|regex:/^[a-zA-Z\s]*$/|max:255|unique:users,full_name',
+        'full_name' => 'required|regex:/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/|max:255|unique:users,full_name',
         'photo' => 'max:'.$imgsize.'|mimes:'.$imgtype
 
         );

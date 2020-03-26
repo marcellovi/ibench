@@ -7323,7 +7323,7 @@ max-height: 450px;
 {
 width: 100%;
     object-fit: cover;
-	max-height: 450px;
+	/* max-height: 450px; */
     min-height: 450px;
 }
 

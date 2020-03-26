@@ -56,11 +56,68 @@
         }
 
         </style>
+        
+
+        <style>
+
+        .callout {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+   
+        z-index: 10;  
+        left:30%;
+        top:30%;   
+      }
+
+        .callout-header {
+          padding: 25px 15px;
+          background: #fc901b;
+          font-size: 30px;
+          color: white;
+        }
+
+        .callout-container {
+          padding: 15px;
+          background-color: #343a40;
+          color: white
+        }
+
+        .closebtn {
+          position: absolute;
+          top: 5px;
+          right: 15px;
+          color: white;
+          font-size: 30px;
+          cursor: pointer;
+        }
+
+        .closebtn:hover {
+          color: lightgrey;
+        }
+        
+        #overlay {
+        position: fixed; /* Sit on top of the page content */
+        display: none; /* Hidden by default */
+        width: 100%; /* Full width (cover the whole page) */
+        height: 100%; /* Full height (cover the whole page) */
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+        z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+        cursor: pointer; /* Add a pointer on hover */
+      }
+    </style>
+
 
     </head>
 
-    <body>
+    <body onload="on()">
 
+  
+  
         <div id="content">
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -150,6 +207,19 @@
 
           </div> <!--IMG BANNER-->
 
+              <!-- Callout Message -->
+        <div id="overlay">
+            <div  class="callout" onclick="off()">
+            <div class="callout-header">Campanha Taq no Covid-19!</div>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" >×</span>
+            <div class="callout-container"><br>
+              <p>Ei pesquisador, que tal disponibilizar seus reagentes para ajudar no diagnóstico do COVID-19?  
+                  <a href="https://sites.google.com/view/taqnocovid/" target="_blank">Clique aqui</a> e saiba mais sobre a campanha.</p>
+              <img src="https://i.ya-webdesign.com/images/helping-hand-png-4.png" width="30" height="30" align="right"><br><br>
+            </div>
+          </div>
+        </div>
+    <!-- end call out -->
 
 
           <div id="infoTxt">
@@ -489,7 +559,15 @@
               </div>
 
           </div><!--CONTAINER-->           
+<script>
+function on() {
+  document.getElementById("overlay").style.display = "block";
+}
 
+function off() {
+  document.getElementById("overlay").style.display = "none";
+}
+</script>
     </body>
 
 </html>

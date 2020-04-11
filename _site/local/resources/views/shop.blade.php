@@ -1,5 +1,5 @@
 <?php
-
+header("Cache-Control: no-cache, must-revalidate");
 use Illuminate\Support\Facades\Route;
 
 $currentPaths = Route::getFacadeRoot()->current()->uri();
@@ -28,9 +28,7 @@ $headertype = $setts[0]->header_type;
         <ul class="list-inline list-unstyled">
           <li> <a href="<?php echo $url; ?>">@lang('languages.home')</a></li>
           <li class='active'>@lang('languages.shop')</li>
-          <?php if (!empty($search_txt)) { ?>
-            <li class='active'><?php echo utf8_decode($search_txt); ?></li>
-          <?php } ?>
+          <li class='active'><?php if(isset($_GET['search_text'])){ echo utf8_decode($_GET['search_text']); } ?> </li>   
         </ul>
       </div>
     </div>
@@ -54,7 +52,7 @@ $headertype = $setts[0]->header_type;
 
       <div class="row">
         <div class="col-md-3 sidebar">
-          <form class="register-form" role="form" name="formID" method="POST" action="{{ route('shoping') }}" id="formID" enctype="multipart/form-data">
+          <form class="register-form" role="form" name="formID" method="GET" action="{{ route('shoping') }}" id="formID" enctype="multipart/form-data"  accept-charset="utf-8">
             {{ csrf_field() }}
             <div class="sidebar-module-container">
               <div class="sidebar-filter">
@@ -129,8 +127,18 @@ $headertype = $setts[0]->header_type;
                         <?php } ?>
                       <?php } ?>
                     </select>
+                      
+                     <?php if(isset($_GET['search_text']) && !empty($_GET['search_text'])){ ?>
+                      
+                      <a href="#" onclick="toggleVisibility('searchlabel')">
+                          <h4><span class="label label-warning" id='searchlabel' ><?php echo utf8_decode($_GET['search_text']); ?> <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span></h4>
+                          </a>          
+                     <?php } ?>
+                      
                   </div>
+                 
                 </div>
+                  
                 <div class="sidebar-widget wow fadeInUp">
                   <div class="sidebar-widget-body">
                     <?php if (!empty($typers_count)) { ?>
@@ -272,7 +280,7 @@ $headertype = $setts[0]->header_type;
 
                   </div>
                   <div class="clearfix height20"></div>
-                  <input type="hidden" id="search_txt" name="search_txt" value="<?php echo $search_txt; ?>">
+                  <input type="hidden" id="search_txt" name="search_txt" value="<?php if(isset($_GET['search_text'])){ echo utf8_decode($_GET['search_text']); } ?>">
                   <div>
                     <input type="submit" name="search" class="lnk btn btn-primary" value="@lang('languages.filter')" />
                     <input type="button" id="resetar" class="lnk btn btn-primary" value="Limpar Filtro" />
@@ -639,65 +647,15 @@ $headertype = $setts[0]->header_type;
                           <a href="<?php echo $url; ?>/contact-us" style="text-decoration: none; border-bottom: 1px solid orange;">Clique aqui</a> para nos informar o que voc&ecirc; precisa!</div>
                       <?php } ?>
                     </div>
+                      <!--
                      <div class="grid_prodss mtop20"></div>  
-                    <?php
-                    $anterior = $pc - 1;
-                    $proximo = $pc + 1;
-                    if (!isset($data['pagina'])) {
-                      $data['pagina'] = 1;
-                    }
-                    ?><!-- paginacao original 
-                    <div style="text-align: center">
-                      <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                          <?php if (isset($data['pagina']) && $data['pagina'] > 1) { ?>
-
-                            <li>
-                              <a href='?pagina=<?php echo ($anterior) ?>' aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                              </a>
-                            </li>
-                          <?php } else { ?>
-
-                            <li>
-                              <a aria-label="Previous" style="cursor: not-allowed;">
-                                <span aria-hidden="true">&laquo;</span>
-                              </a>
-                            </li>
+                     -->
+                     <?php if(isset($_GET['search_text'])){ ?>
+                     <div style="text-align: center">{{ $viewproduct->appends(['search_text' => $_GET['search_text'],'category' => $_GET['category']]) }}</div>
                           <?php } ?>
-
-                          <?php for ($i = 0; $i < $tp; ++$i) { ?>
-
-                            <?php if (isset($data['pagina']) && $data['pagina'] == $i + 1) { ?>
-
-                              <li class="active"><a href='?pagina=<?php echo ($i + 1) ?>'><?php echo ($i + 1) ?></a></li>
-                            <?php } else { ?>
-                              <li><a href='?pagina=<?php echo ($i + 1) ?>'><?php echo ($i + 1) ?></a></li>
-
-                            <?php }
-                        } ?>
-                          <?php if (isset($data['pagina']) && $data['pagina'] < $tp) { ?>
-                            <li>
-                              <a href='?pagina=<?php echo ($proximo) ?>' aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                            </li>
-                          <?php } else { ?>
-
-                            <li>
-                              <a aria-label="Next" style="cursor: not-allowed;">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                            </li>
-                          <?php } ?>
-
-                        </ul>
-                      </nav>
                     </div>
-                    Fim da paginacao original -->
                   </div>
                 </div>
-              </div>
 
               <div class="tab-pane " id="list-container">
                 <div class="category-product">
@@ -1004,64 +962,14 @@ $headertype = $setts[0]->header_type;
                       </div>
                     <?php } ?>
                     </div>
-                    <?php
-                    $anterior = $pc - 1;
-                    $proximo = $pc + 1;
-                    if (!isset($data['pagina'])) {
-                      $data['pagina'] = 1;
-                    }
-                    ?>
+                   
+                    <!--
                     <div class="list_prodss mtop20"></div>   
-                    <!-- Paginacao da lista
-                    <div style="text-align: center">
-                      <nav aria-label="Page navigation">
-                        <ul class="pagination">
-                          <?php if (isset($data['pagina']) && $data['pagina'] > 1) { ?>
-
-                            <li>
-                              <a href='?pagina=<?php echo ($anterior) ?>' aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                              </a>
-                            </li>
-                          <?php } else { ?>
-
-                            <li>
-                              <a aria-label="Previous" style="cursor: not-allowed;">
-                                <span aria-hidden="true">&laquo;</span>
-                              </a>
-                            </li>
+                    -->
+                    <?php if(isset($_GET['search_text'])){ ?>
+                     <div style="text-align: center">{{ $viewproduct->appends(['search_text' => $_GET['search_text'],'category' => $_GET['category']]) }}</div>
                           <?php } ?>
-
-                          <?php for ($i = 0; $i < $tp; ++$i) { ?>
-
-                            <?php if (isset($data['pagina']) && $data['pagina'] == $i + 1) { ?>
-
-                              <li class="active"><a href='?pagina=<?php echo ($i + 1) ?>'><?php echo ($i + 1) ?></a></li>
                             <?php } else { ?>
-                              <li><a href='?pagina=<?php echo ($i + 1) ?>'><?php echo ($i + 1) ?></a></li>
-
-                            <?php }
-                        } ?>
-                          <?php if (isset($data['pagina']) && $data['pagina'] < $tp) { ?>
-                            <li>
-                              <a href='?pagina=<?php echo ($proximo) ?>' aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                            </li>
-                          <?php } else { ?>
-
-                            <li>
-                              <a aria-label="Next" style="cursor: not-allowed;">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                            </li>
-                          <?php } ?>
-
-                        </ul>
-                      </nav>
-                    </div>
-                fim da paginacao lista -->
-                  <?php } else { ?>
                     <div class="height100"></div>
                     <div align="center" class="fontsize24 black">@lang('languages.no_data')<br><br>
                       Queremos tornar o iBench Market melhor para voc&ecirc;<br>
@@ -1081,6 +989,11 @@ $headertype = $setts[0]->header_type;
     </div>
   </div>
 
+  
+  
+ 
+  
+  
   <div class="height20"></div>
   @include('footer')
   <script>
@@ -1088,8 +1001,22 @@ $headertype = $setts[0]->header_type;
     $(function() {
       $("#resetar").click(function() {
         $(".unicase-form-control").attr("checked", this.checked);
+        $('#search_txt').attr('value', '');
+        $("#searchlabel").hide();
       });
     });
+    
+    
+  function toggleVisibility(htmlId) {
+  var x = document.getElementById(htmlId);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    document.getElementById("search_txt").value = "<?php if(isset($_GET['search_text'])){ echo utf8_decode($_GET['search_text']);} ?>";
+  } else {
+    x.style.display = "none";
+    document.getElementById("search_txt").value = "";
+  }
+}
   </script>
 </body>
 </html>

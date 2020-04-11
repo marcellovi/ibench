@@ -103,7 +103,7 @@ class IndexController extends Controller
 	 
 	 
     public function avigher_all_vendors()
-    {
+    { 
 	    $user_count = DB::table('users')
                                 ->where('delete_status', '=', '')
                                 ->where('admin', '=', 2)
@@ -183,6 +183,7 @@ class IndexController extends Controller
                                   ->where('delete_status','=','')
                                   ->where('prod_status','=',1)
                                   ->where('prod_featured','=','yes')
+                                  ->take(50)
                                   ->orderBy('prod_id','desc')
                                    ->get(); 		
 		
@@ -204,12 +205,14 @@ class IndexController extends Controller
         $viewcount_new = DB::table('product')
                                   ->where('delete_status','=','')
                                    ->where('prod_status','=',1)
+                                   ->take(30)
                                    ->orderBy('prod_id','desc')
                                    ->count();
 		
         $viewproduct_new = DB::table('product')
                                   ->where('delete_status','=','')
                                   ->where('prod_status','=',1)
+                                  ->take(30)
                                   ->orderBy('prod_id','desc')
                                    ->get(); 
 					   
@@ -236,6 +239,8 @@ class IndexController extends Controller
 					      ->orderBy('rate_id','desc')
                                               ->take(5)
 					      ->count();
+
+                
 		$view_rating = DB::table('product_rating')
 					      ->groupBy('user_id') 
 					      ->orderBy('rate_id','desc')

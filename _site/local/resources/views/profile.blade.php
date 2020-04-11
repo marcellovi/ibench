@@ -170,9 +170,12 @@ $headertype = $setts[0]->header_type;
                  <?php } ?> 
                </ul>            
             </div>
-              
+             
+
+           <span class="pull-right"> {{ $viewproduct->links() }} </span> 
+            
             </div>
-            <?php } ?>            
+              <?php } ?>          
            
             </div>
             <div class="tab-pane" id="tab_default_3">

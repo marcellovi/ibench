@@ -212,12 +212,8 @@ if(Auth::check()) {
                   <?php } } ?>
 
 
-
-
-
                 </ul>
               </li>
-
 
               <!-- Marcello Retirada Blog Aba
 												<li>
@@ -231,23 +227,10 @@ if(Auth::check()) {
                                                 </li>
                                                 -->
 
-
-
-
-
-
             </ul>
-
-
-
-
-
-
 
           </div>
         </nav>
-
-
 
       </div>
     </div>
@@ -335,21 +318,7 @@ if(Auth::check()) {
                   </li>
                 </ul>
 
-
-
-
-
-
-
-
-
-
-
-
-
               </div>
-
-
 
               <div class="cnt-account hider">
                 <ul class="list-unstyled">
@@ -362,12 +331,8 @@ if(Auth::check()) {
 
                   <li><a href="<?php echo $url;?>/cart"><i
                         class="icon fa fa-shopping-cart"></i>@lang('languages.my_cart')</a></li>
-
-
                 </ul>
               </div>
-
-
 
 
               <div class="clearfix"></div>
@@ -376,11 +341,6 @@ if(Auth::check()) {
           </div>
 
         </div>
-
-
-
-
-
 
 
         <div class="col-xs-6 col-sm-6 col-md-2 logo-holder">
@@ -398,16 +358,6 @@ if(Auth::check()) {
           </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
         <div class="col-xs-6 col-sm-6 col-md-7 top-search-holder">
 
 
@@ -419,21 +369,13 @@ if(Auth::check()) {
             </div>
           </div>
 
-
-
-
-
-
-
         </div>
-
-
 
         <div class="col-xs-12 col-sm-12 col-md-7 top-search-holder">
 
           <div class="search-area">
 
-            <form class="register-form" role="form" method="POST" action="{{ route('shop') }}" id="formIDwel"
+            <form class="register-form" role="form" method="GET" action="{{ route('shop') }}" id="formIDwel"
               enctype="multipart/form-data" accept-charset="utf-8">
               {{ csrf_field() }}
               <div class="control-group">
@@ -491,8 +433,6 @@ if(Auth::check()) {
                       <?php if($category_field==$subs->subid.'_subcat'){?> selected="selected" <?php } } ?>>&nbsp; -
                       <?php echo $subs->subcat_name;?></option>
 
-
-
                     <?php } ?>
                     </option>
                     <?php } ?>
@@ -513,23 +453,6 @@ if(Auth::check()) {
             </form>
           </div>
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <?php if(!empty($cart_views_count)){
 
@@ -648,19 +571,9 @@ if(Auth::check()) {
 
         </div>
 
-
-
-
-
-
-
-
-
       </div>
 
-
     </div>
-
 
   </div>
 
@@ -678,8 +591,6 @@ if(Auth::check()) {
         -->
   </div>
     <br>
-
-
 
 
   <div class="header-nav animate-dropdown">
@@ -837,25 +748,13 @@ if(Auth::check()) {
                                                 </li>
                                                 -->
 
-
-
-
               </ul>
-
               <div class="clearfix"></div>
             </div>
-
           </div>
 
-
         </div>
-
       </div>
-
     </div>
-
-
   </div>
-
-
 </header>

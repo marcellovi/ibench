@@ -52,7 +52,7 @@ class DashboardController extends Controller
                 ->where('delete_status', '=', '')
                 ->where('prod_status', '=', 1)
                 ->orderBy('prod_id', 'desc')
-                ->get();
+                ->paginate(23);
 
 
         $data = array('editprofile' => $editprofile, 'editprofile_count' => $editprofile_count, 'viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'user_id' => $user_id);
@@ -137,7 +137,7 @@ class DashboardController extends Controller
                 ->where('user_id', '=', $userid)
                 ->get();
 
-        $countries = array('Brazil');
+        $countries = array('Brasil');
 
         $viewpost = DB::table('post')
                 ->where('post_type', '=', 'comment')

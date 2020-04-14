@@ -39,3 +39,7 @@ URLs:
 - Ambiente Desenvolvimento: [http://www.benchfind.com/_site/](http://www.benchfind.com/_site/)
 - Ambiente Produção: [http://www.ibench.com.br/_site/](http://www.ibench.com.br/_site/)
 
+Copyright: 
+==============
+Copyright applies to the protection of tangible and intangible creative works. This code is under copyright law.
+

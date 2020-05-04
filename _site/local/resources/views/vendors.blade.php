@@ -93,6 +93,7 @@
 					  																	->where('delete_status','=','')
 																					   	->where('prod_status','=',1)
 																					   	->where('user_id','=',$vendor->id)
+                                                                                                                                                                                ->take(50)
 																					   	->orderBy('prod_id','desc')
 																					   	->count();
 										   		if(!empty($viewcount_new))

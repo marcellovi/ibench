@@ -905,7 +905,12 @@ class CategoryController extends Controller {
         /* teste */
         public function arrayPaginator($array, $request)
 {
+           if(Input::get('page')==null){
+                $page =1; 
+           }else{ 
             $page = Input::get('page', 1);
+           }
+           
             $perPage = 15;
             $offset = ($page * $perPage) - $perPage;
 
@@ -1035,7 +1040,7 @@ class CategoryController extends Controller {
 	}
 
 
-	public function avigher_all_category(Request $request) {
+	public function avigher_all_category (Request $request) {
                
 		$req = $request->all();
 
@@ -1087,31 +1092,37 @@ class CategoryController extends Controller {
 
                     /* Search with text and all categories */
                     if(!$req['search_text'] == "" && $type == "all"){ 
+                        
+                         $viewcount = DB::table('product')
+                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
+                                ->where('prod_status','=',1)
+                                ->where('delete_status','=','')
+                                ->count(); 
+                         
+                        if($viewcount > 500){
+                            $viewproduct = DB::select('select * from product '
+                                    . 'where prod_name LIKE "%'.$req['search_text'].'%" and '
+                                    . 'prod_status = 1 and '
+                                    . 'delete_status = ""  '
+                                    . 'order by prod_price asc limit 300');  
+                            
+                            $viewcount = 300; 
+                            
+                            /* Customized Pagination with Parameters */
+                            $viewproduct = $this->arrayPaginator($viewproduct, $request);
+                        }else{
                         $viewproduct = DB::table('product')
                                 ->where('prod_name','LIKE','%'.$req['search_text'].'%')
                                 ->where('prod_status','=',1)
                                 ->where('delete_status','=','')
-                                ->orderBy( 'prod_id', 'desc' )
+                                ->orderBy( 'prod_price', 'asc' )
                                 ->paginate(15);
-                        $viewcount = DB::table('product')
-                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
-                                ->where('prod_status','=',1)
-                                ->where('delete_status','=','')
-                                ->count();                    
+                    }
+                        
                     }
                     /* Search with text and a category */
                     else if(!$req['search_text'] == "" && $type == "cat"){
                         
-                        $viewproduct = DB::table('product')
-                                ->join('subcategory','product.prod_category','=','subcategory.subid')
-                                ->where('subcategory.cat_id','=',$id)
-                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
-                                ->where('product.prod_status','=',1)
-                                ->where('product.delete_status','=','')
-                                ->where('subcategory.delete_status','=','')
-                                ->where('subcategory.status','=',1)
-                                ->orderBy( 'prod_id', 'desc' )
-                                ->paginate(15);
                         $viewcount = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
                                 ->where('subcategory.cat_id','=',$id)
@@ -1121,11 +1132,69 @@ class CategoryController extends Controller {
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
                                 ->count();
+                        
+                        if($viewcount > 500){
+                            
+                            $viewproduct = DB::select('select * from product , subcategory  '
+                                    . 'where product.prod_category = subcategory.subid and '
+                                    . 'subcategory.cat_id = '.$id.' and '
+                                    . 'prod_name LIKE "%'.$req['search_text'].'%" and '
+                                    . 'product.prod_status = 1 and '
+                                    . 'product.delete_status = "" and '
+                                    . 'subcategory.delete_status = "" and '
+                                    . 'subcategory.status = 1 '
+                                    . 'order by prod_price asc limit 150');  
+                            
+                            $viewcount = 150; 
+                            
+                            /* Customized Pagination with Parameters */
+                            $viewproduct = $this->arrayPaginator($viewproduct, $request);
+                        } else{
+                        $viewproduct = DB::table('product')
+                                ->join('subcategory','product.prod_category','=','subcategory.subid')
+                                ->where('subcategory.cat_id','=',$id)
+                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
+                                ->where('product.prod_status','=',1)
+                                ->where('product.delete_status','=','')
+                                ->where('subcategory.delete_status','=','')
+                                ->where('subcategory.status','=',1)
+                                ->orderBy( 'prod_price', 'asc' )
+                                ->paginate(15);
+                        }
+                        
+                        
+                        
                     }
                     
                     /* Search with text and a subcategory */
                     else if(!$req['search_text'] == "" && $type == "subcat"){
                         
+                        $viewcount = DB::table('product')
+                                ->join('subcategory','product.prod_category','=','subcategory.subid')
+                                ->where('subcategory.subid','=',$id)
+                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
+                                ->where('product.prod_status','=',1)
+                                ->where('product.delete_status','=','')
+                                ->where('subcategory.delete_status','=','')
+                                ->where('subcategory.status','=',1)
+                                ->count();
+                        if($viewcount > 500){
+                    
+                            $viewproduct = DB::select('select * from product , subcategory  '
+                                    . 'where product.prod_category = subcategory.subid and '
+                                    . 'subcategory.subid = '.$id.' and '
+                                    . 'prod_name LIKE "%'.$req['search_text'].'%" and '
+                                    . 'product.prod_status = 1 and '
+                                    . 'product.delete_status = "" and '
+                                    . 'subcategory.delete_status = "" and '
+                                    . 'subcategory.status = 1 '
+                                    . 'order by prod_price asc limit 150');  
+                        
+                            $viewcount = 150; 
+                            
+                            /* Customized Pagination with Parameters */
+                            $viewproduct = $this->arrayPaginator($viewproduct, $request);
+                        } else{
                          $viewproduct = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
                                 ->where('subcategory.subid','=',$id)
@@ -1134,22 +1203,42 @@ class CategoryController extends Controller {
                                 ->where('product.delete_status','=','')
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
-                                ->orderBy( 'prod_id', 'desc' )
+                                ->orderBy( 'prod_price', 'asc' )
                                 ->paginate(15);
+                        }
+                        
+                        
+                        
+                    }
+                    
+                    /* Search with empty text and a category */
+                    else if($req['search_text'] == "" && $type == "cat"){ 
+                        
                         $viewcount = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
-                                ->where('subcategory.subid','=',$id)
-                                ->where('prod_name','LIKE','%'.$req['search_text'].'%')
+                                ->where('subcategory.cat_id','=',$id)
                                 ->where('product.prod_status','=',1)
                                 ->where('product.delete_status','=','')
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
                                 ->count();
-                    }
                     
-                    /* Search with text and a category */
-                    else if($req['search_text'] == "" && $type == "cat"){ 
+                        if($viewcount > 500){
                         
+                            $viewproduct = DB::select('select * from product , subcategory  '
+                                    . 'where product.prod_category = subcategory.subid and '
+                                    . 'subcategory.cat_id = '.$id.' and '
+                                    . 'product.prod_status = 1 and '
+                                    . 'product.delete_status = "" and '
+                                    . 'subcategory.delete_status = "" and '
+                                    . 'subcategory.status = 1 '
+                                    . 'order by prod_price asc limit 150');  
+                            
+                            $viewcount = 150; 
+                            
+                            /* Customized Pagination with Parameters */
+                            $viewproduct = $this->arrayPaginator($viewproduct, $request);
+                        } else{
                         $viewproduct = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
                                 ->where('subcategory.cat_id','=',$id)
@@ -1157,21 +1246,42 @@ class CategoryController extends Controller {
                                 ->where('product.delete_status','=','')
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
-                                ->orderBy( 'prod_id', 'desc' )
+                                ->orderBy( 'prod_price', 'asc' )
                                 ->paginate(15);
+                        }
+                        
+                        
+                        
+                    }
+                    
+                    /* Search with empty text and a subcategory */
+                    else if($req['search_text'] == "" && $type == "subcat"){ 
+                         
                         $viewcount = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
-                                ->where('subcategory.cat_id','=',$id)
+                                ->where('subcategory.subid','=',$id)
                                 ->where('product.prod_status','=',1)
                                 ->where('product.delete_status','=','')
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
                                 ->count();
-                    }
                     
-                    /* Search with text and a subcategory */
-                    else if($req['search_text'] == "" && $type == "subcat"){ 
+                        if($viewcount > 500){
                         
+                            $viewproduct = DB::select('select * from product , subcategory  '
+                                    . 'where product.prod_category = subcategory.subid and '
+                                    . 'subcategory.subid = '.$id.' and '
+                                    . 'product.prod_status = 1 and '
+                                    . 'product.delete_status = "" and '
+                                    . 'subcategory.delete_status = "" and '
+                                    . 'subcategory.status = 1 '
+                                    . 'order by prod_price asc limit 150');  
+                            
+                            $viewcount = 150; 
+                            
+                            /* Customized Pagination with Parameters */
+                            $viewproduct = $this->arrayPaginator($viewproduct, $request);
+                        } else{
                         $viewproduct = DB::table('product')
                                 ->join('subcategory','product.prod_category','=','subcategory.subid')
                                 ->where('subcategory.subid','=',$id)
@@ -1179,46 +1289,34 @@ class CategoryController extends Controller {
                                 ->where('product.delete_status','=','')
                                 ->where('subcategory.delete_status','=','')
                                 ->where('subcategory.status','=',1)
-                                ->orderBy( 'prod_id', 'desc' )
+                                ->orderBy( 'prod_price', 'asc' )
                                 ->paginate(15);
-                        $viewcount = DB::table('product')
-                                ->join('subcategory','product.prod_category','=','subcategory.subid')
-                                ->where('subcategory.subid','=',$id)
-                                ->where('product.prod_status','=',1)
-                                ->where('product.delete_status','=','')
-                                ->where('subcategory.delete_status','=','')
-                                ->where('subcategory.status','=',1)
-                                ->count();
+                    }
+                    
+                       
                     }
                     
                     /* Search with empty text and all categories */
                     else{
 
-                        $viewproduct = DB::table('product')
-                            ->where('prod_status','=',1)
-                            ->where('delete_status','=','')
-                            ->orderBy( 'prod_id', 'desc' )
-                            ->paginate(15);
-                        $viewcount = DB::table('product')
-                                ->where('prod_status','=',1)
-                                ->where('delete_status','=','')
-                                ->count();
+                        $viewproduct = DB::select('select * from product where prod_status = 1 '
+                                . 'and delete_status = "" order by prod_price asc limit 150');                       
+                        $viewcount = count($viewproduct);
 
+                        /* Customized Pagination with Parameters */
+                        $viewproduct = $this->arrayPaginator($viewproduct, $request);
                     } 
                 }
                 /* Search When not found any URL Parameters */
                 else{
 
-                        $viewproduct = DB::table('product')
-                            ->where('prod_status','=',1)
-                            ->where('delete_status','=','')
-                            ->orderBy( 'prod_id', 'desc' )
-                            ->paginate(15);
-                        $viewcount = DB::table('product')
-                                ->where('prod_status','=',1)
-                                ->where('delete_status','=','')
-                                ->count();
+                    $getAllSellers = $this->GetAllSellers();
 
+                    $getTotalProductsFromSellers = $this->getTotalProductsFromSellers($getAllSellers, 150);                   
+                    
+                    $viewproduct = $getTotalProductsFromSellers; 
+                    $viewcount = count($getTotalProductsFromSellers);          
+                 
                     } 
                 
 		
@@ -1240,6 +1338,43 @@ class CategoryController extends Controller {
 
 
 	}
+
+        /* Return the list of all active Sellers */
+        public function GetAllSellers(){
+
+            $allSellers = DB::table( 'users' )
+		                  ->where( 'delete_status', '=', '' )
+                                  ->where( 'admin', '=', 2 )
+		                  ->get();
+ 
+            return $allSellers;
+        }
+        
+        /* Return an array of Products from each Seller */        
+        public function getTotalProductsFromSellers($list_sellers, $tot_products = 100){
+            
+            
+            $avg_product_per_seller = (int)( $tot_products / count($list_sellers));
+            
+            //Array of User IDs - $list_prod_per_seller 
+            $list_prod_per_seller = [];
+            
+            foreach($list_sellers as $seller){       
+                 array_push($list_prod_per_seller,$seller->id);   
+            }  
+            
+            
+            $Prod_Sellers = DB::table( 'product' )
+		                  ->where( 'delete_status', '=', '' )
+                                  ->where( 'prod_status','=',1)
+                                  ->whereIn( 'user_id',$list_prod_per_seller )
+                                  ->take($tot_products)
+                                  ->orderby('prod_price','asc')
+		                  ->get();
+            
+         
+          return $Prod_Sellers;
+        }
 
 
 	public function avigher_sort_category( $sort, $type ) {

@@ -19,7 +19,7 @@ $setid=1;
   
   <div id="hero">
           <div id="owl-main" class="owl-carousel owl-inner-nav owl-ui-sm">
-          
+         
           <?php if(!empty($slideshow_cnt)){?>
                 <?php foreach($slideshow as $slide){?>
           <?php if(!empty($slide->slide_image)){ $imgurls = $url.'/local/images/media/'.$slide->slide_image; } 

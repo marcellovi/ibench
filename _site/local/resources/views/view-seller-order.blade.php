@@ -12,7 +12,7 @@ $headertype = $setts[0]->header_type;
 ?>
 <!DOCTYPE html>
 <html class="no-js"  lang="en">
-<head>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
    @include('style')
 </head>
 <body class="cnt-home">   
@@ -62,7 +62,7 @@ $headertype = $setts[0]->header_type;
 		$viewuser = DB::table('users')
 		            ->where('id', '=', $viewproduct[0]->user_id)
                             ->get();
-		$customer_name = utf8_decode($viewuser[0]->name);
+		$customer_name = utf8_decode($viewuser[0]->full_name);
 		$customer_email = $viewuser[0]->email;
 		$customer_phone = $viewuser[0]->phone;
 		$customer_slug = $viewuser[0]->post_slug;
@@ -484,7 +484,7 @@ $headertype = $setts[0]->header_type;
 	<tbody> 
         <?php foreach($viewproduct as $product){ ?>
         <tr>
-	<td class="cart-product-grand-total"><?php echo $product->prod_name;?></td>
+            <td class="cart-product-grand-total"><?php echo utf8_decode($product->prod_name);?></td>
         <td class="cart-product-name-info"> <?php echo $product->quantity;?></td>
         <td class="cart-product-sub-total"><?php echo $product->price; ?></td>
 	<td class="cart-product-sub-total"><?php echo $product->subtotal; ?></td>
@@ -518,7 +518,7 @@ $headertype = $setts[0]->header_type;
 	?>
         <td class="cart-product-grand-total">
            <?php if(!empty($product->prod_attribute)){ ?>
-                        (<?php echo $attri_name;?>)
+            (<?php echo utf8_decode($attri_name);?>)
            <?php } ?>
         </td>                    
 	</tr>

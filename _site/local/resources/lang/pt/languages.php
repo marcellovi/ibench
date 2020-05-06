@@ -461,6 +461,7 @@ return [
         /* Marcello - Add Product */
         "select_item" => "Selecione",
         "product_orders" => "Lista de Pedidos",
+        "datasheet" => "Datasheet",
     
         /* Marcello - labels */
         "name_business" => "Nome da Empresa",

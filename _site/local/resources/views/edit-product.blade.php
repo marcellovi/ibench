@@ -346,6 +346,24 @@ $setid=1;
 		  </div>		
 	</div>    
     
+     <div class="col-md-6" id="pdfformat" >
+		
+                   <div class="form-group">
+		    <label class="info-title" for="exampleInputTitle">@lang('languages.datasheet')  (3M Max)
+                        <br><h6 style="color: red">* Arquivo em PDF sem o uso de caracteres especiais no nome.</h6></label>
+		    <input type="file" placeholder="" name="datasheet" class="form-control unicase-form-control validate[required]" accept="pdf/*" >
+						  @if ($errors->has('datasheet'))
+                                    <span class="help-block" style="color:red;">
+                                        <strong>{{ $errors->first('datasheet') }}</strong>
+                                    </span>
+                                @endif
+            
+		  </div>
+		 <?php if(!empty($viewproduct[0]->prod_datasheet)){?>
+                       <a href="{{url('/local/images/datasheets')}}/<?php echo $viewproduct[0]->prod_datasheet; ?>" target="_blank" ><span class="value" style="color: blue" >+ Visualizar Datasheet</span></a>
+                 <?php } ?>
+	</div>  
+     
     <div class="col-md-12 outer-bottom-small m-t-20">
                                  <?php if(config('global.demosite')=="yes"){?><button type="submit" class="btn-upper btn btn-primary">@lang('languages.submit')</button> 
 								<span class="disabletxt">( <?php echo config('global.demotxt');?> )</span><?php } else { ?>

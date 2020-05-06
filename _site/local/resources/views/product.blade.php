@@ -270,8 +270,11 @@
 						<div class="row">
 							<div class="col-sm-2">
 							<div class="stock-box">
-							<span class="label">@lang('languages.availability') :</span>
+							<span class="label">Quantidade : </span>
 							</div>	
+                                                        <?php if(!empty($viewproduct[0]->prod_datasheet)){?>
+                                                           <div class="stock-box"><span class="label">@lang('languages.datasheet') :</span></div>
+                                                       <?php } ?>                                                              
 							</div>
                                                 <!-- if product doesnt exist or is invisible -->
                                                 <?php if( $viewproduct[0]->delete_status != '' || $viewproduct[0]->prod_status == 0){ ?>
@@ -290,6 +293,13 @@
                                                 <span class="value"> <b>@lang('languages.out_of_stock')</b></span>
                                                  <?php } ?>
 						</div>	
+                                                    
+                                                <div class="stock-box">
+                                                    <?php if(!empty($viewproduct[0]->prod_datasheet)){?>
+                                                    <a href="{{url('/local/images/datasheets')}}/<?php echo $viewproduct[0]->prod_datasheet; ?>" target="_blank" ><span class="value">download</span></a>
+                                                       <?php } ?>
+						</div>
+                                                    
 						</div>
                                                 <?php } ?>
                                                 
@@ -348,7 +358,10 @@
                                             <div class="row">
 						<div class="col-sm-8">
 						<div class="price-box">
-			                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span><?php } else { ?> <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
+			                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> 
+                                                            <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span>
+                                                    <?php } else { ?> 
+                                                            <span class="price"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".");?></span> <?php } ?>
                                             	</div>
 						</div>
 
@@ -627,10 +640,10 @@
                                 
                                     <!-- Marcello Compartilhar
                                 <div id="share1"
-         data-url="<?php echo $url;?>/product/<?php echo $viewproduct[0]->prod_id;?>/<?php echo utf8_decode($viewproduct[0]->prod_slug);?>"
-         data-title="<?php echo utf8_decode($viewproduct[0]->prod_name);?>"
-         data-description="<?php echo utf8_decode($viewproduct[0]->prod_desc);?>"
-         data-image="<?php echo $share_img;?>"></div>
+         data-url="<?php //echo $url;?>/product/<?php //echo $viewproduct[0]->prod_id;?>/<?php //echo utf8_decode($viewproduct[0]->prod_slug);?>"
+         data-title="<?php //echo utf8_decode($viewproduct[0]->prod_name);?>"
+         data-description="<?php //echo utf8_decode($viewproduct[0]->prod_desc);?>"
+         data-image="<?php //echo $share_img;?>"></div>
                                     -->
                                 </div>
                             </div>
@@ -1127,7 +1140,10 @@
 
 			<div class="product-price">  <?php if(!empty($review_count_03)){ echo $rateus_new_03; } else { echo $rateus_empty_03; }?> </div>
             
-            <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?><span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span> <?php } else { ?> <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
+            <p><?php if(!empty($product->prod_offer_price) && $product->prod_offer_price > 0 ){?>
+                        <span style="text-decoration:line-through; color:#FF0000;" class="fontsize15"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".").' ';?></span> <span class="fontsize15 black"> <?php echo $setts[0]->site_currency.' '.number_format($product->prod_offer_price,2,",",".");?></span>
+                    <?php } else { ?> 
+                        <span class="fontsize15 black"><?php echo $setts[0]->site_currency.' '.number_format($product->prod_price,2,",",".");?></span> <?php } ?></p>
             <!-- /.product-price -->
 			
 		</div><!-- /.product-info -->         

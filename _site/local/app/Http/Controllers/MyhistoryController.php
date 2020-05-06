@@ -421,7 +421,7 @@ class MyhistoryController extends Controller
         
             
             $viewproduct = DB::table('product_orders')
-                        ->select(DB::raw('purchase_token, SUM(quantity) as quantity , SUM(total) as total , SUM(shipping_price) as shipping_price'))
+                        ->select('user_id',DB::raw('purchase_token, SUM(quantity) as quantity , SUM(total) as total , SUM(shipping_price) as shipping_price'))
                         ->where('prod_user_id', '=', $logged)
                         ->where('order_status', '=', 'completed')
                         ->where('purchase_token', '!=', '')	                

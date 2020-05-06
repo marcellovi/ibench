@@ -50,12 +50,14 @@ class CategoryController extends Controller {
 		$latestcount = DB::table( 'product' )
 		                 ->where( 'delete_status', '=', '' )
 		                 ->where( 'prod_status', '=', 1 )
+                                 ->take(10)
 		                 ->orderBy( 'prod_id', 'desc' )
 		                 ->count();
 
 		$latest_product = DB::table( 'product' )
 		                    ->where( 'delete_status', '=', '' )
 		                    ->where( 'prod_status', '=', 1 )
+                                    ->take(10)
 		                    ->orderBy( 'prod_id', 'desc' )
 		                    ->get();
 
@@ -64,6 +66,7 @@ class CategoryController extends Controller {
 		                  ->where( 'delete_status', '=', '' )
 		                  ->where( 'prod_status', '=', 1 )
 		                  ->where( 'prod_id', '!=', $prod_id )
+                                  ->take(15)
 		                  ->orderBy( 'prod_id', 'desc' )
 		                  ->count();
 
@@ -71,6 +74,7 @@ class CategoryController extends Controller {
 		                    ->where( 'delete_status', '=', '' )
 		                    ->where( 'prod_status', '=', 1 )
 		                    ->where( 'prod_id', '!=', $prod_id )
+                                    ->take(15)
 		                    ->orderBy( 'prod_id', 'desc' )
 		                    ->get();
 

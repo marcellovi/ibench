@@ -752,6 +752,27 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	    $zipname = $data['save_zipfile'];
 	}
 
+        
+	if ($request->hasFile('datasheet')) {
+            
+            $destinationPath = base_path('images/datasheets/');
+            
+                    $datasheet = $product_check[0]->prod_datasheet;
+                    if(!empty($datasheet)){
+                        File::delete($destinationPath.$datasheet);
+                        $datasheet = "";
+                    }
+                   
+                    
+                    $file = $request->file('datasheet');
+                    
+                    $newName = time().$this->normalizeString(substr($file->getClientOriginalName(), 0, 7));
+                    $datasheet = $newName.".".$file->getClientOriginalExtension();                    
+                    
+                    $file->move($destinationPath, $datasheet);
+                    
+	}
+  
 	if($settings[0]->with_submit_product==1){
             
 	    $status_approval = 0;
@@ -789,6 +810,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
                    '",prod_zipfile="'.$zipname.
                    '",prod_external_url="'.$prod_external_url.
                    '",prod_attribute="'.$name.
+                   '",prod_datasheet="'.$datasheet.
                    '",prod_available_qty="'.$prod_available_qty.
                    '",prod_status="'.$status_approval.
                    '" where prod_token = ?', [$token]);
@@ -819,6 +841,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	/** Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao) **/
 	public function normalizeString($normalizeTxt){
                 $newTxt = str_replace(' ', '',mb_strtolower($normalizeTxt));
+                $newTxt = str_replace('.', '',mb_strtolower($normalizeTxt));
 
                 $search = explode(",","ç,æ,œ,á,ã,é,í,ó,õ,ú,à,è,ì,ò,ù,â,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
                 $replace = explode(",","c,ae,oe,a,a,e,i,o,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
@@ -853,6 +876,12 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 
 	$userid = Auth::user()->id;
 
+        /* Datasheet Setting */
+        $target_dir = "datasheet/";
+        $target_file = $target_dir . basename($_FILES["datasheet"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
         // Marcello :: Find the User Status
         $user_status = DB::select('select delete_status from users where id = ?',[$userid]);
 
@@ -877,6 +906,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 
 	   $data = $request->all();
 
+
 	   $settings = DB::select('select * from settings where id = ?',[1]);
 	      $imgsize = $settings[0]->image_size;
 		 $zipsize = $settings[0]->zip_size;
@@ -884,6 +914,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		$rules = array(
 		'image' => 'required',
 		'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize,
+                'datasheet' => 'mimes:pdf|max:1000',
 		'zipfile' => 'max:'.$zipsize.'|mimes:zip'
 		);
 
@@ -957,6 +988,16 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	    $prod_tags = "";
 	}
         
+        $datasheet = '';
+		if ($request->hasFile('datasheet')) {
+                    $file = $request->file('datasheet');
+                    
+                    $newName = time().$this->normalizeString(substr($file->getClientOriginalName(), 0, 7));
+                    $datasheet = $newName.".".$file->getClientOriginalExtension();                    
+                    $destinationPath = base_path('images/datasheets/');
+                    $file->move($destinationPath, $datasheet);                   
+	}
+        
 	if(!empty($data['prod_featured'])){
 	     $prod_featured = $data['prod_featured'];
 	}else{
@@ -1008,6 +1049,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		'prod_attribute' => $name,
 		'prod_available_qty' => $prod_available_qty,
 		'prod_status' => $status_approval,
+                'prod_datasheet' => $datasheet,
 	));
   }
 

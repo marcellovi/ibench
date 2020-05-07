@@ -673,7 +673,7 @@ class CategoryController extends Controller {
                 $search_sql = "";
                 $search_sql_cnt = "";
                 $search_where = "";      
-                $search_order = '  ORDER BY prod_id ASC';
+                $search_order = '  ORDER BY prod_id ASC LIMIT 150';
                         
 		$data = $request->all();      
                 
@@ -830,23 +830,32 @@ class CategoryController extends Controller {
               
               if($fullsearch){
               
-                $viewproduct =DB::Table('product')
+                $viewproduct = DB::select( DB::raw($final_sql));
+                $viewcount = count($viewproduct); 
+                /* Customized Pagination with Parameters */
+                $viewproduct = $this->arrayPaginator($viewproduct, $request);
+
+               /* $viewproduct =DB::Table('product')
                             ->where( 'delete_status', '=', '' )
 		            ->where( 'prod_status', '=', 1 )
                             ->orderBy('prod_id','desc')
                             ->paginate(15);
+                $viewcount = count($viewproduct);
+                * 
+                */
               }else{
                
                 /* Complex SQL Query */
               $viewproduct = DB::select( DB::raw($final_sql));   
-                  
+                $viewcount = count($viewproduct); 
                 /* Customized Pagination with Parameters */
                 $viewproduct = $this->arrayPaginator($viewproduct, $request);
               }
               
-              $viewcount = DB::select( DB::raw($final_sql_cnt));
-              $viewcount = $viewcount[0]->count; 
               
+              //$viewcount = DB::select( DB::raw($final_sql_cnt));
+              //$viewcount = $viewcount[0]->count; 
+                    
                     
 		$category_cnt = DB::table( 'category' )
 		                  ->where( 'delete_status', '=', '' )

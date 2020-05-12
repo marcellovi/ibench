@@ -259,6 +259,21 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 	return back();
     }
 
+    public function deleteDatasheet($datasheet_name,$prod_id) {
+
+        $user_id = Auth::id();
+        //print_r('update product set prod_datasheet = "" where prod_id = '.$prod_id.' and user_id = '.$user_id);exit();
+        $updated = DB::update('update product set prod_datasheet = "" where prod_id = '.$prod_id.' and user_id = '.$user_id);
+	$datasheetpath="images/datasheets/".$datasheet_name.".pdf";        
+        $path1 = base_path($datasheetpath);		
+   
+        if($updated){
+            File::delete($path1);
+        }
+        
+	return back();
+    }
+
 
     public function avigher_product() {
 
@@ -633,6 +648,13 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 
     $userid = Auth::user()->id;
 
+    /* Datasheet Setting */
+    $target_dir = "datasheet/";
+    $target_file = $target_dir . basename($_FILES["datasheet"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    
+
     $category = DB::table('category')
                   ->where('delete_status','=','')
                   ->where('status','=',1)
@@ -661,7 +683,8 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
     $imgsize = $settings[0]->image_size;
 
     $rules = array(
-      'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize
+      'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize,
+      'datasheet' => 'mimes:pdf|max:3000'
 		);
     $messages = array(
       'image' => 'The :attribute field must only be image'
@@ -914,7 +937,7 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
 		$rules = array(
 		'image' => 'required',
 		'image.*' => 'image|mimes:jpeg,png,jpg|max:'.$imgsize,
-                'datasheet' => 'mimes:pdf|max:1000',
+                'datasheet' => 'mimes:pdf|max:3000',
 		'zipfile' => 'max:'.$zipsize.'|mimes:zip'
 		);
 

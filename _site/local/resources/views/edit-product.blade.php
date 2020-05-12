@@ -351,7 +351,7 @@ $setid=1;
                    <div class="form-group">
 		    <label class="info-title" for="exampleInputTitle">@lang('languages.datasheet')  (3M Max)
                         <br><h6 style="color: red">* Arquivo em PDF sem o uso de caracteres especiais no nome.</h6></label>
-		    <input type="file" placeholder="" name="datasheet" class="form-control unicase-form-control validate[required]" accept="pdf/*" >
+		    <input type="file" placeholder="" name="datasheet" class="form-control unicase-form-control" accept="pdf/*" >
 						  @if ($errors->has('datasheet'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('datasheet') }}</strong>
@@ -359,9 +359,14 @@ $setid=1;
                                 @endif
             
 		  </div>
-		 <?php if(!empty($viewproduct[0]->prod_datasheet)){?>
-                       <a href="{{url('/local/images/datasheets')}}/<?php echo $viewproduct[0]->prod_datasheet; ?>" target="_blank" ><span class="value" style="color: blue" >+ Visualizar Datasheet</span></a>
+		  <?php if(!empty($viewproduct[0]->prod_datasheet)){?>
+                     <?php $datasheet_name = substr($viewproduct[0]->prod_datasheet, 0, strrpos($viewproduct[0]->prod_datasheet, '.')); ?>
+                      <a href="<?php echo $url;?>/edit-product/delete/datasheet/<?php echo $datasheet_name;?>/<?php echo $viewproduct[0]->prod_id;?>" onClick="return confirm('Are you sure you want to delete');" alt="Deletar DataSheet" title="Deletar DataSheet"><img src="<?php echo $url;?>/local/images/delete.png" width="24" border="0" alt=""></a>
+                      <a href="{{url('/local/images/datasheets')}}/<?php echo $viewproduct[0]->prod_datasheet; ?>" target="_blank" ><span class="value" style="color: blue" >+ Datasheet <?php echo $viewproduct[0]->prod_datasheet; ?></span></a>
+                      </div>
+                      
                  <?php } ?>
+                       
 	</div>  
      
     <div class="col-md-12 outer-bottom-small m-t-20">

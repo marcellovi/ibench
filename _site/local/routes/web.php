@@ -120,6 +120,7 @@ Route::get('/add-product', 'ProductController@avigher_add_form');
 Route::post('/add-product', ['as'=>'add-product','uses'=>'ProductController@avigher_add_product']);
 Route::get('/edit-product/{token}', 'ProductController@avigher_edit_product');
 Route::get('/edit-product/{delete}/{id}/{photo}', 'ProductController@avigher_delete_photo');
+Route::get('/edit-product/delete/datasheet/{datasheetname}/{prod_id}', 'ProductController@deleteDatasheet');
 Route::post('/edit-product', ['as'=>'edit-product','uses'=>'ProductController@avigher_edit_data']);
 
 /****************** END PRODUCT **********/

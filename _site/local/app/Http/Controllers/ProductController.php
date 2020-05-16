@@ -794,6 +794,8 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
                     
                     $file->move($destinationPath, $datasheet);
                     
+	}else{
+            $datasheet = "";
 	}
   
 	if($settings[0]->with_submit_product==1){

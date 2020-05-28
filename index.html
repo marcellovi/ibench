@@ -57,7 +57,7 @@
 
         </style>
         
-
+        <!-- Call Out -->
         <style>
 
         .callout {
@@ -67,7 +67,7 @@
    
         z-index: 10;  
         left:30%;
-        top:30%;   
+        top:10%;   
       }
 
         .callout-header {
@@ -110,7 +110,7 @@
         cursor: pointer; /* Add a pointer on hover */
       }
     </style>
-
+    <!-- End Call Out -->
 
     </head>
 
@@ -142,7 +142,7 @@
 
                 <li class="nav-item">
 
-                    <a class="nav-link" href="https://www.ibench.com.br/_site">IBENCH MARKET</a>
+                    <a class="nav-link" href="https://www.ibench.com.br/_site/shop">IBENCH MARKET</a>
 
                 </li>
 
@@ -208,15 +208,21 @@
           </div> <!--IMG BANNER-->
 
               <!-- Callout Message -->
-        <div id="overlay">
-            <div  class="callout" onclick="off()">
+        <div id="overlay" onclick="off()">
+            <div  class="callout" >
             <div class="callout-header">Campanha Taq no Covid-19!</div>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" >×</span>
+                    <a href="https://sites.google.com/view/taqnocovid/" target="_blank">
+                    <img src="assets/img/infoibench.png" width="600" height="500" align="right"></a>
+             <!-- 
+            
             <span class="closebtn" onclick="this.parentElement.style.display='none';" >×</span>
             <div class="callout-container"><br>
               <p>Ei pesquisador, que tal disponibilizar seus reagentes para ajudar no diagnóstico do COVID-19?  
                   <a href="https://sites.google.com/view/taqnocovid/" target="_blank">Clique aqui</a> e saiba mais sobre a campanha.</p>
               <img src="https://i.ya-webdesign.com/images/helping-hand-png-4.png" width="30" height="30" align="right"><br><br>
             </div>
+            -->
           </div>
         </div>
     <!-- end call out -->
@@ -563,6 +569,7 @@
 function on() {
   document.getElementById("overlay").style.display = "block";
 }
+
 
 function off() {
   document.getElementById("overlay").style.display = "none";

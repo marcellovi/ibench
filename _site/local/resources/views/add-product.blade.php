@@ -416,7 +416,7 @@ $setid=1;
                    <div class="form-group">
 		    <label class="info-title" for="exampleInputTitle">@lang('languages.datasheet')  (3M Max)
                         <br><h6 style="color: red">* Arquivo em PDF sem o uso de caracteres especiais no nome.</h6></label>
-		    <input type="file" placeholder="" name="datasheet" class="form-control unicase-form-control validate[required]" accept="pdf/*" >
+		    <input type="file" placeholder="" name="datasheet" class="form-control unicase-form-control" accept="pdf/*" >
 						  @if ($errors->has('datasheet'))
                                     <span class="help-block" style="color:red;">
                                         <strong>{{ $errors->first('datasheet') }}</strong>

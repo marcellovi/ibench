@@ -55,8 +55,8 @@ Route::get('/gallery', 'GalleryController@avigher_gallery');
 
 /************ END BLOG *************/
 
-
-
+/****************** QUOTE RODUCT **********/
+Route::get('/quoteproduct/{prod_id}', 'ProductController@quote_product');
 
 /****************** PRODUCT **********/
 
@@ -364,6 +364,7 @@ Auth::routes();
 	Route::get('/contact-us','PageController@avigher_contact');	
 	Route::post('/contact-us', ['as'=>'contact-us','uses'=>'PageController@avigher_mailsend']);	
 	
+	Route::post('/quote-us', ['as'=>'quote_mailsend','uses'=>'PageController@quote_mailsend']);
 	
 	Route::post('/payment', ['as'=>'payment','uses'=>'PageController@avigher_donate_payment']);
 

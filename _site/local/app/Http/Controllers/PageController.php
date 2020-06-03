@@ -288,8 +288,6 @@ class PageController extends Controller
 	/** Marcello - Envio do Email **/
 	public function avigher_mailsend(Request $request)
         {
-
-
                 /* Marcello - Validando os campos */
                 $validate = Validator::make($request->all(), [
                     'g-recaptcha-response' => 'required|captcha',
@@ -340,5 +338,53 @@ class PageController extends Controller
                 return back()->withErrors($validate)->withInput();
             }
 	}
+
+        
+        
+        
+        /** Marcello - Envio do Email Cotacao **/
+	public function quote_mailsend(Request $request)
+        {
+               
+                $data = $request->all();
+		$name = $data['name'];
+		$email = $data['email'];
+		$phone_no = $data['phone_no'];
+		$msg = $data['msg'];
+                $seller = $data['hid_seller'];
+		$product_name = $data['hid_product_name'];
+
+		$setid=1;
+		$setts = DB::table('settings')
+		->where('id', '=', $setid)
+		->get();
+
+		$url = URL::to("/");
+		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;
+		$site_name = $setts[0]->site_name;
+
+		$aid=1;
+		$admindetails = DB::table('users')
+		 ->where('id', '=', $aid)
+		 ->first();
+
+		$admin_email = "marcello.strategy@gmail.com"; //$admindetails->email;
+
+		$datas = [
+            'name' => $name, 'email' => $email, 'phone_no' => $phone_no, 'msg' => $msg, 'site_logo' => $site_logo, 'site_name' => $site_name , 'seller' => $seller , 'product_name' => $product_name
+        ];
+
+		Mail::send('quotemail', $datas , function ($message) use ($admin_email,$name,$email)
+
+        {
+            $message->subject('Solicitacao de Cotacao - IBench');
+            $message->from($admin_email, $name);
+            $message->to($admin_email);
+        });
+		return back()->with('success', 'Sua cota&ccedil;&atilde;o  foi enviada com sucesso!');
+
+           
+}
+
 
 }

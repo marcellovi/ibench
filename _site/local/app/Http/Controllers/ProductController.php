@@ -895,6 +895,16 @@ public function add_waiting_list($user_id, $prod_token, $prod_user_id) {
             }
         }
 
+        /* Gets the data of a product to quote and it's seller */
+        public function quote_product($id){         
+            $userid = Auth::user()->id;
+            $qproduct = DB::select('select name_business,prod_id,prod_name from product,users where prod_id = ? and user_id=id',[$id]); 
+
+            $user = DB::select('select id,full_name,email,phone from users where id = ?',[$userid]); 
+
+        return view('quoteproduct', ['qproduct' => $qproduct, 'user' => $user]);
+          
+        }
 
 
 	public function avigher_add_product(Request $request){

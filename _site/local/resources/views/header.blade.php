@@ -16,8 +16,6 @@ if($currentPaths=="/")
   $activemenu = $currentPaths;
  }
 
-
-
 if($activemenu == "/"){ $active_home = "active"; } else { $active_home =""; }
 if($activemenu == "gallery") { $active_gallery = "active"; } else { $active_gallery = ""; }
 
@@ -55,10 +53,6 @@ $cate_get = DB::table('category')
 			 ->get();
 }
 
-
-
-
-
 if(Auth::check()) {
 	   $log_id = Auth::user()->id;
 
@@ -84,9 +78,7 @@ if(Auth::check()) {
 		$cart_views = "";
 
 		}
-
 ?>
-
 
 <?php if($setts[0]->site_loading==1){?>
 
@@ -94,36 +86,24 @@ if(Auth::check()) {
 
 <?php } ?>
 
-
 <header class="header-style-1">
-
 
   <div class="top-bar animate-dropdown">
     <div class="container-fluid">
-
-
     </div>
-
   </div>
-
 
   <div class="container-fluid showing">
     <div class="row">
       <div id="m_nav_container" class="m_nav">
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mobilemenu">
-
-
           <div class="navbar-collapse" id="navbar1">
-
             <ul class="navbar-nav ml-auto">
               <li class="active dropdown yamm-fw"> <a href="<?php echo $url;?>" data-hover="dropdown"
                   class="dropdown-toggle disabled" data-toggle="dropdown">@lang('languages.home')</a> </li>
-
-
               <li>
                 <a href="<?php echo $url;?>/shop">@lang('languages.all')</a>
-
               </li>
 
               <?php
@@ -159,23 +139,15 @@ if(Auth::check()) {
                     class="fa fa-angle-down" aria-hidden="true"></i><?php } ?></a>
 
                 <?php
+                            if (!empty($subcat_cnt)) {
 
-					  if(!empty($subcat_cnt))
-					  {
-
-					  $viewsub = DB::table('subcategory')
-									->where('delete_status','=','')
-									->where('status','=',1)
-
-									->where('cat_id','=',$views->id)
-
-									->orderBy('subid','asc')
-									->get();
-
-
-					  ?>
-
-
+                                $viewsub = DB::table('subcategory')
+                                        ->where('delete_status', '=', '')
+                                        ->where('status', '=', 1)
+                                        ->where('cat_id', '=', $views->id)
+                                        ->orderBy('subid', 'asc')
+                                        ->get();
+                                ?>
 
                 <ul class="dropdown-menu">
                   <?php foreach($viewsub as $subs){?>
@@ -185,32 +157,29 @@ if(Auth::check()) {
                   <?php } ?>
                 </ul>
 
-
-
               </li>
               <?php } } } ?>
-
-
 
               <li class="nav-item dropdown">
                 <a href="javascript:void(0)" class="nav-link  dropdown-toggle"
                   data-toggle="dropdown">@lang('languages.pages')</a>
 
-
                 <ul class="dropdown-menu">
 
 
+                    <?php if (!empty($pages_cnt)) { ?>
+                        <?php
+                        foreach ($pages as $page) {
+                            if ($page->page_id == 4) {
+                                $pagerurl = $url . '/' . 'contact-us';
+                            } else {
+                                $pagerurl = $url . '/page/' . $page->page_id . '/' . $page->post_slug;
+                            }
+                            ?>
 
-                  <?php if(!empty($pages_cnt)){?>
-                  <?php foreach($pages as $page){
-								if($page->page_id==4){ $pagerurl = $url.'/'.'contact-us'; }
-
-								else { $pagerurl = $url.'/page/'.$page->page_id.'/'.$page->post_slug; }
-								?>
-
-                  <li><a href="<?php echo $pagerurl; ?>"><?php echo $page->page_title;?></a></li>
-                  <?php } } ?>
-
+                            <li><a href="<?php echo $pagerurl; ?>"><?php echo $page->page_title; ?></a></li>
+    <?php }
+} ?>
 
                 </ul>
               </li>
@@ -226,18 +195,12 @@ if(Auth::check()) {
 
                                                 </li>
                                                 -->
-
             </ul>
-
           </div>
         </nav>
-
       </div>
     </div>
   </div>
-
-
-
   <div class="main-header">
     <div class="container-fluid">
       <div class="row">
@@ -249,7 +212,6 @@ if(Auth::check()) {
         <div class="col-xs-8 col-sm-8 col-md-6">
           <div class="top-bar animate-dropdown">
             <div class="header-top-inner">
-
 
               <div class="cnt-block">
                 <ul class="list-unstyled list-inline">
@@ -317,9 +279,7 @@ if(Auth::check()) {
                     <?php } ?>
                   </li>
                 </ul>
-
               </div>
-
               <div class="cnt-account hider">
                 <ul class="list-unstyled">
                   <!-- Hid Compare & WishList Marcello
@@ -333,21 +293,13 @@ if(Auth::check()) {
                         class="icon fa fa-shopping-cart"></i>@lang('languages.my_cart')</a></li>
                 </ul>
               </div>
-
-
               <div class="clearfix"></div>
             </div>
-
           </div>
-
         </div>
-
-
         <div class="col-xs-6 col-sm-6 col-md-2 logo-holder">
 
-
           <div class="logo">
-
             <?php if(!empty($setts[0]->site_logo)){?>
 
             <a href="<?php echo $url;?>/.."><img src="<?php echo $url.'/local/images/media/'.$setts[0]->site_logo;?>"
@@ -357,10 +309,7 @@ if(Auth::check()) {
             <?php } ?>
           </div>
         </div>
-
         <div class="col-xs-6 col-sm-6 col-md-7 top-search-holder">
-
-
           <div id="toggle_m_nav" href="#" class="showing">
             <div id="m_nav_menu" class="m_nav">
               <div class="m_nav_ham" id="m_ham_1"></div>
@@ -368,11 +317,9 @@ if(Auth::check()) {
               <div class="m_nav_ham" id="m_ham_3"></div>
             </div>
           </div>
-
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-7 top-search-holder">
-
           <div class="search-area">
 
             <form class="register-form" role="form" method="GET" action="{{ route('shop') }}" id="formIDwel"
@@ -432,7 +379,6 @@ if(Auth::check()) {
                     <option value="<?php echo $subs->subid;?>_subcat" <?php if(!empty($category_field)){?>
                       <?php if($category_field==$subs->subid.'_subcat'){?> selected="selected" <?php } } ?>>&nbsp; -
                       <?php echo $subs->subcat_name;?></option>
-
                     <?php } ?>
                     </option>
                     <?php } ?>
@@ -440,20 +386,16 @@ if(Auth::check()) {
                     <?php } ?>
                   </select>
 
-
                 </ul>
                 <input class="search-field" name="search_text" <?php if(!empty($search_txt)){?>
                   value="<?php echo utf8_encode($search_txt);?>" <?php } ?>
                   placeholder="@lang('languages.search_here')" />
-
                 <button type="submit" class="search-button">
-
                 </button>
               </div>
             </form>
           </div>
         </div>
-
         <?php if(!empty($cart_views_count)){
 
 		  $price_val = 0;
@@ -482,39 +424,33 @@ if(Auth::check()) {
               </div>
             </a>
             <ul class="dropdown-menu">
-
-
-
               <?php if(!empty($cart_views_count)){?>
               <li>
+                      <?php
+                      $price_val = 0;
+                      foreach ($cart_views as $product) {
 
-                <?php
-								$price_val = 0;
-								foreach($cart_views as $product){
+                          $prod_id = $product->prod_token;
+                          $product_img_count = DB::table('product_images')
+                                  ->where('prod_token', '=', $prod_id)
+                                  ->count();
 
-								 $prod_id = $product->prod_token;
-								 $product_img_count = DB::table('product_images')
-													->where('prod_token','=',$prod_id)
-													->count();
-
-								$view_product = DB::table('product')
-													->where('prod_token','=',$prod_id)
-													->get();
-													?>
+                          $view_product = DB::table('product')
+                                  ->where('prod_token', '=', $prod_id)
+                                  ->get();
+                          ?>
                 <div class="cart-item product-summary">
                   <div class="row">
                     <div class="col-xs-4">
                       <div class="image">
 
-                        <?php
-														if(!empty($product_img_count)){
-														$product_img = DB::table('product_images')
-																			->where('prod_token','=',$prod_id)
-																			->orderBy('prod_img_id','asc')
-																			->get();
-
-
-														?>
+                                  <?php
+                                  if (!empty($product_img_count)) {
+                                      $product_img = DB::table('product_images')
+                                              ->where('prod_token', '=', $prod_id)
+                                              ->orderBy('prod_img_id', 'asc')
+                                              ->get();
+                                      ?>
                         <a
                           href="<?php echo $url;?>/product/<?php echo $product->prod_id;?>/<?php echo $view_product[0]->prod_slug;?>"><img
                             src="<?php echo $url;?>/local/images/media/<?php echo $product_img[0]->image;?>" alt=""></a>
@@ -552,10 +488,7 @@ if(Auth::check()) {
                   <a href="<?php echo $url;?>/cart"
                     class="btn btn-upper btn-primary btn-block m-t-20">@lang('languages.cart')</a>
                 </div>
-
-
               </li>
-
 
               <?php } ?>
 
@@ -564,15 +497,10 @@ if(Auth::check()) {
                 <div align="center">@lang('languages.your_cart_is_empty')</div>
               </li>
               <?php } ?>
-
             </ul>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
 
   </div>
@@ -581,7 +509,6 @@ if(Auth::check()) {
         <div style="padding-top: 5px">
            <p style="color: white; text-align: center; padding-top: 5px;font-size: 20px">Temporariamente: entregas s&oacute; podem ser realizadas na cidade do Rio de Janeiro</p>
         </div>
-
         <!--
     <ul class="navbar-nav">
       <li class="nav-item active">
@@ -591,8 +518,6 @@ if(Auth::check()) {
         -->
   </div>
     <br>
-
-
   <div class="header-nav animate-dropdown">
     <div class="container-fluid">
       <div class="yamm navbar navbar-default" role="navigation">
@@ -616,25 +541,24 @@ if(Auth::check()) {
                 -->
 
                 <?php
-					$cate_cnts = DB::table('category')
-								 ->where('delete_status','=','')
-								 ->where('status','=',1)
-								 ->where('display_menu','=',1)
-								 ->orderBy('cat_name','asc')
-								 ->count();
-					if(!empty($cate_cnts))
-					{
+                $cate_cnts = DB::table('category')
+                        ->where('delete_status', '=', '')
+                        ->where('status', '=', 1)
+                        ->where('display_menu', '=', 1)
+                        ->orderBy('cat_name', 'asc')
+                        ->count();
+                if (!empty($cate_cnts)) {
 
-					$views_category = DB::table('category')
-								 ->where('delete_status','=','')
-								 ->where('status','=',1)
-								 ->where('display_menu','=',1)
-								 ->orderBy('cat_name','asc')
-								 ->get();
-					foreach($views_category as $views){
-					?>
+                    $views_category = DB::table('category')
+                            ->where('delete_status', '=', '')
+                            ->where('status', '=', 1)
+                            ->where('display_menu', '=', 1)
+                            ->orderBy('cat_name', 'asc')
+                            ->get();
+                    foreach ($views_category as $views) {
+                        ?>
                 <li class="dropdown"> <a
-                    href="<?php echo $url;?>/shop/cat/<?php echo $views->id;?>/<?php echo $views->post_slug;?>"
+                    href="<?php echo $url;?>/shop?search_text=&category=<?php echo $views->id;?>_cat&page=1"
                     class="dropdown-toggle  disabled" data-hover="dropdown"
                     data-toggle="dropdown"><?php echo utf8_decode($views->cat_name);?></a>
 
@@ -642,24 +566,17 @@ if(Auth::check()) {
 					  $subcat_cnt = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-
 									->where('cat_id','=',$views->id)
-
 									->orderBy('subcat_name','asc')
 									->count();
 					  if(!empty($subcat_cnt))
 					  {
-
 					  $viewsub = DB::table('subcategory')
 									->where('delete_status','=','')
 									->where('status','=',1)
-
 									->where('cat_id','=',$views->id)
-
 									->orderBy('subcat_name','asc')
 									->get();
-
-
 					  ?>
                   <ul class="dropdown-menu pages">
                     <li>
@@ -669,7 +586,7 @@ if(Auth::check()) {
                             <ul class="links">
                               <?php foreach($viewsub as $subs){?>
                               <li><a
-                                  href="<?php echo $url;?>/shop/subcat/<?php echo $subs->subid;?>/<?php echo $subs->post_slug;?>"><?php echo utf8_decode($subs->subcat_name);?></a>
+                                  href="<?php echo $url;?>/shop?search_text=&category=<?php echo $subs->subid;?>_subcat&page=1"><?php echo utf8_decode($subs->subcat_name);?></a>
                               </li>
                               <?php } ?>
                             </ul>
@@ -748,13 +665,23 @@ if(Auth::check()) {
                                                 </li>
                                                 -->
 
+
+
+
               </ul>
+
               <div class="clearfix"></div>
             </div>
+
           </div>
 
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 </header>

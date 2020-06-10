@@ -358,9 +358,11 @@
                                             <div class="row">
 						<div class="col-sm-8">
 						<div class="price-box">
-                                                    <?php if($viewproduct[0]->prod_offer_price == 0 && $viewproduct[0]->prod_offer_price== 0 ){ ?>
+                                                    <?php if($viewproduct[0]->prod_price == 0 && $viewproduct[0]->prod_offer_price== 0 ){ ?>
+                                                    <!--
                                                     <a href="<?php echo $url; ?>/quoteproduct/<?php echo $viewproduct[0]->prod_id; ?>">
                                                     <button type="submit" name="add_to_cart" class="btn btn-primary" style="background-color: #FE8F18"><i class="fa fa-shopping-cart inner-right-vs"></i>Solicitar Cotacao</button></a>
+                                                    -->
                                                     <?php } else { ?>
 			                            <?php if(!empty($viewproduct[0]->prod_offer_price) && $viewproduct[0]->prod_offer_price > 0 ){?> 
                                                             <span class="price"> <?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_offer_price,2,",",".");?></span> <span class="price-strike"><?php echo $setts[0]->site_currency.' '.number_format($viewproduct[0]->prod_price,2,",",".").' ';?></span>

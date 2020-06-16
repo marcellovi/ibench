@@ -28,7 +28,7 @@ class IndexController extends Controller
      */
 	 
     public function confirmation($it)
-    {
+    { 
         DB::update('update users set confirmation="1" where confirm_key="'.$it.'"');
         // DB::update('update users set confirmation="1", created_at="'.date('Y-m-d H:i:s').'" where confirm_key="'.$it.'"');
 
@@ -75,7 +75,8 @@ class IndexController extends Controller
                 ->get();
 		
 		$url = URL::to("/");		
-		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;		
+		$site_logo=$url.'/local/images/media/'.$setts[0]->site_logo;
+                   
 		$site_name = $setts[0]->site_name;		
 		$adminemail = $admin_email[0]->email;		
 		$adminname = $admin_email[0]->name;

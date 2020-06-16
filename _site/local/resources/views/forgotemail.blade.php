@@ -85,7 +85,12 @@
     animation-delay: 2s;
     -webkit-transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
     transition: background 0.3s ease-in-out, color 0.3s ease-in-out; color:#fff; background:#22313F; text-decoration:none;">@lang('languages.reset_password')</a>
-				</p><br/><br/>
+				</p>
+                                
+    <p>Se o link acima n&atilde;o funcionar, voc&ecirc; pode copi&aacute;-lo e col&aacute;-lo na barra de endere&ccedil;os do seu navegador.</p>
+    <?php echo $url;?>/reset-password/<?php echo $token;?>
+                                
+                                <br/><br/>
 	
 	<p>@lang('languages.did_not_request')</p>
     <br/><br/>

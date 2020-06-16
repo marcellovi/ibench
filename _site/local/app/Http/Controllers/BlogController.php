@@ -185,7 +185,7 @@ class BlogController extends Controller
 	public function avigher_singlepost($id)
     {
 
-	
+
 	$post = DB::table('post')
 		         ->where('post_status', '=', '1')
 				 ->where('post_type', '=', 'blog')

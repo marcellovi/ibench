@@ -42,6 +42,7 @@ class UsersController extends Controller
     public function vendor_index() {
         
         $users = DB::table('users')
+               // ->select('id','name','admin','delete_status','cpf_cnpj','photo','full_name','email','phone','provider','earning','wirecard_app_data','created_at','')
                 ->where('admin', '=', 2)
                 ->Where(function ($query) {
                     $query->where('delete_status', '=', '')
@@ -61,18 +62,21 @@ class UsersController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
 
-
-        $prod_cnt_inactive = DB::select(
+        $prod_total_prod = DB::select(
+                        'select count(prod_id) as tot_product ,user_id from product, users '
+                        . 'where admin=2 and user_id = id group by user_id');
+                
+        /*/*$prod_cnt_inactive = DB::select(
                         'select count(*) as qtd_prod_inactive,user_id,name from users, product '
                         . 'where admin= :ad and user_id = id and product.delete_status="inactive" 
                             group by user_id', ['ad' => 2]);
-
+                            */
         $setid = 1;
         $setts = DB::table('settings')
                 ->where('id', '=', $setid)
                 ->get();
 
-        return view('admin.vendors', ['users' => $users, 'users_cnt' => $users_cnt, 'setts' => $setts, 'prod_cnt_inactive' => $prod_cnt_inactive]);
+        return view('admin.vendors', ['users' => $users, 'users_cnt' => $users_cnt, 'setts' => $setts, 'prod_total_prod' => $prod_total_prod]);
     }
 
     protected function delete_all(Request $request) {

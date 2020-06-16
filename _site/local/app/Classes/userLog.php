@@ -15,7 +15,7 @@ class userLog{
            //$error = $e->__toString(); 
                       
            /* Convert Array to String */
-           $errors = serialize($e->getErrors());
+           $errors = ""; // serialize($e->getErrors());
                       
            $trace_error = $e->__toString(); 
             

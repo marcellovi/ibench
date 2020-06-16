@@ -66,7 +66,7 @@
                             <th>CNPJ</th>
                             <th>Telefone</th>
                             <th>Ganhos</th>
-                            <th>N. Prod Inativo</th>
+                            <th>Tot. Produtos</th>
                             <th>Status</th>
                             <th>Wirecard</th>
                             <th>Data de Cria&ccedil;&atilde;o</th>
@@ -118,14 +118,14 @@
                                     <td><?php
                                         //print_r($prod_cnt_inactive); exit();
                                         $found = false;
-                                        foreach ($prod_cnt_inactive as $user_prod_inactive) {
-                                            if ($user->id == $user_prod_inactive->user_id) {
-                                                echo $user_prod_inactive->qtd_prod_inactive;
+                                        foreach ($prod_total_prod as $tot_prod_by_user) {
+                                            if ($user->id == $tot_prod_by_user->user_id) {
+                                                echo $tot_prod_by_user->tot_product;
                                                 $found = true;
                                             }
                                         }if (!$found) {
                                             echo "0";
-                                        }
+                                           }
                                         ?></td>
                                     <td><?php if ($user->delete_status == "") {
                                     echo "Liberado";

@@ -397,6 +397,96 @@ class MyhistoryController extends Controller
       return view('view-seller-order')->with($data);
    }
    
+   public function upload_nf(Request $request){  
+        $data = $request->all();  
+        $userid = Auth::user()->id; 
+        $purchase_token = $data['hid_purchase_token'];
+        
+        $aid=1;
+	$admindetails = DB::table('users')
+            ->where('id', '=', $aid)
+            ->get();
+		
+	$admin_email = $admindetails[0]->email;	
+        
+        $setid=1;
+        $setting = DB::table('settings')->where('id', $setid)->get();
+        $url = URL::to("/");
+        $site_logo=$url.'/local/images/media/'.$setting[0]->site_logo;
+        $site_name = $setting[0]->site_name;  
+        
+        $vendor = DB::table('users')
+                    ->select('name')
+                    ->where('id', '=', $userid)
+                    ->get();  
+        $vendor_name = $vendor[0]->name;
+        
+        $buyer = DB::table('users')
+                    ->join('product_orders', 'user_id', '=', 'id')
+                    ->select('full_name', 'email')
+                    ->where('purchase_token','=',$purchase_token)
+                    ->get();  
+        
+        $buyer_name = $buyer[0]->full_name;
+        $buyer_email = $buyer[0]->email;
+        
+        /* NF Setting */
+        $target_dir = "nfs/";
+        $target_file = $target_dir . basename($_FILES["nf"]["name"]);
+        $uploadOk = 1;
+        
+        $nf = '';
+		if ($request->hasFile('nf')) {
+                    $file = $request->file('nf');
+                    
+                    $newName = date('His',time()).rand(101, 999);
+                    $nf = $newName.".".$file->getClientOriginalExtension();                    
+                    $destinationPath = base_path('images/nfs/');
+                    $file->move($destinationPath, $nf);                   
+	}
+        
+        DB::update('update product_orders set nf="'.$nf.'" where prod_user_id='.$userid.' and purchase_token = ?', [$purchase_token]);
+	
+        
+        /* envio email pesquisador */
+	$email_info = ['site_logo' => $site_logo, 'site_name' => $site_name,'vendor_name' => $vendor_name,'buyer_name' => $buyer_name,'purchase_token' => $purchase_token];	
+			
+	Mail::send('nf_mail', $email_info , function ($message) use ($admin_email,$buyer_email)
+        
+        {
+            $message->subject('Nota Fiscal Disponivel');
+			
+            $message->from($admin_email,'Admin');
+
+            $message->to($buyer_email);
+        });    		
+		
+		/* vendor email */  
+        
+        
+
+        return redirect('my-orders')->with('success', 'NF Inserida e Enviada com sucesso!');
+        
+   }
+   
+   public function view_seller_orders_update(){
+       DB::update('update product_orders set nf=1 where purchase_token="13357427"');
+		
+       return $this->view_seller_orders();
+   }
+   
+    /** Marcello - Trim & Strip Special Characters & Make String Lower Case (transformar em funcao) **/
+	public function normalizeString($normalizeTxt){
+                $newTxt = str_replace(' ', '',mb_strtolower($normalizeTxt));
+                $newTxt = str_replace('.', '',mb_strtolower($normalizeTxt));
+                
+                $search = explode(",","ç,æ,œ,á,ã,é,í,ó,õ,ú,à,è,ì,ò,ù,â,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
+                $replace = explode(",","c,ae,oe,a,a,e,i,o,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
+
+                return str_replace($search, $replace, $newTxt);
+        }
+
+
    /* List all the sellers orders by the purchase_token */
     public function view_seller_orders() {
 		
@@ -421,7 +511,7 @@ class MyhistoryController extends Controller
         
             
             $viewproduct = DB::table('product_orders')
-                        ->select('user_id',DB::raw('purchase_token, SUM(quantity) as quantity , SUM(total) as total , SUM(shipping_price) as shipping_price'))
+                        ->select('user_id','nf','purchase_token',DB::raw('purchase_token, SUM(quantity) as quantity , SUM(total) as total , SUM(shipping_price) as shipping_price'))
                         ->where('prod_user_id', '=', $logged)
                         ->where('order_status', '=', 'completed')
                         ->where('purchase_token', '!=', '')	                
@@ -697,7 +787,16 @@ class MyhistoryController extends Controller
 				->where('purchase_token', '=', $token)
 				->get();
 				 
-   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged);
+        /* verifica se ja foi emitida a nota fiscal */
+        $nf = '0';
+        foreach($viewproduct as $product){
+            if($product->nf != 0 && $product->nf != ''){
+                $nf = $product->nf;
+                break;
+            }                      
+        }
+	   
+   $data=array('viewcount' => $viewcount, 'viewproduct' => $viewproduct, 'setting' => $setting, 'logged' => $logged,'nf' => $nf);
 	   
 	   return view('view-shopping')->with($data);
    }       

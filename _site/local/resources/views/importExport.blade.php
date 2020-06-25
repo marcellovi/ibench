@@ -59,7 +59,7 @@ $headertype = $setts[0]->header_type;
     <div class="clearfix height20"></div>
    
     <div class="col-md-12">
-        <a href="https://www.benchfind.com/_site/local/images/planilha_importacao.xls"><button class="btn btn-success">Baixar Modelo em Branco</button></a>
+        <a href="<?php echo $url; ?>/local/images/planilha_importacao.xls"><button class="btn btn-success">Baixar Modelo em Branco</button></a>
         <!--
         <a href="{{ URL::to('downloadExcelModel') }}"><button class="btn btn-success">Baixar Modelo em Branco</button></a>
         <a href="{{ URL::to('downloadExcel/xls') }}"><button class="btn btn-success">Baixar Modelo em .xls</button></a>

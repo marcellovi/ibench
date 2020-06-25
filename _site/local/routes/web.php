@@ -123,6 +123,11 @@ Route::get('/edit-product/{delete}/{id}/{photo}', 'ProductController@avigher_del
 Route::get('/edit-product/delete/datasheet/{datasheetname}/{prod_id}', 'ProductController@deleteDatasheet');
 Route::post('/edit-product', ['as'=>'edit-product','uses'=>'ProductController@avigher_edit_data']);
 
+
+                    
+Route::post('/upload-nf', ['as'=>'upload-nf','uses'=>'MyhistoryController@upload_nf']);                    
+//Route::get('/upload_nf','MyhistoryController@upload_nf');
+
 /****************** END PRODUCT **********/
 
 
@@ -263,6 +268,7 @@ Route::post('/view-refund', ['as'=>'view-refund','uses'=>'MyhistoryController@av
 
 //Route::get('/my-orders', 'MyhistoryController@avigher_view_myorders');
 Route::get('/my-orders', 'MyhistoryController@view_seller_orders');
+Route::post('/my-orders', 'MyhistoryController@view_seller_orders_update');
 Route::get('/purchaseorder/{purchase_token}', 'MyhistoryController@view_seller_order');
 Route::get('/view-orders/{ord_id}/{user_id}', 'MyhistoryController@avigher_view_orderdetails');
 
@@ -620,6 +626,8 @@ Route::group(['middleware' => 'admin'], function() {
 	Route::get('/admin/view_product/{token}','Admin\ProductController@view_product_data');
 	/*Route::get('/admin/membership/{id}','Admin\MembershipController@deleted');
 	Route::get('/admin/membership/{action}/{id}/{sid}','Admin\MembershipController@status');*/
+	
+        
 	
 	/* end membership */	
 	

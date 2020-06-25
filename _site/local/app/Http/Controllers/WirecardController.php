@@ -316,7 +316,7 @@ class WirecardController extends Controller
             );
 
             Mail::send('shop_email', $datas2, function ($message) use ($admin_email, $email_seller) {
-                $message->subject('Pedido Realizado com Sucesso');
+                $message->subject('Venda Realizada no iBench');
                 $message->from($admin_email, 'iBench Market');
                 $message->to($email_seller);
             });

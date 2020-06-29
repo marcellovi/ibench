@@ -74,8 +74,9 @@ $headertype = $setts[0]->header_type;
 			<th class="item">@lang('languages.total_items')</th>
 			<th class="item">@lang('languages.total_shipping')</th>
 			<th class="item">@lang('languages.total')</th>
-			<th class="item">NF / A&ccedil;&otilde;es </th>
-			<!-- <th class="item">@lang('languages.payment_status')</th> -->
+                        <th class="item">A&ccedil;&otilde;es </th>
+			<!--<th class="item">NF / A&ccedil;&otilde;es </th>
+			 <th class="item">@lang('languages.payment_status')</th> -->
                         </tr>
 			</thead><!-- /thead -->
 			

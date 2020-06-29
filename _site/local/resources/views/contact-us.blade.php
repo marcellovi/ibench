@@ -162,7 +162,7 @@ $setid=1;
     -->
 	<div class="clearfix email">
 		<span class="contact-i"><i class="fa fa-envelope"></i></span>
-		<span class="contact-span" style="margin-top: 7px;"><a href="mailto:<?php echo $users[0]->email;?>"><?php echo $users[0]->email;?></a></span>
+		<span class="contact-span" style="margin-top: 7px;"><a href="mailto:<?php echo $users[0]->email;?>">ibench@ibench.com.br</a></span>
 	</div>
 </div>			</div>
 		</div>

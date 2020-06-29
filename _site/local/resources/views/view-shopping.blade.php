@@ -60,10 +60,10 @@ $headertype = $setts[0]->header_type;
             <div class="col-md-6 text-right">
             	<a href="<?php echo $url;?>/my-shopping" class="btn-upper btn btn-primary">@lang('languages.back_to_my_shopping')</a>
               <a href="javascript:window.print();" class="btn-upper btn btn-primary" target="_blank">@lang('languages.print_btn')</a>
-              <?php if($nf){ ?>
+              <!-- <?php if($nf){ ?>
               <a href="<?php echo $url.'/local/images/nfs/'.$nf; ?>" class="btn-upper btn btn-primary" title="Baixar Nota Fiscal" target="_blank">Baixar NF <span class="glyphicon glyphicon-download-alt orange"></span></a>
               <?php } ?>               
-                
+                -->
             </div>
             <div class="height20 clearfix"></div>
 		<div class="table-responsive">

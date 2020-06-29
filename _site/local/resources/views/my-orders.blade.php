@@ -103,6 +103,7 @@ $headertype = $setts[0]->header_type;
         <td class="cart-product-grand-total"><?php echo $setts[0]->site_currency.' '.number_format($product->shipping_price,2,",",".");?></td>                    
 	<td class="cart-product-grand-total"><?php echo $setts[0]->site_currency.' '.number_format($product->total,2,",",".");?></td>
 	<td class="cart-product-edit">  
+            <!-- 
             <?php if($product->nf){ ?>
             <button type="button" class="btn btn-default" aria-label="Left Align" title="NF Enviada" >
             <span class="glyphicon glyphicon glyphicon glyphicon-saved green" aria-hidden="true"></span>
@@ -112,6 +113,7 @@ $headertype = $setts[0]->header_type;
             <span class="glyphicon glyphicon glyphicon glyphicon-open red" aria-hidden="true"></span>
             </button>
             <?php } ?>
+            -->
             <button type="button" class="btn btn-default" aria-label="Left Align" title="Mais Detalhes" >
             <a href="<?php echo $url;?>/purchaseorder/<?php echo $product->purchase_token;?>"> 
                 <span class="glyphicon glyphicon glyphicon glyphicon-th-list" aria-hidden="true"></span></a>
